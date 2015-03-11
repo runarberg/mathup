@@ -1,0 +1,11 @@
+
+Usage: ascii2mathml [options] -- <expression>
+
+If called without expression, then will use stdin
+
+  -a,  --annotate     Include source as annotation
+  -b,  --bare         No root <math> element
+  -d,  --display      Write expression display block style
+  -s,  --standalone   Wrap in a valid HTML page
+  -h,  --help         Show this message
+
