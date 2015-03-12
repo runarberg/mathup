@@ -105,7 +105,7 @@ function ascii2mathml(asciimath, options) {
   return math(parse(asciimath.trim(), ""));
 }
 
-function parse(ascii, mathml, space, grouptype) {
+function parse(ascii, mathml, space) {
 
   if (!ascii) return mathml;
 
@@ -113,7 +113,7 @@ function parse(ascii, mathml, space, grouptype) {
     // Dont include the space it if there is a binary infix becoming
     // a prefix
     if (ascii.match(/^\s+(\/[^\/]|^[^\^]|_[^_|])/)) {
-      return parse(ascii.trim(), mathml, true, grouptype);
+      return parse(ascii.trim(), mathml, true);
     }
 
     // Count the number of leading spaces
@@ -122,10 +122,10 @@ function parse(ascii, mathml, space, grouptype) {
     if (spacecount > 1) {
       // spacewidth is a linear function of spacecount
       let spaceel = `<mspace width="${spacecount-1}ex" />`;
-      return parse(ascii.trim(), mathml+spaceel, true, grouptype);
+      return parse(ascii.trim(), mathml+spaceel, true);
     };
 
-    return parse(ascii.trim(), mathml, true, grouptype);
+    return parse(ascii.trim(), mathml, true);
   }
 
   // Check for the special case of a root
@@ -145,68 +145,49 @@ function parse(ascii, mathml, space, grouptype) {
         base = removeSurroundingBrackets(two[0]);
     return parse(two[1], mathml + mroot(base + index));
 
-  } else if (ascii[0] === ',') {
-    // This might be a fenced group
-    let headel = mathml === getlastel(mathml) ?
-          // Don't wrap in row if it is already just one eliment
-          mathml : mrow(mathml);
-
-    let tailels = rowsplit(ascii.slice(1)).map(parsegroup).join(mo(","));
-    return headel + mo(',') + tailels;
-
-  } else if (grouptype && ascii[0] === ';') {
-    // Maybe a column vector
-    let headel = compose(mtr, mtd)(mathml === getlastel(mathml) ?
-                                   mathml : mrow(mathml));
-
-    let tailels = colsplit(ascii.slice(1))
-          .map(compose(compose(mtr, mtd), parsegroup))
-          .join('');
-
-    return mtable(headel + tailels);
   }
 
 
-  let next = parseone(ascii[0], ascii.slice(1), false, grouptype),
+  let next = parseone(ascii[0], ascii.slice(1), false),
       head = next[0],
       rest = next[1];
 
   if (ascii[0] === '/' && ascii[1] !== '/') {
     // fraction
     let next = infix2prefix(mfrac, mathml, head, rest);
-    return parse(next[0], next[1], false, grouptype);
+    return parse(next[0], next[1], false);
 
   } else if (ascii[0] === '^' && ascii[1] !== '^') {
     // Superscript
     // will be <msupsub> if next el is `_`
     let next = infix2prefix(msup, mathml, head, rest);
-    return parse(next[0], next[1], false, grouptype);
+    return parse(next[0], next[1], false);
 
   } else if (ascii[0] === '_' && (ascii[1] !== '_' || ascii[1] !== '|')) {
     // Subscript
     // will be <msupsub> if next el is `^`
     // Will be <munder> if previous operator is one of unders
     let next = infix2prefix(msub, mathml, head, rest);
-    return parse(next[0], next[1], false, grouptype);
+    return parse(next[0], next[1], false);
 
   } else if (ascii.startsWith('./') && ascii[2] !== '/') {
     // Forced bevelled fraction
     let next = infix2prefix(mfrac({bevelled: true}),
                             mathml, './', ascii.slice(2));
-    return parse(next[0], next[1], false, grouptype);
+    return parse(next[0], next[1], false);
 
   } else if (ascii.startsWith('.^') && ascii[2] !== '^') {
     // Forced overscript
     let next = infix2prefix(mover, mathml, '.^', ascii.slice(2));
-    return parse(next[0], next[1], false, grouptype);
+    return parse(next[0], next[1], false);
 
   } else if (ascii.startsWith('._') && !ascii[2].match(/[_|]/)) {
     // Forced overscript
     let next = infix2prefix(munder, mathml, '._', ascii.slice(2));
-    return parse(next[0], next[1], false, grouptype);
+    return parse(next[0], next[1], false);
 
   } else {
-    return parse(rest, mathml+head, false, grouptype);
+    return parse(rest, mathml+head, false);
   }
 }
 
@@ -242,34 +223,56 @@ function parseone(head, tail, skipbrackets) {
 
   if (isgroupStart(ascii)) {
     let split = syntax.splitNextGroup(ascii),
-        open = split[1],
+        open = groupings.open.get(split[1]),
         group = split[2],
         close = split[3],
-        rest = split[4];
+        rest = groupings.open.get(split[4]);
 
     if (ismatrixInterior(group)) {
-      let matrix = group;
-      let table = parsetable(matrix, "");
-      return [mrow(mo(open) + table + mo(close)), rest];
+      let table = parsetable(group, "");
+      return [mfenced(table, {open: open, close: close}), rest];
     }
 
-    let nextml = parse(group, "", false, open+close);
-    let row;
+    let cols = colsplit(group);
+    if (cols.length > 1) {
+      // A column vector
+      if (cols.length === 2 && open === '(' && close ===')') {
+        // Experimenting with the binomial coefficient
+        // Perhaps I'll remove this later
+        let binom = mfrac(cols.map(parsegroup).join(""), {
+          linethickness: 0
+        });
+        return [mfenced(binom, {open: open, close: close}), rest];
+      }
+      let matrix = cols.map([mtr, mtd, parsegroup].reduce(compose)).join('');
+      return [mfenced(mtable(matrix), {open: open, close: close}), rest];
 
-      
-    if (splitlast(nextml)[1] === nextml) {
-      // One element expression, no need to further group it,
-      // unless we want brackets around it
-      row = (open+close).length > 0 ?
-        mrow(mo(open) + nextml + mo(close)) :
-        nextml;
     } else {
-      row = mrow(skipbrackets ? nextml :
-                 mo(open) + nextml + mo(close));
+      // A fenced group
+      let rows = rowsplit(group),
+          els = rows.map(parsegroup).join("");
+      if (!skipbrackets) els = mfenced(els, {open: open, close: close});
+      else if (splitlast(els)[1] !== els) els = mrow(els);
+
+      return [els, rest];
     }
 
-    return [row, rest];
+  } else if (ascii.match(new RegExp("^" + lexicon.fonts.regexp.source + '?"'))) {
+    let textobj = syntax.splittext(ascii);
+    let textel = mtext(textobj.text,
+                       textobj.font && {mathvariant: textobj.font});
+    return [textel, textobj.rest];
 
+  } else if (ascii.match(new RegExp(
+    "^" + lexicon.fonts.regexp.source + '?`[0-9A-Za-z]+`'
+  ))) {
+    // Forcing an identifier
+    let start = ascii.indexOf("`"),
+        stop = start + 1 + ascii.slice(start+1).indexOf("`"),
+        font = lexicon.fonts.get(ascii.slice(0, start));
+    let miel = mi(ascii.slice(start+1, stop),
+                  font && {mathvariant: font});
+    return [miel, ascii.slice(stop+1)];
 
   } else if (head.match(/[A-Za-z]/)) {
     // Identifier?
@@ -318,10 +321,6 @@ function parseone(head, tail, skipbrackets) {
     } else {
       expr = head;
     }
-
-  } else if (head === '"') {
-    let stop = tail.indexOf('"');
-    return [mtext(tail.slice(0, stop)), tail.slice(stop+1)];
 
   } else {
     // TODO: unicode literate throwaway
@@ -422,8 +421,8 @@ function splitlast(mathml) {
 
 
 function removeSurroundingBrackets(mathml) {
-  let inside = mathml.replace(/^<mrow><mo>\(<\/mo>/, "")
-        .replace(/<mo>\)<\/mo><\/mrow>$/, "");
+  let inside = mathml.replace(/^<mfenced[^>]*>/, "")
+        .replace(/<\/mfenced>$/, "");
   if (splitlast(inside)[1] === inside) return inside;
   else return mrow(inside);
 }
@@ -479,5 +478,8 @@ function last(arr) {
 function compose(f, g) {
   return function(x) { return f(g(x)); };
 }
+
+
+function idfun(x) { return x; }
 
 module.exports = ascii2mathml;

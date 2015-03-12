@@ -122,7 +122,7 @@ describe('Standard functions', function() {
   });
   it("The hyperbolic functions", function() {
     test("sinh x = (e^x - e^(-x))/2, cosh x = (e^x + e^(-x))/2, tanh x = (sinh x)/(cosh x)",
-         '<math><mrow><mi>sinh</mi><mi>x</mi><mo>=</mo><mfrac><mrow><msup><mi>e</mi><mi>x</mi></msup><mo>-</mo><msup><mi>e</mi><mrow><mo>-</mo><mi>x</mi></mrow></msup></mrow><mn>2</mn></mfrac></mrow><mo>,</mo><mrow><mi>cosh</mi><mi>x</mi><mo>=</mo><mfrac><mrow><msup><mi>e</mi><mi>x</mi></msup><mo>+</mo><msup><mi>e</mi><mrow><mo>-</mo><mi>x</mi></mrow></msup></mrow><mn>2</mn></mfrac></mrow><mo>,</mo><mrow><mi>tanh</mi><mi>x</mi><mo>=</mo><mfrac><mrow><mi>sinh</mi><mi>x</mi></mrow><mrow><mi>cosh</mi><mi>x</mi></mrow></mfrac></mrow></math>');
+         '<math><mi>sinh</mi><mi>x</mi><mo>=</mo><mfrac><mrow><msup><mi>e</mi><mi>x</mi></msup><mo>-</mo><msup><mi>e</mi><mrow><mo>-</mo><mi>x</mi></mrow></msup></mrow><mn>2</mn></mfrac><mo>,</mo><mi>cosh</mi><mi>x</mi><mo>=</mo><mfrac><mrow><msup><mi>e</mi><mi>x</mi></msup><mo>+</mo><msup><mi>e</mi><mrow><mo>-</mo><mi>x</mi></mrow></msup></mrow><mn>2</mn></mfrac><mo>,</mo><mi>tanh</mi><mi>x</mi><mo>=</mo><mfrac><mrow><mi>sinh</mi><mi>x</mi></mrow><mrow><mi>cosh</mi><mi>x</mi></mrow></mfrac></math>');
   });
   it("Logarithm change of base", function() {
     test("log_b x = (log_k x)/(log_k b)", "<math><msub><mi>log</mi><mi>b</mi></msub><mi>x</mi><mo>=</mo><mfrac><mrow><msub><mi>log</mi><mi>k</mi></msub><mi>x</mi></mrow><mrow><msub><mi>log</mi><mi>k</mi></msub><mi>b</mi></mrow></mfrac></math>");
@@ -131,10 +131,12 @@ describe('Standard functions', function() {
     test("ln x^2 = 2 ln x", "<math><mi>ln</mi><msup><mi>x</mi><mn>2</mn></msup><mo>=</mo><mn>2</mn><mi>ln</mi><mi>x</mi></math>");
   });
   it("Logarithm division", function() {
-    test("ln(x/y) = ln x - ln y", "<math><mi>ln</mi><mrow><mo>(</mo><mfrac><mi>x</mi><mi>y</mi></mfrac><mo>)</mo></mrow><mo>=</mo><mi>ln</mi><mi>x</mi><mo>-</mo><mi>ln</mi><mi>y</mi></math>");
+    test("ln(x/y) = ln x - ln y",
+         '<math><mi>ln</mi><mfenced open="(" close=")"><mfrac><mi>x</mi><mi>y</mi></mfrac></mfenced><mo>=</mo><mi>ln</mi><mi>x</mi><mo>-</mo><mi>ln</mi><mi>y</mi></math>');
   });
   it("Fermats little theorem", function() {
-    test("a^(p-1) -= 1   (mod p)", '<math><msup><mi>a</mi><mrow><mi>p</mi><mo>-</mo><mn>1</mn></mrow></msup><mo>≡</mo><mn>1</mn><mspace width="2ex" /><mrow><mo>(</mo><mi>mod</mi><mi>p</mi><mo>)</mo></mrow></math>');
+    test("a^(p-1) -= 1   (mod p)",
+         '<math><msup><mi>a</mi><mrow><mi>p</mi><mo>-</mo><mn>1</mn></mrow></msup><mo>≡</mo><mn>1</mn><mspace width="2ex" /><mfenced open="(" close=")"><mrow><mi>mod</mi><mi>p</mi></mrow></mfenced></math>');
   });
 });
 
@@ -197,18 +199,17 @@ describe('Roots', function() {
 
 describe('Groupings', function() {
   it('Should group brackets together', function() {
-    test('(a+b)', "<math><mrow><mo>(</mo><mi>a</mi><mo>+</mo><mi>b</mi><mo>)</mo></mrow></math>");
+    test('(a+b)', '<math><mfenced open="(" close=")"><mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow></mfenced></math>');
   });
   it('Should handle comma seperated lists', function() {
     test('a,b,c', '<math><mi>a</mi><mo>,</mo><mi>b</mi><mo>,</mo><mi>c</mi></math>');
   });
   it('Should add parentesis around parentesized comma seperated lists', function() {
-    test('(a,b,c)', '<math><mrow><mo>(</mo><mi>a</mi><mo>,</mo><mi>b</mi><mo>,</mo><mi>c</mi><mo>)</mo></mrow></math>');
-
+    test('(a,b,c)', '<math><mfenced open="(" close=")"><mi>a</mi><mi>b</mi><mi>c</mi></mfenced></math>');
   });
 
   it('Simplify polynomials', function() {
-    test("(x+y)(x-y) = x^2-y^2", "<math><mrow><mo>(</mo><mi>x</mi><mo>+</mo><mi>y</mi><mo>)</mo></mrow><mrow><mo>(</mo><mi>x</mi><mo>-</mo><mi>y</mi><mo>)</mo></mrow><mo>=</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><msup><mi>y</mi><mn>2</mn></msup></math>");
+    test("(x+y)(x-y) = x^2-y^2", '<math><mfenced open="(" close=")"><mrow><mi>x</mi><mo>+</mo><mi>y</mi></mrow></mfenced><mfenced open="(" close=")"><mrow><mi>x</mi><mo>-</mo><mi>y</mi></mrow></mfenced><mo>=</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><msup><mi>y</mi><mn>2</mn></msup></math>');
   });
   it('Exponential decay', function() {
     test("e^(-x)", "<math><msup><mi>e</mi><mrow><mo>-</mo><mi>x</mi></mrow></msup></math>");
@@ -237,7 +238,8 @@ describe('Super and subscripts', function() {
     test("a^2 + b^2 = c^2", "<math><msup><mi>a</mi><mn>2</mn></msup><mo>+</mo><msup><mi>b</mi><mn>2</mn></msup><mo>=</mo><msup><mi>c</mi><mn>2</mn></msup></math>");
   });
   it('Matrix transpose', function() {
-    test("(X^T)_(ij) = X_(ji)", "<math><msub><mrow><mo>(</mo><msup><mi>X</mi><mi>T</mi></msup><mo>)</mo></mrow><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><msub><mi>X</mi><mrow><mi>j</mi><mi>i</mi></mrow></msub></math>");
+    test("(X^T)_(ij) = X_(ji)",
+         '<math><msub><mfenced open="(" close=")"><msup><mi>X</mi><mi>T</mi></msup></mfenced><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><msub><mi>X</mi><mrow><mi>j</mi><mi>i</mi></mrow></msub></math>');
   });
   it('The natural logarithm', function() {
     test("ln x = int_1^x 1/t dt", "<math><mi>ln</mi><mi>x</mi><mo>=</mo><msubsup><mo>∫</mo><mn>1</mn><mi>x</mi></msubsup><mfrac><mn>1</mn><mi>t</mi></mfrac><mi>d</mi><mi>t</mi></math>");
@@ -281,18 +283,19 @@ describe('Under and overscripts', function() {
 
 describe('Matrices', function() {
   it('Should display column vectors', function() {
-    test("(1;2;3)", "<math><mrow><mo>(</mo><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3</mn></mtd></mtr></mtable><mo>)</mo></mrow></math>");
+    test("(1;2;3)", '<math><mfenced open="(" close=")"><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3</mn></mtd></mtr></mtable></mfenced></math>');
   });
   it('Should display matrices', function() {
-    test('[[a, b], [c, d]]', "<math><mrow><mo>[</mo><mtable><mtr><mtd><mi>a</mi></mtd><mtd><mi>b</mi></mtd></mtr><mtr><mtd><mi>c</mi></mtd><mtd><mi>d</mi></mtd></mtr></mtable><mo>]</mo></mrow></math>");
+    test('[[a, b], [c, d]]', '<math><mfenced open="[" close="]"><mtable><mtr><mtd><mi>a</mi></mtd><mtd><mi>b</mi></mtd></mtr><mtr><mtd><mi>c</mi></mtd><mtd><mi>d</mi></mtd></mtr></mtable></mfenced></math>');
   });
 
   it('Nested matrices', function() {
     test("[[((a, b), (d, e)), -1], [1, ((f, g), (h, i))]]",
-         "<math><mrow><mo>[</mo><mtable><mtr><mtd><mrow><mo>(</mo><mtable><mtr><mtd><mi>a</mi></mtd><mtd><mi>b</mi></mtd></mtr><mtr><mtd><mi>d</mi></mtd><mtd><mi>e</mi></mtd></mtr></mtable><mo>)</mo></mrow></mtd><mtd><mo>-</mo><mn>1</mn></mtd></mtr><mtr><mtd><mn>1</mn></mtd><mtd><mrow><mo>(</mo><mtable><mtr><mtd><mi>f</mi></mtd><mtd><mi>g</mi></mtd></mtr><mtr><mtd><mi>h</mi></mtd><mtd><mi>i</mi></mtd></mtr></mtable><mo>)</mo></mrow></mtd></mtr></mtable><mo>]</mo></mrow></math>");
+         '<math><mfenced open="[" close="]"><mtable><mtr><mtd><mfenced open="(" close=")"><mtable><mtr><mtd><mi>a</mi></mtd><mtd><mi>b</mi></mtd></mtr><mtr><mtd><mi>d</mi></mtd><mtd><mi>e</mi></mtd></mtr></mtable></mfenced></mtd><mtd><mo>-</mo><mn>1</mn></mtd></mtr><mtr><mtd><mn>1</mn></mtd><mtd><mfenced open="(" close=")"><mtable><mtr><mtd><mi>f</mi></mtd><mtd><mi>g</mi></mtd></mtr><mtr><mtd><mi>h</mi></mtd><mtd><mi>i</mi></mtd></mtr></mtable></mfenced></mtd></mtr></mtable></mfenced></math>');
   });
   it('Combination', function() {
-    test("(n; k) = n! / (n-k)!k!", "<math><mrow><mo>(</mo><mtable><mtr><mtd><mi>n</mi></mtd></mtr><mtr><mtd><mi>k</mi></mtd></mtr></mtable><mo>)</mo></mrow><mo>=</mo><mfrac><mrow><mi>n</mi><mo>!</mo></mrow><mrow><mrow><mo>(</mo><mi>n</mi><mo>-</mo><mi>k</mi><mo>)</mo></mrow><mo>!</mo><mi>k</mi><mo>!</mo></mrow></mfrac></math>");
+    test("(n; k) = n! / (n-k)!k!",
+         '<math><mfenced open="(" close=")"><mfrac linethickness="0"><mi>n</mi><mi>k</mi></mfrac></mfenced><mo>=</mo><mfrac><mrow><mi>n</mi><mo>!</mo></mrow><mrow><mfenced open="(" close=")"><mrow><mi>n</mi><mo>-</mo><mi>k</mi></mrow></mfenced><mo>!</mo><mi>k</mi><mo>!</mo></mrow></mfrac></math>');
   });
 });
 
