@@ -132,6 +132,9 @@
         <code data-display="block">ln(x/y) = ln x - ln y</code>
       </div>
       <div class="test-case">
+        <code data-display="block">det(A) = |(a, b), (c, d)| = ad - cd</code>
+      </div>
+      <div class="test-case">
         <code>a^(p-1) -= 1   (mod p)</code>
       </div>
     </section>
@@ -267,6 +270,12 @@
         <code data-display="block">[[a, b], [d, e]]</code>
       </div>
       <div class="test-case">
+        <code data-display="block">|(a,b,c), (d,e,f), (h,i,j)|</code>
+      </div>
+      <div class="test-case">
+        <code data-display="block">||a ; b ; c||</code>
+      </div>
+      <div class="test-case">
         <code data-display="block">[[((a, b), (d, e)), -1], [1, ((f, g), (h, i))]]</code>
       </div>
       <div class="test-case">
@@ -274,10 +283,98 @@
       </div>
     </section>
 
-    <section id="text">
-      <h2>Text</h2>
+    <section id="fonts">
+      <h2>Fonts</h2>
+      <section id="text">
+        <h3>Text</h3>
+        <div class="test-case">
+          <code>"abcd"</code>
+        </div>
+        <div class="test-case">
+          <code>rm"AaBbCc"</code>
+        </div>
+        <div class="test-case">
+          <code>it"AaBbCc"</code>
+        </div>
+        <div class="test-case">
+          <code>bf"AaBbCc"</code>
+        </div>
+        <div class="test-case">
+          <code>bb"AaBbCc"</code>
+        </div>
+        <div class="test-case">
+          <code>cc"AaBbCc"</code>
+        </div>
+        <div class="test-case">
+          <code>fr"AaBbCc"</code>
+        </div>
+        <div class="test-case">
+          <code>sf"AaBbCc"</code>
+        </div>
+        <div class="test-case">
+          <code>tt"AaBbCc"</code>
+        </div>
+      </section>
+      <section id="forced-identifiers">
+        <h3>Forced identifiers</h3>
+        <div class="test-case">
+          <code>`Gamma` != Gamma</code>
+        </div>
+        <div class="test-case">
+          <code>rm`e`</code>
+        </div>
+        <div class="test-case">
+          <code>it`ln`</code>
+        </div>
+        <div class="test-case">
+          <code>bf`1234`</code>
+        </div>
+        <div class="test-case">
+          <code>bb`1234`</code>
+        </div>
+        <div class="test-case">
+          <code>cc`l`</code>
+        </div>
+        <div class="test-case">
+          <code>fr`g`</code>
+        </div>
+        <div class="test-case">
+          <code>sf`1234`</code>
+        </div>
+        <div class="test-case">
+          <code>tt`1234`</code>
+        </div>
+      </section>
+    </section>
+
+    <section id="accents">
+      <h2>Accents</h2>
       <div class="test-case">
-        <code>"abcd"</code>
+        <code>hat x</code>
+      </div>
+      <div class="test-case">
+        <code>bar x</code>
+      </div>
+      <div class="test-case">
+        <code>ul x</code>
+      </div>
+      <div class="test-case">
+        <code>vec x</code>
+      </div>
+      <div class="test-case">
+        <code>dot x</code>
+      </div>
+      <div class="test-case">
+        <code>ddot x</code>
+      </div>
+       <div class="test-case">
+        <code>ddot i,  bar i,  hat j,  ul j</code>
+      </div>
+     <div class="test-case">
+        <code>3hat(xyz)</code>
+      </div>
+      <div class="test-case">
+        <code>vec x = ahat i + bhat j + chat k</code>
       </div>
     </section>
     <script src="../dist/ascii2mathml.js"></script>

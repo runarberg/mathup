@@ -194,7 +194,7 @@ function parse(ascii, mathml, space) {
 
 function parsegroup(ascii) {
   // Takes one asciiMath string and returns mathml in one group
-  let mathml = parse(ascii, "", false, null);
+  let mathml = parse(ascii, "", false);
   return mathml === getlastel(mathml) ? mathml : mrow(mathml);
 }
 
@@ -210,71 +210,106 @@ function parseone(head, tail, skipbrackets) {
   if (!head) return ["", ""];
 
   let ascii = head + tail;
-  if (ascii.match(/^[0-9A-Za-z+\-!]{2,}([ ,;])/)) {
-    // treat as a group
-    let next = ascii.split(/[ ,;]/)[0];
-    let ml = parsegroup(next);
-    return [ml, ascii.slice(next.length)];
-  }
-
-  var expr,
+  let el,
+      rest,
       nextsymbol = head + (tail.match(/^[A-Za-z]+/) || "");
 
 
-  if (isgroupStart(ascii)) {
-    let split = syntax.splitNextGroup(ascii),
-        open = groupings.open.get(split[1]),
+  // Accents
+  // -------
+
+  if (lexicon.accents.contains(nextsymbol)) {
+    let accent = lexicon.accents.get(nextsymbol),
+        next = ascii.slice(nextsymbol.length).trimLeft();
+    let under = accent === "_";
+    let ijmatch = next.match(/^\s*\(?([ij])\)?/);
+    if (!under && ijmatch) {
+      // use non-dotted gyphs as to not clutter
+      let letter = ijmatch[1];
+      el = mover(mi(letter === 'i' ? 'ı' : 'ȷ') + mo(accent));
+      rest = next.slice(ijmatch[0].length);
+    } else {
+      let split = parseone(next[0], next.slice(1), true);
+      el = (under ? munder : mover)(split[0] + mo(accent));
+      rest = split[1];
+    }
+    return [el, rest];
+  }
+
+  // Whitespace
+  // ----------
+
+  else if (ascii.match(/^[0-9A-Za-z+\-!]{2,}[ ,;]/)) {
+    // treat whitespace separated subexpressions as a group
+    let next = ascii.split(/[ ,;]/)[0];
+    el = parsegroup(next);
+    rest = ascii.slice(next.length);
+    return [el, rest];
+  }
+
+  // Font Commands
+  // -------------
+
+  else if (syntax.isfontCommand(ascii)) {
+    let split = syntax.splitfont(ascii);
+    el = tag(split.tagname)(split.text,
+                            split.font && {mathvariant: split.font});
+    rest = split.rest;
+    return [el, rest];
+  }
+
+  // Groupings
+  // ---------
+
+  else if (isgroupStart(ascii) || syntax.isvertGroupStart(ascii)) {
+    let split = isgroupStart(ascii) ?
+          syntax.splitNextGroup(ascii) : syntax.splitNextVert(ascii),
+        open = split[1],
         group = split[2],
-        close = split[3],
-        rest = groupings.open.get(split[4]);
+        close = split[3];
+    rest = groupings.open.get(split[4]);
+    let cols = colsplit(group);
 
     if (ismatrixInterior(group)) {
-      let table = parsetable(group, "");
-      return [mfenced(table, {open: open, close: close}), rest];
-    }
+      // ### Matrix
 
-    let cols = colsplit(group);
-    if (cols.length > 1) {
-      // A column vector
+      let table = parsetable(group, "");
+      el = mfenced(table, {open: open, close: close});
+
+    } else if (cols.length > 1) {
+      // ### Column vector
+
       if (cols.length === 2 && open === '(' && close ===')') {
+        // #### Binomial Coefficient
+
         // Experimenting with the binomial coefficient
         // Perhaps I'll remove this later
         let binom = mfrac(cols.map(parsegroup).join(""), {
           linethickness: 0
         });
-        return [mfenced(binom, {open: open, close: close}), rest];
+        el = mfenced(binom, {open: open, close: close});
+        
+      } else {
+        // #### Single column vector
+
+        let matrix = cols.map([mtr, mtd, parsegroup].reduce(compose)).join('');
+        el = mfenced(mtable(matrix), {open: open, close: close});
       }
-      let matrix = cols.map([mtr, mtd, parsegroup].reduce(compose)).join('');
-      return [mfenced(mtable(matrix), {open: open, close: close}), rest];
 
     } else {
-      // A fenced group
+      // ### A fenced group
+
       let rows = rowsplit(group),
           els = rows.map(parsegroup).join("");
-      if (!skipbrackets) els = mfenced(els, {open: open, close: close});
-      else if (splitlast(els)[1] !== els) els = mrow(els);
-
-      return [els, rest];
+      if (!skipbrackets) el = mfenced(els, {open: open, close: close});
+      else if (splitlast(els)[1] !== els) el = mrow(els);
+      else el = els;
     }
 
-  } else if (ascii.match(new RegExp("^" + lexicon.fonts.regexp.source + '?"'))) {
-    let textobj = syntax.splittext(ascii);
-    let textel = mtext(textobj.text,
-                       textobj.font && {mathvariant: textobj.font});
-    return [textel, textobj.rest];
+    return [el, rest];
+  }
 
-  } else if (ascii.match(new RegExp(
-    "^" + lexicon.fonts.regexp.source + '?`[0-9A-Za-z]+`'
-  ))) {
-    // Forcing an identifier
-    let start = ascii.indexOf("`"),
-        stop = start + 1 + ascii.slice(start+1).indexOf("`"),
-        font = lexicon.fonts.get(ascii.slice(0, start));
-    let miel = mi(ascii.slice(start+1, stop),
-                  font && {mathvariant: font});
-    return [miel, ascii.slice(stop+1)];
-
-  } else if (head.match(/[A-Za-z]/)) {
+  else if (head.match(/[A-Za-z]/)) {
     // Identifier?
 
     // Perhaps a special identifier character
@@ -282,33 +317,41 @@ function parseone(head, tail, skipbrackets) {
       let symbol = identifiers[nextsymbol];
 
       // Uppercase greeks are roman font variant
-      let el = symbol.match(/[\u0391-\u03A9\u2100-\u214F\u2200-\u22FF]/) ?
+      let tag = symbol.match(/[\u0391-\u03A9\u2100-\u214F\u2200-\u22FF]/) ?
             mi({mathvariant: "normal"}) : mi ;
+      el = tag(symbol);
+      rest = tail.slice(nextsymbol.length-1);
 
-      return [el(symbol), tail.slice(nextsymbol.length-1)];
+      return [el, rest];
 
     } else if (head === 'O' && tail[0] === '/') {
       // The special case of the empty set
       // I suppose there is no dividing by the latin capital letter O
-
-      return [mi(identifiers["O/"], {mathvariant: "normal"}),
-              tail.slice(1)];
+      el = mi(identifiers["O/"], {mathvariant: "normal"});
+      rest = tail.slice(1);
+      return [el, rest];
 
     } else if (operators.contains(nextsymbol)) {
       // or an operator
-      return [mo(operators[nextsymbol]), tail.slice(nextsymbol.length-1)];
+      el = mo(operators[nextsymbol]);
+      rest = tail.slice(nextsymbol.length-1);
+      return [el, rest];
  
     } else if (head === "o" && tail[0].match(/^[x.+]$/)) {
       // the o operators have latin heads but non-latin tails
-      return [mo(operators[head+tail[0]]), tail.slice(1)];
+      el = mo(operators[head+tail[0]]);
+      rest = tail.slice(1);
+      return [el, rest];
     }
 
-    expr = mi(head);
+    else { el = mi(head); }
 
   } else if (head.match(/\d+/)) {
     // Number
-    let number = (head+tail).match(/^\d+(\.\d+)?/)[0];
-    return [mn(number), tail.slice(number.length-1)];
+    let number = ascii.match(/^\d+(\.\d+)?/)[0];
+    el = mn(number);
+    rest = tail.slice(number.length-1);
+    return [el, rest];
 
   } else if (head.match(operators.regexp)) {
     // Operator
@@ -317,17 +360,17 @@ function parseone(head, tail, skipbrackets) {
       return parseone(head+tail[0], tail.slice(1));
     }
     if (operators.contains(head)) {
-      expr = mo(operators[head]);
+      el = mo(operators[head]);
     } else {
-      expr = head;
+      el = head;
     }
 
   } else {
     // TODO: unicode literate throwaway
-    expr = head;
+    el = head;
   }
 
-  return [expr, tail];
+  return [el, tail];
 }
 
 

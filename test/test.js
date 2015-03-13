@@ -288,6 +288,12 @@ describe('Matrices', function() {
   it('Should display matrices', function() {
     test('[[a, b], [c, d]]', '<math><mfenced open="[" close="]"><mtable><mtr><mtd><mi>a</mi></mtd><mtd><mi>b</mi></mtd></mtr><mtr><mtd><mi>c</mi></mtd><mtd><mi>d</mi></mtd></mtr></mtable></mfenced></math>');
   });
+  it('Should display vertical bar delimited matrices', function() {
+    test('|(a,b,c), (d,e,f), (h,i,j)|', '<math><mfenced open="|" close="|"><mtable><mtr><mtd><mi>a</mi></mtd><mtd><mi>b</mi></mtd><mtd><mi>c</mi></mtd></mtr><mtr><mtd><mi>d</mi></mtd><mtd><mi>e</mi></mtd><mtd><mi>f</mi></mtd></mtr><mtr><mtd><mi>h</mi></mtd><mtd><mi>i</mi></mtd><mtd><mi>j</mi></mtd></mtr></mtable></mfenced></math>');
+  });
+  it('should display double vertical bar delimited matrices', function() {
+    test('|| a ; b ; c ||', '<math><mfenced open="‖" close="‖"><mtable><mtr><mtd><mi>a</mi></mtd></mtr><mtr><mtd><mi>b</mi></mtd></mtr><mtr><mtd><mi>c</mi></mtd></mtr></mtable></mfenced></math>');
+  });
 
   it('Nested matrices', function() {
     test("[[((a, b), (d, e)), -1], [1, ((f, g), (h, i))]]",
@@ -299,8 +305,56 @@ describe('Matrices', function() {
   });
 });
 
-describe('Text', function() {
+describe('Fonts', function() {
   it("Should display double quoted as text", function() {
-    test('"abcd"', "<math><mtext>abcd</mtext></math>");
+    test('"alpha"', "<math><mtext>alpha</mtext></math>");
+  });
+  it("Should display backtick surrounded as identifiers", function() {
+    test('`Gamma` != Gamma',
+         '<math><mi>Gamma</mi><mo>≠</mo><mi mathvariant="normal">Γ</mi></math>');
+    test('`1`', "<math><mi>1</mi></math>");
+  });
+  it("Should set mathvariants for texts", function() {
+    test('rm"abc"', '<math><mtext mathvariant="normal">abc</mtext></math>');
+    test('it"abc"', '<math><mtext mathvariant="italic">abc</mtext></math>');
+    test('bf"abc"', '<math><mtext mathvariant="bold">abc</mtext></math>');
+    test('bb"abc"', '<math><mtext mathvariant="double-struck">abc</mtext></math>');
+    test('cc"abc"', '<math><mtext mathvariant="script">abc</mtext></math>');
+    test('fr"abc"', '<math><mtext mathvariant="fraktur">abc</mtext></math>');
+    test('sf"abc"', '<math><mtext mathvariant="sans-serif">abc</mtext></math>');
+    test('tt"abc"', '<math><mtext mathvariant="monospace">abc</mtext></math>');
+  });
+  it("Should set mathvariants for identifiers", function() {
+    test("rm`abc`", '<math><mi mathvariant="normal">abc</mi></math>');
+    test("it`abc`", '<math><mi mathvariant="italic">abc</mi></math>');
+    test("bf`abc`", '<math><mi mathvariant="bold">abc</mi></math>');
+    test("bb`abc`", '<math><mi mathvariant="double-struck">abc</mi></math>');
+    test("cc`abc`", '<math><mi mathvariant="script">abc</mi></math>');
+    test("fr`abc`", '<math><mi mathvariant="fraktur">abc</mi></math>');
+    test("sf`abc`", '<math><mi mathvariant="sans-serif">abc</mi></math>');
+    test("tt`abc`", '<math><mi mathvariant="monospace">abc</mi></math>');
+  });
+});
+
+
+describe('Accents', function() {
+  it('Should display accents', function() {
+    test('hat x', '<math><mover><mi>x</mi><mo>^</mo></mover></math>');
+    test('bar x', '<math><mover><mi>x</mi><mo>‾</mo></mover></math>');
+    test('ul x', '<math><munder><mi>x</mi><mo>_</mo></munder></math>');
+    test('vec x', '<math><mover><mi>x</mi><mo>→</mo></mover></math>');
+    test('dot x', '<math><mover><mi>x</mi><mo>⋅</mo></mover></math>');
+    test('ddot x', '<math><mover><mi>x</mi><mo>⋅⋅</mo></mover></math>');
+  });
+  it('Should display dottless i and dottless j under overscript accents', function() {
+    test('bar i', '<math><mover><mi>ı</mi><mo>‾</mo></mover></math>');
+    test('vec j', '<math><mover><mi>ȷ</mi><mo>→</mo></mover></math>');
+    test('ul i', '<math><munder><mi>i</mi><mo>_</mo></munder></math>');
+  });
+  it('Should put accents over all the following parenthesis', function() {
+    test("3hat(xyz)", '<math><mn>3</mn><mover><mrow><mi>x</mi><mi>y</mi><mi>z</mi></mrow><mo>^</mo></mover></math>');
+  });
+  it('Physics vetor notation', function() {
+    //test('vec x = ahat i + bhat j + chat k');
   });
 });
