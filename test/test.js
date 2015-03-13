@@ -118,21 +118,22 @@ describe('Standard functions', function() {
   });
 
   it("Tangent = Sinus over Cosinus", function() {
-    test("tan = sin/cos", "<math><mi>tan</mi><mo>=</mo><mfrac><mi>sin</mi><mi>cos</mi></mfrac></math>");
+      test("tan = sin/cos",
+           "<math><mrow><mi>tan</mi><mo>=</mo></mrow><mfrac><mi>sin</mi><mi>cos</mi></mfrac></math>");
   });
   it("The hyperbolic functions", function() {
     test("sinh x = (e^x - e^(-x))/2, cosh x = (e^x + e^(-x))/2, tanh x = (sinh x)/(cosh x)",
-         '<math><mi>sinh</mi><mi>x</mi><mo>=</mo><mfrac><mrow><msup><mi>e</mi><mi>x</mi></msup><mo>-</mo><msup><mi>e</mi><mrow><mo>-</mo><mi>x</mi></mrow></msup></mrow><mn>2</mn></mfrac><mo>,</mo><mi>cosh</mi><mi>x</mi><mo>=</mo><mfrac><mrow><msup><mi>e</mi><mi>x</mi></msup><mo>+</mo><msup><mi>e</mi><mrow><mo>-</mo><mi>x</mi></mrow></msup></mrow><mn>2</mn></mfrac><mo>,</mo><mi>tanh</mi><mi>x</mi><mo>=</mo><mfrac><mrow><mi>sinh</mi><mi>x</mi></mrow><mrow><mi>cosh</mi><mi>x</mi></mrow></mfrac></math>');
+         '<math><mrow><mi>sinh</mi><mi>x</mi></mrow><mo>=</mo><mfrac><mrow><msup><mi>e</mi><mi>x</mi></msup><mo>-</mo><msup><mi>e</mi><mrow><mo>-</mo><mi>x</mi></mrow></msup></mrow><mn>2</mn></mfrac><mo>,</mo><mrow><mi>cosh</mi><mi>x</mi></mrow><mo>=</mo><mfrac><mrow><msup><mi>e</mi><mi>x</mi></msup><mo>+</mo><msup><mi>e</mi><mrow><mo>-</mo><mi>x</mi></mrow></msup></mrow><mn>2</mn></mfrac><mo>,</mo><mrow><mi>tanh</mi><mi>x</mi></mrow><mo>=</mo><mfrac><mrow><mi>sinh</mi><mi>x</mi></mrow><mrow><mi>cosh</mi><mi>x</mi></mrow></mfrac></math>');
   });
   it("Logarithm change of base", function() {
     test("log_b x = (log_k x)/(log_k b)", "<math><msub><mi>log</mi><mi>b</mi></msub><mi>x</mi><mo>=</mo><mfrac><mrow><msub><mi>log</mi><mi>k</mi></msub><mi>x</mi></mrow><mrow><msub><mi>log</mi><mi>k</mi></msub><mi>b</mi></mrow></mfrac></math>");
   });
   it("Logarithm powers", function() {
-    test("ln x^2 = 2 ln x", "<math><mi>ln</mi><msup><mi>x</mi><mn>2</mn></msup><mo>=</mo><mn>2</mn><mi>ln</mi><mi>x</mi></math>");
+    test("ln x^2 = 2 ln x", "<math><mrow><mi>ln</mi><msup><mi>x</mi><mn>2</mn></msup></mrow><mo>=</mo><mn>2</mn><mrow><mi>ln</mi><mi>x</mi></mrow></math>");
   });
   it("Logarithm division", function() {
     test("ln(x/y) = ln x - ln y",
-         '<math><mi>ln</mi><mfenced open="(" close=")"><mfrac><mi>x</mi><mi>y</mi></mfrac></mfenced><mo>=</mo><mi>ln</mi><mi>x</mi><mo>-</mo><mi>ln</mi><mi>y</mi></math>');
+         '<math><mi>ln</mi><mfenced open="(" close=")"><mfrac><mi>x</mi><mi>y</mi></mfrac></mfenced><mo>=</mo><mrow><mi>ln</mi><mi>x</mi></mrow><mo>-</mo><mrow><mi>ln</mi><mi>y</mi></mrow></math>');
   });
   it("Fermats little theorem", function() {
     test("a^(p-1) -= 1   (mod p)",
@@ -181,7 +182,7 @@ describe('Roots', function() {
   });
   it("Quadradic formula", function() {
     test("x = (-b +- sqrt(b^2 - 4ac)) / 2a",
-         "<math><mi>x</mi><mo>=</mo><mfrac><mrow><mrow><mo>-</mo><mi>b</mi></mrow><mo>±</mo><msqrt><mrow><msup><mi>b</mi><mn>2</mn></msup><mo>-</mo><mn>4</mn><mi>a</mi><mi>c</mi></mrow></msqrt></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></math>");
+         "<math><mi>x</mi><mo>=</mo><mfrac><mrow><mo>-</mo><mi>b</mi><mo>±</mo><msqrt><mrow><msup><mi>b</mi><mn>2</mn></msup><mo>-</mo><mn>4</mn><mi>a</mi><mi>c</mi></mrow></msqrt></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></math>");
   });
   it("Golden ratio (algebraic form)", function() {
     test("varphi = (1 + sqrt 5)/2", "<math><mi>φ</mi><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><msqrt><mn>5</mn></msqrt></mrow><mn>2</mn></mfrac></math>");
@@ -242,7 +243,7 @@ describe('Super and subscripts', function() {
          '<math><msub><mfenced open="(" close=")"><msup><mi>X</mi><mi>T</mi></msup></mfenced><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><msub><mi>X</mi><mrow><mi>j</mi><mi>i</mi></mrow></msub></math>');
   });
   it('The natural logarithm', function() {
-    test("ln x = int_1^x 1/t dt", "<math><mi>ln</mi><mi>x</mi><mo>=</mo><msubsup><mo>∫</mo><mn>1</mn><mi>x</mi></msubsup><mfrac><mn>1</mn><mi>t</mi></mfrac><mi>d</mi><mi>t</mi></math>");
+    test("ln x = int_1^x 1/t dt", "<math><mrow><mi>ln</mi><mi>x</mi></mrow><mo>=</mo><msubsup><mo>∫</mo><mn>1</mn><mi>x</mi></msubsup><mfrac><mn>1</mn><mi>t</mi></mfrac><mi>d</mi><mi>t</mi></math>");
   });
   it('Powers of powers of two', function() {
     test("2^2^2^2", "<math><msup><msup><msup><mn>2</mn><mn>2</mn></msup><mn>2</mn></msup><mn>2</mn></msup></math>");
@@ -354,7 +355,8 @@ describe('Accents', function() {
   it('Should put accents over all the following parenthesis', function() {
     test("3hat(xyz)", '<math><mn>3</mn><mover><mrow><mi>x</mi><mi>y</mi><mi>z</mi></mrow><mo>^</mo></mover></math>');
   });
-  it('Physics vetor notation', function() {
-    //test('vec x = ahat i + bhat j + chat k');
+  it('Physics vector notation', function() {
+    test('vec x = ahat i + bhat j + chat k',
+         '<math><mover><mi>x</mi><mo>→</mo></mover><mo>=</mo><mrow><mi>a</mi><mover><mi>ı</mi><mo>^</mo></mover></mrow><mo>+</mo><mrow><mi>b</mi><mover><mi>ȷ</mi><mo>^</mo></mover></mrow><mo>+</mo><mrow><mi>c</mi><mover><mi>k</mi><mo>^</mo></mover></mrow></math>');
   });
 });

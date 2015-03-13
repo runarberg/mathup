@@ -105,7 +105,7 @@ function ascii2mathml(asciimath, options) {
   return math(parse(asciimath.trim(), ""));
 }
 
-function parse(ascii, mathml, space) {
+function parse(ascii, mathml, space, grouped) {
 
   if (!ascii) return mathml;
 
@@ -131,24 +131,24 @@ function parse(ascii, mathml, space) {
   // Check for the special case of a root
   if (ascii.startsWith('sqrt')) {
     let tail = ascii.slice(4).trim();
-    let split = parseone(tail[0], tail.slice(1), true),
+    let split = parseone(tail[0], tail.slice(1), true, grouped),
         nextml = removeSurroundingBrackets(split[0]),
         nextascii = split[1];
     return parse(nextascii, mathml +  msqrt(nextml));
 
   } else if (ascii.startsWith('root')) {
     let tail = ascii.slice(4).trim();
-    let one = parseone(tail[0], tail.slice(1), true),
+    let one = parseone(tail[0], tail.slice(1), true, grouped),
         index = removeSurroundingBrackets(one[0]),
         tail2 = one[1].trim();
-    let two = parseone(tail2[0], tail2.slice(1), true),
+    let two = parseone(tail2[0], tail2.slice(1), true, grouped),
         base = removeSurroundingBrackets(two[0]);
     return parse(two[1], mathml + mroot(base + index));
 
   }
 
 
-  let next = parseone(ascii[0], ascii.slice(1), false),
+  let next = parseone(ascii[0], ascii.slice(1), false, grouped),
       head = next[0],
       rest = next[1];
 
@@ -194,12 +194,12 @@ function parse(ascii, mathml, space) {
 
 function parsegroup(ascii) {
   // Takes one asciiMath string and returns mathml in one group
-  let mathml = parse(ascii, "", false);
+  let mathml = parse(ascii, "", false, true);
   return mathml === getlastel(mathml) ? mathml : mrow(mathml);
 }
 
 
-function parseone(head, tail, skipbrackets) {
+function parseone(head, tail, skipbrackets, grouped) {
   /**
    Return a split of the first element parsed to MathML and the rest
    of the string unparsed.
@@ -239,11 +239,11 @@ function parseone(head, tail, skipbrackets) {
   // Whitespace
   // ----------
 
-  else if (ascii.match(/^[0-9A-Za-z+\-!]{2,}[ ,;]/)) {
+  else if (!grouped && syntax.isgroupable(ascii)) {
     // treat whitespace separated subexpressions as a group
-    let next = ascii.split(/[ ,;]/)[0];
-    el = parsegroup(next);
-    rest = ascii.slice(next.length);
+    let split = syntax.splitNextWhitespace(ascii);
+    el = parsegroup(split[0]);
+    rest = split[1];
     return [el, rest];
   }
 
