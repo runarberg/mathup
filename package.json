@@ -1,6 +1,6 @@
 {
   "name": "ascii2mathml",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "The second AsciiMath – MathML converter",
   "main": "index.js",
   "bin": {
