@@ -2,7 +2,10 @@
   "name": "ascii2mathml",
   "version": "0.1.1",
   "description": "The second AsciiMath – MathML converter",
-  "repository": "https://github.com/runarberg/ascii2mathml",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/runarberg/ascii2mathml"
+  },
   "main": "index.js",
   "bin": {
     "ascii2mathml": "bin/index.js"
