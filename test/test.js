@@ -46,8 +46,47 @@ describe('basics', function() {
 });
 
 describe('Operators', function() {
+  it('Should force operators with \\', function() {
+    test('\\^', '<math><mo>^</mo></math>');
+    test('\\\\', '<math><mo>\\</mo></math>');
+  });
+  it('Should force long operator with \\(op) and \\[op]', function() {
+    test('\\(int)', '<math><mo>int</mo></math>');
+    test('\\[(] \\([)', '<math><mo>(</mo><mo>[</mo></math>');
+    test('\\((1))', "<math><mo>(1)</mo></math>");
+  });
+  it('i hat', function() {
+    test('ı.^\\^', '<math><mover><mi>ı</mi><mo>^</mo></mover></math>');
+  });
+  it('The operator (n) as an overscript', function() {
+    test('x.^\\[(n)]', '<math><mover><mi>x</mi><mo>(n)</mo></mover></math>');
+  });
+  it('Sums', function() {
+    test('sum_(n=0)^k a_n = a_0 + a_i + cdots + a_k', '<math><munderover><mo>∑</mo><mrow><mi>n</mi><mo>=</mo><mn>0</mn></mrow><mi>k</mi></munderover><msub><mi>a</mi><mi>n</mi></msub><mo>=</mo><msub><mi>a</mi><mn>0</mn></msub><mo>+</mo><msub><mi>a</mi><mi>i</mi></msub><mo>+</mo><mo>⋯</mo><mo>+</mo><msub><mi>a</mi><mi>k</mi></msub></math>');
+  });
+  it('Function composition', function() {
+    test('bf`F` @ bf`G`  :  U sube RR^3 -> RR^2', '<math><mi mathvariant="bold">F</mi><mo>∘</mo><mi mathvariant="bold">G</mi><mspace width="1ex" /><mo>:</mo><mspace width="1ex" /><mi>U</mi><mo>⊆</mo><msup><mi mathvariant="normal">ℝ</mi><mn>3</mn></msup><mo>→</mo><msup><mi mathvariant="normal">ℝ</mi><mn>2</mn></msup></math>');
+  });
   it('Eulers number', function() {
     test("e = sum_(n=0)^oo 1 / n!", '<math><mi>e</mi><mo>=</mo><munderover><mo>∑</mo><mrow><mi>n</mi><mo>=</mo><mn>0</mn></mrow><mi mathvariant="normal">∞</mi></munderover><mfrac><mn>1</mn><mrow><mi>n</mi><mo>!</mo></mrow></mfrac></math>');
+  });
+  it('Should remove space around derivatives', function() {
+    test("f'(x)", '<math><mi>f</mi><mo lspace="0" rspace="0">′</mo><mfenced open="(" close=")"><mi>x</mi></mfenced></math>');
+    test("f''(x)", '<math><mi>f</mi><mo lspace="0" rspace="0">″</mo><mfenced open="(" close=")"><mi>x</mi></mfenced></math>');
+    test("f'''(x)", '<math><mi>f</mi><mo lspace="0" rspace="0">‴</mo><mfenced open="(" close=")"><mi>x</mi></mfenced></math>');
+    test("f''''(x)", '<math><mi>f</mi><mo lspace="0" rspace="0">⁗</mo><mfenced open="(" close=")"><mi>x</mi></mfenced></math>');
+  });
+  it('Gradient', function() {
+    test("grad f(x,y) = ((del f)/(del x) (x, y), (del f)/(del y) (x,y))",
+        '<math><mo rspace="0">∇</mo><mi>f</mi><mfenced open="(" close=")"><mi>x</mi><mi>y</mi></mfenced><mo>=</mo><mfenced open="(" close=")"><mrow><mfrac><mrow><mo rspace="0">∂</mo><mi>f</mi></mrow><mrow><mo rspace="0">∂</mo><mi>x</mi></mrow></mfrac><mfenced open="(" close=")"><mi>x</mi><mi>y</mi></mfenced></mrow><mrow><mfrac><mrow><mo rspace="0">∂</mo><mi>f</mi></mrow><mrow><mo rspace="0">∂</mo><mi>y</mi></mrow></mfrac><mfenced open="(" close=")"><mi>x</mi><mi>y</mi></mfenced></mrow></mfenced></math>');
+  });
+  it('Taylor polynomial', function() {
+    test("P_k(x) = f(a) + f'(a)(x-a) + (f''(a))/2! (x-a)^2 + cdots + (f^((k))(a))/k! (x-a)^k",
+         '<math><msub><mi>P</mi><mi>k</mi></msub><mfenced open="(" close=")"><mi>x</mi></mfenced><mo>=</mo><mi>f</mi><mfenced open="(" close=")"><mi>a</mi></mfenced><mo>+</mo><mi>f</mi><mo lspace="0" rspace="0">′</mo><mfenced open="(" close=")"><mi>a</mi></mfenced><mfenced open="(" close=")"><mrow><mi>x</mi><mo>-</mo><mi>a</mi></mrow></mfenced><mo>+</mo><mfrac><mrow><mi>f</mi><mo lspace="0" rspace="0">″</mo><mfenced open="(" close=")"><mi>a</mi></mfenced></mrow><mrow><mn>2</mn><mo>!</mo></mrow></mfrac><msup><mfenced open="(" close=")"><mrow><mi>x</mi><mo>-</mo><mi>a</mi></mrow></mfenced><mn>2</mn></msup><mo>+</mo><mo>⋯</mo><mo>+</mo><mfrac><mrow><msup><mi>f</mi><mfenced open="(" close=")"><mi>k</mi></mfenced></msup><mfenced open="(" close=")"><mi>a</mi></mfenced></mrow><mrow><mi>k</mi><mo>!</mo></mrow></mfrac><msup><mfenced open="(" close=")"><mrow><mi>x</mi><mo>-</mo><mi>a</mi></mrow></mfenced><mi>k</mi></msup></math>');
+  });
+  it('Strokes theorem', function() {
+    test("oint_(del S) bf`F` * dbf`s` = dint_S grad xx bf`F` * dbf`s`",
+         '<math><msub><mo>∮</mo><mrow><mo rspace="0">∂</mo><mi>S</mi></mrow></msub><mi mathvariant="bold">F</mi><mo>·</mo><mi>d</mi><mi mathvariant="bold">s</mi><mo>=</mo><msub><mo>∬</mo><mi>S</mi></msub><mo rspace="0">∇</mo><mo>×</mo><mi mathvariant="bold">F</mi><mo>·</mo><mi>d</mi><mi mathvariant="bold">s</mi></math>');
   });
 });
 
@@ -83,13 +122,16 @@ describe("Identifier", function() {
     test("varepsilon varphi vartheta", "<math><mi>ɛ</mi><mi>φ</mi><mi>ϑ</mi></math>");
   });
   it('Special', function() {
-    test("grad oo O/", '<math><mi mathvariant="normal">∇</mi><mi mathvariant="normal">∞</mi><mi mathvariant="normal">∅</mi></math>');
+    test("oo O/", '<math><mi mathvariant="normal">∞</mi><mi mathvariant="normal">∅</mi></math>');
   });
   it('Other', function() {
-    test("aleph del", '<math><mi mathvariant="normal">ℵ</mi><mi mathvariant="normal">∂</mi></math>');
+    test("aleph", '<math><mi mathvariant="normal">ℵ</mi></math>');
   });
   it('Blackboard', function() {
     test("NN ZZ QQ RR CC", '<math><mi mathvariant="normal">ℕ</mi><mi mathvariant="normal">ℤ</mi><mi mathvariant="normal">ℚ</mi><mi mathvariant="normal">ℝ</mi><mi mathvariant="normal">ℂ</mi></math>');
+  });
+  it('Should force identifiers with (`)', function() {
+    test("`int`", "<math><mi>int</mi></math>");
   });
 });
 
@@ -135,6 +177,9 @@ describe('Standard functions', function() {
     test("ln(x/y) = ln x - ln y",
          '<math><mi>ln</mi><mfenced open="(" close=")"><mfrac><mi>x</mi><mi>y</mi></mfrac></mfenced><mo>=</mo><mrow><mi>ln</mi><mi>x</mi></mrow><mo>-</mo><mrow><mi>ln</mi><mi>y</mi></mrow></math>');
   });
+  it("2×2 determinants", function() {
+    test("det(A) = |(a, b), (c, d)| = ad - cd", '<math><mi>det</mi><mfenced open="(" close=")"><mi>A</mi></mfenced><mo>=</mo><mfenced open="|" close="|"><mtable><mtr><mtd><mi>a</mi></mtd><mtd><mi>b</mi></mtd></mtr><mtr><mtd><mi>c</mi></mtd><mtd><mi>d</mi></mtd></mtr></mtable></mfenced><mo>=</mo><mrow><mi>a</mi><mi>d</mi></mrow><mo>-</mo><mi>c</mi><mi>d</mi></math>');
+  });
   it("Fermats little theorem", function() {
     test("a^(p-1) -= 1   (mod p)",
          '<math><msup><mi>a</mi><mrow><mi>p</mi><mo>-</mo><mn>1</mn></mrow></msup><mo>≡</mo><mn>1</mn><mspace width="2ex" /><mfenced open="(" close=")"><mrow><mi>mod</mi><mi>p</mi></mrow></mfenced></math>');
@@ -146,7 +191,7 @@ describe('Fractions', function() {
   it("Should display fractions", function() {
     test("a/b", "<math><mfrac><mi>a</mi><mi>b</mi></mfrac></math>");
   });
-  it('Should have bevilled fractions', function() {
+  it('Should have bevelled fractions', function() {
     test("a./b", '<math><mfrac bevelled="true"><mi>a</mi><mi>b</mi></mfrac></math>');
   });
   it("Should not display brackets around numerator or denominator", function() {
@@ -155,12 +200,16 @@ describe('Fractions', function() {
   it('Should have whitespace delimited fractions', function() {
     test("1+3 / 2+2", "<math><mfrac><mrow><mn>1</mn><mo>+</mo><mn>3</mn></mrow><mrow><mn>2</mn><mo>+</mo><mn>2</mn></mrow></mfrac></math>");
     test("1 + 3/2 + 2", "<math><mn>1</mn><mo>+</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mo>+</mo><mn>2</mn></math>");
-    test("a./b / c./d", '<math><mfrac><mfrac bevelled="true"><mi>a</mi><mi>b</mi></mfrac><mfrac bevelled="true"><mi>c</mi><mi>d</mi></mfrac></mfrac></math>');
+    // test("a./b / c./d", '<math><mfrac><mfrac bevelled="true"><mi>a</mi><mi>b</mi></mfrac><mfrac bevelled="true"><mi>c</mi><mi>d</mi></mfrac></mfrac></math>');
   });
 
   it("Golden ratio (continued fraction)", function() {
     test("varphi = 1 + 1/(1 + 1/(1 + 1/(1 + 1/(1 + ddots))))",
          "<math><mi>φ</mi><mo>=</mo><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mo>⋱</mo></mrow></mfrac></mrow></mfrac></mrow></mfrac></mrow></mfrac></math>");
+  });
+  it("Normal distribution", function() {
+    test('cc`N`(x | mu, sigma^2) = 1/(sqrt(2pi sigma^2)) e^(-((x-mu)^2) / 2sigma^2)',
+         '<math><mi mathvariant="script">N</mi><mfenced open="(" close=")"><mrow><mi>x</mi><mo stretchy="true">|</mo><mi>μ</mi></mrow><msup><mi>σ</mi><mn>2</mn></msup></mfenced><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt></mfrac><msup><mi>e</mi><mrow><mo>-</mo><mfrac><msup><mfenced open="(" close=")"><mrow><mi>x</mi><mo>-</mo><mi>μ</mi></mrow></mfenced><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac></mrow></msup></math>');
   });
 });
 
@@ -218,6 +267,13 @@ describe('Groupings', function() {
   it('Eulers identity', function() {
     test("e^(i tau) = 1", "<math><msup><mi>e</mi><mrow><mi>i</mi><mi>τ</mi></mrow></msup><mo>=</mo><mn>1</mn></math>");
   });
+  it("The natural numbers", function() {
+    test('NN = {1, 2, 3, ...}', '<math><mi mathvariant="normal">ℕ</mi><mo>=</mo><mfenced open="{" close="}"><mn>1</mn><mn>2</mn><mn>3</mn><mo>…</mo></mfenced></math>');
+  });
+  it("Average over time", function() {
+    test('(: V(t)^2 :) = lim_(T->oo) 1/T int_(-T./2)^(T./2) V(t)^2 dt',
+         '<math><mfenced open="⟨" close="⟩"><mrow><mi>V</mi><msup><mfenced open="(" close=")"><mi>t</mi></mfenced><mn>2</mn></msup></mrow></mfenced><mo>=</mo><munder><mi>lim</mi><mrow><mi>T</mi><mo>→</mo><mi mathvariant="normal">∞</mi></mrow></munder><mfrac><mn>1</mn><mi>T</mi></mfrac><msubsup><mo>∫</mo><mrow><mo>-</mo><mfrac bevelled="true"><mi>T</mi><mn>2</mn></mfrac></mrow><mfrac bevelled="true"><mi>T</mi><mn>2</mn></mfrac></msubsup><mi>V</mi><msup><mfenced open="(" close=")"><mi>t</mi></mfenced><mn>2</mn></msup><mi>d</mi><mi>t</mi></math>');
+  });
 });
 
 
@@ -246,7 +302,7 @@ describe('Super and subscripts', function() {
     test("ln x = int_1^x 1/t dt", "<math><mrow><mi>ln</mi><mi>x</mi></mrow><mo>=</mo><msubsup><mo>∫</mo><mn>1</mn><mi>x</mi></msubsup><mfrac><mn>1</mn><mi>t</mi></mfrac><mi>d</mi><mi>t</mi></math>");
   });
   it('Powers of powers of two', function() {
-    test("2^2^2^2", "<math><msup><msup><msup><mn>2</mn><mn>2</mn></msup><mn>2</mn></msup><mn>2</mn></msup></math>");
+    test("2^2^2^2", "<math><msup><mn>2</mn><msup><mn>2</mn><msup><mn>2</mn><mn>2</mn></msup></msup></msup></math>");
   });
 });
 
@@ -279,6 +335,9 @@ describe('Under and overscripts', function() {
   it("Matrix dimentions", function() {
     test('X._(n xx m)', "<math><munder><mi>X</mi><mrow><mi>n</mi><mo>×</mo><mi>m</mi></mrow></munder></math>");
   });
+  it("k times x", function() {
+    test('{: x + ... + x :}.^⏞.^(k  "times")', '<math><mover><mfenced open="" close=""><mrow><mi>x</mi><mo>+</mo><mo>…</mo><mo>+</mo><mi>x</mi></mrow></mfenced><mover><mo>⏞</mo><mrow><mi>k</mi><mspace width="1ex" /><mtext>times</mtext></mrow></mover></mover></math>');
+  });
 });
 
 
@@ -292,18 +351,27 @@ describe('Matrices', function() {
   it('Should display vertical bar delimited matrices', function() {
     test('|(a,b,c), (d,e,f), (h,i,j)|', '<math><mfenced open="|" close="|"><mtable><mtr><mtd><mi>a</mi></mtd><mtd><mi>b</mi></mtd><mtd><mi>c</mi></mtd></mtr><mtr><mtd><mi>d</mi></mtd><mtd><mi>e</mi></mtd><mtd><mi>f</mi></mtd></mtr><mtr><mtd><mi>h</mi></mtd><mtd><mi>i</mi></mtd><mtd><mi>j</mi></mtd></mtr></mtable></mfenced></math>');
   });
-  it('should display double vertical bar delimited matrices', function() {
+  it('Should display double vertical bar delimited matrices', function() {
     test('|| a ; b ; c ||', '<math><mfenced open="‖" close="‖"><mtable><mtr><mtd><mi>a</mi></mtd></mtr><mtr><mtd><mi>b</mi></mtd></mtr><mtr><mtd><mi>c</mi></mtd></mtr></mtable></mfenced></math>');
   });
 
+  it('The general n×m matrix', function() {
+    test('A = [[a_(1 1), a_(1 2), cdots, a_(1 n)], [a_(2 1), a_(2 2), cdots, a_(2 n)], [vdots, vdots, ddots, vdots], [a_(m 1), a_(m 2), cdots, a_(m n)]]',
+         '<math><mi>A</mi><mo>=</mo><mfenced open="[" close="]"><mtable><mtr><mtd><msub><mi>a</mi><mrow><mn>1</mn><mn>1</mn></mrow></msub></mtd><mtd><msub><mi>a</mi><mrow><mn>1</mn><mn>2</mn></mrow></msub></mtd><mtd><mo>⋯</mo></mtd><mtd><msub><mi>a</mi><mrow><mn>1</mn><mi>n</mi></mrow></msub></mtd></mtr><mtr><mtd><msub><mi>a</mi><mrow><mn>2</mn><mn>1</mn></mrow></msub></mtd><mtd><msub><mi>a</mi><mrow><mn>2</mn><mn>2</mn></mrow></msub></mtd><mtd><mo>⋯</mo></mtd><mtd><msub><mi>a</mi><mrow><mn>2</mn><mi>n</mi></mrow></msub></mtd></mtr><mtr><mtd><mo>⋮</mo></mtd><mtd><mo>⋮</mo></mtd><mtd><mo>⋱</mo></mtd><mtd><mo>⋮</mo></mtd></mtr><mtr><mtd><msub><mi>a</mi><mrow><mi>m</mi><mn>1</mn></mrow></msub></mtd><mtd><msub><mi>a</mi><mrow><mi>m</mi><mn>2</mn></mrow></msub></mtd><mtd><mo>⋯</mo></mtd><mtd><msub><mi>a</mi><mrow><mi>m</mi><mi>n</mi></mrow></msub></mtd></mtr></mtable></mfenced></math>');
+  });
   it('Nested matrices', function() {
     test("[[((a, b), (d, e)), -1], [1, ((f, g), (h, i))]]",
          '<math><mfenced open="[" close="]"><mtable><mtr><mtd><mfenced open="(" close=")"><mtable><mtr><mtd><mi>a</mi></mtd><mtd><mi>b</mi></mtd></mtr><mtr><mtd><mi>d</mi></mtd><mtd><mi>e</mi></mtd></mtr></mtable></mfenced></mtd><mtd><mo>-</mo><mn>1</mn></mtd></mtr><mtr><mtd><mn>1</mn></mtd><mtd><mfenced open="(" close=")"><mtable><mtr><mtd><mi>f</mi></mtd><mtd><mi>g</mi></mtd></mtr><mtr><mtd><mi>h</mi></mtd><mtd><mi>i</mi></mtd></mtr></mtable></mfenced></mtd></mtr></mtable></mfenced></math>');
   });
-  it('Combination', function() {
+  it('The binomial coefficient', function() {
     test("(n; k) = n! / (n-k)!k!",
          '<math><mfenced open="(" close=")"><mfrac linethickness="0"><mi>n</mi><mi>k</mi></mfrac></mfenced><mo>=</mo><mfrac><mrow><mi>n</mi><mo>!</mo></mrow><mrow><mfenced open="(" close=")"><mrow><mi>n</mi><mo>-</mo><mi>k</mi></mrow></mfenced><mo>!</mo><mi>k</mi><mo>!</mo></mrow></mfrac></math>');
   });
+  it("The absolute value", function() {
+    test('|x| = { (x\,, if x >= 0), (-x\,, if x < 0) :}',
+         '<math><mfenced open="|" close="|"><mi>x</mi></mfenced><mo>=</mo><mfenced open="{" close=""><mtable columnalign="center left"><mtr><mtd><mi>x</mi><mo>,</mo></mtd><mtd><mo>if</mo><mi>x</mi><mo>≥</mo><mn>0</mn></mtd></mtr><mtr><mtd><mo>-</mo><mi>x</mi><mo>,</mo></mtd><mtd><mo>if</mo><mi>x</mi><mo>&lt;</mo><mn>0</mn></mtd></mtr></mtable></mfenced></math>');
+  });
+  it('Factorial', '<math><mfenced open="|" close="|"><mi>x</mi></mfenced><mo>=</mo><mfenced open="{" close=""><mtable columnalign="center left"><mtr><mtd><mi>x</mi><mo>,</mo></mtd><mtd><mo>if</mo><mi>x</mi><mo>≥</mo><mn>0</mn></mtd></mtr><mtr><mtd><mo>-</mo><mi>x</mi><mo>,</mo></mtd><mtd><mo>if</mo><mi>x</mi><mo>&lt;</mo><mn>0</mn></mtd></mtr></mtable></mfenced></math>');
 });
 
 describe('Fonts', function() {
@@ -340,23 +408,23 @@ describe('Fonts', function() {
 
 describe('Accents', function() {
   it('Should display accents', function() {
-    test('hat x', '<math><mover><mi>x</mi><mo>^</mo></mover></math>');
-    test('bar x', '<math><mover><mi>x</mi><mo>‾</mo></mover></math>');
+    test('hat x', '<math><mover><mi>x</mi><mo accent="true">^</mo></mover></math>');
+    test('bar x', '<math><mover><mi>x</mi><mo accent="true">‾</mo></mover></math>');
     test('ul x', '<math><munder><mi>x</mi><mo>_</mo></munder></math>');
-    test('vec x', '<math><mover><mi>x</mi><mo>→</mo></mover></math>');
-    test('dot x', '<math><mover><mi>x</mi><mo>⋅</mo></mover></math>');
-    test('ddot x', '<math><mover><mi>x</mi><mo>⋅⋅</mo></mover></math>');
+    test('vec x', '<math><mover><mi>x</mi><mo accent="true">→</mo></mover></math>');
+    test('dot x', '<math><mover><mi>x</mi><mo accent="true">⋅</mo></mover></math>');
+    test('ddot x', '<math><mover><mi>x</mi><mo accent="true">⋅⋅</mo></mover></math>');
   });
   it('Should display dottless i and dottless j under overscript accents', function() {
-    test('bar i', '<math><mover><mi>ı</mi><mo>‾</mo></mover></math>');
-    test('vec j', '<math><mover><mi>ȷ</mi><mo>→</mo></mover></math>');
+    test('bar i', '<math><mover><mi>ı</mi><mo accent="true">‾</mo></mover></math>');
+    test('vec j', '<math><mover><mi>ȷ</mi><mo accent="true">→</mo></mover></math>');
     test('ul i', '<math><munder><mi>i</mi><mo>_</mo></munder></math>');
   });
   it('Should put accents over all the following parenthesis', function() {
-    test("3hat(xyz)", '<math><mn>3</mn><mover><mrow><mi>x</mi><mi>y</mi><mi>z</mi></mrow><mo>^</mo></mover></math>');
+    test("3hat(xyz)", '<math><mn>3</mn><mover><mrow><mi>x</mi><mi>y</mi><mi>z</mi></mrow><mo accent="true">^</mo></mover></math>');
   });
   it('Physics vector notation', function() {
     test('vec x = ahat i + bhat j + chat k',
-         '<math><mover><mi>x</mi><mo>→</mo></mover><mo>=</mo><mrow><mi>a</mi><mover><mi>ı</mi><mo>^</mo></mover></mrow><mo>+</mo><mrow><mi>b</mi><mover><mi>ȷ</mi><mo>^</mo></mover></mrow><mo>+</mo><mrow><mi>c</mi><mover><mi>k</mi><mo>^</mo></mover></mrow></math>');
+         '<math><mover><mi>x</mi><mo accent="true">→</mo></mover><mo>=</mo><mrow><mi>a</mi><mover><mi>ı</mi><mo accent="true">^</mo></mover></mrow><mo>+</mo><mrow><mi>b</mi><mover><mi>ȷ</mi><mo accent="true">^</mo></mover></mrow><mo>+</mo><mrow><mi>c</mi><mover><mi>k</mi><mo accent="true">^</mo></mover></mrow></math>');
   });
 });

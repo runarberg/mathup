@@ -60,7 +60,8 @@ function splitby(sep) {
 
     for (let i=0; i < str.length; i+=1) {
       let char = str[i];
-      if (char === sep) {
+      if (char === sep &&
+          !str.slice(0,i).match(/\\(\\{2})*$/)) {
         if (inners === 0) {
           split.push(str.slice(index, i));
           index = i+1;
@@ -131,64 +132,28 @@ function parse(ascii, mathml, space, grouped) {
   // Check for the special case of a root
   if (ascii.startsWith('sqrt')) {
     let tail = ascii.slice(4).trim();
-    let split = parseone(tail[0], tail.slice(1), true, grouped),
+    let split = parseone(tail, grouped),
         nextml = removeSurroundingBrackets(split[0]),
         nextascii = split[1];
     return parse(nextascii, mathml +  msqrt(nextml));
 
   } else if (ascii.startsWith('root')) {
     let tail = ascii.slice(4).trim();
-    let one = parseone(tail[0], tail.slice(1), true, grouped),
+    let one = parseone(tail, grouped),
         index = removeSurroundingBrackets(one[0]),
         tail2 = one[1].trim();
-    let two = parseone(tail2[0], tail2.slice(1), true, grouped),
+    let two = parseone(tail2, grouped),
         base = removeSurroundingBrackets(two[0]);
     return parse(two[1], mathml + mroot(base + index));
 
   }
 
 
-  let next = parseone(ascii[0], ascii.slice(1), false, grouped),
+  let next = parseone(ascii, grouped),
       head = next[0],
       rest = next[1];
 
-  if (ascii[0] === '/' && ascii[1] !== '/') {
-    // fraction
-    let next = infix2prefix(mfrac, mathml, head, rest);
-    return parse(next[0], next[1], false);
-
-  } else if (ascii[0] === '^' && ascii[1] !== '^') {
-    // Superscript
-    // will be <msupsub> if next el is `_`
-    let next = infix2prefix(msup, mathml, head, rest);
-    return parse(next[0], next[1], false);
-
-  } else if (ascii[0] === '_' && (ascii[1] !== '_' || ascii[1] !== '|')) {
-    // Subscript
-    // will be <msupsub> if next el is `^`
-    // Will be <munder> if previous operator is one of unders
-    let next = infix2prefix(msub, mathml, head, rest);
-    return parse(next[0], next[1], false);
-
-  } else if (ascii.startsWith('./') && ascii[2] !== '/') {
-    // Forced bevelled fraction
-    let next = infix2prefix(mfrac({bevelled: true}),
-                            mathml, './', ascii.slice(2));
-    return parse(next[0], next[1], false);
-
-  } else if (ascii.startsWith('.^') && ascii[2] !== '^') {
-    // Forced overscript
-    let next = infix2prefix(mover, mathml, '.^', ascii.slice(2));
-    return parse(next[0], next[1], false);
-
-  } else if (ascii.startsWith('._') && !ascii[2].match(/[_|]/)) {
-    // Forced overscript
-    let next = infix2prefix(munder, mathml, '._', ascii.slice(2));
-    return parse(next[0], next[1], false);
-
-  } else {
-    return parse(rest, mathml+head, false);
-  }
+  return parse(rest, mathml+head, false);
 }
 
 
@@ -199,7 +164,7 @@ function parsegroup(ascii) {
 }
 
 
-function parseone(head, tail, skipbrackets, grouped) {
+function parseone(ascii, grouped, lastel) {
   /**
    Return a split of the first element parsed to MathML and the rest
    of the string unparsed.
@@ -207,18 +172,34 @@ function parseone(head, tail, skipbrackets, grouped) {
 
   // TODO: split this up into smaller more readable code
 
-  if (!head) return ["", ""];
+  if (!ascii) return ["", ""];
 
-  let ascii = head + tail;
+  let head = ascii[0],
+      tail = ascii.slice(1);
   let el,
       rest,
       nextsymbol = head + (tail.match(/^[A-Za-z]+/) || "");
 
 
+  // Forced opperator
+  // ----------------
+  
+  if (head === "\\") {
+    if (ascii[1].match(/[(\[]/)) {
+      let stop = findmatching(tail);
+      el = mo(ascii.slice(2, stop));
+      rest = ascii.slice(stop+1);
+    } else {
+      el = mo(ascii[1]);
+      rest = ascii.slice(2);
+    }
+  }
+
+
   // Accents
   // -------
 
-  if (lexicon.accents.contains(nextsymbol)) {
+  else if (lexicon.accents.contains(nextsymbol)) {
     let accent = lexicon.accents.get(nextsymbol),
         next = ascii.slice(nextsymbol.length).trimLeft();
     let under = accent === "_";
@@ -226,14 +207,16 @@ function parseone(head, tail, skipbrackets, grouped) {
     if (!under && ijmatch) {
       // use non-dotted gyphs as to not clutter
       let letter = ijmatch[1];
-      el = mover(mi(letter === 'i' ? 'ı' : 'ȷ') + mo(accent));
+      el = mover(mi(letter === 'i' ? 'ı' : 'ȷ') +
+                 mo(accent, {accent: true}));
       rest = next.slice(ijmatch[0].length);
     } else {
-      let split = parseone(next[0], next.slice(1), true);
-      el = (under ? munder : mover)(split[0] + mo(accent));
+      let split = parseone(next),
+          tagfun = under ? munder : mover;
+      el = tagfun(removeSurroundingBrackets(split[0])
+                  + mo(accent, !under && {accent: true}));
       rest = split[1];
     }
-    return [el, rest];
   }
 
   // Whitespace
@@ -244,7 +227,6 @@ function parseone(head, tail, skipbrackets, grouped) {
     let split = syntax.splitNextWhitespace(ascii);
     el = parsegroup(split[0]);
     rest = split[1];
-    return [el, rest];
   }
 
   // Font Commands
@@ -255,7 +237,6 @@ function parseone(head, tail, skipbrackets, grouped) {
     el = tag(split.tagname)(split.text,
                             split.font && {mathvariant: split.font});
     rest = split.rest;
-    return [el, rest];
   }
 
   // Groupings
@@ -270,10 +251,12 @@ function parseone(head, tail, skipbrackets, grouped) {
     rest = groupings.open.get(split[4]);
     let cols = colsplit(group);
 
-    if (ismatrixInterior(group)) {
+    if (ismatrixInterior(group.trim())) {
       // ### Matrix
 
-      let table = parsetable(group, "");
+      let cases = open === "{" && close === "";
+      let table = parsetable(group,
+                             cases && {columnalign: "center left"});
       el = mfenced(table, {open: open, close: close});
 
     } else if (cols.length > 1) {
@@ -301,17 +284,37 @@ function parseone(head, tail, skipbrackets, grouped) {
 
       let rows = rowsplit(group),
           els = rows.map(parsegroup).join("");
-      if (!skipbrackets) el = mfenced(els, {open: open, close: close});
-      else if (splitlast(els)[1] !== els) el = mrow(els);
-      else el = els;
+      el = mfenced(els, {open: open, close: close});
     }
 
-    return [el, rest];
   }
 
-  else if (head.match(/[A-Za-z]/)) {
-    // Identifier?
+  else if (head.match(/\d+/)) {
+    // Number
+    let number = ascii.match(/^\d+(\.\d+)?/)[0];
+    el = mn(number);
+    rest = tail.slice(number.length-1);
+    // return [el, rest];
+  }
 
+  // Operators
+  // ---------
+
+  else if (ascii.match(new RegExp("^"+operators.regexp.source)) &&
+           !identifiers.contains(nextsymbol)) {
+    let split = syntax.splitNextOperator(ascii);
+    let derivative = ascii.startsWith("'"),
+        prefix = contains(["∂", "∇"], split[0]),
+        stretchy = contains(["|"], split[0]);
+    el = mo(split[0],
+            (derivative && {lspace:0, rspace:0}) ||
+            (prefix && {rspace:0}) ||
+            (stretchy && {stretchy: true}));
+    rest = split[1];
+
+  }
+
+  else {
     // Perhaps a special identifier character
     if (identifiers.contains(nextsymbol)) {
       let symbol = identifiers[nextsymbol];
@@ -322,135 +325,158 @@ function parseone(head, tail, skipbrackets, grouped) {
       el = tag(symbol);
       rest = tail.slice(nextsymbol.length-1);
 
-      return [el, rest];
 
     } else if (head === 'O' && tail[0] === '/') {
       // The special case of the empty set
       // I suppose there is no dividing by the latin capital letter O
       el = mi(identifiers["O/"], {mathvariant: "normal"});
       rest = tail.slice(1);
-      return [el, rest];
-
-    } else if (operators.contains(nextsymbol)) {
-      // or an operator
-      el = mo(operators[nextsymbol]);
-      rest = tail.slice(nextsymbol.length-1);
-      return [el, rest];
- 
-    } else if (head === "o" && tail[0].match(/^[x.+]$/)) {
-      // the o operators have latin heads but non-latin tails
-      el = mo(operators[head+tail[0]]);
-      rest = tail.slice(1);
-      return [el, rest];
     }
 
-    else { el = mi(head); }
-
-  } else if (head.match(/\d+/)) {
-    // Number
-    let number = ascii.match(/^\d+(\.\d+)?/)[0];
-    el = mn(number);
-    rest = tail.slice(number.length-1);
-    return [el, rest];
-
-  } else if (head.match(operators.regexp)) {
-    // Operator
-    if (tail[0] && tail[0].match(operators.regexp) &&
-        operators.contains(head+tail[0])) {
-      return parseone(head+tail[0], tail.slice(1));
+    else {
+      // TODO: unicode literate throwaway
+      el = mi(head);
+      rest = tail;
     }
-    if (operators.contains(head)) {
-      el = mo(operators[head]);
-    } else {
-      el = head;
-    }
-
-  } else {
-    // TODO: unicode literate throwaway
-    el = head;
   }
 
-  return [el, tail];
+
+  // Binary infixes
+  // --------------
+
+  if (rest) {
+    
+    // ### Fraction
+    if (rest.trimLeft().startsWith('/')) {
+      let rem = rest.trimLeft().slice(1);
+      let next;
+      if (rem.startsWith(' ')) {
+        let split = rem.trimLeft().split(' ');
+        next = parsegroup(split[0]);
+        rest = rem.trimLeft().slice(split[0].length);
+      } else {
+        let split = parseone(rem);
+        next = split[0];
+        rest = split[1];
+      }
+      el = mfrac(removeSurroundingBrackets(el) +
+                 removeSurroundingBrackets(next));
+    }
+
+    // ### Bevelled fraction
+    else if (rest.trimLeft().startsWith('./')) {
+      let rem = rest.trimLeft().slice(2);
+      let next;
+      if (rem.startsWith(' ')) {
+        let split = rem.trimLeft().split(' ');
+        next = parsegroup(split[0]);
+        rest = rem.trimLeft().slice(split[0].length+1);
+      } else {
+        let split = parseone(rem);
+        next = split[0];
+        rest = split[1];
+      }
+      el = mfrac(removeSurroundingBrackets(el) +
+                 removeSurroundingBrackets(next),
+                 {bevelled: true});
+    }
+
+    // ### Subscript
+    else if ((lastel ? !lastel.match(/m(sup|over)/) : true) &&
+             rest.trimLeft().startsWith('_') &&
+             !rest.trimLeft()[1].match(/[|_]/)) {
+      let next = parseone(rest.trimLeft().slice(1).trimLeft(),
+                          true, "msub"),
+          sub = removeSurroundingBrackets(next[0]);
+      rest = next[1];
+
+      // ### Super- subscript
+      if (rest && rest.trimLeft().startsWith('^') &&
+          !rest.trimLeft()[1] !== '^') {
+        let next2 = parseone(rest.trimLeft().slice(1).trimLeft(), true),
+            sup = removeSurroundingBrackets(next2[0]),
+            tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
+        el = tagfun(el + sub + sup);
+        rest = next2[1];
+      } else {
+        let tagfun = syntax.shouldGoUnder(el) ? munder : msub;
+        el = tagfun(el + sub);
+      }
+    }
+
+    // ### Underscript
+    else if (lastel !== "mover" &&
+             rest.trimLeft().startsWith('._') &&
+             !rest.trimLeft()[2].match(/[|_]/)) {
+      let next = parseone(rest.trimLeft().slice(2).trimLeft(),
+                          true, "munder"),
+          under = removeSurroundingBrackets(next[0]);
+      rest = next[1];
+
+      // ### Under- overscript
+      let overmatch = rest.match(/^\.?\^[^\^]/);
+      if (overmatch) {
+        let next2 = parseone(rest.trimLeft()
+                             .slice(overmatch[0].length-1)
+                             .trimLeft(), true),
+            over = removeSurroundingBrackets(next2[0]);
+        el = munderover(el + under + over);
+        rest = next2[1];
+      } else {
+        el = munder(el + under);
+      }
+    }
+
+    // ### Superscript
+    else if ((lastel ? !lastel.match(/m(sub|under)/) : true) &&
+             rest.trimLeft().startsWith('^') &&
+             rest.trimLeft[1] !== '^') {
+      let next = parseone(rest.trimLeft().slice(1).trimLeft(),
+                          true, "msup"),
+          sup = removeSurroundingBrackets(next[0]);
+      rest = next[1];
+
+      // ### Super- subscript
+      if (rest.trimLeft().startsWith('_') &&
+          !rest.trimLeft()[1].match(/[|_]/)) {
+        let next2 = parseone(rest.trimLeft().slice(1).trimLeft(), true),
+            sub = removeSurroundingBrackets(next2[0]),
+            tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
+        el = tagfun(el + sub + sup);
+        rest = next2[1];
+      } else {
+        let tagfun = syntax.shouldGoUnder(el) ? mover : msup;
+        el = tagfun(el + sup);
+      }
+    }
+
+    // ### Overscript
+    else if (lastel !== "munder" &&
+             rest.trimLeft().startsWith('.^') &&
+             rest.trimLeft[1] !== '^') {
+      let next = parseone(rest.trimLeft().slice(2).trimLeft(),
+                          true, "mover"),
+          over = removeSurroundingBrackets(next[0]);
+      rest = next[1];
+
+      // ### Under- overscript
+      let undermatch = rest.match(/^\.?_[^_|]/);
+      if (undermatch) {
+        let next2 = parseone(rest.trimLeft()
+                             .slice(undermatch[0].length-1)
+                             .trimLeft(), true),
+            under = removeSurroundingBrackets(next2[0]);
+        el = munderover(el + under + over);
+        rest = next2[1];
+      } else {
+        el = mover(el + over);
+      }
+    }
+  }
+
+  return [el, rest];
 }
 
-
-function infix2prefix(el, mathml, op, rest) {
-  // If we have an infix operator, and need to parse it as prefix,
-  // this is our function to do that.
-
-  // TODO: To complicated, refactor!
-
-  let splitml = splitlast(mathml),
-      leadml = splitml[0],
-      lastml = op === "/" || op == "./" ? function() {
-        let brackremoved = removeSurroundingBrackets(splitml[1]);
-        if (!splitlast(brackremoved)[1].startsWith("<mrow>")) {
-          // Somebody surrounded just one element in the denominator,
-          // they probably want their brackets retained
-          return splitml[1];
-        } else {
-          return brackremoved;
-        }
-      }() : splitml[1],
-      under = (op.match(/\.[_\^]/) ||
-               lastml ===  mo("∑") || lastml === mi("lim") || lastml === mo("∏"));
-
-  let nextel, rem;
-  if (!rest.match(new RegExp("^\s*" + groupings.open.regexp.source))) {
-    // treat non-whitespace as one group
-    let next, nextels;
-    if (op === "/" || op === "./") {
-      next = rest.trim().split(/(\s+|[,;])/)[0];
-      if (rest[0] !== " " && next.slice(1).match(operators.regexp)) {
-        // split by that operator instead
-        next = next[0] + next.slice(1).split(operators.regexp)[0];
-      }
-    } else if (op === "^" || op === ".^") {
-      next = rest.trim().split(/(\s+|[,;]|\.?_)/)[0];
-      if (next.slice(1).match(operators.regexp)) {
-        // split by that operator instead
-        next = next[0] + next.slice(1).split(operators.regexp)[0];
-      }
-    } else if (op === "_" || op === "._") {
-      next = rest.trim().split(/(\s+|[,;]|\.?\^)/)[0];
-      if (next.slice(1).match(operators.regexp)) {
-        // split by that operator instead
-        next = next[0] + next.slice(1).split(operators.regexp)[0];
-      }
-    }
-    nextels = parse(next, "");
-    nextel = splitlast(nextels)[1] === nextels ? nextels : mrow(nextels),
-    rem = rest.trim().slice(next.length);
-  } else {
-    // Treat brackets as group
-    let one = parseone(rest.trim()[0], rest.trim().slice(1), true);
-    nextel = one[0],
-    rem = one[1];
-  }
-
-  if (rem[0] &&
-      ((op === '^' && rem[0] === '_' && !rem[1].match(/^[_|]/)) ||
-       (op === '.^' && rem.match(/^\.?_[^_|]/)) ||
-       (op === '_' && rem[0] === '^' && rem[1] !== '^') ||
-       (op === '._' && rem.match(/^\.?^[^\^]/)))) {
-    // We have sup/under and super/over-scripts together
-    let two = parseone(rem[op.length], rem.slice(op.length+1), true);
-    let arg1 = op.match(/\.?_/) ? nextel : two[0],
-        arg2 = op.match(/\.?_/) ? two[0] : nextel,
-        ren = two[1];
-
-    let tagname = under ? munderover : msubsup;
-    let nextml = leadml + tagname(lastml + arg1 + arg2);
-
-    return [ren, nextml];
-  }
-
-  if (under && op === "_") el = munder;
-
-  let nextml = leadml + el(lastml + nextel);
-
-  return [rem, nextml];
-}
 
 function splitlast(mathml) {
   /**
@@ -491,11 +517,11 @@ function getlastel(xmlstr) {
   return xmlstr.slice(i);
 }
 
-function parsetable(matrix) {
+function parsetable(matrix, attrs) {
   let rows = rowsplit(matrix)
         .map(function(el) { return el.trim().slice(1, -1); });
 
-  return mtable(rows.map(parserow).join(''));
+  return mtable(rows.map(parserow).join(''), attrs);
 }
 
 function parserow(row, acc) {
@@ -510,8 +536,33 @@ function parsecell(cell, acc) {
   if (!cell || cell.length === 0) return [mtd(acc), ""];
   if (cell[0] === ',') return [mtd(acc), cell.slice(1).trim()];
 
-  let split = parseone(cell[0], cell.slice(1));
+  let split = parseone(cell);
   return parsecell(split[1].trim(), acc+split[0]);
+}
+
+
+function findmatching(str) {
+  let open = str[0],
+      close = open === '(' ? ')' :
+        open === '[' ? ']' :
+        str[0];
+
+  let inners = 0,
+      index = 0;
+  for (let char of str) {
+    index += 1;
+    if (char === close) {
+      inners -= 1;
+      if (inners === 0) break;
+    } else if (char === open) {
+      inners += 1;
+    }
+  }
+  return index;
+}
+
+function contains(arr, el) {
+  return arr.indexOf(el) >= 0;
 }
 
 function last(arr) {
