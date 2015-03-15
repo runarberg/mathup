@@ -118,14 +118,10 @@ describe("Identifier", function() {
     test("Gamma Delta Theta Lambda Xi Pi Sigma Phi Psi Omega",
          '<math><mi mathvariant="normal">Γ</mi><mi mathvariant="normal">Δ</mi><mi mathvariant="normal">Θ</mi><mi mathvariant="normal">Λ</mi><mi mathvariant="normal">Ξ</mi><mi mathvariant="normal">Π</mi><mi mathvariant="normal">Σ</mi><mi mathvariant="normal">Φ</mi><mi mathvariant="normal">Ψ</mi><mi mathvariant="normal">Ω</mi></math>');
     test("alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi pi rho sigma tau upsilon phi chi psi omega",
-         "<math><mi>α</mi><mi>β</mi><mi>γ</mi><mi>δ</mi><mi>ε</mi><mi>ζ</mi><mi>η</mi><mi>θ</mi><mi>ι</mi><mi>κ</mi><mi>λ</mi><mi>μ</mi><mi>ν</mi><mi>ξ</mi><mi>π</mi><mi>ρ</mi><mi>σ</mi><mi>τ</mi><mi>υ</mi><mi>ϕ</mi><mi>χ</mi><mi>ψ</mi><mi>ω</mi></math>");
-    test("varepsilon varphi vartheta", "<math><mi>ɛ</mi><mi>φ</mi><mi>ϑ</mi></math>");
+         "<math><mi>α</mi><mi>β</mi><mi>γ</mi><mi>δ</mi><mi>ɛ</mi><mi>ζ</mi><mi>η</mi><mi>θ</mi><mi>ι</mi><mi>κ</mi><mi>λ</mi><mi>μ</mi><mi>ν</mi><mi>ξ</mi><mi>π</mi><mi>ρ</mi><mi>σ</mi><mi>τ</mi><mi>υ</mi><mi>φ</mi><mi>χ</mi><mi>ψ</mi><mi>ω</mi></math>");
   });
   it('Special', function() {
     test("oo O/", '<math><mi mathvariant="normal">∞</mi><mi mathvariant="normal">∅</mi></math>');
-  });
-  it('Other', function() {
-    test("aleph", '<math><mi mathvariant="normal">ℵ</mi></math>');
   });
   it('Blackboard', function() {
     test("NN ZZ QQ RR CC", '<math><mi mathvariant="normal">ℕ</mi><mi mathvariant="normal">ℤ</mi><mi mathvariant="normal">ℚ</mi><mi mathvariant="normal">ℝ</mi><mi mathvariant="normal">ℂ</mi></math>');
@@ -204,7 +200,7 @@ describe('Fractions', function() {
   });
 
   it("Golden ratio (continued fraction)", function() {
-    test("varphi = 1 + 1/(1 + 1/(1 + 1/(1 + 1/(1 + ddots))))",
+    test("phi = 1 + 1/(1 + 1/(1 + 1/(1 + 1/(1 + ddots))))",
          "<math><mi>φ</mi><mo>=</mo><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mo>⋱</mo></mrow></mfrac></mrow></mfrac></mrow></mfrac></mrow></mfrac></math>");
   });
   it("Normal distribution", function() {
@@ -234,7 +230,7 @@ describe('Roots', function() {
          "<math><mi>x</mi><mo>=</mo><mfrac><mrow><mo>-</mo><mi>b</mi><mo>±</mo><msqrt><mrow><msup><mi>b</mi><mn>2</mn></msup><mo>-</mo><mn>4</mn><mi>a</mi><mi>c</mi></mrow></msqrt></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></math>");
   });
   it("Golden ratio (algebraic form)", function() {
-    test("varphi = (1 + sqrt 5)/2", "<math><mi>φ</mi><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><msqrt><mn>5</mn></msqrt></mrow><mn>2</mn></mfrac></math>");
+    test("phi = (1 + sqrt 5)/2", "<math><mi>φ</mi><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><msqrt><mn>5</mn></msqrt></mrow><mn>2</mn></mfrac></math>");
   });
   it("Plastic number", function() {
     test("rho = (root3(108 + 12 sqrt 69) + root3(108 - 12 sqrt 69)) / 6",
@@ -330,7 +326,7 @@ describe('Under and overscripts', function() {
   });
 
   it("Golden ratio (defenition)", function() {
-    test('varphi =.^"def" a/b = (a+b)/a', "<math><mi>φ</mi><mover><mo>=</mo><mtext>def</mtext></mover><mfrac><mi>a</mi><mi>b</mi></mfrac><mo>=</mo><mfrac><mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow><mi>a</mi></mfrac></math>");
+    test('phi =.^"def" a/b = (a+b)/a', "<math><mi>φ</mi><mover><mo>=</mo><mtext>def</mtext></mover><mfrac><mi>a</mi><mi>b</mi></mfrac><mo>=</mo><mfrac><mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow><mi>a</mi></mfrac></math>");
   });
   it("Matrix dimentions", function() {
     test('X._(n xx m)', "<math><munder><mi>X</mi><mrow><mi>n</mi><mo>×</mo><mi>m</mi></mrow></munder></math>");
