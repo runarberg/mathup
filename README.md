@@ -66,9 +66,9 @@ As stated I will try to make this tool as expressive as possible while
 not giving way for simplicity. That means a slight deviation from the
 original AsciiMath implementation. These changes include:
 
+
 |----------------------:|---------------------------------------|
 | Smart unicode support | `⊕` ⇒ `<mo>⊕</mo>`, `α` ⇒ `<mi>α</mi>`|
 | Forcing operators by surrounding them in backticks | `` `Gamma`(theta)`` ⇒ <math><mo>Gamma</mo><mrow><mo>(</mo><mi>θ</mi><mo>)</mo></mrow></math>, `Gamma(theta)` ⇒ <math><mi>Γ</mi><mrow><mo>(</mo><mi>θ</mi><mo>)</mo></mrow></math> |
 | Over and underscripts | `=.^"def"` ⇒ <math><mrow><mover><mo>=</mo><mtext>def</mtext></mover></mrow></math>, `X._(n xx m)` ⇒ <math><mrow><munder><mi>X</mi><mrow><mi>n</mi><mo>×</mo><mi>m</mi></mrow></munder></mrow></math> |
-npm 
 | White space awareness | `a   b` ⇒ `<mi>a</mi><mspace width="1em" /><mi>b</mi>` |

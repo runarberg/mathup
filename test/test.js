@@ -368,10 +368,13 @@ describe('Matrices', function() {
          '<math><mfenced open="(" close=")"><mfrac linethickness="0"><mi>n</mi><mi>k</mi></mfrac></mfenced><mo>=</mo><mfrac><mrow><mi>n</mi><mo>!</mo></mrow><mrow><mfenced open="(" close=")"><mrow><mi>n</mi><mo>-</mo><mi>k</mi></mrow></mfenced><mo>!</mo><mi>k</mi><mo>!</mo></mrow></mfrac></math>');
   });
   it("The absolute value", function() {
-    test('|x| = { (x\,, if x >= 0), (-x\,, if x < 0) :}',
+    test('|x| = { (x\\,, if x >= 0), (-x\\,, if x < 0) :}',
          '<math><mfenced open="|" close="|"><mi>x</mi></mfenced><mo>=</mo><mfenced open="{" close=""><mtable columnalign="center left"><mtr><mtd><mi>x</mi><mo>,</mo></mtd><mtd><mo>if</mo><mi>x</mi><mo>≥</mo><mn>0</mn></mtd></mtr><mtr><mtd><mo>-</mo><mi>x</mi><mo>,</mo></mtd><mtd><mo>if</mo><mi>x</mi><mo>&lt;</mo><mn>0</mn></mtd></mtr></mtable></mfenced></math>');
   });
-  it('Factorial', '<math><mfenced open="|" close="|"><mi>x</mi></mfenced><mo>=</mo><mfenced open="{" close=""><mtable columnalign="center left"><mtr><mtd><mi>x</mi><mo>,</mo></mtd><mtd><mo>if</mo><mi>x</mi><mo>≥</mo><mn>0</mn></mtd></mtr><mtr><mtd><mo>-</mo><mi>x</mi><mo>,</mo></mtd><mtd><mo>if</mo><mi>x</mi><mo>&lt;</mo><mn>0</mn></mtd></mtr></mtable></mfenced></math>');
+  it('Factorial', function() {
+    test('n! = { [1,  if n=0 or n=1],  [n(n-1)!,  if n > 1] :}',
+         '<math><mrow><mi>n</mi><mo>!</mo></mrow><mo>=</mo><mfenced open="{" close=""><mtable columnalign="center left"><mtr><mtd><mn>1</mn></mtd><mtd><mo>if</mo><mi>n</mi><mo>=</mo><mn>0</mn><mo>or</mo><mi>n</mi><mo>=</mo><mn>1</mn></mtd></mtr><mtr><mtd><mi>n</mi><mfenced open="(" close=")"><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></mfenced><mo>!</mo></mtd><mtd><mo>if</mo><mi>n</mi><mo>&gt;</mo><mn>1</mn></mtd></mtr></mtable></mfenced></math>');
+  });
 });
 
 describe('Fonts', function() {

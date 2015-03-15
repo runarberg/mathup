@@ -138,7 +138,7 @@ function parse(ascii, mathml, space, grouped) {
     return parse(nextascii, mathml +  msqrt(nextml));
 
   } else if (ascii.startsWith('root')) {
-    let tail = ascii.slice(4).trim();
+    let tail = ascii.slice(4).trimLeft();
     let one = parseone(tail, grouped),
         index = removeSurroundingBrackets(one[0]),
         tail2 = one[1].trim();
