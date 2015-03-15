@@ -82,7 +82,8 @@ automatically be interpreted as operators.
 
 #### Operational ####
 
-|:-----:|:-:|
+| Command | Result |
+|:-------:|:------:|
 | `+`   | + |
 | `-`   | − |
 | `*`   | ⋅ |
@@ -113,7 +114,8 @@ automatically be interpreted as operators.
 
 #### Miscellaneous ####
 
-|:---------:|:-:|
+| Command | Result |
+|:---------:|:----:|
 | `del`     | ∂ |
 | `grad`    | ∇ |
 | `aleph`   | ℵ |
@@ -127,7 +129,8 @@ automatically be interpreted as operators.
 
 #### Relational ####
 
-|:-----:|:-:|
+| Command | Result |
+|:-------:|:------:|
 | `=`   | = |
 | `!=`  | ≠ |
 | `<`   | < |
@@ -149,7 +152,8 @@ automatically be interpreted as operators.
 
 #### Logical ####
 
-|:-----:|:---:|
+| Command | Result |
+|:-------:|:------:|
 | `and` | and |
 | `or`  | or  | 
 | `not` | ¬   |
@@ -163,7 +167,8 @@ automatically be interpreted as operators.
 
 #### Arrows ####
 
-|:------:|:-:|
+| Command | Result |
+|:-------:|:------:|
 | `uarr` | ↑ |
 | `darr` | ↓ |
 | `rarr` | → |
@@ -181,7 +186,8 @@ automatically be interpreted as operators.
 
 #### Punctuations ####
 
-|:-------:|:-:|
+| Command | Result |
+|:-------:|:------:|
 | `:.`    | ∴ |
 | `...`   | … |
 | `cdots` | ⋯ |
@@ -224,7 +230,8 @@ will convert. In addition, Greek capitals will convert with normal
 
 The following additional identifiers are also provided through commands
 
-|:----:|:-:|
+| Command | Result |
+|:-------:|:------:|
 | `oo` | ∞ |
 | `O/` | ∅ |
 | `CC` | ℂ |
@@ -309,7 +316,8 @@ As a bonus this will also left align the condition column for you.
 The following accent will add what follows as an accent over the
 following expression:
 
-|:-----:|:-:|
+| Command | Result |
+|:-------:|:------:|
 | `hat` | ^ |
 | `bar` | ‾ |
 | `vec` | → |
@@ -326,7 +334,8 @@ parameter. That means you can write bf`` `v` `` if you want to
 bold-face an identifier or `it"text"` if you want some text
 italicized. The following commands have the following font variant:
 
-|:----:|:--------------:|
+| Command | Variant |
+|:-------:|:-------:|
 | `rm` | normal         |
 | `bf` | bold           |
 | `it` | italic         |
