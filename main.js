@@ -28,7 +28,6 @@ function renderTryBox(event) {
   if (tryDisplay.checked) options.display = "block";
   if (tryAnnotate.checked) options.annotate = "true";
   var ascii = tryInput.value,
-      mathml = ascii2mathml(ascii, options),
-      math = parser.parseFromString(mathml, "text/html").querySelector("math");
-  tryOutput.replaceChild(math, tryOutput.firstChild);
+      mathml = ascii2mathml(ascii, options);
+  tryOutput.innerHTML = mathml;
 }

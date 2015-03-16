@@ -480,6 +480,8 @@ function ascii2mathml(asciimath, options) {
   options.display = options.display || "inline";
   options.standalone = options.standalone || false;
 
+  var out = undefined;
+
   if (options.display && options.bare) {
     throw new Error("Can't display block without root element.");
   }
@@ -493,10 +495,16 @@ function ascii2mathml(asciimath, options) {
   if (options.annotate) {
     // Make sure the all presentational part is the first element
     var mathml = parsegroup(asciimath.trim());
-    return math("<semantics>" + mathml + "<annotation encoding=\"application/AsciiMath\">" + asciimath + "</annotation>" + "</semantics>");
+    out = math("<semantics>" + mathml + "<annotation encoding=\"application/AsciiMath\">" + asciimath + "</annotation>" + "</semantics>");
+  } else {
+    out = math(parse(asciimath.trim(), ""));
   }
 
-  return math(parse(asciimath.trim(), ""));
+  if (options.standalone) {
+    out = "<!DOCTYPE html><html><head><title>" + asciimath + "</title></head>" + "<body>" + out + "</body></html>";
+  }
+
+  return out;
 }
 
 function parse(_x, _x2, _x3, _x4) {
@@ -508,7 +516,7 @@ function parse(_x, _x2, _x3, _x4) {
         mathml = _x2,
         space = _x3,
         grouped = _x4;
-    spaces = spacecount = spaceel = tail = split = nextml = nextascii = tail = one = index = tail2 = two = base = next = head = rest = undefined;
+    spaces = spacecount = spaceel = next = head = rest = undefined;
 
     if (!ascii) {
       return mathml;
@@ -539,29 +547,6 @@ function parse(_x, _x2, _x3, _x4) {
       _x = ascii.trim();
       _x2 = mathml;
       _x3 = true;
-      _again = true;
-      continue _function;
-    }
-
-    // Check for the special case of a root
-    if (ascii.startsWith("sqrt")) {
-      var tail = ascii.slice(4).trim();
-      var split = parseone(tail, grouped),
-          nextml = removeSurroundingBrackets(split[0]),
-          nextascii = split[1];
-      _x = nextascii;
-      _x2 = mathml + msqrt(nextml);
-      _again = true;
-      continue _function;
-    } else if (ascii.startsWith("root")) {
-      var tail = ascii.slice(4).trimLeft();
-      var one = parseone(tail, grouped),
-          index = removeSurroundingBrackets(one[0]),
-          tail2 = one[1].trim();
-      var two = parseone(tail2, grouped),
-          base = removeSurroundingBrackets(two[0]);
-      _x = two[1];
-      _x2 = mathml + mroot(base + index);
       _again = true;
       continue _function;
     }
@@ -600,10 +585,29 @@ function parseone(ascii, grouped, lastel) {
       rest = undefined,
       nextsymbol = head + (tail.match(/^[A-Za-z]+/) || "");
 
+  // Roots
+  // -----
+
+  if (ascii.startsWith("sqrt")) {
+    var _tail = ascii.slice(4).trim();
+    var split = parseone(_tail, grouped);
+    el = msqrt(removeSurroundingBrackets(split[0]));
+    rest = split[1];
+  } else if (ascii.startsWith("root")) {
+    var _tail2 = ascii.slice(4).trimLeft();
+    var one = parseone(_tail2, grouped),
+        index = removeSurroundingBrackets(one[0]),
+        tail2 = one[1].trimLeft();
+    var two = parseone(tail2, grouped),
+        base = removeSurroundingBrackets(two[0]);
+    el = mroot(base + index);
+    rest = two[1];
+  }
+
   // Forced opperator
   // ----------------
 
-  if (head === "\\") {
+  else if (head === "\\") {
     if (ascii[1].match(/[(\[]/)) {
       var _stop = findmatching(tail);
       el = mo(ascii.slice(2, _stop));
