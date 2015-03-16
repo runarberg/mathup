@@ -161,77 +161,6 @@ function parse(ascii, mathml, space, grouped) {
   }
 
 
-  // ### Subscript
-  else if (rest.trimLeft().startsWith('_') &&
-           !rest.trimLeft()[1].match(/[|_]/)) {
-    let split = splitNextSubscript(el, rest);
-    el = split[0];
-    rest = split[1];
-  }
-
-  // ### Underscript
-  else if (rest.trimLeft().startsWith('._') &&
-           !rest.trimLeft()[2].match(/[|_]/)) {
-    let next = parseone(rest.trimLeft().slice(2).trimLeft(), true),
-        under = removeSurroundingBrackets(next[0]);
-    rest = next[1];
-
-    // ### Under- overscript
-    let overmatch = rest.match(/^\.?\^[^\^]/);
-    if (overmatch) {
-      let next2 = parseone(rest.trimLeft()
-                           .slice(overmatch[0].length-1)
-                           .trimLeft(), true),
-          over = removeSurroundingBrackets(next2[0]);
-      el = munderover(el + under + over);
-      rest = next2[1];
-    } else {
-      el = munder(el + under);
-    }
-  }
-
-  // ### Superscript
-  else if (rest.trimLeft().startsWith('^') &&
-           rest.trimLeft[1] !== '^') {
-    let next = parseone(rest.trimLeft().slice(1).trimLeft(), true),
-        sup = removeSurroundingBrackets(next[0]);
-    rest = next[1];
-
-    // ### Super- subscript
-    if (rest.trimLeft().startsWith('_') &&
-        !rest.trimLeft()[1].match(/[|_]/)) {
-      let next2 = parseone(rest.trimLeft().slice(1).trimLeft(), true),
-          sub = removeSurroundingBrackets(next2[0]),
-          tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
-      el = tagfun(el + sub + sup);
-      rest = next2[1];
-    } else {
-      let tagfun = syntax.shouldGoUnder(el) ? mover : msup;
-      el = tagfun(el + sup);
-    }
-  }
-
-  // ### Overscript
-  else if (rest.trimLeft().startsWith('.^') &&
-           rest.trimLeft[1] !== '^') {
-    let next = parseone(rest.trimLeft().slice(2).trimLeft(), true),
-        over = removeSurroundingBrackets(next[0]);
-    rest = next[1];
-
-    // ### Under- overscript
-    let undermatch = rest.match(/^\.?_[^_|]/);
-    if (undermatch) {
-      let next2 = parseone(rest.trimLeft()
-                           .slice(undermatch[0].length-1)
-                           .trimLeft(), true),
-          under = removeSurroundingBrackets(next2[0]);
-      el = munderover(el + under + over);
-      rest = next2[1];
-    } else {
-      el = mover(el + over);
-    }
-  }
-
   return parse(rest, mathml + el, false);
 }
 
@@ -441,10 +370,43 @@ function parseone(ascii, grouped, lastel) {
     }
   }
 
-
-
   if (rest) {
-    
+
+    // ### Subscript
+    if ((lastel ? !lastel.match(/m(sup|over)/) : true) &&
+        rest.trimLeft().startsWith('_') &&
+        !rest.trimLeft()[1].match(/[|_]/)) {
+      let split = splitNextSubscript(el, rest);
+      el = split[0];
+      rest = split[1];
+    }
+
+    // ### Underscript
+    else if (lastel !== "mover" &&
+             rest.trimLeft().startsWith('._') &&
+             !rest.trimLeft()[2].match(/[|_]/)) {
+      let split = splitNextUnderscript(el, rest);
+      el = split[0];
+      rest = split[1];
+    }
+
+    // ### Superscript
+    else if ((lastel ? !lastel.match(/m(sub|under)/) : true) &&
+             rest.trimLeft().startsWith('^') &&
+             rest.trimLeft[1] !== '^') {
+      let split = splitNextSuperscript(el, rest);
+      el = split[0];
+      rest = split[1];
+    }
+
+    // ### Overscript
+    else if (lastel !== "munder" &&
+             rest.trimLeft().startsWith('.^') &&
+             rest.trimLeft()[2] !== '^') {
+      let split = splitNextOverscript(el, rest);
+      el = split[0];
+      rest = split[1];
+    }
   }
 
   return [el, rest];
@@ -452,15 +414,16 @@ function parseone(ascii, grouped, lastel) {
 
 
 function splitNextSubscript(el, rest) {
-  let next = parseone(rest.trimLeft().slice(1).trimLeft(), true),
+  let next = parseone(rest.trimLeft().slice(1).trimLeft(),
+                      true, "msub"),
       sub = removeSurroundingBrackets(next[0]);
   let ml,
       ascii = next[1];
-
+  
   // ### Supersubscript
   if (ascii && ascii.trimLeft().startsWith('^') &&
       !ascii.trimLeft()[1] !== '^') {
-    let next2 = parseone(rest.trimLeft().slice(1).trimLeft(), true),
+    let next2 = parseone(ascii.trimLeft().slice(1).trimLeft(), true),
         sup = removeSurroundingBrackets(next2[0]),
         tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
     ml = tagfun(el + sub + sup);
@@ -470,8 +433,74 @@ function splitNextSubscript(el, rest) {
     ml = tagfun(el + sub);
   }
 
-  if (ascii && ascii.trimLeft().startsWith('_')) {
-    return splitNextSubscript(ml, ascii);
+  return [ml, ascii];
+}
+
+function splitNextSuperscript(el, rest) {
+  let next = parseone(rest.trimLeft().slice(1).trimLeft(),
+                      true, "msup"),
+      sup = removeSurroundingBrackets(next[0]);
+  let ml,
+      ascii = next[1];
+
+  // ### Super- subscript
+  if (ascii.trimLeft().startsWith('_') &&
+      !ascii.trimLeft()[1].match(/[|_]/)) {
+    let next2 = parseone(ascii.trimLeft().slice(1).trimLeft(), true),
+        sub = removeSurroundingBrackets(next2[0]),
+        tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
+    ml = tagfun(el + sub + sup);
+    ascii = next2[1];
+  } else {
+    let tagfun = syntax.shouldGoUnder(el) ? mover : msup;
+    ml = tagfun(el + sup);
+  }
+
+  return [ml, ascii];
+}
+
+
+function splitNextUnderscript(el, rest) {
+  let next = parseone(rest.trimLeft().slice(2).trimLeft(),
+                      true, "munder"),
+      under = removeSurroundingBrackets(next[0]);
+  let ml,
+      ascii = next[1];
+
+  // ### Under- overscript
+  let overmatch = ascii.match(/^(\.?\^)[^\^]/);
+  if (overmatch) {
+    let next2 = parseone(ascii.trimLeft()
+                         .slice(overmatch[1].length)
+                         .trimLeft(), true),
+        over = removeSurroundingBrackets(next2[0]);
+    ml = munderover(el + under + over);
+    ascii = next2[1];
+  } else {
+    ml = munder(el + under);
+  }
+
+  return [ml, ascii];
+}
+
+function splitNextOverscript(el, rest) {
+  let next = parseone(rest.trimLeft().slice(2).trimLeft(),
+                      true, "mover"),
+      over = removeSurroundingBrackets(next[0]);
+  let ml,
+      ascii = next[1];
+
+  // ### Under- overscript
+  let undermatch = ascii.match(/^(\.?_)[^_|]/);
+  if (undermatch) {
+    let next2 = parseone(ascii.trimLeft()
+                         .slice(undermatch[1].length)
+                         .trimLeft(), true),
+        under = removeSurroundingBrackets(next2[0]);
+    ml = munderover(el + under + over);
+    ascii = next2[1];
+  } else {
+    ml = mover(el + over);
   }
 
   return [ml, ascii];
