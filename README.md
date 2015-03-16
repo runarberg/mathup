@@ -1,6 +1,25 @@
 Ascii2MathML
 ============
 
+Get:
+
+    npm install ascii2mathml
+
+Use:
+
+    var ascii2mathml = require("ascii2mathml");
+    var mathml = ascii2mathml(asciimath, options);
+
+Where options are (width defaults):
+
+    var options = {
+        display: inline,
+        bare: false,
+        standalone: false,
+        annotate: false
+    }
+
+
 The second AsciiMath – MathML converter
 ---------------------------------------
 
