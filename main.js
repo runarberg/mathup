@@ -12,10 +12,29 @@ Array.prototype.forEach.call(testCases, function (test) {
 
 
 // Try
+
+// Event polyfill
+(function () {
+  function CustomEvent ( event, params ) {
+    params = params || { bubbles: false, cancelable: false, detail: undefined };
+    var evt = document.createEvent( 'CustomEvent' );
+    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
+    return evt;
+   }
+
+  CustomEvent.prototype = window.Event.prototype;
+
+  window.CustomEvent = CustomEvent;
+})();
+
 var tryInput = document.getElementById("try-input"),
     tryDisplay = document.getElementById("try-display"),
     tryOutput = document.getElementById("try-output"),
-    tryAnnotate = document.getElementById("try-annotate");
+    tryAnnotate = document.getElementById("try-annotate"),
+    outputRender = new CustomEvent("render", {
+      bubbles: true,
+      cancelable: true
+    });
 
 document.addEventListener("DOMContentLoaded", renderTryBox);
 tryInput.addEventListener("input", renderTryBox);
@@ -30,4 +49,36 @@ function renderTryBox(event) {
   var ascii = tryInput.value,
       mathml = ascii2mathml(ascii, options);
   tryOutput.innerHTML = mathml;
+  tryOutput.dispatchEvent(outputRender);
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+  var documentHead = document.getElementsByTagName("head")[0];
+  var mathJaxScript = document.createElement("script"),
+      useMathJax = document.getElementById("use-mathjax");
+
+  useMathJax.addEventListener("change", function(event) {
+    if (useMathJax.checked && !documentHead.contains(mathJaxScript)) {
+      mathJaxScript.type = "text/javascript";
+      mathJaxScript.src  = "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=MML_HTMLorMML";
+      documentHead.appendChild(mathJaxScript);
+    }
+
+    if (useMathJax.checked && documentHead.contains(mathJaxScript)) {
+      // Render using mathjax
+      tryOutput.addEventListener("render", renderMathJax);
+      renderTryBox();
+    }
+    if (!useMathJax.checked) {
+      // Stop rendering with mathJax
+      tryOutput.removeEventListener("render", renderMathJax);
+      renderTryBox();
+    }
+  });
+
+  function renderMathJax(evt) {
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, tryOutput]);
+    console.log("MathJaxing...");
+  };
+  
+});

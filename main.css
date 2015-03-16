@@ -33,6 +33,10 @@ body > h1 {
     padding-left: 1em;
 }
 
+.try > .output output {
+    display: block;
+}
+
 .promotion {
     font-size: 1.2em;
     text-align: center;
