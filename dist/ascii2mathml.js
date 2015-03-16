@@ -516,7 +516,7 @@ function parse(_x, _x2, _x3, _x4) {
         mathml = _x2,
         space = _x3,
         grouped = _x4;
-    spaces = spacecount = spaceel = next = head = rest = undefined;
+    spaces = spacecount = spaceel = next = el = rest = split = undefined;
 
     if (!ascii) {
       return mathml;
@@ -552,11 +552,21 @@ function parse(_x, _x2, _x3, _x4) {
     }
 
     var next = parseone(ascii, grouped),
-        head = next[0],
+        el = next[0],
         rest = next[1];
 
+    // Binary infixes
+    // --------------
+
+    // ### Fraction
+    if (rest.trimLeft().startsWith("/") || rest.trimLeft().startsWith("./")) {
+      var split = splitNextFraction(el, rest);
+      el = split[0];
+      rest = split[1];
+    }
+
     _x = rest;
-    _x2 = mathml + head;
+    _x2 = mathml + el;
     _x3 = false;
     _again = true;
     continue _function;
@@ -739,119 +749,156 @@ function parseone(ascii, grouped, lastel) {
     }
   }
 
-  // Binary infixes
-  // --------------
-
   if (rest) {
 
-    // ### Fraction
-    if (rest.trimLeft().startsWith("/")) {
-      var rem = rest.trimLeft().slice(1);
-      var next = undefined;
-      if (rem.startsWith(" ")) {
-        var split = rem.trimLeft().split(" ");
-        next = parsegroup(split[0]);
-        rest = rem.trimLeft().slice(split[0].length);
-      } else {
-        var split = parseone(rem);
-        next = split[0];
-        rest = split[1];
-      }
-      el = mfrac(removeSurroundingBrackets(el) + removeSurroundingBrackets(next));
-    }
-
-    // ### Bevelled fraction
-    else if (rest.trimLeft().startsWith("./")) {
-      var rem = rest.trimLeft().slice(2);
-      var next = undefined;
-      if (rem.startsWith(" ")) {
-        var split = rem.trimLeft().split(" ");
-        next = parsegroup(split[0]);
-        rest = rem.trimLeft().slice(split[0].length + 1);
-      } else {
-        var split = parseone(rem);
-        next = split[0];
-        rest = split[1];
-      }
-      el = mfrac(removeSurroundingBrackets(el) + removeSurroundingBrackets(next), { bevelled: true });
-    }
-
     // ### Subscript
-    else if ((lastel ? !lastel.match(/m(sup|over)/) : true) && rest.trimLeft().startsWith("_") && !rest.trimLeft()[1].match(/[|_]/)) {
-      var next = parseone(rest.trimLeft().slice(1).trimLeft(), true, "msub"),
-          sub = removeSurroundingBrackets(next[0]);
-      rest = next[1];
-
-      // ### Super- subscript
-      if (rest && rest.trimLeft().startsWith("^") && !rest.trimLeft()[1] !== "^") {
-        var next2 = parseone(rest.trimLeft().slice(1).trimLeft(), true),
-            sup = removeSurroundingBrackets(next2[0]),
-            tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
-        el = tagfun(el + sub + sup);
-        rest = next2[1];
-      } else {
-        var tagfun = syntax.shouldGoUnder(el) ? munder : msub;
-        el = tagfun(el + sub);
-      }
+    if ((lastel ? !lastel.match(/m(sup|over)/) : true) && rest.trimLeft().startsWith("_") && !rest.trimLeft()[1].match(/[|_]/)) {
+      var split = splitNextSubscript(el, rest);
+      el = split[0];
+      rest = split[1];
     }
 
     // ### Underscript
     else if (lastel !== "mover" && rest.trimLeft().startsWith("._") && !rest.trimLeft()[2].match(/[|_]/)) {
-      var next = parseone(rest.trimLeft().slice(2).trimLeft(), true, "munder"),
-          under = removeSurroundingBrackets(next[0]);
-      rest = next[1];
-
-      // ### Under- overscript
-      var overmatch = rest.match(/^\.?\^[^\^]/);
-      if (overmatch) {
-        var next2 = parseone(rest.trimLeft().slice(overmatch[0].length - 1).trimLeft(), true),
-            over = removeSurroundingBrackets(next2[0]);
-        el = munderover(el + under + over);
-        rest = next2[1];
-      } else {
-        el = munder(el + under);
-      }
+      var split = splitNextUnderscript(el, rest);
+      el = split[0];
+      rest = split[1];
     }
 
     // ### Superscript
     else if ((lastel ? !lastel.match(/m(sub|under)/) : true) && rest.trimLeft().startsWith("^") && rest.trimLeft[1] !== "^") {
-      var next = parseone(rest.trimLeft().slice(1).trimLeft(), true, "msup"),
-          sup = removeSurroundingBrackets(next[0]);
-      rest = next[1];
-
-      // ### Super- subscript
-      if (rest.trimLeft().startsWith("_") && !rest.trimLeft()[1].match(/[|_]/)) {
-        var next2 = parseone(rest.trimLeft().slice(1).trimLeft(), true),
-            sub = removeSurroundingBrackets(next2[0]),
-            tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
-        el = tagfun(el + sub + sup);
-        rest = next2[1];
-      } else {
-        var tagfun = syntax.shouldGoUnder(el) ? mover : msup;
-        el = tagfun(el + sup);
-      }
+      var split = splitNextSuperscript(el, rest);
+      el = split[0];
+      rest = split[1];
     }
 
     // ### Overscript
-    else if (lastel !== "munder" && rest.trimLeft().startsWith(".^") && rest.trimLeft[1] !== "^") {
-      var next = parseone(rest.trimLeft().slice(2).trimLeft(), true, "mover"),
-          over = removeSurroundingBrackets(next[0]);
-      rest = next[1];
-
-      // ### Under- overscript
-      var undermatch = rest.match(/^\.?_[^_|]/);
-      if (undermatch) {
-        var next2 = parseone(rest.trimLeft().slice(undermatch[0].length - 1).trimLeft(), true),
-            under = removeSurroundingBrackets(next2[0]);
-        el = munderover(el + under + over);
-        rest = next2[1];
-      } else {
-        el = mover(el + over);
-      }
+    else if (lastel !== "munder" && rest.trimLeft().startsWith(".^") && rest.trimLeft()[2] !== "^") {
+      var split = splitNextOverscript(el, rest);
+      el = split[0];
+      rest = split[1];
     }
   }
 
   return [el, rest];
+}
+
+function splitNextSubscript(el, rest) {
+  var next = parseone(rest.trimLeft().slice(1).trimLeft(), true, "msub"),
+      sub = removeSurroundingBrackets(next[0]);
+  var ml = undefined,
+      ascii = next[1];
+
+  // ### Supersubscript
+  if (ascii && ascii.trimLeft().startsWith("^") && !ascii.trimLeft()[1] !== "^") {
+    var next2 = parseone(ascii.trimLeft().slice(1).trimLeft(), true),
+        sup = removeSurroundingBrackets(next2[0]),
+        tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
+    ml = tagfun(el + sub + sup);
+    ascii = next2[1];
+  } else {
+    var tagfun = syntax.shouldGoUnder(el) ? munder : msub;
+    ml = tagfun(el + sub);
+  }
+
+  return [ml, ascii];
+}
+
+function splitNextSuperscript(el, rest) {
+  var next = parseone(rest.trimLeft().slice(1).trimLeft(), true, "msup"),
+      sup = removeSurroundingBrackets(next[0]);
+  var ml = undefined,
+      ascii = next[1];
+
+  // ### Super- subscript
+  if (ascii.trimLeft().startsWith("_") && !ascii.trimLeft()[1].match(/[|_]/)) {
+    var next2 = parseone(ascii.trimLeft().slice(1).trimLeft(), true),
+        sub = removeSurroundingBrackets(next2[0]),
+        tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
+    ml = tagfun(el + sub + sup);
+    ascii = next2[1];
+  } else {
+    var tagfun = syntax.shouldGoUnder(el) ? mover : msup;
+    ml = tagfun(el + sup);
+  }
+
+  return [ml, ascii];
+}
+
+function splitNextUnderscript(el, rest) {
+  var next = parseone(rest.trimLeft().slice(2).trimLeft(), true, "munder"),
+      under = removeSurroundingBrackets(next[0]);
+  var ml = undefined,
+      ascii = next[1];
+
+  // ### Under- overscript
+  var overmatch = ascii.match(/^(\.?\^)[^\^]/);
+  if (overmatch) {
+    var next2 = parseone(ascii.trimLeft().slice(overmatch[1].length).trimLeft(), true),
+        over = removeSurroundingBrackets(next2[0]);
+    ml = munderover(el + under + over);
+    ascii = next2[1];
+  } else {
+    ml = munder(el + under);
+  }
+
+  return [ml, ascii];
+}
+
+function splitNextOverscript(el, rest) {
+  var next = parseone(rest.trimLeft().slice(2).trimLeft(), true, "mover"),
+      over = removeSurroundingBrackets(next[0]);
+  var ml = undefined,
+      ascii = next[1];
+
+  // ### Under- overscript
+  var undermatch = ascii.match(/^(\.?_)[^_|]/);
+  if (undermatch) {
+    var next2 = parseone(ascii.trimLeft().slice(undermatch[1].length).trimLeft(), true),
+        under = removeSurroundingBrackets(next2[0]);
+    ml = munderover(el + under + over);
+    ascii = next2[1];
+  } else {
+    ml = mover(el + over);
+  }
+
+  return [ml, ascii];
+}
+
+function splitNextFraction(_x, _x2) {
+  var _again = true;
+
+  _function: while (_again) {
+    _again = false;
+    var el = _x,
+        rest = _x2;
+    bevelled = rem = next = split = ml = ascii = _split = _split2 = undefined;
+
+    var bevelled = rest.trimLeft().startsWith("./");
+    var rem = rest.trimLeft().slice(bevelled ? 2 : 1);
+    var next = undefined;
+    var split = parseone(rem),
+        ml = undefined,
+        ascii = undefined;
+    if (rem.startsWith(" ")) {
+      var _split = rem.trimLeft().split(" ");
+      next = parsegroup(_split[0]);
+      ascii = rem.trimLeft().slice(_split[0].length + 1);
+    } else {
+      var _split2 = parseone(rem);
+      next = _split2[0];
+      ascii = _split2[1];
+    }
+    ml = mfrac(removeSurroundingBrackets(el) + removeSurroundingBrackets(next), bevelled && { bevelled: true });
+
+    if (ascii && ascii.trimLeft().startsWith("/") || ascii.trimLeft().startsWith("./")) {
+      _x = ml;
+      _x2 = ascii;
+      _again = true;
+      continue _function;
+    }
+    return [ml, ascii];
+  }
 }
 
 function splitlast(mathml) {
