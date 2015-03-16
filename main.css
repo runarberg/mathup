@@ -1,0 +1,78 @@
+body > h1 {
+    text-align: center;
+    font-size: 3em;
+}
+
+.try {
+    display: flex;
+    font-size: 1.2em;
+    margin: 2em 0;
+    width: 100%;
+}
+
+.try > .input {
+    flex: 0 1 40%;
+}
+
+.try > .input textarea {
+    display: block;
+    font-size: 1.2em;
+    margin: 1em auto;
+    padding: 1em .5em;
+    height: 3em;
+    width: 80%;
+}
+
+.try > .input label {
+    margin-left: 2em; 
+}
+
+.try > .output {
+    border-left: 1px solid black;
+    flex: 0 1 60%;
+    padding-left: 1em;
+}
+
+.promotion {
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.promotion dl {
+    display: inline-block;
+    margin: 1em auto;
+    text-align: left;
+}
+
+.promotion dl dt {
+    font-weight: bold;
+}
+.promotion dl dd + dt {
+    margin-top: .4em;
+}
+
+.try > .output math {
+    font-size: 1.6em;
+}
+
+.test-case {
+    font-size: 1.5em;
+}
+.promotion code, .test-case code {
+    background: #FFC;
+    border: 1px dashed black;
+    border-radius: 0.2em;
+    margin-right: 2.5em;
+    padding: 0.05em 0.5em;
+    position: relative;
+    white-space: pre;
+}
+.test-case code::after {
+    content: "⇒";
+    font-family: serifs;
+    font-size: 1.5em;
+    margin: 0 1em;
+    position: absolute;
+    right: -2.5em;
+    top: -0.25em;
+}
