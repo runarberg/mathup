@@ -17,7 +17,8 @@ if (argv['h'] || argv['help']) {
 var options = {
   annotate: argv['a'] || argv['annotate'],
   bare: argv['b'] || argv['bare'],
-  display: argv['d'] || argv['display'] ? "block" : ""
+  display: argv['d'] || argv['display'] ? "block" : "",
+  standalone: argv['s'] || argv['standalone']
 };
 
 if (typeof argv._[0] === "string") {
