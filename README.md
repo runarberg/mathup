@@ -1,24 +1,29 @@
 Ascii2MathML
 ============
 
-Get:
+#### Installation ####
 
-    npm install ascii2mathml
+```js
+npm install ascii2mathml
+```
 
-Use:
+#### Usage ####
 
-    var ascii2mathml = require("ascii2mathml");
-    var mathml = ascii2mathml(asciimath, options);
+```js
+var ascii2mathml = require("ascii2mathml");
+var mathml = ascii2mathml(asciimath [, options]);
+```
 
-Where options are (width defaults):
+#### Options (with defaults) ####
 
-    var options = {
-        display: inline,
-        bare: false,
-        standalone: false,
-        annotate: false
-    }
-
+```js
+var options = {
+    display: inline,
+    bare: false,
+    standalone: false,
+    annotate: false
+}
+```
 
 The second AsciiMath – MathML converter
 ---------------------------------------
@@ -79,8 +84,8 @@ efforts to enable people to author MathML in TeX format, take a look
 at [TeXZilla](https://github.com/fred-wang/TeXZilla) for example.
 
 
-Syntax
-------
+Reference
+---------
 
 MathML has four token elements (identifiers `<mi>`, operators `<mo>`,
 numbers `<mn>` and text `<mtext>`). Ascii2MathML recognizes which of
