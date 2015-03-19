@@ -1,11 +1,11 @@
 // Examples
 
 var parser = new DOMParser();
-var testCases = document.querySelectorAll(".test-case");
+var testCases = document.querySelectorAll(".examples li");
 Array.prototype.forEach.call(testCases, function (test) {
   var code = test.querySelector("code");
   var ascii = code.firstChild ? code.firstChild.textContent : "";
-  var mathml = ascii2mathml(ascii, Object.create(code.dataset));
+  var mathml = ascii2mathml(ascii, {display: "block"});
   var math = parser.parseFromString(mathml, "text/html").querySelector("math");
   test.appendChild(math);
 });
