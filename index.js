@@ -612,7 +612,8 @@ function findmatching(str) {
 
   let inners = 0,
       index = 0;
-  for (let char of str) {
+  for (let i = 0; i < str.length; i +=1) {
+    let char = str[i];
     index += 1;
     if (char === close) {
       inners -= 1;
