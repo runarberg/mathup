@@ -76,6 +76,9 @@ describe('Operators', function() {
     test("f'''(x)", '<math><mi>f</mi><mo lspace="0" rspace="0">‴</mo><mfenced open="(" close=")"><mi>x</mi></mfenced></math>');
     test("f''''(x)", '<math><mi>f</mi><mo lspace="0" rspace="0">⁗</mo><mfenced open="(" close=")"><mi>x</mi></mfenced></math>');
   });
+  it('Bayes theorem', function() {
+    test('p(a | b) = (p(b | a)p(a)) / p(b)', '<math><mi>p</mi><mfenced open="(" close=")"><mrow><mi>a</mi><mo stretchy="true" lspace="veryverythickmathspace" rspace="veryverythickmathspace">|</mo><mi>b</mi></mrow></mfenced><mo>=</mo><mfrac><mrow><mi>p</mi><mfenced open="(" close=")"><mrow><mi>b</mi><mo stretchy="true" lspace="veryverythickmathspace" rspace="veryverythickmathspace">|</mo><mi>a</mi></mrow></mfenced><mi>p</mi><mfenced open="(" close=")"><mi>a</mi></mfenced></mrow><mrow><mi>p</mi><mfenced open="(" close=")"><mi>b</mi></mfenced></mrow></mfrac></math>');
+  });
   it('Gradient', function() {
     test("grad f(x,y) = ((del f)/(del x) (x, y), (del f)/(del y) (x,y))",
         '<math><mo rspace="0">∇</mo><mi>f</mi><mfenced open="(" close=")"><mi>x</mi><mi>y</mi></mfenced><mo>=</mo><mfenced open="(" close=")"><mrow><mfrac><mrow><mo rspace="0">∂</mo><mi>f</mi></mrow><mrow><mo rspace="0">∂</mo><mi>x</mi></mrow></mfrac><mfenced open="(" close=")"><mi>x</mi><mi>y</mi></mfenced></mrow><mrow><mfrac><mrow><mo rspace="0">∂</mo><mi>f</mi></mrow><mrow><mo rspace="0">∂</mo><mi>y</mi></mrow></mfrac><mfenced open="(" close=")"><mi>x</mi><mi>y</mi></mfenced></mrow></mfenced></math>');
@@ -205,7 +208,7 @@ describe('Fractions', function() {
   });
   it("Normal distribution", function() {
     test('cc`N`(x | mu, sigma^2) = 1/(sqrt(2pi sigma^2)) e^(-((x-mu)^2) / 2sigma^2)',
-         '<math><mi mathvariant="script">N</mi><mfenced open="(" close=")"><mrow><mi>x</mi><mo stretchy="true">|</mo><mi>μ</mi></mrow><msup><mi>σ</mi><mn>2</mn></msup></mfenced><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt></mfrac><msup><mi>e</mi><mrow><mo>-</mo><mfrac><msup><mfenced open="(" close=")"><mrow><mi>x</mi><mo>-</mo><mi>μ</mi></mrow></mfenced><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac></mrow></msup></math>');
+         '<math><mi mathvariant="script">N</mi><mfenced open="(" close=")"><mrow><mi>x</mi><mo stretchy="true" lspace="veryverythickmathspace" rspace="veryverythickmathspace">|</mo><mi>μ</mi></mrow><msup><mi>σ</mi><mn>2</mn></msup></mfenced><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt></mfrac><msup><mi>e</mi><mrow><mo>-</mo><mfrac><msup><mfenced open="(" close=")"><mrow><mi>x</mi><mo>-</mo><mi>μ</mi></mrow></mfenced><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac></mrow></msup></math>');
   });
 });
 
