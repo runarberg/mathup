@@ -11,7 +11,7 @@
     "ascii2mathml": "bin/index.js"
   },
   "scripts": {
-    "dist": "browserify ./ -s ascii2mathml > dist/ascii2mathml.js",
+    "dist": "browserify ./ -s ascii2mathml -t babelify > dist/ascii2mathml.js",
     "test": "mocha",
     "posttest": "npm run-script dist"
   },
