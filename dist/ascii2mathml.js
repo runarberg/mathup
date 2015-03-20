@@ -291,7 +291,9 @@ function splitNextGroup(str) {
 };
 
 function isvertGroupStart(str) {
-  var split = splitNextVert(str);
+  if (!str.startsWith("|")) {
+    return false;
+  }var split = splitNextVert(str);
   return split && split[0] === "";
 }
 
@@ -725,8 +727,19 @@ function parseone(ascii, grouped, lastel) {
     var split = syntax.splitNextOperator(ascii);
     var derivative = ascii.startsWith("'"),
         prefix = contains(["∂", "∇"], split[0]),
-        stretchy = contains(["|"], split[0]);
-    el = mo(split[0], derivative && { lspace: 0, rspace: 0 } || prefix && { rspace: 0 } || stretchy && { stretchy: true });
+        stretchy = contains(["|"], split[0]),
+        mid = ascii.startsWith("| ");
+    var attr = {};
+    if (derivative) {
+      attr.lspace = 0;attr.rspace = 0;
+    }
+    if (prefix) attr.rspace = 0;
+    if (stretchy) attr.stretchy = true;
+    if (mid) {
+      attr.lspace = "veryverythickmathspace";
+      attr.rspace = attr.lspace = "veryverythickmathspace";
+    }
+    el = mo(split[0], !isempty(attr) && attr);
     rest = split[1];
   } else {
     // Perhaps a special identifier character
@@ -1027,6 +1040,10 @@ function findmatching(str) {
   }
 
   return index;
+}
+
+function isempty(obj) {
+  return Object.keys(obj).length === 0;
 }
 
 function contains(arr, el) {
