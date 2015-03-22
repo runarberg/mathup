@@ -13,6 +13,42 @@ describe('Options', function() {
     expect(ascii2mathml("", {display: "block"}))
       .to.be('<math display="block"></math>');
   });
+  it('Should be bare when passed in', function() {
+    expect(ascii2mathml("42", {bare: true}))
+      .to.be('<mn>42</mn>');
+  });
+  it('Should be a valid HTML page when passed as standalone', function() {
+    expect(ascii2mathml("42", {standalone: true}))
+      .to.be('<!DOCTYPE html><html><head><title>42</title></head><body><math><mn>42</mn></math></body></html>');
+  });
+  it('Should be annotated when passed in', function() {
+    expect(ascii2mathml("42", {annotate: true}))
+      .to.be('<math><semantics><mn>42</mn><annotation encoding="application/AsciiMath">42</annotation></semantics></math>');
+  });
+  it('Should have one math element when annotated', function() {
+    expect(ascii2mathml("40 + 2 = 42", {annotate: true}))
+      .to.be('<math><semantics><mrow><mn>40</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>42</mn></mrow><annotation encoding="application/AsciiMath">40 + 2 = 42</annotation></semantics></math>');
+  });
+  it('Should not be allowed to be bare and display-block or standalone at the same time', function() {
+    expect(ascii2mathml)
+      .withArgs("42", {bare: true, standalone: true})
+      .to.throwException();
+    expect(ascii2mathml)
+      .withArgs("42", {bare: true, display: "block"})
+      .to.throwException();
+    expect(ascii2mathml)
+      .withArgs("42", {bare: true, display: "BloCK"})
+      .to.throwException();
+  });
+  it('Should be curried when called with an object', function() {
+    let curried = ascii2mathml({display: "block"});
+    expect(curried(''))
+      .to.be('<math display="block"></math>');
+    expect(curried('42', {annotate: true, standalone: true}))
+      .to.be('<!DOCTYPE html><html><head><title>42</title></head><body><math display="block"><semantics><mn>42</mn><annotation encoding="application/AsciiMath">42</annotation></semantics></math></body></html>');
+    expect(ascii2mathml('42', {annotate: true, standalone: true}))
+      .to.be('<!DOCTYPE html><html><head><title>42</title></head><body><math><semantics><mn>42</mn><annotation encoding="application/AsciiMath">42</annotation></semantics></math></body></html>');
+  });
 });
 
 

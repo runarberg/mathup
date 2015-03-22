@@ -1,5 +1,7 @@
 "use strict";
 
+require('./lib/polyfills');
+
 var lexicon = require('./lib/lexicon'),
     identifiers = lexicon.identifiers,
     operators = lexicon.operators,
@@ -77,6 +79,13 @@ function splitby(sep) {
 
 
 function ascii2mathml(asciimath, options) {
+  // Curry
+  if (typeof asciimath === "object") {
+    return function(str, options2) {
+      let options = Object.assign({}, asciimath, options2);
+      return ascii2mathml(str, options);
+    };
+  }
   options = typeof options === "object" ? options : {};
   options.annotate = options.annotate || false;
   options.bare = options.bare || false;
@@ -85,8 +94,13 @@ function ascii2mathml(asciimath, options) {
 
   let out;
 
-  if (options.display && options.bare) {
-    throw new Error("Can't display block without root element.");
+  if (options.bare) {
+    if (options.standalone) {
+      throw new Error("Can't output a valid HTML without a root <math> element");
+    }
+    if (options.display && options.display.toLowerCase() === 'block') {
+      throw new Error("Can't display block without root element.");
+    }
   }
 
   let math = options.display !== "inline" ? function(expr) {
