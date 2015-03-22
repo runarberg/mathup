@@ -12,8 +12,8 @@
   },
   "scripts": {
     "dist": "browserify ./ -s ascii2mathml -t babelify > dist/ascii2mathml.js",
-    "prepublish": "npm run-script dist; git add -f dist/ascii2mathml.js",
-    "postpublish": "git checkout gh-pages; git checkout master dist/ascii2mathml.js ; git commit add dist/ascii2mathml; git commit -m 'version update'; git checkout master; git rm dist/ascii2mathml",
+    "preversion": "npm run-script dist; git add -f dist/ascii2mathml.js",
+    "postversion": "git checkout gh-pages; git checkout master dist/ascii2mathml.js ; git commit add dist/ascii2mathml; git commit -m 'version update'; git checkout master; git rm dist/ascii2mathml",
     "test": "mocha",
     "posttest": "npm run-script dist"
   },
