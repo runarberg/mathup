@@ -28,15 +28,51 @@ and include the script file
 var mathml = ascii2mathml(asciimath [, options]);
 ```
 
+Or on the command line
+
+```bash
+npm install -g ascii2mathml
+
+ascii2mathml [options] -- <expression>
+
+# or from stdin
+echo <expression> | ascii2mathml [options]
+```
+
 #### Options (with defaults) ####
+
+And cli options as inline comments
 
 ```js
 var options = {
-    display: inline,
-    bare: false,
-    standalone: false,
-    annotate: false
+    decimalMark: '.',   // -m,  --decimalmark='.'
+    colSep: ',',        // -c,  --colsep=','
+    rowSep: ';',        // -r,  --rowsep=';'
+    display: inline,    // -d,  --display
+    bare: false,        // -b,  --bare
+    standalone: false,  // -s,  --standalone
+    annotate: false     // -a,  --annotate
 }
+```
+
+You can also call `ascii2mathml` with only a configuration object,
+that will return a new function with the new defaults. For example
+
+```js
+var ascii2mathml = require('ascii2mathml')({
+    decimalMark: ',',
+    colSep: ';',        // default if `,` is the decimal mark
+    rowSep: ';;'        // default if `;` is the column separator
+});
+
+ascii2mathml('40,2');
+// <math><mn>40,2</mn></math>
+
+ascii2mathml('(40,2; 3,17; 2,72)', {bare: true});
+// <mfenced open="(" close=")" separators=";"><mn>40,2</mn><mn>3,14</mn><mn>2,72</mn></mfenced>
+
+ascii2mathml('[40,2 ;; 3,14 ;; 2,72]', {display: 'block'});
+// <math display="block"><mfenced open="[" close="]"><mtable><mtr><mtd><mn>40,2</mn></mtd></mtr><mtr><mtd><mn>3,14</mn></mtd></mtr><mtr><mtd><mn>2,72</mn></mtd></mtr></mtable></mfenced></math>
 ```
 
 #### Reference ####

@@ -42,12 +42,45 @@ describe('Options', function() {
   });
   it('Should be curried when called with an object', function() {
     let curried = ascii2mathml({display: "block"});
+    
     expect(curried(''))
       .to.be('<math display="block"></math>');
     expect(curried('42', {annotate: true, standalone: true}))
       .to.be('<!DOCTYPE html><html><head><title>42</title></head><body><math display="block"><semantics><mn>42</mn><annotation encoding="application/AsciiMath">42</annotation></semantics></math></body></html>');
     expect(ascii2mathml('42', {annotate: true, standalone: true}))
       .to.be('<!DOCTYPE html><html><head><title>42</title></head><body><math><semantics><mn>42</mn><annotation encoding="application/AsciiMath">42</annotation></semantics></math></body></html>');
+  });
+  it('Should allow comma as a decimal mark', function() {
+    let math = ascii2mathml({decimalMark: ',', bare: true});
+    expect(math("40,2")).to.be('<mn>40,2</mn>');
+    expect(math("40,2/13,3")).to.be('<mfrac><mn>40,2</mn><mn>13,3</mn></mfrac>');
+    expect(math("2^0,5")).to.be('<msup><mn>2</mn><mn>0,5</mn></msup>');
+  });
+  it('Should default column separators to ";" when decimal marks are ","', function() {
+    let math = ascii2mathml({decimalMark: ',', bare: true});
+    expect(math('(1; 2; 3,14)'))
+      .to.be('<mfenced open="(" close=")" separators=";"><mn>1</mn><mn>2</mn><mn>3,14</mn></mfenced>');
+  });
+  it('Should default row separators to ";;" when column separators are ";"', function() {
+    let math = ascii2mathml({bare: true});
+    expect(math('[1 ;; 2 ;; 3.14]', {colSep: ';'}))
+      .to.be('<mfenced open="[" close="]"><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3.14</mn></mtd></mtr></mtable></mfenced>');
+    expect(math('[1 ;; 2 ;; 3,14]', {decimalMark: ','}))
+      .to.be('<mfenced open="[" close="]"><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3,14</mn></mtd></mtr></mtable></mfenced>');
+  });
+  it('Should allow arbitrary column separators', function() {
+    let math = ascii2mathml({bare: true});
+    expect(math('(1 | 2 | 3.14)', {colSep: '|'}))
+      .to.be('<mfenced open="(" close=")" separators="|"><mn>1</mn><mn>2</mn><mn>3.14</mn></mfenced>');
+    expect(math('(1; 2; 3,14)', {colSep: ';', decimalMark: ','}))
+      .to.be('<mfenced open="(" close=")" separators=";"><mn>1</mn><mn>2</mn><mn>3,14</mn></mfenced>');
+  });
+  it('Should allow arbitrary row separators', function() {
+    let math = ascii2mathml({bare: true});
+    expect(math('(1 & 2 & 3.14)', {rowSep: '&'}))
+      .to.be('<mfenced open="(" close=")"><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3.14</mn></mtd></mtr></mtable></mfenced>');
+   expect(math('(1 \\\\ 2 \\\\ 3,14)', {rowSep: '\\\\', decimalMark: ','}))
+     .to.be('<mfenced open="(" close=")"><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3,14</mn></mtd></mtr></mtable></mfenced>');
   });
 });
 

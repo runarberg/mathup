@@ -18,8 +18,12 @@ var options = {
   annotate: argv['a'] || argv['annotate'],
   bare: argv['b'] || argv['bare'],
   display: argv['d'] || argv['display'] ? "block" : "",
-  standalone: argv['s'] || argv['standalone']
+  standalone: argv['s'] || argv['standalone'],
+  decimalMark: argv['m'] || argv['decimalmark'] || ".",
+  colSep: argv['c'] || argv['colsep'] || ",",
+  rowSep: argv['r'] || argv['rowsep'] || ";"
 };
+
 
 if (typeof argv._[0] === "string") {
   let ascii = argv._[0];
