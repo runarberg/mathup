@@ -15,10 +15,21 @@
       <div class="input">
         <p>You write…</p>
         <textarea id="try-input">cc`N`(theta | mu, sigma^2) = 1/sqrt(2pi sigma^2) e^{-[(theta-mu)^2] / 2sigma^2}</textarea>
-        <label for="try-display">Display block</label>
-        <input id="try-display" type="checkbox" name="display-block" checked>
-        <label for="try-annotate">Annotate</label>
-        <input id="try-annotate" type="checkbox" name="annotate">
+        <div class="options">
+          <label for="try-decimalmark">Decimal mark</label>
+          <input id="try-decimalmark" type="text"
+                 name="decimalmark" value=".">
+          <label for="try-colsep">Column separators</label>
+          <input id="try-colsep" type="text"
+                 name="colsep" value=",">
+          <label for="try-rowsep">Row Separators</label>
+          <input id="try-rowsep" type="text"
+                 name="rowsep" value=";">
+          <label for="try-display">Display block</label>
+          <input id="try-display" type="checkbox" name="display-block" checked>
+          <label for="try-annotate">Annotate</label>
+          <input id="try-annotate" type="checkbox" name="annotate">
+        </div>
       </div>
       <div class="output">
         <p>…and see</p>
@@ -31,24 +42,39 @@
     <article id="promotion">
       <section id="installation">
         <h4>Installation</h4>
+        <h5>npm</h5>
         <pre><code class="language-bash">npm install ascii2mathml
 </code></pre>
+        <pre><code class="language-js"><span class="hljs-keyword">var</span> ascii2mathml = <span class="hljs-built_in">require</span>(<span class="hljs-string">"ascii2mathml"</span>);
+</code></pre>
+        <h5>Client</h5>
+        <a href="https://raw.githubusercontent.com/runarberg/ascii2mathml/gh-pages/dist/ascii2mathml.js">Download here</a> and include the script file
+        <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-label">script</span> <span class="hljs-keyword">src</span>=<span class="hljs-string">"ascii2mathml"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-label">script</span>&gt;</span></code></pre>
       </section>
 
       <section id="usage">
         <h4>Usage</h4>
-        <pre><code class="language-js"><span class="hljs-keyword">var</span> ascii2mathml = <span class="hljs-built_in">require</span>(<span class="hljs-string">"ascii2mathml"</span>);
-<span class="hljs-keyword">var</span> mathml = ascii2mathml(asciimath [, options]);
+        <pre><code class="language-js"><span class="hljs-keyword">var</span> mathml = ascii2mathml(asciimath [, options]);
+</code></pre>
+        <p>Or on the command line</p>
+        <pre><code class="language-bash">npm install -g ascii2mathml
+ascii2mathml [options] -- &lt;expression&gt;
+
+<span class="hljs-comment"># or from stdin</span>
+<span class="hljs-built_in">echo</span> &lt;expression&gt; <span class="hljs-keyword">|</span> ascii2mathml [options]
 </code></pre>
       </section>
 
       <section id="options">
         <h4>Options (with defaults)</h4>
         <pre><code class="language-js"><span class="hljs-keyword">var</span> options = {
-  display: inline,
-  bare: <span class="hljs-literal">false</span>,
-  standalone: <span class="hljs-literal">false</span>,
-  annotate: <span class="hljs-literal">false</span>
+  decimalMark: <span class="hljs-string">'.'</span>,   <span class="hljs-comment">// -m,  --decimalmark='.'</span>
+  colSep: <span class="hljs-string">','</span>,        <span class="hljs-comment">// -c,  --colsep=','</span>
+  rowSep: <span class="hljs-string">';'</span>,        <span class="hljs-comment">// -r,  --rowsep=';'</span>
+  display: <span class="hljs-string">'inline'</span>,  <span class="hljs-comment">// -d,  --display</span>
+  bare: <span class="hljs-literal">false</span>,        <span class="hljs-comment">// -b,  --bare</span>
+  standalone: <span class="hljs-literal">false</span>,  <span class="hljs-comment">// -s,  --standalone</span>
+  annotate: <span class="hljs-literal">false</span>     <span class="hljs-comment">// -a,  --annotate</span>
 }
 </code></pre>
       </section>

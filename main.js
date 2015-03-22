@@ -31,6 +31,9 @@ var tryInput = document.getElementById("try-input"),
     tryDisplay = document.getElementById("try-display"),
     tryOutput = document.getElementById("try-output"),
     tryAnnotate = document.getElementById("try-annotate"),
+    tryDecimalMark = document.getElementById("try-decimalmark"),
+    tryColSep = document.getElementById("try-colsep"),
+    tryRowSep = document.getElementById("try-rowsep"),
     outputRender = new CustomEvent("render", {
       bubbles: true,
       cancelable: true
@@ -46,6 +49,9 @@ function renderTryBox(event) {
   var options = {};
   if (tryDisplay.checked) options.display = "block";
   if (tryAnnotate.checked) options.annotate = "true";
+  options.decimalMark = tryDecimalMark.value || '.';
+  options.colSep = tryColSep.value || ',';
+  options.rowSep = tryRowSep.value || ';';
   var ascii = tryInput.value,
       mathml = ascii2mathml(ascii, options);
   tryOutput.innerHTML = mathml;

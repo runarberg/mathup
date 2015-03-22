@@ -155,6 +155,7 @@
  highlight.js ends
 */
 
+
 body {
     font-size: 20px;
 }
@@ -184,8 +185,24 @@ body > h1 {
     width: 80%;
 }
 
+.try > .input .options {
+    margin-left: 2em;
+}
+
+.try > .input input + label::before {
+    content: '';
+    display: block;
+}
+
+.try > .input input {
+    font-family: monospace;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: center;
+    width: 1.5em;
+}
 .try > .input label {
-    margin-left: 2em; 
+    line-height: 1.5em;
 }
 
 .try > .output {
@@ -274,7 +291,7 @@ pre {
 }
 
 article code, pre {
-    background: #DFD9E2;
+    background: #F0F0F0;
 }
 
 .examples code {
