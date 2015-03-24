@@ -262,13 +262,16 @@ describe('Fractions', function() {
   it('Should have bevelled fractions', function() {
     test("a./b", '<math><mfrac bevelled="true"><mi>a</mi><mi>b</mi></mfrac></math>');
   });
+  it('Should not parse `//` as fraction', function() {
+    test('a//b', '<math><mi>a</mi><mo>/</mo><mi>b</mi></math>');
+  });
   it("Should not display brackets around numerator or denominator", function() {
     test("(a+b)/(c+d)", "<math><mfrac><mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow><mrow><mi>c</mi><mo>+</mo><mi>d</mi></mrow></mfrac></math>");
   });
   it('Should have whitespace delimited fractions', function() {
     test("1+3 / 2+2", "<math><mfrac><mrow><mn>1</mn><mo>+</mo><mn>3</mn></mrow><mrow><mn>2</mn><mo>+</mo><mn>2</mn></mrow></mfrac></math>");
     test("1 + 3/2 + 2", "<math><mn>1</mn><mo>+</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mo>+</mo><mn>2</mn></math>");
-    // test("a./b / c./d", '<math><mfrac><mfrac bevelled="true"><mi>a</mi><mi>b</mi></mfrac><mfrac bevelled="true"><mi>c</mi><mi>d</mi></mfrac></mfrac></math>');
+     test("a./b / c./d", '<math><mfrac><mfrac bevelled="true"><mi>a</mi><mi>b</mi></mfrac><mfrac bevelled="true"><mi>c</mi><mi>d</mi></mfrac></mfrac></math>');
   });
 
   it("Golden ratio (continued fraction)", function() {
@@ -357,6 +360,13 @@ describe('Super and subscripts', function() {
   });
   it('Should render sub-superscripts in either direction', function() {
     test("a^2_i", "<math><msubsup><mi>a</mi><mi>i</mi><mn>2</mn></msubsup></math>");
+  });
+  it('Should not treat `^^` as superscript', function() {
+    test('a^^2', '<math><mi>a</mi><mo>∧</mo><mn>2</mn></math>');
+  });
+  it('Should not treat `__` or `_|` as subscript', function() {
+    test('a_|_i', '<math><mi>a</mi><mo>⊥</mo><mi>i</mi></math>');
+    test('|__a__|i', '<math><mo>⌊</mo><mi>a</mi><mo>⌋</mo><mi>i</mi></math>');
   });
 
   it('Pythagorean theorem', function() {
