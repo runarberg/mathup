@@ -1,6 +1,6 @@
 {
   "name": "ascii2mathml",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "The second AsciiMath – MathML converter",
   "repository": {
     "type": "git",
