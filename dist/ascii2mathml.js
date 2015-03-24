@@ -643,7 +643,7 @@ function makeParse(options) {
       // --------------
 
       // ### Fraction
-      if (rest.trimLeft().startsWith("/") || rest.trimLeft().startsWith("./")) {
+      if ((rest && rest.trimLeft().startsWith("/") || rest.trimLeft().startsWith("./")) && !rest.trimLeft().match(/^\.?\/\//)) {
         var split = splitNextFraction(el, rest);
         el = split[0];
         rest = split[1];
@@ -857,7 +857,7 @@ function makeParse(options) {
       }
     }
 
-    if (rest) {
+    if (rest && rest.trimLeft().match(/\.?[\^_]/)) {
 
       // ### Subscript
       if ((lastel ? !lastel.match(/m(sup|over)/) : true) && rest.trimLeft().startsWith("_") && !rest.trimLeft()[1].match(/[|_]/)) {
@@ -874,7 +874,8 @@ function makeParse(options) {
       }
 
       // ### Superscript
-      else if ((lastel ? !lastel.match(/m(sub|under)/) : true) && rest.trimLeft().startsWith("^") && rest.trimLeft[1] !== "^") {
+      else if ((lastel ? !lastel.match(/m(sub|under)/) : true) && rest.trimLeft().startsWith("^") && rest.trimLeft()[1] !== "^") {
+        console.log(rest);
         var split = splitNextSuperscript(el, rest);
         el = split[0];
         rest = split[1];
