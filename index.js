@@ -318,6 +318,10 @@ function makeParse(options) {
       if (ismatrixInterior(group.trim(), options.colSep)) {
         // ### Matrix
 
+        if (group.trimRight().endsWith(options.colSep)) {
+          // trailing row break
+          group = group.trimRight().slice(0, -1);
+        };
         let cases = open === "{" && close === "";
         let table = parsetable(group,
                                cases && {columnalign: "center left"});
@@ -339,7 +343,14 @@ function makeParse(options) {
         } else {
           // #### Single column vector
 
-          let matrix = rows.map([mtr, mtd, parsegroup].reduce(compose)).join('');
+          let table = rows.map(colsplit);
+          if (last(table).length === 1 && last(table)[0].match(/^\s*$/)) {
+            // A trailing rowbreak
+            table = table.slice(0, -1);
+          }
+          let matrix = table.map(function(row) {
+            return mtr(row.map(compose(mtd, parsegroup)).join(''));
+          }).join('');
           el = mfenced(mtable(matrix), {open: open, close: close});
         }
 
