@@ -894,11 +894,15 @@ ascii2mathml [options] -- &lt;expression&gt;
             <h3>Matrices</h3>
             <p>Matrices are comma seperated groups inside a group. For
               example <code>A = [[1,2,3], [4,5,6]]</code> is a 2×3 matrix
-              and <code>[[1,4], [2,5], [3,6]]</code> is <em>A</em>
-              transposed. You can quickly write a column vector with
-              <code>[1; 2; 3]</code>. All this does is put the outer
-              brackets as a fence around the table inside, so if you want
-              case assignmet you can write:</p>
+              and <code>[[1,4], [2,5], [3,6]]</code> is
+              <math><msup><mi>A</mi><mi>T</mi></msup></math>. You can
+              quickly write a column vector with <code>[1; 2; 3]</code>.
+              A trailing row break is allowed so you can
+              write a single row matrix as <code>[1,2,3;]</code>
+              or <code>[(1,2,3),]</code></p>
+            <p>All this does is put the outer brackets as a fence
+              around the table inside, so if you want case assignmet
+              you can write:</p>
             <code>|x| = { (x,  if x &gt;= 0), (-x,  otherwise) :}
             </code>
             <p>As a bonus this will also left align the condition column
@@ -906,6 +910,7 @@ ascii2mathml [options] -- &lt;expression&gt;
           </div>
           <aside class="examples">
             <ul>
+              <li><code>[λ_0, λ_1, ...;] [p_(0 0), p_(0 1), ...; p_(1 0), p_(1 1), ...; vdots, vdots, ddots]</code></li>
               <li><code>1 / ad-bc [(d, -b), (-c, a)]</code></li>
               <li><code>||bf`x`||^2 = [x_1 ; x_2 ; x_3]*[x_1 ; x_2 ; x_3]</code></li>
               <li><code> n! = { [1, if n=0 or n=1], [n(n-1)!, if n &gt; 1] :}</code></li>
