@@ -1,6 +1,6 @@
 "use strict";
 
-require('./lib/polyfills');
+require('babel/polyfill');
 
 var lexicon = require('./lib/lexicon'),
     identifiers = lexicon.identifiers,

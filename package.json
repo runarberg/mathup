@@ -11,11 +11,15 @@
     "ascii2mathml": "bin/index.js"
   },
   "scripts": {
-    "dist": "browserify ./ -s ascii2mathml -t babelify > dist/ascii2mathml.js",
-    "preversion": "npm run-script dist; git add -f dist/ascii2mathml.js",
+    "prebuild": "rm -fr lib; mkdir lib",
+    "build": "babel src/ -d lib/; babel < index.es6.js > index.js",
+    "dist": "browserify ./ -s ascii2mathml > dist/ascii2mathml.js",
+    "prepublish": "npm run build",
+    "preversion": "npm run dist; git add -f dist/ascii2mathml.js",
     "postversion": "git checkout gh-pages; git checkout master dist/ascii2mathml.js ; git commit add dist/ascii2mathml; git commit -m 'version update'; git checkout master; git rm dist/ascii2mathml",
+    "pretest": "npm run build",
     "test": "mocha",
-    "posttest": "npm run-script dist"
+    "posttest": "npm run dist"
   },
   "keywords": [
     "mathml",
@@ -33,6 +37,7 @@
     "iojs": "^1.4.3"
   },
   "devDependencies": {
+    "babel": "^5.0.6",
     "babelify": "^5.0.4",
     "browserify": "^9.0.3",
     "expect.js": "^0.3.1",

@@ -7,6 +7,8 @@ var argv = require('minimist')(process.argv.slice(2));
 
 var ascii2mathml = require('../');
 
+var ascii;
+
 if (argv['h'] || argv['help']) {
   fs.createReadStream(__dirname + "/usage.txt")
     .pipe(process.stdout)
@@ -26,12 +28,12 @@ var options = {
 
 
 if (typeof argv._[0] === "string") {
-  let ascii = argv._[0];
+  ascii = argv._[0];
   process.stdout.write(ascii2mathml(String(ascii), options) + '\n');
 }
 else {
   process.stdin.on('readable', function() {
-    let ascii = process.stdin.read();
+    ascii = process.stdin.read();
     if (ascii !== null) {
       process.stdout.write(ascii2mathml(String(ascii), options) + '\n');
     }
