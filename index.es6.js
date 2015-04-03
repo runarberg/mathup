@@ -449,7 +449,6 @@ function makeParse(options) {
       else if ((lastel ? !lastel.match(/m(sub|under)/) : true) &&
                rest.trimLeft().startsWith('^') &&
                rest.trimLeft()[1] !== '^') {
-        console.log(rest);
         let split = splitNextSuperscript(el, rest);
         el = split[0];
         rest = split[1];
