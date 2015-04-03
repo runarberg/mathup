@@ -33,13 +33,13 @@
     ]
   },
   "devDependencies": {
-    "babel": "^5.0.6",
     "babelify": "^5.0.4",
     "browserify": "^9.0.3",
     "expect.js": "^0.3.1",
     "mocha": "^2.1.0"
   },
   "dependencies": {
+    "babel": "^5.0.6",
     "minimist": "^1.1.0"
   }
 }
