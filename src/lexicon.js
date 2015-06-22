@@ -56,7 +56,7 @@ var operators = {
   "vv": "∨", "vvv": "⋁", "nn": "∩", "nnn": "⋂", "uu": "∪", "uuu": "⋃",
   // Miscellaneous
   int: "∫", oint: "∮", dint: "∬", "+-": "±", del: "∂", grad: "∇",
-  aleph: "ℵ", "/_": "∠", dimond: "⋄", square: '□', "|__": '⌊',
+  aleph: "ℵ", "/_": "∠", diamond: "⋄", square: '□', "|__": '⌊',
   "__|": "⌋", "|~": '⌈', "~|": '⌉',
   // Relational
   "=": "=", "!=": "≠", "<": "&lt;", ">": "&gt;", "<=": "≤", ">=": "≥",
