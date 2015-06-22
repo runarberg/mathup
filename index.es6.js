@@ -192,9 +192,7 @@ function makeParse(options) {
          rest.trimLeft().startsWith('/') ||
          rest.trimLeft().startsWith('./')) &&
         !rest.trimLeft().match(/^\.?\/\//)) {
-      let split = splitNextFraction(el, rest);
-      el = split[0];
-      rest = split[1];
+      [el, rest] = splitNextFraction(el, rest);
     }
 
 
@@ -431,9 +429,7 @@ function makeParse(options) {
       if ((lastel ? !lastel.match(/m(sup|over)/) : true) &&
           rest.trimLeft().startsWith('_') &&
           !rest.trimLeft()[1].match(/[|_]/)) {
-        let split = splitNextSubscript(el, rest);
-        el = split[0];
-        rest = split[1];
+        [el, rest] = splitNextSubscript(el, rest);
       }
 
       // ### Underscript
@@ -449,18 +445,14 @@ function makeParse(options) {
       else if ((lastel ? !lastel.match(/m(sub|under)/) : true) &&
                rest.trimLeft().startsWith('^') &&
                rest.trimLeft()[1] !== '^') {
-        let split = splitNextSuperscript(el, rest);
-        el = split[0];
-        rest = split[1];
+        [el, rest] = splitNextSuperscript(el, rest);
       }
 
       // ### Overscript
       else if (lastel !== "munder" &&
                rest.trimLeft().startsWith('.^') &&
                rest.trimLeft()[2] !=='^') {
-        let split = splitNextOverscript(el, rest);
-        el = split[0];
-        rest = split[1];
+        [el, rest] = splitNextOverscript(el, rest);
       }
     }
 
