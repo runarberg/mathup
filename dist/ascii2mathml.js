@@ -1,6 +1,8 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ascii2mathml = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
+var _slicedToArray = function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { var _arr = []; for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) { _arr.push(_step.value); if (i && _arr.length === i) break; } return _arr; } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } };
+
 require("babel/polyfill");
 
 var lexicon = require("./lib/lexicon"),
@@ -151,7 +153,7 @@ function makeParse(options) {
           mathml = _x2,
           space = _x3,
           grouped = _x4;
-      spaces = spacecount = spaceel = next = el = rest = split = undefined;
+      spaces = spacecount = spaceel = next = el = rest = _ref = _ref2 = undefined;
 
       if (!ascii) {
         return mathml;
@@ -195,9 +197,12 @@ function makeParse(options) {
 
       // ### Fraction
       if ((rest && rest.trimLeft().startsWith("/") || rest.trimLeft().startsWith("./")) && !rest.trimLeft().match(/^\.?\/\//)) {
-        var split = splitNextFraction(el, rest);
-        el = split[0];
-        rest = split[1];
+        var _ref = splitNextFraction(el, rest);
+
+        var _ref2 = _slicedToArray(_ref, 2);
+
+        el = _ref2[0];
+        rest = _ref2[1];
       }
 
       _x = rest;
@@ -412,9 +417,12 @@ function makeParse(options) {
 
       // ### Subscript
       if ((lastel ? !lastel.match(/m(sup|over)/) : true) && rest.trimLeft().startsWith("_") && !rest.trimLeft()[1].match(/[|_]/)) {
-        var split = splitNextSubscript(el, rest);
-        el = split[0];
-        rest = split[1];
+        var _ref = splitNextSubscript(el, rest);
+
+        var _ref2 = _slicedToArray(_ref, 2);
+
+        el = _ref2[0];
+        rest = _ref2[1];
       }
 
       // ### Underscript
@@ -426,16 +434,22 @@ function makeParse(options) {
 
       // ### Superscript
       else if ((lastel ? !lastel.match(/m(sub|under)/) : true) && rest.trimLeft().startsWith("^") && rest.trimLeft()[1] !== "^") {
-        var split = splitNextSuperscript(el, rest);
-        el = split[0];
-        rest = split[1];
+        var _ref3 = splitNextSuperscript(el, rest);
+
+        var _ref32 = _slicedToArray(_ref3, 2);
+
+        el = _ref32[0];
+        rest = _ref32[1];
       }
 
       // ### Overscript
       else if (lastel !== "munder" && rest.trimLeft().startsWith(".^") && rest.trimLeft()[2] !== "^") {
-        var split = splitNextOverscript(el, rest);
-        el = split[0];
-        rest = split[1];
+        var _ref4 = splitNextOverscript(el, rest);
+
+        var _ref42 = _slicedToArray(_ref4, 2);
+
+        el = _ref42[0];
+        rest = _ref42[1];
       }
     }
 
@@ -750,7 +764,7 @@ var operators = {
   vv: "∨", vvv: "⋁", nn: "∩", nnn: "⋂", uu: "∪", uuu: "⋃",
   // Miscellaneous
   int: "∫", oint: "∮", dint: "∬", "+-": "±", del: "∂", grad: "∇",
-  aleph: "ℵ", "/_": "∠", dimond: "⋄", square: "□", "|__": "⌊",
+  aleph: "ℵ", "/_": "∠", diamond: "⋄", square: "□", "|__": "⌊",
   "__|": "⌋", "|~": "⌈", "~|": "⌉",
   // Relational
   "=": "=", "!=": "≠", "<": "&lt;", ">": "&gt;", "<=": "≤", ">=": "≥",
