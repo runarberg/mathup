@@ -3,24 +3,58 @@
 // Identifiers
 // ===========
 
-var  funs = ["sin", "cos", "tan", "csc", "sec", "cot", "sinh",
-             "cosh", "tanh", "log", "ln", "det", "dim", "lim",
-             "mod", "gcd", "lcm", "min", "max"];
+const funs = ["sin", "cos", "tan", "csc", "sec", "cot", "sinh",
+              "cosh", "tanh", "log", "ln", "det", "dim", "lim",
+              "mod", "gcd", "lcm", "min", "max"];
 
-var identifiers = {
+const identifiers = {
   // Greek uppercase
-  Gamma: 'Γ', Delta: 'Δ', Theta: 'Θ', Lambda: 'Λ', Xi: 'Ξ',
-  Pi: 'Π', Sigma: 'Σ', Phi: 'Φ', Psi: 'Ψ', Omega: 'Ω',
+  Gamma: "Γ",
+  Delta: "Δ",
+  Theta: "Θ",
+  Lambda: "Λ",
+  Xi: "Ξ",
+  Pi: "Π",
+  Sigma: "Σ",
+  Phi: "Φ",
+  Psi: "Ψ",
+  Omega: "Ω",
+
   // Greek lowercase
-  alpha: 'α', beta: 'β', gamma: 'γ', delta: 'δ', epsilon: 'ɛ',
-  zeta: 'ζ', eta: 'η', theta: 'θ', iota: 'ι', kappa: 'κ',
-  lambda: 'λ', mu: 'μ', nu: 'ν', xi: 'ξ', pi: 'π', rho: 'ρ',
-  sigma: 'σ', tau: 'τ', upsilon: 'υ', phi: 'φ', chi: 'χ',
-  psi: 'ψ', omega: 'ω',
+  alpha: "α",
+  beta: "β",
+  gamma: "γ",
+  delta: "δ",
+  epsilon: "ɛ",
+  zeta: "ζ",
+  eta: "η",
+  theta: "θ",
+  iota: "ι",
+  kappa: "κ",
+  lambda: "λ",
+  mu: "μ",
+  nu: "ν",
+  xi: "ξ",
+  pi: "π",
+  rho: "ρ",
+  sigma: "σ",
+  tau: "τ",
+  upsilon: "υ",
+  phi: "φ",
+  chi: "χ",
+  psi: "ψ",
+  omega: "ω",
+
   // Special symbols
-  oo: "∞", "O/": "∅",
+  "oo": "∞",
+  "O/": "∅",
+
   // Blackboard
-  CC: "ℂ", NN: "ℕ", QQ: "ℚ", RR: "ℝ", ZZ: "ℤ"
+  CC: "ℂ",
+  NN: "ℕ",
+  QQ: "ℚ",
+  RR: "ℝ",
+  ZZ: "ℤ"
 };
 
 funs.forEach(function(fun) {
@@ -47,35 +81,112 @@ Object.defineProperty (identifiers, "isfun", {
 // Operators
 // =========
 
-var operators = {
+const operators = {
   // Operational
-  "*": "·", "**": "∗", "***": "⋆", "//": "/",
-  "|": "|", ":": ':', "'": '′', "''": '″', "'''": '‴', "''''": '⁗',
-  xx: "×", "-:": "÷", "@": "∘", "o+": "⊕", "ox": "⊗", "o.": "⊙",
-  "!": "!", "sum": "∑", "prod": "∏", "^^": "∧", "^^^": "⋀",
-  "vv": "∨", "vvv": "⋁", "nn": "∩", "nnn": "⋂", "uu": "∪", "uuu": "⋃",
+  "*": "·",
+  "**": "∗",
+  "***": "⋆",
+  "//": "/",
+  "|": "|",
+  ":": ":",
+  "'": "′",
+  "''": "″",
+  "'''": "‴",
+  "''''": "⁗",
+  "xx": "×",
+  "-:": "÷",
+  "@": "∘",
+  "o+": "⊕",
+  "ox": "⊗",
+  "o.": "⊙",
+  "!": "!",
+  "sum": "∑",
+  "prod": "∏",
+  "^^": "∧",
+  "^^^": "⋀",
+  "vv": "∨",
+  "vvv": "⋁",
+  "nn": "∩",
+  "nnn": "⋂",
+  "uu": "∪",
+  "uuu": "⋃",
+
   // Miscellaneous
-  int: "∫", oint: "∮", dint: "∬", "+-": "±", del: "∂", grad: "∇",
-  aleph: "ℵ", "/_": "∠", diamond: "⋄", square: '□', "|__": '⌊',
-  "__|": "⌋", "|~": '⌈', "~|": '⌉',
+  "int": "∫",
+  "oint": "∮",
+  "dint": "∬",
+  "+-": "±",
+  "del": "∂",
+  "grad": "∇",
+  "aleph": "ℵ",
+  "/_": "∠",
+  "diamond": "⋄",
+  "square": "□",
+  "|__": "⌊",
+  "__|": "⌋",
+  "|~": "⌈",
+  "~|": "⌉",
+
   // Relational
-  "=": "=", "!=": "≠", "<": "&lt;", ">": "&gt;", "<=": "≤", ">=": "≥",
-  "-<": "≺", ">-": "≻", in: "∈", "!in": "∉", sub: "⊂", sup: "⊃",
-  sube: "⊆", supe: "⊇", "-=": "≡", "~~": "≈", prop: "∝",
+  "=": "=",
+  "!=": "≠",
+  "<": "&lt;",
+  ">": "&gt;",
+  "<=": "≤",
+  ">=": "≥",
+  "-<": "≺",
+  ">-": "≻",
+  "in": "∈",
+  "!in": "∉",
+  "sub": "⊂",
+  "sup": "⊃",
+  "sube": "⊆",
+  "supe": "⊇",
+  "-=": "≡",
+  "~~": "≈",
+  "prop": "∝",
+
   // Arrows
-  "<-": "←", "->": "→", "=>": "⇒", "<=>": "⇔", "|->": '↦',
-  "uarr": '↑', "darr": '↓', "larr": '←', "rarr": '→', "harr": '↔',
-  "lArr": '⇐', rArr: '⇒', "hArr": '⇔', "iff": "⇔",
+  "<-": "←",
+  "->": "→",
+  "=>": "⇒",
+  "<=>": "⇔",
+  "|->": "↦",
+  "uarr": "↑",
+  "darr": "↓",
+  "larr": "←",
+  "rarr": "→",
+  "harr": "↔",
+  "lArr": "⇐",
+  "rArr": "⇒",
+  "hArr": "⇔",
+  "iff": "⇔",
+
   // Punctuations
-  ",": ",", ":.": "∴", "...": "…", cdots: "⋯", ddots: "⋱", vdots: "⋮",
+  ",": ",",
+  ":.": "∴",
+  "...": "…",
+  "cdots": "⋯",
+  "ddots": "⋱",
+  "vdots": "⋮",
+
   // Logical
-  if: "if", otherwise: "otherwise", and: "and", or: "or", not: "¬",
-  AA: "∀", "EE": '∃', "_|_": '⊥', "TT": '⊤', "|--": '⊢', "|==": '⊨'
+  "if": "if",
+  "otherwise": "otherwise",
+  "and": "and",
+  "or": "or",
+  "not": "¬",
+  "AA": "∀",
+  "EE": "∃",
+  "_|_": "⊥",
+  "TT": "⊤",
+  "|--": "⊢",
+  "|==": "⊨"
 };
 
 Object.defineProperty(operators, "contains", {
   value: function(char) {
-    return typeof operators[char] !== 'undefined';
+    return typeof operators[char] !== "undefined";
   }
 });
 
@@ -91,7 +202,7 @@ Object.defineProperty(operators, "regexp", {
       Object.keys(operators)
       .sort(function(a, b) { return b.length - a.length; })
       .map(regexpEscape)
-      .join('|') +
+      .join("|") +
       "|[+\-<=>|~¬±×÷ϐϑϒϕϰϱϴϵ϶؆؇؈‖′″‴⁀⁄⁒\u2061-\u2064" +
       "\u207A-\u207E\u208A-\u208E★☆♠♡♢♣♭♮♯﬩\uFF61-\uFF68" +
       "＋＜＝＞＼＾｜～￢￩￪￫￬" +
@@ -110,7 +221,7 @@ function regexpEscape(str) {
 // Groupings
 // =========
 
-var groupings = {
+const groupings = {
   open: { "(:": "⟨", "{:": "" },
   close: { ":)": "⟩", ":}": "" }
 };
@@ -125,14 +236,14 @@ Object.defineProperty(groupings.close, "regexp", {
 
 Object.defineProperty(groupings.open, "get", {
   value: function(str) {
-    let match = groupings.open[str];
+    const match = groupings.open[str];
     return typeof match === "string" ? match : str;
   }
 });
 
 Object.defineProperty(groupings.close, "get", {
   value: function(str) {
-    let match = groupings.close[str];
+    const match = groupings.close[str];
     return typeof match === "string" ? match : str;
   }
 });
@@ -144,26 +255,36 @@ Object.freeze(groupings.close);
 // Font
 // ====
 
-var fonts = {
-  rm: "normal", bf: "bold", it: "italic", bb: "double-struck",
-  cc: "script", tt: "monospace", fr: "fraktur",
+const fonts = {
+  rm: "normal",
+  bf: "bold",
+  it: "italic",
+  bb: "double-struck",
+  cc: "script",
+  tt: "monospace",
+  fr: "fraktur",
   sf: "sans-serif"
 };
 
 Object.defineProperty(fonts, "get", {
-  value: function(str) { return fonts[str] || undefined; }
+  value: function(str) { return fonts[str]; }
 });
 
 Object.defineProperty(fonts, "regexp", {
-  value: new RegExp("(" + Object.keys(fonts).join('|') + ")")
+  value: new RegExp("(" + Object.keys(fonts).join("|") + ")")
 });
 
 
 // Accents
 // =======
 
-var accents = {
-  hat: "^", bar: "‾", ul: "_", vec: "→", dot: "⋅", ddot: "⋅⋅"
+const accents = {
+  hat: "^",
+  bar: "‾",
+  ul: "_",
+  vec: "→",
+  dot: "⋅",
+  ddot: "⋅⋅"
 };
 
 Object.defineProperty(accents, "contains", {
@@ -171,11 +292,11 @@ Object.defineProperty(accents, "contains", {
 });
 
 Object.defineProperty(accents, "get", {
-  value: function(str) { return accents[str] || undefined; }
+  value: function(str) { return accents[str]; }
 });
 
 Object.defineProperty(accents, "regexp", {
-  value: new RegExp("(" + Object.keys(accents).join('|') + ")")
+  value: new RegExp("(" + Object.keys(accents).join("|") + ")")
 });
 
 

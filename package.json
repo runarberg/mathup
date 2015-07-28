@@ -11,14 +11,15 @@
     "ascii2mathml": "bin/index.js"
   },
   "scripts": {
-    "prebuild": "rm -fr lib; mkdir lib",
+    "prebuild": "npm run lint; rm -fr lib; mkdir lib",
     "build": "babel src/ -d lib/; babel < index.es6.js > index.js",
-    "predist": "rm -fr dist; mkdir dist",
+    "predist": "npm run lint; rm -fr dist; mkdir dist",
     "dist": "browserify ./index.es6.js -s ascii2mathml > dist/ascii2mathml.js",
+    "lint": "eslint --reset index.es6.js src/",
     "prepublish": "npm run build",
+    "postpublish": "npm run dist",
     "pretest": "npm run build",
-    "test": "mocha",
-    "posttest": "npm run dist"
+    "test": "mocha"
   },
   "keywords": [
     "mathml",
@@ -35,11 +36,13 @@
   "devDependencies": {
     "babelify": "^5.0.4",
     "browserify": "^9.0.3",
+    "eslint": "^0.24.0",
+    "eslint-plugin-nodeca": "^1.0.3",
     "expect.js": "^0.3.1",
     "mocha": "^2.1.0"
   },
   "dependencies": {
     "babel": "^5.0.6",
-    "minimist": "^1.1.0"
+    "minimist": "^1.1.2"
   }
 }
