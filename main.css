@@ -121,14 +121,18 @@ body > h1 {
     margin: 1ex;
 }
 
+.try > .input input,
 .try > .input textarea {
-    background: #202016;
-    border: 0;
+    background: #DBBC66;
+    border: 1px solid #202016;
     border-radius: 5px;
-    color: #F0F0F0;
-    display: block;
+    color: #202016;    
     font-family: "Linux Libertine Mono", monospace;
     font-size: 0.9em;
+}
+
+.try > .input textarea {
+    display: block;
     margin: 1em auto;
     padding: 1.5em 1em;
     height: 3em;
@@ -145,8 +149,6 @@ body > h1 {
 }
 
 .try > .input input {
-    font-family: monospace;
-    font-size: 1em;
     font-weight: bold;
     text-align: center;
     width: 1.5em;

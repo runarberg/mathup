@@ -59,6 +59,13 @@ function renderTryBox(event) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
+  // Focus the main try textbox
+  tryInput.focus();
+  var initEq = tryInput.value;
+  tryInput.value = "";
+  tryInput.value = initEq;
+
+  // Prepare MathJax if the users wants it
   var documentHead = document.getElementsByTagName("head")[0];
   var mathJaxScript = document.createElement("script"),
       useMathJax = document.getElementById("use-mathjax");
@@ -86,5 +93,4 @@ document.addEventListener("DOMContentLoaded", function() {
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, tryOutput]);
     console.log("MathJaxing...");
   };
-  
 });
