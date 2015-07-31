@@ -4,12 +4,14 @@
     "browser": false
   },
   "ecmaFeatures": {
+    "arrowFunctions": true,
     "blockBindings": true,
     "destructuring": true,
     "templateStrings": true
   },
   "plugins": ["nodeca"],
   "rules": {
+    "arrow-spacing": [1, {"before": true, "after": true}],
     "block-scoped-var": 2,
     "brace-style": [1, "1tbs", { "allowSingleLine": true }],
     "camelcase": 1,
@@ -35,6 +37,7 @@
     "no-catch-shadow": 2,
     "no-cond-assign": 2,
     "no-console": 1,
+    "no-const-assign": 2,
     "no-constant-condition": 2,
     "no-control-regex": 2,
     "no-debugger": 2,
@@ -52,7 +55,6 @@
     "no-extra-boolean-cast": 1,
     "no-extra-parens": [1, "all"],
     "no-extra-semi": 1,
-    "no-extra-strict": 1,
     "no-floating-decimal": 1,
     "no-func-assign": 2,
     "no-implied-eval": 2,
@@ -97,6 +99,7 @@
     "no-use-before-define": [2, "nofunc"],
     "no-var": 1,
     "no-with": 2,
+    "prefer-spread": 1,
     "quotes": [ 2, "double", "avoid-escape" ],
     "semi": 1,
     "semi-spacing": [1, { "before": false, "after": true }],

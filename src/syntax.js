@@ -47,31 +47,6 @@ function endsInFunc(str) {
   return str.match(funcEndingRe);
 }
 
-
-function splitNextWhitespace(str, options) {
-  const re = new RegExp(`(\\s|${options.colSep}|${options.rowSep}|$)`),
-        rootRE = new RegExp(`root(\\d+(${options.decMark}\\d+)?$|[A-Za-z]$)`);
-  let match = str.match(re),
-      head = str.slice(0, match.index),
-      sep = match[0],
-      tail = str.slice(match.index + 1);
-
-  let next = head,
-      rest = sep + tail;
-
-  if (endsInFunc(head) || head.match(rootRE)) {
-    let newsplit = splitNextWhitespace(tail, options);
-    next += sep + newsplit[0];
-    rest = newsplit[1];
-  } else if (head.match(/root$/)) {
-    let split1 = splitNextWhitespace(tail, options),
-        split2 = splitNextWhitespace(split1[1].trimLeft(), options);
-    next += sep + split1[0] + " " + split2[0];
-    rest = sep + split2[1];
-  }
-  return [next, rest];
-}
-
 function splitNextGroup(str) {
   /** Split the string into `[before, open, group, close, after]` */
 
@@ -189,9 +164,7 @@ function splitNextVert(str) {
 }
 
 function dot(attr) {
-  return function(obj) {
-    return obj[attr];
-  };
+  return obj => obj[attr];
 }
 
 function plus(a, b) { return a + b; }
@@ -202,9 +175,7 @@ function plus(a, b) { return a + b; }
 
 function isforcedEl(reEnd) {
   let re = new RegExp("^" + fonts.regexp.source + "?" + reEnd);
-  return function(str) {
-    return re.exec(str);
-  };
+  return str => re.exec(str);
 }
 
 const isforcedIdentifier = isforcedEl("(`)\\w+`");
@@ -240,12 +211,12 @@ function shouldGoUnder(el) {
 }
 
 module.exports = {
+  endsInFunc: endsInFunc,
   isgroupStart: isgroupStart,
   isgroupable: isgroupable,
   isvertGroupStart: isvertGroupStart,
   splitNextGroup: splitNextGroup,
   splitNextVert: splitNextVert,
-  splitNextWhitespace: splitNextWhitespace,
   splitNextOperator: splitNextOperator,
   ismatrixInterior: ismatrixInterior,
   isfontCommand: isfontCommand,
