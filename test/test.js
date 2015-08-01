@@ -433,6 +433,14 @@ describe('Matrices', function() {
     test('[1, 2, 3;]', '<math><mfenced open="[" close="]"><mtable><mtr><mtd><mn>1</mn></mtd><mtd><mn>2</mn></mtd><mtd><mn>3</mn></mtd></mtr></mtable></mfenced></math>');
     test('[(1, 2, 3),]', '<math><mfenced open="[" close="]"><mtable><mtr><mtd><mn>1</mn></mtd><mtd><mn>2</mn></mtd><mtd><mn>3</mn></mtd></mtr></mtable></mfenced></math>');
   });
+  it('Should allow newlines as row separators', function() {
+    expect(ascii2mathml('[1, 2, 3\n 4, 5, 6]'))
+      .to.be(ascii2mathml('[1, 2, 3; 4, 5, 6]'));
+    expect(ascii2mathml('[a\n b\n c]'))
+      .to.be(ascii2mathml('[a; b; c]'));
+    expect(ascii2mathml('(4\n 6)'))
+      .to.be(ascii2mathml('(4; 6)'));
+  });
   it('Should display vertical bar delimited matrices', function() {
     test('|(a,b,c), (d,e,f), (h,i,j)|', '<math><mfenced open="|" close="|"><mtable><mtr><mtd><mi>a</mi></mtd><mtd><mi>b</mi></mtd><mtd><mi>c</mi></mtd></mtr><mtr><mtd><mi>d</mi></mtd><mtd><mi>e</mi></mtd><mtd><mi>f</mi></mtd></mtr><mtr><mtd><mi>h</mi></mtd><mtd><mi>i</mi></mtd><mtd><mi>j</mi></mtd></mtr></mtable></mfenced></math>');
   });

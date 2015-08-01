@@ -54,7 +54,8 @@ function parser(options) {
           options.decimalMark,
         numberRegexp = new RegExp(`^\\d+(${decimalMarkRE}\\d+)?`),
         colsplit = splitby(options.colSep),
-        rowsplit = splitby(options.rowSep);
+        rowsplit = splitby(options.rowSep),
+        newlinesplit = splitby("\n");
 
   function splitby(sep) {
     return function(str) {
@@ -238,13 +239,16 @@ function parser(options) {
             syntax.splitNextVert(ascii);
 
       rest = groupings.open.get(after);
-      let rows = rowsplit(group);
+      let rows = (function() {
+        let lines = newlinesplit(group);
+        return lines.length > 1 ? lines : rowsplit(group);
+      }());
 
       if (syntax.ismatrixInterior(group.trim(), options.colSep)) {
 
         // ### Matrix ##
 
-        if (group.trimRight().endsWith(options.colSep)) {
+        if (group.trim().endsWith(options.colSep)) {
           // trailing row break
           group = group.trimRight().slice(0, -1);
         }
