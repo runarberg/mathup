@@ -29,8 +29,11 @@ function isgroupable(str, options) {
 }
 
 function ismatrixInterior(str, colSep) {
-  return isgroupStart(str) &&
-    splitNextGroup(str)[4].trim().startsWith(colSep);
+  return isgroupStart(str) && (function() {
+    let rest = splitNextGroup(str)[4];
+    return rest.trim().startsWith(colSep) ||
+      rest.match(/^\s*\n/) && isgroupStart(rest.trim());
+  }());
 }
 
 const funcEndingRe = new RegExp(

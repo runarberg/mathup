@@ -11,6 +11,7 @@
         background: #FFC;
         border: 1px dashed black;
         border-radius: 0.2em;
+        display: inline-block;
         margin-right: 2.5em;
         padding: 0.05em 0.5em;
         position: relative;
@@ -314,9 +315,18 @@
         <code data-display="block">[(a,b,c),]</code>
       </div>
       <div class="test-case">
+        <code data-display="block" data-annotate="true">[[a, b, c]
+ [d, e, f]
+ [g, h, i]]</code>
+      </div>
+      <div class="test-case">
         <code data-display="block">[a, d
  b, e
  c, f]</code>
+      </div>
+      <div class="test-case">
+        <code data-display="block" data-annotate="true">n! = {[1, if n in {0, 1}]
+      [n(n - 1)!, otherwise]:}</code>
       </div>
       <div class="test-case">
         <code data-display="block">|(a,b,c), (d,e,f), (h,i,j)|</code>
@@ -445,9 +455,7 @@
       Array.prototype.forEach.call(document.querySelectorAll(".test-case"), function (test) {
         var code = test.querySelector("code");
         var ascii = code.firstChild ? code.firstChild.textContent : "";
-        var conf = {
-          display: code.dataset.display
-        }
+        var conf = Object.assign({}, code.dataset);
         var mathml = ascii2mathml(ascii, conf);
         var math = parser.parseFromString(mathml, "text/html").querySelector("math");
         test.appendChild(math);

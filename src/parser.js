@@ -540,7 +540,10 @@ function parser(options) {
 
 
   function parsetable(matrix, attrs) {
-    let rows = colsplit(matrix).map(function(el) {
+    let rows = (function() {
+      let lines = colsplit(matrix);
+      return lines.length > 1 ? lines : newlinesplit(matrix);
+    }()).map(function(el) {
       return el.trim().slice(1, -1);
     });
 
