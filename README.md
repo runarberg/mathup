@@ -18,7 +18,10 @@ var ascii2mathml = require("ascii2mathml");
 
 ##### Client #####
 
-[Download here](https://raw.githubusercontent.com/runarberg/ascii2mathml/gh-pages/dist/ascii2mathml.js)
+Download
+[full](https://raw.githubusercontent.com/runarberg/ascii2mathml/gh-pages/dist/ascii2mathml.js)
+or
+[minified](https://raw.githubusercontent.com/runarberg/ascii2mathml/gh-pages/dist/ascii2mathml.min.js)
 and include the script file
 
 ```html
@@ -48,10 +51,10 @@ And cli options as inline comments
 
 ```js
 var options = {
-    decimalMark: ".",   // -m,  --decimalmark='.'
-    colSep: ",",        // -c,  --colsep=','
-    rowSep: ";",        // -r,  --rowsep=';'
-    display: "inline",  // -d,  --display
+    decimalMark: '.',   // -m,  --decimalmark='.'
+    colSep: ',',        // -c,  --colsep=','
+    rowSep: ';',        // -r,  --rowsep=';'
+    display: 'inline',  // -d,  --display
     bare: false,        // -b,  --bare
     standalone: false,  // -s,  --standalone
     annotate: false     // -a,  --annotate
@@ -78,9 +81,12 @@ ascii2mathml('[40,2 ;; 3,14 ;; 2,72]', {display: 'block'});
 // <math display="block"><mfenced open="[" close="]"><mtable><mtr><mtd><mn>40,2</mn></mtd></mtr><mtr><mtd><mn>3,14</mn></mtd></mtr><mtr><mtd><mn>2,72</mn></mtd></mtr></mtable></mfenced></math>
 ```
 
-#### Reference ####
+
+Reference
+---------
 
 [See here](http://runarberg.github.io/ascii2mathml/#reference)
+
 
 The second AsciiMath – MathML converter
 ---------------------------------------
