@@ -564,7 +564,7 @@ function parser(options) {
     if (!cell || cell.length === 0) {
       return [mtd(acc), ""];
     }
-    if (cell[0] === ",") {
+    if (cell[0] === options.colSep) {
       return [mtd(acc), cell.slice(1).trim()];
     }
 

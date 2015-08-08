@@ -100,7 +100,7 @@
     "no-var": 1,
     "no-with": 2,
     "prefer-spread": 1,
-    "quotes": [ 2, "double", "avoid-escape" ],
+    "quotes": [ 1, "double", "avoid-escape" ],
     "semi": 1,
     "semi-spacing": [1, { "before": false, "after": true }],
     "space-after-keywords": [1, "always"],
