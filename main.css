@@ -46,6 +46,7 @@ code {
 pre, pre > code, .examples code {
     background: #202016;
     color: #F0F0F0;
+    text-align: left;
 }
 
 pre {

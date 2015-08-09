@@ -664,7 +664,6 @@ ascii2mathml [options] -- &lt;expression&gt;
           </div>
           <aside class="examples">
             <ul>
-              <li><code>\(int)</code></li>
               <li><code>sum_(n=0)^k a_n = a_0 + a_i + cdots + a_k</code></li>
               <li><code>e = sum_(n=0)^oo 1 / n!</code></li>
               <li><code>bf`F` @ bf`G`  :  U sube RR^3 -&gt; RR^2</code></li>
@@ -919,7 +918,8 @@ ascii2mathml [options] -- &lt;expression&gt;
               quickly write a column vector with <code>[1; 2; 3]</code>.
               A trailing row break is allowed so you can
               write a single row matrix as <code>[1,2,3;]</code>
-              or <code>[(1,2,3),]</code></p>
+              or <code>[(1,2,3),]</code>. A new-line character acts
+              intuitively in a matrix environment.</p>
             <p>All this does is put the outer brackets as a fence
               around the table inside, so if you want case assignmet
               you can write:</p>
@@ -930,10 +930,14 @@ ascii2mathml [options] -- &lt;expression&gt;
           </div>
           <aside class="examples">
             <ul>
-              <li><code>[λ_0, λ_1, ...;] [p_(0 0), p_(0 1), ...; p_(1 0), p_(1 1), ...; vdots, vdots, ddots]</code></li>
+              <li><code>[λ_0, λ_1, ...;]
+[p_(0 0), p_(0 1), ...
+ p_(1 0), p_(1 1), ...
+ vdots, vdots, ddots]</code></li>
               <li><code>1 / ad-bc [(d, -b), (-c, a)]</code></li>
               <li><code>||bf`x`||^2 = [x_1 ; x_2 ; x_3]*[x_1 ; x_2 ; x_3]</code></li>
-              <li><code> n! = { [1, if n=0 or n=1], [n(n-1)!, if n &gt; 1] :}</code></li>
+              <li><code>n! = { [1, if n=0 or n=1]
+       [n(n-1)!, if n &gt; 1] :}</code></li>
               <li><code>det A = |[a, b], [c, d]| = ad - bc</code></li>
             </ul>
           </aside>
