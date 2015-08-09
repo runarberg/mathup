@@ -114,6 +114,27 @@ describe('basics', function() {
   });
 });
 
+
+describe('Numbers', function() {
+  it('Should force numbers with #`...`', function() {
+    test("#`0x2A`", "<math><mn>0x2A</mn></math>");
+    test("#`XLII`", "<math><mn>XLII</mn></math>");
+  });
+
+  it("Hex to RGB", function() {
+    test("#`#3094AB` -= `rgb`(48, 148, 171)",
+         '<math><mn>#3094AB</mn><mo>≡</mo><mi>rgb</mi><mfenced open="(" close=")"><mn>48</mn><mn>148</mn><mn>171</mn></mfenced></math>');
+    test("`rgb`(48, 148, 171) -= #`#3094AB`",
+         '<math><mi>rgb</mi><mfenced open="(" close=")"><mn>48</mn><mn>148</mn><mn>171</mn></mfenced><mo>≡</mo><mn>#3094AB</mn></math>');
+  });
+
+  it("Forty two", function() {
+    test("#`0x2A` = #`XLII` = #`4.2e+01` = #`forty two` = 42",
+         "<math><mn>0x2A</mn><mo>=</mo><mn>XLII</mn><mo>=</mo><mn>4.2e+01</mn><mo>=</mo><mn>forty two</mn><mo>=</mo><mn>42</mn></math>");
+  });
+});
+
+
 describe('Operators', function() {
   it('Should force operators with \\', function() {
     test('\\^', '<math><mo>^</mo></math>');

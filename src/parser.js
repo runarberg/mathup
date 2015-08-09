@@ -313,6 +313,14 @@ function parser(options) {
       el = mn(number);
       rest = tail.slice(number.length - 1);
 
+    } else if (ascii.match(/^#`[^`]+`/)) {
+
+      // ## Forced number ##
+
+      let number = ascii.match(/^#`([^`]+)`/)[1];
+      el = mn(number);
+      rest = ascii.slice(number.length + 3);
+
     } else if (ascii.match(new RegExp("^" + operators.regexp.source)) &&
                !identifiers.contains(nextsymbol)) {
 
