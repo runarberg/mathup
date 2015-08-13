@@ -116,9 +116,25 @@ describe('basics', function() {
 
 
 describe('Numbers', function() {
+  it('Should accept unicode numerals', function() {
+    test("四十二", "<math><mn>四十二</mn></math>");
+    expect(ascii2mathml("٣٫١٤١٥٩٢٦٥", {decimalMark: "٫"}))
+      .to.be("<math><mn>٣٫١٤١٥٩٢٦٥</mn></math>");
+  });
+
   it('Should force numbers with #`...`', function() {
     test("#`0x2A`", "<math><mn>0x2A</mn></math>");
     test("#`XLII`", "<math><mn>XLII</mn></math>");
+  });
+
+  it("Duodecimals", function() {
+    test("1/2 + 1/3 = 5/6 = 0.\u218A, 2/3 + 1/4 = \u218B/10 = 0.\u218B",
+         "<math><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo>=</mo><mfrac><mn>5</mn><mn>6</mn></mfrac><mo>=</mo><mn>0.\u218A</mn><mo>,</mo><mfrac><mn>2</mn><mn>3</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>=</mo><mfrac><mn>\u218B</mn><mn>10</mn></mfrac><mo>=</mo><mn>0.\u218B</mn></math>");
+  });
+
+  test('al-Khwarizmi', function() {
+    test("(١٠ - ح)^٢ = ٨١ح",
+         '<math><msup><mfenced open="(" close=")"><mrow><mn>١٠</mn><mo>-</mo><mi>ح</mi></mrow></mfenced><mn>٢</mn></msup><mo>=</mo><mn>٨١</mn><mi>ح</mi></math>');
   });
 
   it("Hex to RGB", function() {

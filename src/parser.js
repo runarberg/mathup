@@ -3,7 +3,8 @@
 const lexicon = require("./lexicon"),
       syntax = require("./syntax");
 
-const identifiers = lexicon.identifiers,
+const numbers = lexicon.numbers,
+      identifiers = lexicon.identifiers,
       operators = lexicon.operators,
       groupings = lexicon.groupings,
       accents = lexicon.accents;
@@ -52,7 +53,9 @@ function parser(options) {
 
   const decimalMarkRE = options.decimalMark === "." ? "\\." :
           options.decimalMark,
-        numberRegexp = new RegExp(`^\\d+(${decimalMarkRE}\\d+)?`),
+        numberRegexp = new RegExp(
+          `^${numbers.digitRange}+(${decimalMarkRE}${numbers.digitRange}+)?`
+        ),
         colsplit = splitby(options.colSep),
         rowsplit = splitby(options.rowSep),
         newlinesplit = splitby("\n");
@@ -304,7 +307,7 @@ function parser(options) {
         el = mfenced(els, attrs);
       }
 
-    } else if (head.match(/\d+/)) {
+    } else if (numbers.isdigit(head)) {
 
       // ## Number ##
 
