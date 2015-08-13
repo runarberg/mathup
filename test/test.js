@@ -132,7 +132,7 @@ describe('Numbers', function() {
          "<math><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mo>=</mo><mfrac><mn>5</mn><mn>6</mn></mfrac><mo>=</mo><mn>0.\u218A</mn><mo>,</mo><mfrac><mn>2</mn><mn>3</mn></mfrac><mo>+</mo><mfrac><mn>1</mn><mn>4</mn></mfrac><mo>=</mo><mfrac><mn>\u218B</mn><mn>10</mn></mfrac><mo>=</mo><mn>0.\u218B</mn></math>");
   });
 
-  test('al-Khwarizmi', function() {
+  it('al-Khwarizmi', function() {
     test("(١٠ - ح)^٢ = ٨١ح",
          '<math><msup><mfenced open="(" close=")"><mrow><mn>١٠</mn><mo>-</mo><mi>ح</mi></mrow></mfenced><mn>٢</mn></msup><mo>=</mo><mn>٨١</mn><mi>ح</mi></math>');
   });
