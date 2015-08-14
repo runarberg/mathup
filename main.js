@@ -46,8 +46,10 @@ function renderTryBox(event) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-  // Focus the main try textbox
-  tryInput.focus();
+  if (!window.location.hash) {
+    // Focus the main try textbox
+    tryInput.focus();
+  }
   var initEq = tryInput.value;
   tryInput.value = "";
   tryInput.value = initEq;
