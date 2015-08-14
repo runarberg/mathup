@@ -5,27 +5,14 @@ var testCases = document.querySelectorAll(".examples li");
 Array.prototype.forEach.call(testCases, function (test) {
   var code = test.querySelector("code");
   var ascii = code.firstChild ? code.firstChild.textContent : "";
-  var mathml = ascii2mathml(ascii, {display: "block"});
+  var options = Object.assign({display: "block"}, code.dataset);
+  var mathml = ascii2mathml(ascii, options);
   var math = parser.parseFromString(mathml, "text/html").querySelector("math");
   test.appendChild(math);
 });
 
 
 // Try
-
-// Event polyfill
-(function () {
-  function CustomEvent ( event, params ) {
-    params = params || { bubbles: false, cancelable: false, detail: undefined };
-    var evt = document.createEvent( 'CustomEvent' );
-    evt.initCustomEvent( event, params.bubbles, params.cancelable, params.detail );
-    return evt;
-   }
-
-  CustomEvent.prototype = window.Event.prototype;
-
-  window.CustomEvent = CustomEvent;
-})();
 
 var tryInput = document.getElementById("try-input"),
     tryDisplay = document.getElementById("try-display"),

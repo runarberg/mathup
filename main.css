@@ -53,6 +53,7 @@ pre {
     border-radius: 5px;
     max-width: 80ex;
     margin: 1ex 2em;
+    overflow-x: auto;
     padding: 1ex 2ex;
 }
 

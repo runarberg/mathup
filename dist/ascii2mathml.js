@@ -1,4 +1,4 @@
-/*! ascii2mathml v0.3.1 | (c) 2015 (MIT) | https://github.com/runarberg/ascii2mathml#readme */
+/*! ascii2mathml v0.4.0 | (c) 2015 (MIT) | https://github.com/runarberg/ascii2mathml#readme */
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ascii2mathml = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
@@ -74,6 +74,21 @@ module.exports = ascii2mathml;
 
 },{"./lib/parser":3,"babel/polyfill":171}],2:[function(require,module,exports){
 "use strict";
+
+// Numbers
+// =======
+
+var numbers = {};
+var digitRange = "[0-9²³¹¼-¾" + "٠-٩۰-۹߀-߉" + "०-९০-৯৴-৹" + "੦-੯૦-૯୦-୯୲-୷௦-௲" + "౦-౯౸-౾೦-೯൦-൵๐-๙" + "໐-໙༠-༳၀-၉႐-႙፩-፼" + "ᛮ-ᛰ០-៩៰-៹᠐-᠙" + "᥆-᥏᧐-᧚᪀-᪉᪐-᪙" + "᭐-᭙᮰-᮹᱀-᱉᱐-᱙" + "⁰⁴-⁹₀-₉⅐-ↂↅ-↋" + "①-⒛⓪-⓿❶-➓⳽" + "〇〡-〩〸-〺㆒-㆕" + "㈠-㈩㉈-㉏㉑-㉟㊀-㊉㊱-㊿" + "零一二三四五六七八九十百千万億兆京垓𥝱秭穣溝澗正載割分厘毛糸忽微繊沙塵埃" + "꘠-꘩ꛦ-ꛯ꠰-꠵" + "꣐-꣙꤀-꤉꧐-꧙" + "꩐-꩙꯰-꯹０-９]";
+var digitRE = new RegExp(digitRange);
+
+Object.defineProperties(numbers, {
+  digitRange: { value: digitRange },
+  digitRE: { value: digitRE },
+  isdigit: { value: function value(char) {
+      return char.match(digitRE);
+    } }
+});
 
 // Identifiers
 // ===========
@@ -364,6 +379,7 @@ Object.defineProperty(accents, "regexp", {
 });
 
 module.exports = {
+  numbers: Object.freeze(numbers),
   identifiers: Object.freeze(identifiers),
   operators: Object.freeze(operators),
   groupings: Object.freeze(groupings),
@@ -403,7 +419,8 @@ var _slicedToArray = (function () {
 var lexicon = require("./lexicon"),
     syntax = require("./syntax");
 
-var identifiers = lexicon.identifiers,
+var numbers = lexicon.numbers,
+    identifiers = lexicon.identifiers,
     operators = lexicon.operators,
     groupings = lexicon.groupings,
     accents = lexicon.accents;
@@ -451,7 +468,7 @@ var mi = tag("mi"),
 function parser(options) {
 
   var decimalMarkRE = options.decimalMark === "." ? "\\." : options.decimalMark,
-      numberRegexp = new RegExp("^\\d+(" + decimalMarkRE + "\\d+)?"),
+      numberRegexp = new RegExp("^" + numbers.digitRange + "+(" + decimalMarkRE + numbers.digitRange + "+)?"),
       colsplit = splitby(options.colSep),
       rowsplit = splitby(options.rowSep),
       newlinesplit = splitby("\n");
@@ -733,7 +750,7 @@ function parser(options) {
           el = mfenced(els, attrs);
         }
       })();
-    } else if (head.match(/\d+/)) {
+    } else if (numbers.isdigit(head)) {
 
       // ## Number ##
 
@@ -741,6 +758,13 @@ function parser(options) {
 
       el = mn(number);
       rest = tail.slice(number.length - 1);
+    } else if (ascii.match(/^#`[^`]+`/)) {
+
+      // ## Forced number ##
+
+      var number = ascii.match(/^#`([^`]+)`/)[1];
+      el = mn(number);
+      rest = ascii.slice(number.length + 3);
     } else if (ascii.match(new RegExp("^" + operators.regexp.source)) && !identifiers.contains(nextsymbol)) {
 
       // ## Operators ##

@@ -80,11 +80,11 @@
           <h5>npm</h5>
           <pre><code class="language-bash">npm install ascii2mathml
 </code></pre>
-          <pre><code class="language-js"><span class="hljs-keyword">var</span> ascii2mathml = <span class="hljs-built_in">require</span>(<span class="hljs-string">"ascii2mathml"</span>);
+          <pre><code class="language-js"><span class="hljs-keyword">var</span> ascii2mathml = <span class="hljs-built_in">require</span>(<span class="hljs-string">'ascii2mathml'</span>);
 </code></pre>
           <h5>Client</h5>
           Download <a href="https://raw.githubusercontent.com/runarberg/ascii2mathml/gh-pages/dist/ascii2mathml.js">full</a> or <a href="https://raw.githubusercontent.com/runarberg/ascii2mathml/gh-pages/dist/ascii2mathml.min.js">minified</a> and include the script file
-          <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-label">script</span> <span class="hljs-keyword">src</span>=<span class="hljs-string">"ascii2mathml.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-label">script</span>&gt;</span>
+          <pre><code class="language-html">&lt;<span class="hljs-tag">script</span> <span class="hljs-keyword">src</span>=<span class="hljs-string">"ascii2mathml.js"</span>&gt;&lt;/<span class="hljs-tag">script</span>&gt;
 </code></pre>
         </section>
 
@@ -112,6 +112,24 @@ ascii2mathml [options] -- &lt;expression&gt;
   standalone: <span class="hljs-literal">false</span>,  <span class="hljs-comment">// -s,  --standalone</span>
   annotate: <span class="hljs-literal">false</span>     <span class="hljs-comment">// -a,  --annotate</span>
 }
+</code></pre>
+          <p>You can also call <code>ascii2mathml</code> with only a
+            configuration object. In that case you’ll be returned a
+            new function with the new defaults. For example:</p>
+          <pre><code class="language-js"><span class="hljs-keyword">var</span> ascii2mathml = <span class="hljs-built_in">require</span>(<span class="hljs-string">'ascii2mathml'</span>)({
+    decimalMark: <span class="hljs-string">','</span>,
+    colSep: <span class="hljs-string">';'</span>,        <span class="hljs-comment">// default if `,` is the decimal mark</span>
+    rowSep: <span class="hljs-string">';;'</span>        <span class="hljs-comment">// default if `;` is the column separator</span>
+});
+
+ascii2mathml(<span class="hljs-string">'40,2'</span>);
+<span class="hljs-comment">// &lt;math&gt;&lt;mn&gt;40,2&lt;/mn&gt;&lt;/math&gt;</span>
+
+ascii2mathml(<span class="hljs-string">'(40,2; 3,17; 2,72)'</span>, {bare: <span class="hljs-literal">true</span>});
+<span class="hljs-comment">// &lt;mfenced open=&quot;(&quot; close=&quot;)&quot; separators=&quot;;&quot;&gt;&lt;mn&gt;40,2&lt;/mn&gt;&lt;mn&gt;3,14&lt;/mn&gt;&lt;mn&gt;2,72&lt;/mn&gt;&lt;/mfenced&gt;</span>
+
+ascii2mathml(<span class="hljs-string">'[40,2 ;; 3,14 ;; 2,72]'</span>, {display: <span class="hljs-string">'block'</span>});
+<span class="hljs-comment">// &lt;math display=&quot;block&quot;&gt;&lt;mfenced open=&quot;[&quot; close=&quot;]&quot;&gt;&lt;mtable&gt;&lt;mtr&gt;&lt;mtd&gt;&lt;mn&gt;40,2&lt;/mn&gt;&lt;/mtd&gt;&lt;/mtr&gt;&lt;mtr&gt;&lt;mtd&gt;&lt;mn&gt;3,14&lt;/mn&gt;&lt;/mtd&gt;&lt;/mtr&gt;&lt;mtr&gt;&lt;mtd&gt;&lt;mn&gt;2,72&lt;/mn&gt;&lt;/mtd&gt;&lt;/mtr&gt;&lt;/mtable&gt;&lt;/mfenced&gt;&lt;/math&gt;</span>
 </code></pre>
         </section>
       </section>
@@ -216,7 +234,8 @@ ascii2mathml [options] -- &lt;expression&gt;
         <section id="numbers" class="columns">
           <div>
             <h3>Numbers</h3>
-            <p>Numbers are usually what you think they are. However if
+            <p>Numbers are usually what you think they are (including
+              unicode numerals like 四十二, Ⅻ or &#x218B;). However if
               you want to write a number in an odd way (like spelling
               it out, as a hex string, or as a roman numeral) you can
               wrap them in a <code>#`</code>…<code>`</code>like so:
@@ -224,6 +243,7 @@ ascii2mathml [options] -- &lt;expression&gt;
           </div>
           <aside class="examples">
             <ul>
+              <li><code data-decimal-mark="٫">π ≈ ٣٫١٤١٥٩٢٦٥</code></li>
               <li><code>#`4.2e+01` = 4.2 xx 10^1 = 42</code></li>
               <li><code>`rgb`(48, 148, 171) ≡ #`#3094AB`</code></li>
             </ul>
