@@ -16,6 +16,7 @@ Array.prototype.forEach.call(testCases, function (test) {
 
 var tryInput = document.getElementById("try-input"),
     tryDisplay = document.getElementById("try-display"),
+    tryDir = document.getElementById("try-dir"),
     tryOutput = document.getElementById("try-output"),
     tryAnnotate = document.getElementById("try-annotate"),
     tryDecimalMark = document.getElementById("try-decimalmark"),
@@ -28,13 +29,14 @@ var tryInput = document.getElementById("try-input"),
 
 document.addEventListener("DOMContentLoaded", renderTryBox);
 tryInput.addEventListener("input", renderTryBox);
-[tryDisplay, tryAnnotate].forEach(function(el) {
+[tryDisplay, tryDir, tryAnnotate].forEach(function(el) {
   el.addEventListener("change", renderTryBox);
 });
 
 function renderTryBox(event) {
   var options = {};
   if (tryDisplay.checked) options.display = "block";
+  if (tryDir.checked) options.dir = "rtl";
   if (tryAnnotate.checked) options.annotate = "true";
   options.decimalMark = tryDecimalMark.value || '.';
   options.colSep = tryColSep.value || ',';

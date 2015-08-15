@@ -1,4 +1,4 @@
-/*! ascii2mathml v0.4.0 | (c) 2015 (MIT) | https://github.com/runarberg/ascii2mathml#readme */
+/*! ascii2mathml v0.5.0 | (c) 2015 (MIT) | https://github.com/runarberg/ascii2mathml#readme */
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ascii2mathml = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
@@ -21,6 +21,7 @@ function ascii2mathml(asciimath, options) {
   options.bare = options.bare || false;
   options.display = options.display || "inline";
   options.standalone = options.standalone || false;
+  options.dir = options.dir || "ltr";
 
   options.decimalMark = options.decimalMark || ".";
   options.colSep = options.colSep || ",";
@@ -33,24 +34,25 @@ function ascii2mathml(asciimath, options) {
     options.rowSep = ";;";
   }
 
-  var parse = parser(options);
-  var out = undefined;
-
   if (options.bare) {
     if (options.standalone) {
       throw new Error("Can't output a valid HTML without a root <math> element");
     }
-    if (options.display && options.display.toLowerCase() === "block") {
+    if (options.display && options.display.toLowerCase() !== "inline") {
       throw new Error("Can't display block without root element.");
+    }
+    if (options.dir && options.dir.toLowerCase() !== "ltr") {
+      throw new Error("Can't have right-to-left direction without root element.");
     }
   }
 
-  var math = options.display !== "inline" ? function (expr) {
-    return "<math display=\"" + options.display + "\">" + expr + "</math>";
-  } : options && options.bare ? function (expr) {
+  var parse = parser(options);
+  var out = undefined;
+
+  var math = options.bare ? function (expr) {
     return expr;
   } : function (expr) {
-    return "<math>" + expr + "</math>";
+    return "<math" + (options.display !== "inline" ? " display=\"" + options.display + "\"" : "") + (options.dir !== "ltr" ? " dir=\"" + options.dir + "\"" : "") + ">" + expr + "</math>";
   };
 
   if (options.annotate) {
@@ -230,6 +232,7 @@ var operators = {
   "sube": "⊆",
   "supe": "⊇",
   "-=": "≡",
+  "==": "≡",
   "~~": "≈",
   "prop": "∝",
 
