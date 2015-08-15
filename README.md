@@ -55,6 +55,7 @@ var options = {
     colSep: ',',        // -c,  --colsep=','
     rowSep: ';',        // -r,  --rowsep=';'
     display: 'inline',  // -d,  --display
+    dir: 'ltr',         //      --rtl
     bare: false,        // -b,  --bare
     standalone: false,  // -s,  --standalone
     annotate: false     // -a,  --annotate

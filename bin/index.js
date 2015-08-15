@@ -20,6 +20,7 @@ var options = {
   annotate: argv['a'] || argv['annotate'],
   bare: argv['b'] || argv['bare'],
   display: argv['d'] || argv['display'] ? "block" : "",
+  dir: argv['rtl'] ? "rtl" : "",
   standalone: argv['s'] || argv['standalone'],
   decimalMark: argv['m'] || argv['decimalmark'] || ".",
   colSep: argv['c'] || argv['colsep'] || ",",

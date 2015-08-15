@@ -10,5 +10,6 @@ If called without expression, then will use stdin
   -m,  --decimalmark  Decimal mark, defaults to "."
   -r,  --rowsep       Row separator, defaults to ";"
   -s,  --standalone   Wrap in a valid HTML page
+       --rtl          Display in right-to-left direction
   -h,  --help         Show this message
 

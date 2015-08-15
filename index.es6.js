@@ -19,6 +19,7 @@ function ascii2mathml(asciimath, options) {
   options.bare = options.bare || false;
   options.display = options.display || "inline";
   options.standalone = options.standalone || false;
+  options.dir = options.dir || "ltr";
 
   options.decimalMark = options.decimalMark || ".";
   options.colSep = options.colSep || ",";
@@ -31,25 +32,31 @@ function ascii2mathml(asciimath, options) {
     options.rowSep = ";;";
   }
 
-  const parse = parser(options);
-  let out;
-
   if (options.bare) {
     if (options.standalone) {
       throw new Error(
         "Can't output a valid HTML without a root <math> element"
       );
     }
-    if (options.display && options.display.toLowerCase() === "block") {
+    if (options.display && options.display.toLowerCase() !== "inline") {
       throw new Error("Can't display block without root element.");
+    }
+    if (options.dir && options.dir.toLowerCase() !== "ltr") {
+      throw new Error(
+        "Can't have right-to-left direction without root element."
+      );
     }
   }
 
-  const math =
-          options.display !== "inline" ? expr =>
-            `<math display="${options.display}">${expr}</math>` :
-          options && options.bare ? expr => expr :
-          expr => `<math>${expr}</math>`;
+  const parse = parser(options);
+  let out;
+
+  const math = options.bare ? expr => expr :
+          expr => `<math${
+            options.display !== "inline" ? ` display="${options.display}"` : ""
+          }${
+            options.dir !== "ltr" ? ` dir="${options.dir}"` : ""
+          }>${expr}</math>`;
 
   if (options.annotate) {
     // Make sure the all presentational part is the first element

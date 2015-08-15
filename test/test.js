@@ -7,32 +7,56 @@ var test = function(ascii, mathml) {
   return expect(ascii2mathml(ascii)).to.be(mathml);
 };
 
+test.with = function(options) {
+  return function(ascii, mathml) {
+    return expect(ascii2mathml(ascii, options)).to.be(mathml);
+  };
+};
+
 
 describe('Options', function() {
   it('Should display block, when passed in', function() {
     expect(ascii2mathml("", {display: "block"}))
       .to.be('<math display="block"></math>');
   });
+
+  it('Should have right-to-left direction when passed in', function() {
+    expect(ascii2mathml("", {dir: "rtl"}))
+      .to.be('<math dir="rtl"></math>');
+  });
+
+  it('Should be able to be both at the same time', function() {
+    expect(ascii2mathml("", {display: "block", dir: "rtl"}))
+      .to.be('<math display="block" dir="rtl"></math>');
+  });
+
   it('Should be bare when passed in', function() {
     expect(ascii2mathml("42", {bare: true}))
       .to.be('<mn>42</mn>');
   });
+
   it('Should be a valid HTML page when passed as standalone', function() {
     expect(ascii2mathml("42", {standalone: true}))
       .to.be('<!DOCTYPE html><html><head><title>42</title></head><body><math><mn>42</mn></math></body></html>');
   });
+
   it('Should be annotated when passed in', function() {
     expect(ascii2mathml("42", {annotate: true}))
       .to.be('<math><semantics><mn>42</mn><annotation encoding="application/AsciiMath">42</annotation></semantics></math>');
   });
+
   it('Should have one math element when annotated', function() {
     expect(ascii2mathml("40 + 2 = 42", {annotate: true}))
       .to.be('<math><semantics><mrow><mn>40</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>42</mn></mrow><annotation encoding="application/AsciiMath">40 + 2 = 42</annotation></semantics></math>');
   });
-  it('Should not be allowed to be bare and display-block or standalone at the same time', function() {
+
+  it('Should not be allowed to be bare and standalone at the same time', function() {
     expect(ascii2mathml)
       .withArgs("42", {bare: true, standalone: true})
       .to.throwException();
+  });
+
+  it('Nor bare and display="block"', function() {
     expect(ascii2mathml)
       .withArgs("42", {bare: true, display: "block"})
       .to.throwException();
@@ -40,6 +64,16 @@ describe('Options', function() {
       .withArgs("42", {bare: true, display: "BloCK"})
       .to.throwException();
   });
+
+  it('Nor dir="rtl"', function() {
+    expect(ascii2mathml)
+      .withArgs("42", {bare: true, dir: "rtl"})
+      .to.throwException();
+    expect(ascii2mathml)
+      .withArgs("42", {bare: true, dir: "RTL"})
+      .to.throwException();
+  });
+
   it('Should be curried when called with an object', function() {
     var curried = ascii2mathml({display: "block"});
     
@@ -50,17 +84,20 @@ describe('Options', function() {
     expect(ascii2mathml('42', {annotate: true, standalone: true}))
       .to.be('<!DOCTYPE html><html><head><title>42</title></head><body><math><semantics><mn>42</mn><annotation encoding="application/AsciiMath">42</annotation></semantics></math></body></html>');
   });
+
   it('Should allow comma as a decimal mark', function() {
     var math = ascii2mathml({decimalMark: ',', bare: true});
     expect(math("40,2")).to.be('<mn>40,2</mn>');
     expect(math("40,2/13,3")).to.be('<mfrac><mn>40,2</mn><mn>13,3</mn></mfrac>');
     expect(math("2^0,5")).to.be('<msup><mn>2</mn><mn>0,5</mn></msup>');
   });
+
   it('Should default column separators to ";" when decimal marks are ","', function() {
     var math = ascii2mathml({decimalMark: ',', bare: true});
     expect(math('(1; 2; 3,14)'))
       .to.be('<mfenced open="(" close=")" separators=";"><mn>1</mn><mn>2</mn><mn>3,14</mn></mfenced>');
   });
+
   it('Should default row separators to ";;" when column separators are ";"', function() {
     var math = ascii2mathml({bare: true});
     expect(math('[1 ;; 2 ;; 3.14]', {colSep: ';'}))
@@ -68,6 +105,7 @@ describe('Options', function() {
     expect(math('[1 ;; 2 ;; 3,14]', {decimalMark: ','}))
       .to.be('<mfenced open="[" close="]"><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3,14</mn></mtd></mtr></mtable></mfenced>');
   });
+
   it('Should allow arbitrary column separators', function() {
     var math = ascii2mathml({bare: true});
     expect(math('(1 | 2 | 3.14)', {colSep: '|'}))
@@ -75,6 +113,7 @@ describe('Options', function() {
     expect(math('(1; 2; 3,14)', {colSep: ';', decimalMark: ','}))
       .to.be('<mfenced open="(" close=")" separators=";"><mn>1</mn><mn>2</mn><mn>3,14</mn></mfenced>');
   });
+
   it('Should allow arbitrary row separators', function() {
     var math = ascii2mathml({bare: true});
     expect(math('(1 & 2 & 3.14)', {rowSep: '&'}))
@@ -133,8 +172,10 @@ describe('Numbers', function() {
   });
 
   it('al-Khwarizmi', function() {
-    test("(١٠ - ح)^٢ = ٨١ح",
-         '<math><msup><mfenced open="(" close=")"><mrow><mn>١٠</mn><mo>-</mo><mi>ح</mi></mrow></mfenced><mn>٢</mn></msup><mo>=</mo><mn>٨١</mn><mi>ح</mi></math>');
+    test.with({dir: 'rtl'})(
+      "(١٠ - ح)^٢ = ٨١ح",
+      '<math dir="rtl"><msup><mfenced open="(" close=")"><mrow><mn>١٠</mn><mo>-</mo><mi>ح</mi></mrow></mfenced><mn>٢</mn></msup><mo>=</mo><mn>٨١</mn><mi>ح</mi></math>'
+    );
   });
 
   it("Hex to RGB", function() {
