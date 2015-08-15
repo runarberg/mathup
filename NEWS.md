@@ -7,6 +7,11 @@ New features
 * Passing in the `dir: "rtl"` option will add the attribute to the
   root math element, for right-to-left directionality.
 
+Changes
+-------
+
+* The `==` operator now maps to ≡.
+
 
 Ascii2MathML v0.4.0 Release Notes
 =================================

@@ -179,9 +179,9 @@ describe('Numbers', function() {
   });
 
   it("Hex to RGB", function() {
-    test("#`#3094AB` -= `rgb`(48, 148, 171)",
+    test("#`#3094AB` == `rgb`(48, 148, 171)",
          '<math><mn>#3094AB</mn><mo>≡</mo><mi>rgb</mi><mfenced open="(" close=")"><mn>48</mn><mn>148</mn><mn>171</mn></mfenced></math>');
-    test("`rgb`(48, 148, 171) -= #`#3094AB`",
+    test("`rgb`(48, 148, 171) == #`#3094AB`",
          '<math><mi>rgb</mi><mfenced open="(" close=")"><mn>48</mn><mn>148</mn><mn>171</mn></mfenced><mo>≡</mo><mn>#3094AB</mn></math>');
   });
 
