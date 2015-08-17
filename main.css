@@ -173,6 +173,11 @@ body > h1 {
     font-size: 1.6em;
 }
 
+.try > .output .logo math {
+    font-family: "Linux Libertine", serif;
+    font-weight: bold;
+}
+
 article {
     margin: 2em 1em;
 }

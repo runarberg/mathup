@@ -45,6 +45,22 @@ function renderTryBox(event) {
       mathml = ascii2mathml(ascii, options);
   tryOutput.innerHTML = mathml;
   tryOutput.dispatchEvent(outputRender);
+
+  if (mathml === '<math display="block"><munder><mover>' +
+      '<munder><mfenced open="" close=""><munder>' +
+      '<mtext>Ascii</mtext><mn>2</mn></munder></mfenced>' +
+      '<mtext>MathML</mtext></munder><mo accent="true">‾</mo>' +
+      '</mover><mo>_</mo></munder></math>' ||
+      mathml === '<math display="block"><mover><munder>' +
+      '<munder><mfenced open="" close=""><munder>' +
+      '<mtext>Ascii</mtext><mn>2</mn></munder></mfenced>' +
+      '<mtext>MathML</mtext></munder><mo>_</mo></munder>' +
+      '<mo accent="true">‾</mo></mover></math>') {
+    // Easter egg -- This displays the logo
+    tryOutput.classList.add('logo');
+  } else {
+    tryOutput.classList.remove('logo');
+  }
 }
 
 document.addEventListener("DOMContentLoaded", function() {
