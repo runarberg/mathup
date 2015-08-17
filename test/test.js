@@ -247,18 +247,25 @@ describe('Whitespace', function() {
     test("a  b", '<math><mi>a</mi><mspace width="1ex" /><mi>b</mi></math>');
     test("a b", "<math><mi>a</mi><mi>b</mi></math>");
   });
+
   it('But not if one or less', function() {
     expect(ascii2mathml("a b")).to.be(ascii2mathml("ab"));
     expect(ascii2mathml("a  b")).not.to.be(ascii2mathml("ab"));
   });
+
   it('Should have width following the equation `n-1`ex', function() {
     for (var n=2; n < 20; n++) {
       test("a" + new Array(n+1).join(' ') + "b",
            '<math><mi>a</mi><mspace width="' + (n-1) + 'ex" /><mi>b</mi></math>');
     }
   });
+
   it('Should group adjacent symbols on either side of whitespace in an <mrow>', function() {
     test('ab cd', "<math><mrow><mi>a</mi><mi>b</mi></mrow><mi>c</mi><mi>d</mi></math>");
+  });
+
+  it("But not straight after a function", function() {
+    test("sin (a + b)", '<math><mi>sin</mi><mfenced open="(" close=")"><mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow></mfenced></math>');
   });
 });
 

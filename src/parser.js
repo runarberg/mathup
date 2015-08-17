@@ -213,16 +213,6 @@ function parser(options) {
         rest = split[1];
       }
 
-    } else if (!grouped && syntax.isgroupable(ascii, options)) {
-
-      // ## Whitespace ##
-
-      // treat whitespace separated subexpressions as a group
-      let split = splitNextWhitespace(ascii);
-
-      el = parsegroup(split[0]);
-      rest = split[1];
-
     } else if (syntax.isfontCommand(ascii)) {
 
       // ## Font Commands ##
@@ -306,6 +296,16 @@ function parser(options) {
         if (options.colSep !== ",") { attrs.separators = options.colSep; }
         el = mfenced(els, attrs);
       }
+
+    } else if (!grouped && syntax.isgroupable(ascii, options)) {
+
+      // ## Whitespace ##
+
+      // treat whitespace separated subexpressions as a group
+      let split = splitNextWhitespace(ascii);
+
+      el = parsegroup(split[0]);
+      rest = split[1];
 
     } else if (numbers.isdigit(head)) {
 
@@ -526,8 +526,7 @@ function parser(options) {
 
 
   function splitNextWhitespace(str) {
-    const re = new RegExp(`(\\s|${options.colSep}|${options.rowSep}|$)`),
-          rootRE = new RegExp(`root(\\d+(${options.decMark}\\d+)?$|[A-Za-z]$)`);
+    const re = new RegExp(`(\\s|${options.colSep}|${options.rowSep}|$)`);
     let match = str.match(re),
         head = str.slice(0, match.index),
         sep = match[0],
@@ -536,7 +535,7 @@ function parser(options) {
     let next = head,
         rest = sep + tail;
 
-    if (syntax.endsInFunc(head) || head.match(rootRE)) {
+    if (!syntax.isgroupStart(tail.trim()) && syntax.endsInFunc(head)) {
       let newsplit = splitNextWhitespace(tail);
       next += sep + newsplit[0];
       rest = newsplit[1];
