@@ -1,4 +1,4 @@
-/*! ascii2mathml v0.5.0 | (c) 2015 (MIT) | https://github.com/runarberg/ascii2mathml#readme */
+/*! ascii2mathml v0.5.1 | (c) 2015 (MIT) | https://github.com/runarberg/ascii2mathml#readme */
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.ascii2mathml = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 
@@ -657,15 +657,6 @@ function parser(options) {
         el = tagfun(removeSurroundingBrackets(split[0]) + mo(accent, !under && { accent: true }));
         rest = split[1];
       }
-    } else if (!grouped && syntax.isgroupable(ascii, options)) {
-
-      // ## Whitespace ##
-
-      // treat whitespace separated subexpressions as a group
-      var split = splitNextWhitespace(ascii);
-
-      el = parsegroup(split[0]);
-      rest = split[1];
     } else if (syntax.isfontCommand(ascii)) {
 
       // ## Font Commands ##
@@ -753,6 +744,15 @@ function parser(options) {
           el = mfenced(els, attrs);
         }
       })();
+    } else if (!grouped && syntax.isgroupable(ascii, options)) {
+
+      // ## Whitespace ##
+
+      // treat whitespace separated subexpressions as a group
+      var split = splitNextWhitespace(ascii);
+
+      el = parsegroup(split[0]);
+      rest = split[1];
     } else if (numbers.isdigit(head)) {
 
       // ## Number ##
@@ -983,8 +983,7 @@ function parser(options) {
   }
 
   function splitNextWhitespace(str) {
-    var re = new RegExp("(\\s|" + options.colSep + "|" + options.rowSep + "|$)"),
-        rootRE = new RegExp("root(\\d+(" + options.decMark + "\\d+)?$|[A-Za-z]$)");
+    var re = new RegExp("(\\s|" + options.colSep + "|" + options.rowSep + "|$)");
     var match = str.match(re),
         head = str.slice(0, match.index),
         sep = match[0],
@@ -993,7 +992,7 @@ function parser(options) {
     var next = head,
         rest = sep + tail;
 
-    if (syntax.endsInFunc(head) || head.match(rootRE)) {
+    if (!syntax.isgroupStart(tail.trim()) && syntax.endsInFunc(head)) {
       var newsplit = splitNextWhitespace(tail);
       next += sep + newsplit[0];
       rest = newsplit[1];
