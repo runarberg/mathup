@@ -344,15 +344,24 @@ describe('Fractions', function() {
   it("Should display fractions", function() {
     test("a/b", "<math><mfrac><mi>a</mi><mi>b</mi></mfrac></math>");
   });
+
   it('Should have bevelled fractions', function() {
     test("a./b", '<math><mfrac bevelled="true"><mi>a</mi><mi>b</mi></mfrac></math>');
   });
+
   it('Should not parse `//` as fraction', function() {
     test('a//b', '<math><mi>a</mi><mo>/</mo><mi>b</mi></math>');
   });
+
   it("Should not display brackets around numerator or denominator", function() {
     test("(a+b)/(c+d)", "<math><mfrac><mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow><mrow><mi>c</mi><mo>+</mo><mi>d</mi></mrow></mfrac></math>");
   });
+
+  it("Should not fail on trailing fractions", function() {
+    test("a/", "<math><mfrac><mi>a</mi><mrow></mrow></mfrac></math>");
+    test("b ./ ", '<math><mfrac bevelled="true"><mi>b</mi><mrow></mrow></mfrac></math>');
+  });
+
   it('Should have whitespace delimited fractions', function() {
     test("1+3 / 2+2", "<math><mfrac><mrow><mn>1</mn><mo>+</mo><mn>3</mn></mrow><mrow><mn>2</mn><mo>+</mo><mn>2</mn></mrow></mfrac></math>");
     test("1 + 3/2 + 2", "<math><mn>1</mn><mo>+</mo><mfrac><mn>3</mn><mn>2</mn></mfrac><mo>+</mo><mn>2</mn></math>");
@@ -363,6 +372,7 @@ describe('Fractions', function() {
     test("phi = 1 + 1/(1 + 1/(1 + 1/(1 + 1/(1 + ddots))))",
          "<math><mi>φ</mi><mo>=</mo><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mfrac><mn>1</mn><mrow><mn>1</mn><mo>+</mo><mo>⋱</mo></mrow></mfrac></mrow></mfrac></mrow></mfrac></mrow></mfrac></math>");
   });
+
   it("Normal distribution", function() {
     test('cc`N`(x | mu, sigma^2) = 1/(sqrt(2pi sigma^2)) e^(-((x-mu)^2) / 2sigma^2)',
          '<math><mi mathvariant="script">N</mi><mfenced open="(" close=")"><mrow><mi>x</mi><mo stretchy="true" lspace="veryverythickmathspace" rspace="veryverythickmathspace">|</mo><mi>μ</mi></mrow><msup><mi>σ</mi><mn>2</mn></msup></mfenced><mo>=</mo><mfrac><mn>1</mn><msqrt><mrow><mn>2</mn><mi>π</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></msqrt></mfrac><msup><mi>e</mi><mrow><mo>-</mo><mfrac><msup><mfenced open="(" close=")"><mrow><mi>x</mi><mo>-</mo><mi>μ</mi></mrow></mfenced><mn>2</mn></msup><mrow><mn>2</mn><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac></mrow></msup></math>');
@@ -374,28 +384,40 @@ describe('Roots', function() {
   it("Should display square roots", function() {
     test("sqrt x", "<math><msqrt><mi>x</mi></msqrt></math>");
   });
+
   it("Should display n-roots", function() {
     test("root n x", "<math><mroot><mi>x</mi><mi>n</mi></mroot></math>");
   });
+
   it("Should not display brackets in roots", function() {
     test("sqrt(2)", "<math><msqrt><mn>2</mn></msqrt></math>");
     test("root(3)(2)", "<math><mroot><mn>2</mn><mn>3</mn></mroot></math>");
   });
 
+  it("Should not fail in empty roots", function() {
+    test("sqrt", "<math><msqrt><mrow></mrow></msqrt></math>");
+    test("root  ", "<math><mroot><mrow></mrow><mrow></mrow></mroot></math>");
+    test("root 3 ", "<math><mroot><mrow></mrow><mn>3</mn></mroot></math>");
+  });
+
   it("sqrt(2) ≈ 1.414", function() {
     test("sqrt 2 ~~ 1.414213562", "<math><msqrt><mn>2</mn></msqrt><mo>≈</mo><mn>1.414213562</mn></math>");
   });
+
   it("Quadradic formula", function() {
     test("x = (-b +- sqrt(b^2 - 4ac)) / 2a",
          "<math><mi>x</mi><mo>=</mo><mfrac><mrow><mo>-</mo><mi>b</mi><mo>±</mo><msqrt><mrow><msup><mi>b</mi><mn>2</mn></msup><mo>-</mo><mn>4</mn><mi>a</mi><mi>c</mi></mrow></msqrt></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></math>");
   });
+
   it("Golden ratio (algebraic form)", function() {
     test("phi = (1 + sqrt 5)/2", "<math><mi>φ</mi><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><msqrt><mn>5</mn></msqrt></mrow><mn>2</mn></mfrac></math>");
   });
+
   it("Plastic number", function() {
     test("rho = (root3(108 + 12 sqrt 69) + root3(108 - 12 sqrt 69)) / 6",
          "<math><mi>ρ</mi><mo>=</mo><mfrac><mrow><mroot><mrow><mn>108</mn><mo>+</mo><mn>12</mn><msqrt><mn>69</mn></msqrt></mrow><mn>3</mn></mroot><mo>+</mo><mroot><mrow><mn>108</mn><mo>-</mo><mn>12</mn><msqrt><mn>69</mn></msqrt></mrow><mn>3</mn></mroot></mrow><mn>6</mn></mfrac></math>");
   });
+
   it("Continued square root", function() {
     test("sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + cdots)))))))",
          "<math><msqrt><mrow><mn>1</mn><mo>+</mo><msqrt><mrow><mn>1</mn><mo>+</mo><msqrt><mrow><mn>1</mn><mo>+</mo><msqrt><mrow><mn>1</mn><mo>+</mo><msqrt><mrow><mn>1</mn><mo>+</mo><msqrt><mrow><mn>1</mn><mo>+</mo><msqrt><mrow><mn>1</mn><mo>+</mo><mo>⋯</mo></mrow></msqrt></mrow></msqrt></mrow></msqrt></mrow></msqrt></mrow></msqrt></mrow></msqrt></mrow></msqrt></math>");
@@ -437,18 +459,45 @@ describe('Super and subscripts', function() {
   it('Should display subscripts', function() {
     test("a_i", "<math><msub><mi>a</mi><mi>i</mi></msub></math>");
   });
+
   it('Should display superscripts', function() {
     test("a^2", "<math><msup><mi>a</mi><mn>2</mn></msup></math>");
   });
+
   it('Should display sub-superscripts', function() {
     test("a_i^2", "<math><msubsup><mi>a</mi><mi>i</mi><mn>2</mn></msubsup></math>");
   });
+
   it('Should render sub-superscripts in either direction', function() {
     test("a^2_i", "<math><msubsup><mi>a</mi><mi>i</mi><mn>2</mn></msubsup></math>");
   });
+
+  it("Should not throw on trailing sub or superscripts", function() {
+    test("a^", "<math><msup><mi>a</mi><mrow></mrow></msup></math>");
+    test("b_  ", "<math><msub><mi>b</mi><mrow></mrow></msub></math>");
+  });
+
+  it("Should not throw on trailing under or overscripts", function() {
+    test("a.^", "<math><mover><mi>a</mi><mrow></mrow></mover></math>");
+    test("b._  ", "<math><munder><mi>b</mi><mrow></mrow></munder></math>");
+  });
+
+  it("Should not throw on trailing sub-supscript", function() {
+    test("a_i^", "<math><msubsup><mi>a</mi><mi>i</mi><mrow></mrow></msubsup></math>");
+    test("a^2_", "<math><msubsup><mi>a</mi><mrow></mrow><mn>2</mn></msubsup></math>");
+  });
+
+  it("Should not throw on trailing under-overscript", function() {
+    expect(ascii2mathml).withArgs("a._i .^").not.to.throwException();
+    expect(ascii2mathml).withArgs("a._i  ^").not.to.throwException();
+    expect(ascii2mathml).withArgs("a.^2._ ").not.to.throwException();
+    expect(ascii2mathml).withArgs("a.^ 2_ ").not.to.throwException();
+  });
+
   it('Should not treat `^^` as superscript', function() {
     test('a^^2', '<math><mi>a</mi><mo>∧</mo><mn>2</mn></math>');
   });
+
   it('Should not treat `__` or `_|` as subscript', function() {
     test('a_|_i', '<math><mi>a</mi><mo>⊥</mo><mi>i</mi></math>');
     test('|__a__|i', '<math><mo>⌊</mo><mi>a</mi><mo>⌋</mo><mi>i</mi></math>');
@@ -457,13 +506,16 @@ describe('Super and subscripts', function() {
   it('Pythagorean theorem', function() {
     test("a^2 + b^2 = c^2", "<math><msup><mi>a</mi><mn>2</mn></msup><mo>+</mo><msup><mi>b</mi><mn>2</mn></msup><mo>=</mo><msup><mi>c</mi><mn>2</mn></msup></math>");
   });
+
   it('Matrix transpose', function() {
     test("(X^T)_(ij) = X_(ji)",
          '<math><msub><mfenced open="(" close=")"><msup><mi>X</mi><mi>T</mi></msup></mfenced><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><msub><mi>X</mi><mrow><mi>j</mi><mi>i</mi></mrow></msub></math>');
   });
+
   it('The natural logarithm', function() {
     test("ln x = int_1^x 1/t dt", "<math><mrow><mi>ln</mi><mi>x</mi></mrow><mo>=</mo><msubsup><mo>∫</mo><mn>1</mn><mi>x</mi></msubsup><mfrac><mn>1</mn><mi>t</mi></mfrac><mi>d</mi><mi>t</mi></math>");
   });
+
   it('Powers of powers of two', function() {
     test("2^2^2^2", "<math><msup><mn>2</mn><msup><mn>2</mn><msup><mn>2</mn><mn>2</mn></msup></msup></msup></math>");
   });
