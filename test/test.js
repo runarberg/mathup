@@ -429,25 +429,37 @@ describe('Groupings', function() {
   it('Should group brackets together', function() {
     test('(a+b)', '<math><mfenced open="(" close=")"><mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow></mfenced></math>');
   });
+
   it('Should handle comma seperated lists', function() {
     test('a,b,c', '<math><mi>a</mi><mo>,</mo><mi>b</mi><mo>,</mo><mi>c</mi></math>');
   });
+
   it('Should add parentesis around parentesized comma seperated lists', function() {
     test('(a,b,c)', '<math><mfenced open="(" close=")"><mi>a</mi><mi>b</mi><mi>c</mi></mfenced></math>');
+  });
+
+  it("Should not fail on unclosed fences", function() {
+    test("(a", '<math><mfenced open="(" close=""><mi>a</mi></mfenced></math>');
+    test("((a)", '<math><mfenced open="(" close=""><mfenced open="(" close=")"><mi>a</mi></mfenced></mfenced></math>');
+    test("[(", '<math><mfenced open="[" close=""><mfenced open="(" close=""></mfenced></mfenced></math>');
   });
 
   it('Simplify polynomials', function() {
     test("(x+y)(x-y) = x^2-y^2", '<math><mfenced open="(" close=")"><mrow><mi>x</mi><mo>+</mo><mi>y</mi></mrow></mfenced><mfenced open="(" close=")"><mrow><mi>x</mi><mo>-</mo><mi>y</mi></mrow></mfenced><mo>=</mo><msup><mi>x</mi><mn>2</mn></msup><mo>-</mo><msup><mi>y</mi><mn>2</mn></msup></math>');
   });
+
   it('Exponential decay', function() {
     test("e^(-x)", "<math><msup><mi>e</mi><mrow><mo>-</mo><mi>x</mi></mrow></msup></math>");
   });
+
   it('Eulers identity', function() {
     test("e^(i tau) = 1", "<math><msup><mi>e</mi><mrow><mi>i</mi><mi>τ</mi></mrow></msup><mo>=</mo><mn>1</mn></math>");
   });
+
   it("The natural numbers", function() {
     test('NN = {1, 2, 3, ...}', '<math><mi mathvariant="normal">ℕ</mi><mo>=</mo><mfenced open="{" close="}"><mn>1</mn><mn>2</mn><mn>3</mn><mo>…</mo></mfenced></math>');
   });
+
   it("Average over time", function() {
     test('(: V(t)^2 :) = lim_(T->oo) 1/T int_(-T./2)^(T./2) V(t)^2 dt',
          '<math><mfenced open="⟨" close="⟩"><mrow><mi>V</mi><msup><mfenced open="(" close=")"><mi>t</mi></mfenced><mn>2</mn></msup></mrow></mfenced><mo>=</mo><munder><mi>lim</mi><mrow><mi>T</mi><mo>→</mo><mi mathvariant="normal">∞</mi></mrow></munder><mfrac><mn>1</mn><mi>T</mi></mfrac><msubsup><mo>∫</mo><mrow><mo>-</mo><mfrac bevelled="true"><mi>T</mi><mn>2</mn></mfrac></mrow><mfrac bevelled="true"><mi>T</mi><mn>2</mn></mfrac></msubsup><mi>V</mi><msup><mfenced open="(" close=")"><mi>t</mi></mfenced><mn>2</mn></msup><mi>d</mi><mi>t</mi></math>');

@@ -96,9 +96,10 @@ function splitNextGroup(str) {
 
   return [start === 0 ? "" : str.slice(0, start),
           groupings.open.get(open),
-          str.slice(start + open.length, stop - (close.length - 1)),
-          groupings.close.get(close),
-          str.slice(stop + 1)];
+          str.slice(start + open.length,
+                    close ? stop - (close.length - 1) : str.length),
+          close ? groupings.close.get(close) : "",
+          stop ? str.slice(stop + 1) : ""];
 }
 
 function isvertGroupStart(str) {

@@ -134,6 +134,7 @@ function parser(options) {
 
   function parsegroup(ascii) {
     // Takes one asciiMath string and returns mathml in one group
+    if (ascii.trim().length === 0) { return ""; }
     let mathml = parse(ascii, "", false, true);
 
     return mathml === getlastel(mathml) ? mathml : mrow(mathml);
