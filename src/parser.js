@@ -176,7 +176,7 @@ function parser(options) {
       el = mroot(base + index);
       rest = two[1];
 
-    } else if (head === "\\") {
+    } else if (head === "\\" && ascii.length > 1) {
       // ## Forced opperator ##
 
       if (ascii[1].match(/[(\[]/)) {
