@@ -281,6 +281,15 @@ describe('Whitespace', function() {
   it("But not straight after a function", function() {
     test("sin (a + b)", '<math><mi>sin</mi><mfenced open="(" close=")"><mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow></mfenced></math>');
   });
+
+  it("An <mspace> should not cause trouble in fences", function() {
+    expect(ascii2mathml).withArgs("(a     ]")
+      .not.to.throwException();
+    expect(ascii2mathml).withArgs("(a     ,   b    ,     ]")
+      .not.to.throwException();
+    expect(ascii2mathml).withArgs("(a     ,   b    ,     c]")
+      .not.to.throwException();
+  });
 });
 
 

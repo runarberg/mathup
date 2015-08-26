@@ -605,7 +605,18 @@ function removeSurroundingBrackets(mathml) {
 function getlastel(xmlstr) {
   // This breaks the linearity of the implimentation
   // optimation possible, perhaps an XML parser
-  let tagname = xmlstr.match(/<\/(m[a-z]+)>$/)[1];
+  let tagmatch = xmlstr.match(/<\/(m[a-z]+)>$/);
+  if (!tagmatch) {
+    let spacematch = xmlstr.match(/<mspace\s*([a-z]+="[a-z]")*\s*\?>/);
+    if (spacematch) {
+      let i = spacematch.match[0].length;
+      return xmlstr.slice(i);
+    } else {
+      return "";
+    }
+  }
+
+  let tagname = tagmatch[1];
 
   let i = xmlstr.length - (tagname.length + 3),
       inners = 0;
