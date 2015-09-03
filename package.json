@@ -20,7 +20,7 @@
     "predist": "npm run lint",
     "dist": "rm -fr dist; mkdir dist; npm run browserify; npm run minify",
     "prepublish": "npm run build; npm run dist",
-    "postpublish": "tmp=$(mktemp -d ${TMPDIR}/asci2mathml.XXXXX) && cp -r dist $tmp/ && git checkout gh-pages && cp ${tmp}/dist/* dist/ && git commit -am \"v${npm_package_version}-public\" && git checkout dist && cp ${tmp}/dist/* dist/ && git commit -am \"v${npm_package_version}-dist\"; git checkout master",
+    "postpublish": "tmp=$(mktemp -d ${TMPDIR}/asci2mathml.XXXXX) && cp -r dist $tmp/ && git checkout gh-pages && cp ${tmp}/dist/* dist/ && git commit -am \"v${npm_package_version}-public\" && git checkout dist && cp ${tmp}/dist/* . && git commit -am \"v${npm_package_version}-dist\"; git checkout master",
     "pretest": "npm run build",
     "test": "mocha"
   },
