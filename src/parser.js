@@ -1,13 +1,5 @@
-"use strict";
-
-const lexicon = require("./lexicon"),
-      syntax = require("./syntax");
-
-const numbers = lexicon.numbers,
-      identifiers = lexicon.identifiers,
-      operators = lexicon.operators,
-      groupings = lexicon.groupings,
-      accents = lexicon.accents;
+import syntax from "./syntax";
+import {numbers, identifiers, operators, groupings, accents} from "./lexicon";
 
 
 function tag(tagname) {
@@ -675,6 +667,7 @@ function compose(f, g) {
   return function(x) { return f(g(x)); };
 }
 
-
 parser.getlastel = getlastel;
-module.exports = parser;
+
+
+export default parser;

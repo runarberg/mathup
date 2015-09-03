@@ -1,5 +1,3 @@
-"use strict";
-
 // Numbers
 // =======
 
@@ -332,11 +330,11 @@ Object.defineProperty(accents, "regexp", {
 });
 
 
-module.exports = {
-  numbers: Object.freeze(numbers),
-  identifiers: Object.freeze(identifiers),
-  operators: Object.freeze(operators),
-  groupings: Object.freeze(groupings),
-  fonts: Object.freeze(fonts),
-  accents: Object.freeze(accents)
+export {
+  numbers,
+  identifiers,
+  operators,
+  groupings,
+  fonts,
+  accents
 };

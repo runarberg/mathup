@@ -1,10 +1,4 @@
-"use strict";
-
-const lexicon = require("./lexicon");
-
-const operators = lexicon.operators,
-      groupings = lexicon.groupings,
-      fonts = lexicon.fonts;
+import {accents, identifiers, operators, groupings, fonts} from "./lexicon";
 
 function splitNextOperator(str) {
   const re = new RegExp("^" + operators.regexp.source),
@@ -38,8 +32,8 @@ function ismatrixInterior(str, colSep) {
 
 const funcEndingRe = new RegExp(
   "(" +
-    lexicon.identifiers.funs
-    .concat(Object.keys(lexicon.accents))
+    identifiers.funs
+    .concat(Object.keys(accents))
     .concat(["sqrt"])
     .sort(function(a, b) {
       return a.length - b.length;
@@ -214,7 +208,7 @@ function shouldGoUnder(el) {
   return underEls.indexOf(el) >= 0;
 }
 
-module.exports = {
+const syntax = {
   endsInFunc: endsInFunc,
   isgroupStart: isgroupStart,
   isgroupable: isgroupable,
@@ -227,3 +221,5 @@ module.exports = {
   splitfont: splitfont,
   shouldGoUnder: shouldGoUnder
 };
+
+export default syntax;

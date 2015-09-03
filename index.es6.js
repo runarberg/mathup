@@ -1,8 +1,6 @@
-"use strict";
+import "babel/polyfill";
 
-require("babel/polyfill");
-
-const parser = require("./lib/parser");
+import parser from "./lib/parser";
 
 function ascii2mathml(asciimath, options) {
 
@@ -87,4 +85,4 @@ function ascii2mathml(asciimath, options) {
   return out;
 }
 
-module.exports = ascii2mathml;
+export default ascii2mathml;
