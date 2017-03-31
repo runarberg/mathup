@@ -314,7 +314,8 @@ const accents = {
   ul: "_",
   vec: "→",
   dot: "⋅",
-  ddot: "⋅⋅"
+  ddot: "⋅⋅",
+  tilde: "˜"
 };
 
 Object.defineProperty(accents, "contains", {
