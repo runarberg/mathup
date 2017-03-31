@@ -1,3 +1,17 @@
+Ascii2MathML v0.6.0 Release Notes
+=================================
+
+Changes
+-------
+
+* Added `tilde` (~) as a new accent.
+* Expressions ending in Fraction, root, sqrt, sub, sup, under or
+  overscript opperations without opperands, will opperate on the empty
+  `<mrow>` instead of throwing an irrelevant expression. For example
+  `sqrt` yields an empty squared root.
+* Unclosed fences `(a, b,` will now longer throw exeptions, Instead
+  the fence will be implicitly closed with the empty string.
+
 Ascii2MathML v0.5.0 Release Notes
 =================================
 
