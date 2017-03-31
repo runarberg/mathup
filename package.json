@@ -11,16 +11,15 @@
     "ascii2mathml": "bin/index.js"
   },
   "scripts": {
-    "babelify": "babel src/ -d lib/; babel < index.es6.js > index.js",
-    "browserify": "(echo \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\"; browserify ./index.es6.js -s ascii2mathml) > dist/ascii2mathml.js",
+    "babelify": "babel src/ -d lib/ && babel < index.es6.js > index.js",
+    "browserify": "(echo \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" && browserify ./index.es6.js -s ascii2mathml) > dist/ascii2mathml.js",
     "minify": "uglifyjs dist/ascii2mathml.js -b beautify=false,ascii-only=true -c -m --preamble \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" > dist/ascii2mathml.min.js",
     "lint": "eslint index.es6.js src/",
     "prebuild": "npm run lint",
     "build": "rm -fr lib && mkdir lib && npm run babelify",
     "predist": "npm run lint",
     "dist": "rm -fr dist && mkdir dist && npm run browserify && npm run minify",
-    "prepublish": "npm run build; npm run dist",
-    "postpublish": "tmp=$(mktemp -d ${TMPDIR}/asci2mathml.XXXXX) && cp -r dist $tmp/ && git checkout gh-pages && cp ${tmp}/dist/* dist/ && git commit -am \"v${npm_package_version}-public\" && git checkout dist && cp ${tmp}/dist/* . && git commit -am \"v${npm_package_version}-dist\"; git checkout master",
+    "prepublish": "npm run build && npm run dist",
     "pretest": "npm run build",
     "test": "mocha"
   },
