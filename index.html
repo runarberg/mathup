@@ -1046,8 +1046,8 @@ ascii2mathml(<span class="hljs-string">'[40,2 ;; 3,14 ;; 2,72]'</span>, {display
         <section id="accents" class="columns">
           <div class="column">
             <h3>Accents</h3>
-            <p>The following accent will add what follows as an accent
-              over the following expression:</p>
+            <p>The following commands will add accents over or under the following
+              expression or add other types of highlighting:</p>
             <table>
               <thead>
                 <tr>
@@ -1092,12 +1092,20 @@ ascii2mathml(<span class="hljs-string">'[40,2 ;; 3,14 ;; 2,72]'</span>, {display
                       <mover><mi>a</mi><mo accent="true">˜</mo></mover>
                   </math></td>
                 </tr>
+                <tr>
+                  <td style="text-align:center"><code>ul a</code></td>
+                  <td style="text-align:center"><math>
+                      <munder><mi>a</mi><mo>_</mo></munder>
+                  </math></td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>cancel a</code></td>
+                  <td style="text-align:center"><math>
+                      <menclose notation="updiagonalstrike"><mi>a</mi></menclose>
+                  </math></td>
+                </tr>
               </tbody>
             </table>
-            <p>In addition, <code>ul</code> will add _ as an underscript
-              (<math>
-                <munder><mi>a</mi><mo>_</mo></munder>
-              </math>).</p>
           </div>
           <aside class="examples">
             <ul>
