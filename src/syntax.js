@@ -172,7 +172,7 @@ function plus(a, b) { return a + b; }
 // =====
 
 function isforcedEl(reEnd) {
-  let re = new RegExp("^" + fonts.regexp.source + "?" + reEnd);
+  let re = new RegExp("^(" + fonts.regexp.source + " ?)?" + reEnd);
   return str => re.exec(str);
 }
 
@@ -185,19 +185,20 @@ function isfontCommand(str) {
 
 function splitfont(ascii) {
   let typematch = isforcedIdentifier(ascii) || isforcedText(ascii),
-      type = typematch && typematch[2],
+      font = typematch && typematch[2],
+      type = typematch && typematch[3],
       tagname = type === '"' ? "mtext" :
         type === "`" ? "mi" :
         "";
 
   let start = ascii.indexOf(type),
       stop = start + 1 + ascii.slice(start + 1).indexOf(type),
-      font = start > 0 ? fonts.get(ascii.slice(0, start)) : "";
+      fontvariant = start > 0 ? fonts.get(font) : "";
 
   return {
     tagname: tagname,
     text: ascii.slice(start + 1, stop),
-    font: font,
+    font: fontvariant,
     rest: ascii.slice(stop + 1)
   };
 }
