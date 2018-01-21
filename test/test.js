@@ -487,6 +487,18 @@ describe('Groupings', function() {
     test('(: V(t)^2 :) = lim_(T->oo) 1/T int_(-T./2)^(T./2) V(t)^2 dt',
          '<math><mfenced open="⟨" close="⟩"><mrow><mi>V</mi><msup><mfenced open="(" close=")"><mi>t</mi></mfenced><mn>2</mn></msup></mrow></mfenced><mo>=</mo><munder><mi>lim</mi><mrow><mi>T</mi><mo>→</mo><mi mathvariant="normal">∞</mi></mrow></munder><mfrac><mn>1</mn><mi>T</mi></mfrac><msubsup><mo>∫</mo><mrow><mo>-</mo><mfrac bevelled="true"><mi>T</mi><mn>2</mn></mfrac></mrow><mfrac bevelled="true"><mi>T</mi><mn>2</mn></mfrac></msubsup><mi>V</mi><msup><mfenced open="(" close=")"><mi>t</mi></mfenced><mn>2</mn></msup><mi>d</mi><mi>t</mi></math>');
   });
+
+  it('Complex groupings', function() {
+    test('abs(x)', '<math><mfenced open="|" close="|"><mi>x</mi></mfenced></math>');
+    test('floor(x)', '<math><mfenced open="⌊" close="⌋"><mi>x</mi></mfenced></math>');
+    test('ceil(x)', '<math><mfenced open="⌈" close="⌉"><mi>x</mi></mfenced></math>');
+    test('norm(x)', '<math><mfenced open="∥" close="∥"><mi>x</mi></mfenced></math>');
+
+    test('abs x', '<math><mfenced open="|" close="|"><mi>x</mi></mfenced></math>');
+    test('floor x', '<math><mfenced open="⌊" close="⌋"><mi>x</mi></mfenced></math>');
+    test('ceil x', '<math><mfenced open="⌈" close="⌉"><mi>x</mi></mfenced></math>');
+    test('norm x', '<math><mfenced open="∥" close="∥"><mi>x</mi></mfenced></math>');
+  });
 });
 
 
