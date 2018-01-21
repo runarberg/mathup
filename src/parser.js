@@ -216,6 +216,17 @@ function parser(options) {
                               split.font && {mathvariant: split.font});
       rest = split.rest;
 
+    } else if (groupings.complex.contains(nextsymbol)) {
+
+      // ## Complex groupings ##
+
+      let grouping = groupings.complex.get(nextsymbol),
+          next = ascii.slice(nextsymbol.length).trimLeft(),
+          split = parseone(next);
+
+      el = mfenced(removeSurroundingBrackets(split[0]), grouping);
+      rest = split[1];
+
     } else if (syntax.isgroupStart(ascii) || syntax.isvertGroupStart(ascii)) {
 
       // ## Groupings ##

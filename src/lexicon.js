@@ -262,7 +262,13 @@ function regexpEscape(str) {
 
 const groupings = {
   open: { "(:": "⟨", "{:": "" },
-  close: { ":)": "⟩", ":}": "" }
+  close: { ":)": "⟩", ":}": "" },
+  complex: {
+    abs: {open: "|", close: "|"},
+    floor: {open: "⌊", close: "⌋"},
+    ceil: {open: "⌈", close: "⌉"},
+    norm: {open: "∥", close: "∥"}
+  }
 };
 
 Object.defineProperty(groupings.open, "regexp", {
@@ -287,8 +293,19 @@ Object.defineProperty(groupings.close, "get", {
   }
 });
 
+Object.defineProperty(groupings.complex, "contains", {
+  value: function(str) {
+    return Object.keys(groupings.complex).indexOf(str) >= 0;
+  }
+});
+
+Object.defineProperty(groupings.complex, "get", {
+  value: function(str) { return groupings.complex[str]; }
+});
+
 Object.freeze(groupings.open);
 Object.freeze(groupings.close);
+Object.freeze(groupings.complex);
 
 
 // Font
