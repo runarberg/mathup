@@ -686,6 +686,16 @@ describe('Fonts', function() {
     test('sf"abc"', '<math><mtext mathvariant="sans-serif">abc</mtext></math>');
     test('tt"abc"', '<math><mtext mathvariant="monospace">abc</mtext></math>');
   });
+  it("Should support space after the variant label", function() {
+    test('rm "abc"', '<math><mtext mathvariant="normal">abc</mtext></math>');
+    test('it "abc"', '<math><mtext mathvariant="italic">abc</mtext></math>');
+    test('bf "abc"', '<math><mtext mathvariant="bold">abc</mtext></math>');
+    test('bb "abc"', '<math><mtext mathvariant="double-struck">abc</mtext></math>');
+    test('cc "abc"', '<math><mtext mathvariant="script">abc</mtext></math>');
+    test('fr "abc"', '<math><mtext mathvariant="fraktur">abc</mtext></math>');
+    test('sf "abc"', '<math><mtext mathvariant="sans-serif">abc</mtext></math>');
+    test('tt "abc"', '<math><mtext mathvariant="monospace">abc</mtext></math>');
+  });
   it("Should set mathvariants for identifiers", function() {
     test("rm`abc`", '<math><mi mathvariant="normal">abc</mi></math>');
     test("it`abc`", '<math><mi mathvariant="italic">abc</mi></math>');
@@ -695,6 +705,16 @@ describe('Fonts', function() {
     test("fr`abc`", '<math><mi mathvariant="fraktur">abc</mi></math>');
     test("sf`abc`", '<math><mi mathvariant="sans-serif">abc</mi></math>');
     test("tt`abc`", '<math><mi mathvariant="monospace">abc</mi></math>');
+  });
+  it("Should set mathvariants for identifiers with space after variant", function() {
+    test("rm `abc`", '<math><mi mathvariant="normal">abc</mi></math>');
+    test("it `abc`", '<math><mi mathvariant="italic">abc</mi></math>');
+    test("bf `abc`", '<math><mi mathvariant="bold">abc</mi></math>');
+    test("bb `abc`", '<math><mi mathvariant="double-struck">abc</mi></math>');
+    test("cc `abc`", '<math><mi mathvariant="script">abc</mi></math>');
+    test("fr `abc`", '<math><mi mathvariant="fraktur">abc</mi></math>');
+    test("sf `abc`", '<math><mi mathvariant="sans-serif">abc</mi></math>');
+    test("tt `abc`", '<math><mi mathvariant="monospace">abc</mi></math>');
   });
 });
 
