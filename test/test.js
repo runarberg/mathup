@@ -740,6 +740,7 @@ describe('Accents', function() {
     test('dot x', '<math><mover><mi>x</mi><mo accent="true">⋅</mo></mover></math>');
     test('ddot x', '<math><mover><mi>x</mi><mo accent="true">⋅⋅</mo></mover></math>');
     test('tilde x', '<math><mover><mi>x</mi><mo accent="true">˜</mo></mover></math>');
+    test('cancel x', '<math><menclose notation="updiagonalstrike"><mi>x</mi></menclose></math>');
   });
   it('Should display dottless i and dottless j under overscript accents', function() {
     test('bar i', '<math><mover><mi>ı</mi><mo accent="true">‾</mo></mover></math>');
