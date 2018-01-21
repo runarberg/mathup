@@ -33,6 +33,7 @@ const mi = tag("mi"),
       munder = tag("munder"),
       mover = tag("mover"),
       munderover = tag("munderover"),
+      menclose = tag("menclose"),
       mrow = tag("mrow"),
       msqrt = tag("msqrt"),
       mroot = tag("mroot"),
@@ -186,24 +187,35 @@ function parser(options) {
 
       let accent = accents.get(nextsymbol),
           next = ascii.slice(nextsymbol.length).trimLeft(),
-          under = accent === "_",
-          ijmatch = next.match(/^\s*\(?([ij])\)?/);
+          ijmatch = next.match(/^\s*\(?([ij])\)?/),
+          split = parseone(next);
 
-      if (!under && ijmatch) {
-        // use non-dotted gyphs as to not clutter
-        let letter = ijmatch[1];
-
-        el = mover(mi(letter === "i" ? "ı" : "ȷ") +
-                   mo(accent, {accent: true}));
-        rest = next.slice(ijmatch[0].length);
-
-      } else {
-        let split = parseone(next),
-            tagfun = under ? munder : mover;
-
-        el = tagfun(removeSurroundingBrackets(split[0])
-                    + mo(accent, !under && {accent: true}));
-        rest = split[1];
+      switch (accent.type) {
+        // ## Accents on top ##
+        case "over":
+          if (ijmatch) {
+            // use non-dotted i and j glyphs as to not clutter
+            el = mover(mi(ijmatch[1] === "i" ? "ı" : "ȷ") +
+                       mo(accent.accent, {accent: true}));
+            rest = next.slice(ijmatch[0].length);
+          } else {
+            el = mover(removeSurroundingBrackets(split[0])
+                        + mo(accent.accent, {accent: true}));
+            rest = split[1];
+          }
+          break;
+        // ## Accents below ##
+        case "under":
+          el = munder(removeSurroundingBrackets(split[0]) + mo(accent.accent));
+          rest = split[1];
+          break;
+        // ## Enclosings
+        case "enclose":
+          el = menclose(removeSurroundingBrackets(split[0]), accent.attrs);
+          rest = split[1];
+          break;
+        default:
+          throw new Error("Invalid config for accent " + nextsymbol);
       }
 
     } else if (syntax.isfontCommand(ascii)) {

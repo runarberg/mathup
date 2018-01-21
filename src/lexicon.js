@@ -326,13 +326,14 @@ Object.defineProperty(fonts, "regexp", {
 // =======
 
 const accents = {
-  hat: "^",
-  bar: "‾",
-  ul: "_",
-  vec: "→",
-  dot: "⋅",
-  ddot: "⋅⋅",
-  tilde: "˜"
+  hat: {type: "over", accent: "^"},
+  bar: {type: "over", accent: "‾"},
+  ul: {type: "under", accent: "_"},
+  vec: {type: "over", accent: "→"},
+  dot: {type: "over", accent: "⋅"},
+  ddot: {type: "over", accent: "⋅⋅"},
+  tilde: {type: "over", accent: "˜"},
+  cancel: {type: "enclose", attrs: {notation: "updiagonalstrike"}}
 };
 
 Object.defineProperty(accents, "contains", {
