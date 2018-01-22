@@ -13,7 +13,7 @@ npm install ascii2mathml
 ```
 
 ```js
-var ascii2mathml = require("ascii2mathml");
+import ascii2mathml = from "ascii2mathml";
 ```
 
 ##### Client #####
@@ -26,6 +26,7 @@ and include the script file
 
 ```html
 <script src="ascii2mathml.js"></script>
+ascii2mathml = ascii2mathml.default;
 ```
 
 #### Usage ####
@@ -66,19 +67,21 @@ You can also call `ascii2mathml` with only a configuration object,
 that will return a new function with the new defaults. For example
 
 ```js
-var ascii2mathml = require('ascii2mathml')({
+import ascii2mathml from 'ascii2mathml';
+
+const mathml = ({
     decimalMark: ',',
     colSep: ';',        // default if `,` is the decimal mark
     rowSep: ';;'        // default if `;` is the column separator
 });
 
-ascii2mathml('40,2');
+mathml('40,2');
 // <math><mn>40,2</mn></math>
 
-ascii2mathml('(40,2; 3,17; 2,72)', {bare: true});
+mathml('(40,2; 3,17; 2,72)', {bare: true});
 // <mfenced open="(" close=")" separators=";"><mn>40,2</mn><mn>3,14</mn><mn>2,72</mn></mfenced>
 
-ascii2mathml('[40,2 ;; 3,14 ;; 2,72]', {display: 'block'});
+mathml('[40,2 ;; 3,14 ;; 2,72]', {display: 'block'});
 // <math display="block"><mfenced open="[" close="]"><mtable><mtr><mtd><mn>40,2</mn></mtd></mtr><mtr><mtd><mn>3,14</mn></mtd></mtr><mtr><mtd><mn>2,72</mn></mtd></mtr></mtable></mfenced></math>
 ```
 
