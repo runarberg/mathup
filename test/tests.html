@@ -491,6 +491,7 @@
     </section>
     <script src="../dist/ascii2mathml.js"></script>
     <script>
+      ascii2mathml = ascii2mathml.default;
       var parser = new DOMParser();
       Array.prototype.forEach.call(document.querySelectorAll(".test-case"), function (test) {
         var code = test.querySelector("code");

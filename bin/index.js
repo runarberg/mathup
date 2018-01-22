@@ -5,7 +5,7 @@
 var fs = require('fs');
 var argv = require('minimist')(process.argv.slice(2));
 
-var ascii2mathml = require('../');
+var ascii2mathml = require('../').default;
 
 var ascii;
 

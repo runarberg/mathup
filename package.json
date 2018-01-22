@@ -13,15 +13,15 @@
   "scripts": {
     "babelify": "babel src/ -d lib/ && babel < index.es6.js > index.js",
     "browserify": "(echo \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" && browserify ./index.es6.js -s ascii2mathml) > dist/ascii2mathml.js",
-    "minify": "uglifyjs dist/ascii2mathml.js -b beautify=false,ascii-only=true -c -m --preamble \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" > dist/ascii2mathml.min.js",
+    "minify": "uglifyjs dist/ascii2mathml.js -b beautify=false,ascii_only=true -c -m --preamble \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" > dist/ascii2mathml.min.js",
     "lint": "eslint index.es6.js src/",
     "prebuild": "npm run lint",
     "build": "rm -fr lib && mkdir lib && npm run babelify",
     "predist": "npm run lint",
     "dist": "rm -fr dist && mkdir dist && npm run browserify && npm run minify",
-    "prepublish": "npm run build && npm run dist",
+    "prepare": "npm run build && npm run dist",
     "pretest": "npm run build",
-    "test": "mocha"
+    "test": "mocha --require babel-register"
   },
   "keywords": [
     "mathml",
@@ -36,16 +36,17 @@
     ]
   },
   "devDependencies": {
-    "babelify": "^6.1.3",
-    "browserify": "^11.0.1",
-    "eslint": "^1.0.0",
-    "eslint-plugin-nodeca": "^1.0.3",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "babelify": "^8.0.0",
+    "browserify": "^15.2.0",
+    "eslint": "^4.16.0",
     "expect.js": "^0.3.1",
-    "mocha": "^2.1.0",
-    "uglifyjs": "^2.4.10"
+    "mocha": "^5.0.0",
+    "uglify-es": "^3.3.8"
   },
   "dependencies": {
-    "babel": "^5.8.19",
     "minimist": "^1.1.2"
   }
 }

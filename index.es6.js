@@ -1,8 +1,6 @@
-import "babel/polyfill";
-
 import parser from "./lib/parser";
 
-function ascii2mathml(asciimath, options) {
+export default function ascii2mathml(asciimath, options) {
 
   // Curry
   if (typeof asciimath === "object") {
@@ -84,5 +82,3 @@ function ascii2mathml(asciimath, options) {
 
   return out;
 }
-
-export default ascii2mathml;

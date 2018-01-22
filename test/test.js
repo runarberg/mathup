@@ -1,7 +1,7 @@
 "use strict";
 
-var ascii2mathml = require("../index.js");
-var expect = require("expect.js");
+import ascii2mathml from "../index.js";
+import expect from "expect.js";
 
 var test = function(ascii, mathml) {
   return expect(ascii2mathml(ascii)).to.be(mathml);
