@@ -417,6 +417,14 @@ describe('Roots', function() {
     test("root(3)(2)", "<math><mroot><mn>2</mn><mn>3</mn></mroot></math>");
   });
 
+  it("Should display the binomial coefficient", function() {
+    test("binom(n, k)", '<math><mfenced open="(" close=")"><mfrac linethickness="0"><mi>n</mi><mi>k</mi></mfrac></mfenced></math>')
+  });
+
+  it("Should display the whole terms of the binomial coefficient", function() {
+    test("binom(a, b + c)", '<math><mfenced open="(" close=")"><mfrac linethickness="0"><mi>a</mi><mrow><mi>b</mi><mo>+</mo><mi>c</mi></mrow></mfrac></mfenced></math>')
+  });
+
   it("Should not fail in empty roots", function() {
     test("sqrt", "<math><msqrt><mrow></mrow></msqrt></math>");
     test("root  ", "<math><mroot><mrow></mrow><mrow></mrow></mroot></math>");
@@ -444,6 +452,11 @@ describe('Roots', function() {
   it("Continued square root", function() {
     test("sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + cdots)))))))",
          "<math><msqrt><mrow><mn>1</mn><mo>+</mo><msqrt><mrow><mn>1</mn><mo>+</mo><msqrt><mrow><mn>1</mn><mo>+</mo><msqrt><mrow><mn>1</mn><mo>+</mo><msqrt><mrow><mn>1</mn><mo>+</mo><msqrt><mrow><mn>1</mn><mo>+</mo><msqrt><mrow><mn>1</mn><mo>+</mo><mo>⋯</mo></mrow></msqrt></mrow></msqrt></mrow></msqrt></mrow></msqrt></mrow></msqrt></mrow></msqrt></mrow></msqrt></math>");
+  });
+
+  it('The binomial coefficient', function() {
+    test("binom(n, k) = n! / (n-k)!k!",
+         '<math><mfenced open="(" close=")"><mfrac linethickness="0"><mi>n</mi><mi>k</mi></mfrac></mfenced><mo>=</mo><mfrac><mrow><mi>n</mi><mo>!</mo></mrow><mrow><mfenced open="(" close=")"><mrow><mi>n</mi><mo>-</mo><mi>k</mi></mrow></mfenced><mo>!</mo><mi>k</mi><mo>!</mo></mrow></mfrac></math>');
   });
 });
 
@@ -673,9 +686,11 @@ describe('Matrices', function() {
     test("[[((a, b), (d, e)), -1], [1, ((f, g), (h, i))]]",
          '<math><mfenced open="[" close="]"><mtable><mtr><mtd><mfenced open="(" close=")"><mtable><mtr><mtd><mi>a</mi></mtd><mtd><mi>b</mi></mtd></mtr><mtr><mtd><mi>d</mi></mtd><mtd><mi>e</mi></mtd></mtr></mtable></mfenced></mtd><mtd><mo>-</mo><mn>1</mn></mtd></mtr><mtr><mtd><mn>1</mn></mtd><mtd><mfenced open="(" close=")"><mtable><mtr><mtd><mi>f</mi></mtd><mtd><mi>g</mi></mtd></mtr><mtr><mtd><mi>h</mi></mtd><mtd><mi>i</mi></mtd></mtr></mtable></mfenced></mtd></mtr></mtable></mfenced></math>');
   });
-  it('The binomial coefficient', function() {
-    test("(n; k) = n! / (n-k)!k!",
-         '<math><mfenced open="(" close=")"><mfrac linethickness="0"><mi>n</mi><mi>k</mi></mfrac></mfenced><mo>=</mo><mfrac><mrow><mi>n</mi><mo>!</mo></mrow><mrow><mfenced open="(" close=")"><mrow><mi>n</mi><mo>-</mo><mi>k</mi></mrow></mfenced><mo>!</mo><mi>k</mi><mo>!</mo></mrow></mfrac></math>');
+  it('Single colomn vector', function() {
+    test('(a; b)', '<math><mfenced open="(" close=")"><mtable><mtr><mtd><mi>a</mi></mtd></mtr><mtr><mtd><mi>b</mi></mtd></mtr></mtable></mfenced></math>');
+  });
+  it('Single row matrix', function() {
+    test('(a, b;)', '<math><mfenced open="(" close=")"><mtable><mtr><mtd><mi>a</mi></mtd><mtd><mi>b</mi></mtd></mtr></mtable></mfenced></math>');
   });
   it("The absolute value", function() {
     test('|x| = { (x\\,, if x >= 0), (-x\\,, if x < 0) :}',
