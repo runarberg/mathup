@@ -253,7 +253,9 @@ function parser(options) {
         return lines.length > 1 ? lines : rowsplit(group);
       }());
 
-      if (syntax.ismatrixInterior(group.trim(), options.colSep)) {
+      if (syntax.ismatrixInterior(group.trim(),
+                                  options.colSep,
+                                  options.rowSep)) {
 
         // ### Matrix ##
 

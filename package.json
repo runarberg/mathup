@@ -11,7 +11,7 @@
     "ascii2mathml": "bin/index.js"
   },
   "scripts": {
-    "babelify": "babel src/ -d lib/ && babel < index.es6.js > index.js",
+    "babelify": "babel src/ -d lib/ && babel index.es6.js > index.js",
     "browserify": "(echo \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" && browserify ./index.es6.js -s ascii2mathml) > dist/ascii2mathml.js",
     "minify": "uglifyjs dist/ascii2mathml.js -b beautify=false,ascii_only=true -c -m --preamble \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" > dist/ascii2mathml.min.js",
     "lint": "eslint index.es6.js src/",

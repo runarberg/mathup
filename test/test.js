@@ -649,6 +649,14 @@ describe('Matrices', function() {
       .to.be(ascii2mathml('(4; 6)'));
   });
 
+  it('Should allow comma/semicolon to take precedence over bracket delimited matrices', function() {
+    test('[(a), (b); (c), (d)]', '<math><mfenced open="[" close="]"><mtable><mtr><mtd><mfenced open="(" close=")"><mi>a</mi></mfenced></mtd><mtd><mfenced open="(" close=")"><mi>b</mi></mfenced></mtd></mtr><mtr><mtd><mfenced open="(" close=")"><mi>c</mi></mfenced></mtd><mtd><mfenced open="(" close=")"><mi>d</mi></mfenced></mtd></mtr></mtable></mfenced></math>');
+  });
+
+  it('Should allow newlines to take precedence over bracket delimited matrices', function() {
+    test('[(a), (b)\n (c), (d)]', '<math><mfenced open="[" close="]"><mtable><mtr><mtd><mfenced open="(" close=")"><mi>a</mi></mfenced></mtd><mtd><mfenced open="(" close=")"><mi>b</mi></mfenced></mtd></mtr><mtr><mtd><mfenced open="(" close=")"><mi>c</mi></mfenced></mtd><mtd><mfenced open="(" close=")"><mi>d</mi></mfenced></mtd></mtr></mtable></mfenced></math>');
+  });
+
   it('Should display vertical bar delimited matrices', function() {
     test('|(a,b,c), (d,e,f), (h,i,j)|', '<math><mfenced open="|" close="|"><mtable><mtr><mtd><mi>a</mi></mtd><mtd><mi>b</mi></mtd><mtd><mi>c</mi></mtd></mtr><mtr><mtd><mi>d</mi></mtd><mtd><mi>e</mi></mtd><mtd><mi>f</mi></mtd></mtr><mtr><mtd><mi>h</mi></mtd><mtd><mi>i</mi></mtd><mtd><mi>j</mi></mtd></mtr></mtable></mfenced></math>');
   });

@@ -22,12 +22,33 @@ function isgroupable(str, options) {
   return str.match(re);
 }
 
-function ismatrixInterior(str, colSep) {
-  return isgroupStart(str) && (function() {
-    let rest = splitNextGroup(str)[4];
-    return rest.trim().startsWith(colSep) ||
-      rest.match(/^\s*\n/) && isgroupStart(rest.trim());
-  }());
+function ismatrixInterior(str, colSep, rowSep) {
+  if (!isgroupStart(str)) {
+    return false;
+  }
+
+  let rest = splitNextGroup(str)[4];
+
+  if (
+    !(rest.trim().startsWith(colSep) ||
+      rest.match(/^\s*\n/) &&
+      isgroupStart(rest.trim()))
+  ) {
+    return false;
+  }
+
+  // Make sure we are building the matrix with parenthesis, as opposed
+  // to rowSeps.
+  while (rest && rest.trim()) {
+    rest = (splitNextGroup(rest) || [])[4];
+
+    if (rest && (rest.startsWith(rowSep) || rest.match(/^\s*\n/))) {
+      // `rowSep` delimited matrices are handled elsewhere.
+      return false;
+    }
+  }
+
+  return true;
 }
 
 const funcEndingRe = new RegExp(
