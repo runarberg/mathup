@@ -121,7 +121,6 @@ function parser(options) {
       [el, rest] = splitNextFraction(el, rest);
     }
 
-
     return parse(rest, mathml + el, false);
   };
 
@@ -168,6 +167,17 @@ function parser(options) {
 
       el = mroot(base + index);
       rest = two[1];
+
+    } else if (ascii.startsWith("binom")) {
+
+      let [,, group,, after] = syntax.splitNextGroup(ascii),
+          [a, b] = colsplit(group),
+          over = parsegroup(a.trim()),
+          under = parsegroup(b.trim());
+
+      el = mfenced(mfrac(over + under, {linethickness: 0}),
+                   {open: "(", close: ")"});
+      rest = after;
 
     } else if (head === "\\" && ascii.length > 1) {
       // ## Forced opperator ##
@@ -271,35 +281,18 @@ function parser(options) {
 
         // ### Column vector ###
 
-        if (rows.length === 2 && open === "(" && close === ")") {
+        let vector = rows.map(colsplit);
 
-          // #### Binomial Coefficient ####
-
-          // Experimenting with the binomial coefficient
-          // Perhaps I'll remove this later
-          let binom = mfrac(rows.map(parsegroup).join(""), {
-            linethickness: 0
-          });
-
-          el = mfenced(binom, {open: open, close: close});
-
-        } else {
-
-          // #### Single column vector ####
-
-          let vector = rows.map(colsplit);
-
-          if (last(vector).length === 1 && last(vector)[0].match(/^\s*$/)) {
-            // A trailing rowbreak
-            vector = vector.slice(0, -1);
-          }
-
-          let matrix = vector.map(function(row) {
-            return mtr(row.map(compose(mtd, parsegroup)).join(""));
-          }).join("");
-
-          el = mfenced(mtable(matrix), {open: open, close: close});
+        if (last(vector).length === 1 && last(vector)[0].match(/^\s*$/)) {
+          // A trailing rowbreak
+          vector = vector.slice(0, -1);
         }
+
+        let matrix = vector.map(function(row) {
+          return mtr(row.map(compose(mtd, parsegroup)).join(""));
+        }).join("");
+
+        el = mfenced(mtable(matrix), {open: open, close: close});
 
       } else {
 
