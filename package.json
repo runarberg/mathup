@@ -1,6 +1,6 @@
 {
   "name": "ascii2mathml",
-  "version": "0.6.0",
+  "version": "0.6.1-alpha.0",
   "description": "The second AsciiMath – MathML converter",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
   },
   "scripts": {
     "babelify": "babel src/ -d lib/ && babel index.es6.js > index.js",
-    "browserify": "(echo \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" && browserify ./index.es6.js -s ascii2mathml) > dist/ascii2mathml.js",
+    "browserify": "(echo \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" && browserify ./index.js -s ascii2mathml) > dist/ascii2mathml.js",
     "minify": "uglifyjs dist/ascii2mathml.js -b beautify=false,ascii_only=true -c -m --preamble \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" > dist/ascii2mathml.min.js",
     "lint": "eslint index.es6.js src/",
     "prebuild": "npm run lint",
@@ -21,7 +21,7 @@
     "dist": "rm -fr dist && mkdir dist && npm run browserify && npm run minify",
     "prepare": "npm run build && npm run dist",
     "pretest": "npm run build",
-    "test": "mocha --require babel-register"
+    "test": "mocha --require @babel/register"
   },
   "keywords": [
     "mathml",
@@ -36,17 +36,19 @@
     ]
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-register": "^6.26.0",
-    "babelify": "^8.0.0",
-    "browserify": "^15.2.0",
-    "eslint": "^4.16.0",
+    "@babel/core": "^7.2.2",
+    "@babel/cli": "^7.2.3",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/register": "^7.0.0",
+    "@babel/plugin-transform-template-literals": "^7.2.0",
+    "babelify": "^10.0.0",
+    "browserify": "^16.2.3",
+    "eslint": "^5.13.0",
     "expect.js": "^0.3.1",
-    "mocha": "^5.0.0",
-    "uglify-es": "^3.3.8"
+    "mocha": "^5.2.0",
+    "uglify-js": "^3.4.9"
   },
   "dependencies": {
-    "minimist": "^1.1.2"
+    "minimist": "^1.2.0"
   }
 }
