@@ -1,3 +1,17 @@
+Ascii2MathML v0.6.2 Release Notes
+=================================
+
+Fixes
+-----
+
+* Fixed binary not working on native node. (#25)
+
+Contributors
+------------
+
+* runarberg <runarberg@zoho.com>
+
+
 Ascii2MathML v0.6.1 Release Notes
 =================================
 
@@ -5,7 +19,6 @@ Fixes
 -----
 
 * Updated dependencies passing `npm audit`. (#24)
-* Fixed binary not working on native node. (#21)
 
 Changes
 -------
