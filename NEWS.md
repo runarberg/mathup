@@ -1,3 +1,25 @@
+Ascii2MathML v0.6.1 Release Notes
+=================================
+
+Fixes
+-----
+
+* Updated dependencies passing `npm audit`. (#24)
+* Fixed binary not working on native node. (#21)
+
+Changes
+-------
+
+* Comma/semicolon matrices to take precedence over bracket delimited
+  matrices. (#19)
+
+Contributors
+------------
+
+* runarberg <runarberg@zoho.com>
+* shellyln <shellyln@users.noreply.github.com>
+
+
 Ascii2MathML v0.6.0 Release Notes
 =================================
 
@@ -47,6 +69,13 @@ Changes
   `sqrt` yields an empty squared root.
 * Unclosed fences `(a, b,` will now longer throw exeptions, Instead
   the fence will be implicitly closed with the empty string.
+
+Contributors
+------------
+
+* Lukas Bestle <mail@lukasbestle.com>
+* runarberg <runarberg@zoho.com>
+
 
 Ascii2MathML v0.5.0 Release Notes
 =================================
