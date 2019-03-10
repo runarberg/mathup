@@ -1,6 +1,6 @@
 import parser from "./lib/parser";
 
-function ascii2mathml(asciimath, options) {
+export function ascii2mathml(asciimath, options) {
 
   // Curry
   if (typeof asciimath === "object") {
@@ -83,4 +83,4 @@ function ascii2mathml(asciimath, options) {
   return out;
 }
 
-module.exports = ascii2mathml;
+export default ascii2mathml;
