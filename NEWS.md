@@ -1,3 +1,24 @@
+Ascii2MathML v0.7.0 Release Notes
+=================================
+
+Additions
+---------
+
+* Added `binom(a, b)` for the binomial coefficient.
+
+Braking Changes
+---------------
+
+* A two row column vector, denoted with `(a; b)` will no longer turn
+  into a binomial coefficient. It will stay as a column vector. Use
+  `binom(a, b)` if you want the old behavior.
+
+Contributors
+------------
+
+* runarberg <runarberg@zoho.com>
+
+
 Ascii2MathML v0.6.2 Release Notes
 =================================
 
