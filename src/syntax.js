@@ -1,22 +1,20 @@
-import {accents, identifiers, operators, groupings, fonts} from "./lexicon";
+import { accents, identifiers, operators, groupings, fonts } from "./lexicon";
 
 function splitNextOperator(str) {
-  const re = new RegExp("^" + operators.regexp.source),
-        match = re.exec(str),
-        op = match[0];
+  const re = new RegExp(`^${operators.regexp.source}`);
+  const match = re.exec(str);
+  const op = match[0];
 
   return [operators.get(op), str.slice(op.length)];
 }
 
-
 function isgroupStart(str) {
-  let re = new RegExp("^" + groupings.open.regexp.source);
+  const re = new RegExp(`^${groupings.open.regexp.source}`);
   return str.match(re);
 }
 
-
 function isgroupable(str, options) {
-  let re = new RegExp(
+  const re = new RegExp(
     `^[0-9A-Za-z+\\-!]{2,}(\\s|${options.colSep}|${options.rowSep})`
   );
   return str.match(re);
@@ -30,9 +28,10 @@ function ismatrixInterior(str, colSep, rowSep) {
   let rest = splitNextGroup(str)[4];
 
   if (
-    !(rest.trim().startsWith(colSep) ||
-      rest.match(/^\s*\n/) &&
-      isgroupStart(rest.trim()))
+    !(
+      rest.trim().startsWith(colSep) ||
+      (rest.match(/^\s*\n/) && isgroupStart(rest.trim()))
+    )
   ) {
     return false;
   }
@@ -40,7 +39,7 @@ function ismatrixInterior(str, colSep, rowSep) {
   // Make sure we are building the matrix with parenthesis, as opposed
   // to rowSeps.
   while (rest && rest.trim()) {
-    rest = (splitNextGroup(rest) || [])[4];
+    [, , , , rest] = splitNextGroup(rest) || [];
 
     if (rest && (rest.startsWith(rowSep) || rest.match(/^\s*\n/))) {
       // `rowSep` delimited matrices are handled elsewhere.
@@ -52,14 +51,12 @@ function ismatrixInterior(str, colSep, rowSep) {
 }
 
 const funcEndingRe = new RegExp(
-  "(" +
-    identifiers.funs
+  `(${identifiers.funs
     .concat(Object.keys(accents))
     .concat(["sqrt"])
-    .sort(function(a, b) {
-      return a.length - b.length;
-    }).join("|") +
-    ")$");
+    .sort((a, b) => a.length - b.length)
+    .join("|")})$`
+);
 
 function endsInFunc(str) {
   return str.match(funcEndingRe);
@@ -68,38 +65,36 @@ function endsInFunc(str) {
 function splitNextGroup(str) {
   /** Split the string into `[before, open, group, close, after]` */
 
-  const openRE = new RegExp("^" + groupings.open.regexp.source),
-        closeRE = new RegExp("^" + groupings.close.regexp.source);
+  const openRE = new RegExp(`^${groupings.open.regexp.source}`);
+  const closeRE = new RegExp(`^${groupings.close.regexp.source}`);
 
-  let start,
-      stop,
-      open,
-      close,
-      inners = 0,
-      i = 0;
+  let start;
+  let stop;
+  let open;
+  let close;
+  let inners = 0;
+  let i = 0;
 
   while (i < str.length) {
-    let rest = str.slice(i),
-        openMatch = rest.match(openRE),
-        closeMatch = rest.match(closeRE);
+    const rest = str.slice(i);
+    const openMatch = rest.match(openRE);
+    const closeMatch = rest.match(closeRE);
 
     if (openMatch) {
       if (typeof start !== "number") {
         start = i;
-        open = openMatch[0];
+        [open] = openMatch;
       }
       inners += 1;
       i += openMatch[0].length;
-
     } else if (closeMatch) {
       inners -= 1;
       if (inners === 0) {
-        close = closeMatch[0];
+        [close] = closeMatch;
         stop = i + (close.length - 1);
         break;
       }
       i += closeMatch[0].length;
-
     } else {
       i += 1;
     }
@@ -109,37 +104,43 @@ function splitNextGroup(str) {
     return null;
   }
 
-  return [start === 0 ? "" : str.slice(0, start),
-          groupings.open.get(open),
-          str.slice(start + open.length,
-                    close ? stop - (close.length - 1) : str.length),
-          close ? groupings.close.get(close) : "",
-          stop ? str.slice(stop + 1) : ""];
+  return [
+    start === 0 ? "" : str.slice(0, start),
+    groupings.open.get(open),
+    str.slice(
+      start + open.length,
+      close ? stop - (close.length - 1) : str.length
+    ),
+    close ? groupings.close.get(close) : "",
+    stop ? str.slice(stop + 1) : ""
+  ];
 }
 
 function isvertGroupStart(str) {
   if (!str.startsWith("|")) {
     return false;
   }
-  let split = splitNextVert(str);
+  const split = splitNextVert(str);
 
   return split && split[0] === "";
 }
 
 function splitNextVert(str) {
   function retval(start, stop, double) {
-    return [start === 0 ? "" : str.slice(0, start),
-            double ? "‖" : "|",
-            str.slice(start + (double ? 2 : 1), stop),
-            double ? "‖" : "|",
-            str.slice(stop + (double ? 2 : 1))];
+    return [
+      start === 0 ? "" : str.slice(0, start),
+      double ? "‖" : "|",
+      str.slice(start + (double ? 2 : 1), stop),
+      double ? "‖" : "|",
+      str.slice(stop + (double ? 2 : 1))
+    ];
   }
 
-  let start = str.indexOf("|"),
-      stop = start + 1,
-      rest = str.slice(start + 1),
-      double = rest.startsWith("|"),
-      re = double ? /\|\|/ : /\|/;
+  const start = str.indexOf("|");
+  let stop = start + 1;
+  let rest = str.slice(start + 1);
+  const double = rest.startsWith("|");
+  const re = double ? /\|\|/ : /\|/;
 
   if (double) {
     rest = rest.slice(1);
@@ -149,21 +150,24 @@ function splitNextVert(str) {
   if (rest.indexOf("|") === -1) {
     return null;
   }
-  if (rest.match(/^\.?[_\^]/)) {
+  if (rest.match(/^\.?[_^]/)) {
     return null;
   }
 
   while (rest.length > 0) {
-    let split = splitNextGroup(rest),
-        head = split ? split[0] : rest,
-        tail = split ? split[4] : "",
-        match = re.exec(head);
+    const split = splitNextGroup(rest);
+    const head = split ? split[0] : rest;
+    const tail = split ? split[4] : "";
+    const match = re.exec(head);
 
     if (match) {
       return retval(start, stop + match.index, double);
     }
 
-    stop += split.slice(0, -1).map(dot("length")).reduce(plus);
+    stop += split
+      .slice(0, -1)
+      .map(dot("length"))
+      .reduce(plus);
     // adjust for slim brackets
     if (split[1] === "") {
       stop += 2;
@@ -186,14 +190,15 @@ function dot(attr) {
   return obj => obj[attr];
 }
 
-function plus(a, b) { return a + b; }
-
+function plus(a, b) {
+  return a + b;
+}
 
 // Fonts
 // =====
 
 function isforcedEl(reEnd) {
-  let re = new RegExp("^(" + fonts.regexp.source + " ?)?" + reEnd);
+  const re = new RegExp(`^(${fonts.regexp.source} ?)?${reEnd}`);
   return str => re.exec(str);
 }
 
@@ -205,25 +210,28 @@ function isfontCommand(str) {
 }
 
 function splitfont(ascii) {
-  let typematch = isforcedIdentifier(ascii) || isforcedText(ascii),
-      font = typematch && typematch[2],
-      type = typematch && typematch[3],
-      tagname = type === '"' ? "mtext" :
-        type === "`" ? "mi" :
-        "";
+  const typematch = isforcedIdentifier(ascii) || isforcedText(ascii);
+  const font = typematch && typematch[2];
+  const type = typematch && typematch[3];
+  let tagname = "";
 
-  let start = ascii.indexOf(type),
-      stop = start + 1 + ascii.slice(start + 1).indexOf(type),
-      fontvariant = start > 0 ? fonts.get(font) : "";
+  if (type === '"') {
+    tagname = "mtext";
+  } else if (type === "`") {
+    tagname = "mi";
+  }
+
+  const start = ascii.indexOf(type);
+  const stop = start + 1 + ascii.slice(start + 1).indexOf(type);
+  const fontvariant = start > 0 ? fonts.get(font) : "";
 
   return {
-    tagname: tagname,
+    tagname,
     text: ascii.slice(start + 1, stop),
     font: fontvariant,
     rest: ascii.slice(stop + 1)
   };
 }
-
 
 const underEls = ["<mi>lim</mi>", "<mo>∑</mo>", "<mo>∏</mo>"];
 function shouldGoUnder(el) {
@@ -231,17 +239,17 @@ function shouldGoUnder(el) {
 }
 
 const syntax = {
-  endsInFunc: endsInFunc,
-  isgroupStart: isgroupStart,
-  isgroupable: isgroupable,
-  isvertGroupStart: isvertGroupStart,
-  splitNextGroup: splitNextGroup,
-  splitNextVert: splitNextVert,
-  splitNextOperator: splitNextOperator,
-  ismatrixInterior: ismatrixInterior,
-  isfontCommand: isfontCommand,
-  splitfont: splitfont,
-  shouldGoUnder: shouldGoUnder
+  endsInFunc,
+  isgroupStart,
+  isgroupable,
+  isvertGroupStart,
+  splitNextGroup,
+  splitNextVert,
+  splitNextOperator,
+  ismatrixInterior,
+  isfontCommand,
+  splitfont,
+  shouldGoUnder
 };
 
 export default syntax;

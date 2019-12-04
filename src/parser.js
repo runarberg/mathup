@@ -1,69 +1,64 @@
 import syntax from "./syntax";
-import {numbers, identifiers, operators, groupings, accents} from "./lexicon";
-
+import { numbers, identifiers, operators, groupings, accents } from "./lexicon";
 
 function tag(tagname) {
   return function fn(content, attr) {
     if (typeof content === "object") {
       // Curry
-      return function(str) { return fn(str, content); };
+      return str => fn(str, content);
     }
 
     if (typeof attr !== "object") {
       return `<${tagname}>${content}</${tagname}>`;
-
-    } else {
-
-      let attrstr = Object.keys(attr).map(function(key) {
-        return `${key}="${attr[key]}"`;
-      }).join(" ");
-
-      return `<${tagname} ${attrstr}>${content}</${tagname}>`;
     }
+
+    const attrstr = Object.keys(attr)
+      .map(key => `${key}="${attr[key]}"`)
+      .join(" ");
+
+    return `<${tagname} ${attrstr}>${content}</${tagname}>`;
   };
 }
 
-const mi = tag("mi"),
-      mn = tag("mn"),
-      mo = tag("mo"),
-      mfrac = tag("mfrac"),
-      msup = tag("msup"),
-      msub = tag("msub"),
-      msubsup = tag("msubsup"),
-      munder = tag("munder"),
-      mover = tag("mover"),
-      munderover = tag("munderover"),
-      menclose = tag("menclose"),
-      mrow = tag("mrow"),
-      msqrt = tag("msqrt"),
-      mroot = tag("mroot"),
-      mfenced = tag("mfenced"),
-      mtable = tag("mtable"),
-      mtr = tag("mtr"),
-      mtd = tag("mtd");
+const mi = tag("mi");
+const mn = tag("mn");
+const mo = tag("mo");
+const mfrac = tag("mfrac");
+const msup = tag("msup");
+const msub = tag("msub");
+const msubsup = tag("msubsup");
+const munder = tag("munder");
+const mover = tag("mover");
+const munderover = tag("munderover");
+const menclose = tag("menclose");
+const mrow = tag("mrow");
+const msqrt = tag("msqrt");
+const mroot = tag("mroot");
+const mfenced = tag("mfenced");
+const mtable = tag("mtable");
+const mtr = tag("mtr");
+const mtd = tag("mtd");
 
 function parser(options) {
-
-  const decimalMarkRE = options.decimalMark === "." ? "\\." :
-          options.decimalMark,
-        numberRegexp = new RegExp(
-          `^${numbers.digitRange}+(${decimalMarkRE}${numbers.digitRange}+)?`
-        ),
-        colsplit = splitby(options.colSep),
-        rowsplit = splitby(options.rowSep),
-        newlinesplit = splitby("\n");
+  const decimalMarkRE =
+    options.decimalMark === "." ? "\\." : options.decimalMark;
+  const numberRegexp = new RegExp(
+    `^${numbers.digitRange}+(${decimalMarkRE}${numbers.digitRange}+)?`
+  );
+  const colsplit = splitby(options.colSep);
+  const rowsplit = splitby(options.rowSep);
+  const newlinesplit = splitby("\n");
 
   function splitby(sep) {
-    return function(str) {
-      let split = [],
-          inners = 0,
-          index = 0;
+    return str => {
+      const split = [];
+      let inners = 0;
+      let index = 0;
 
       for (let i = 0; i < str.length; i += 1) {
-        let rest = str.slice(i),
-            char = str[i];
-        if (rest.startsWith(sep) &&
-            !str.slice(0, i).match(/\\(\\{2})*$/)) {
+        const rest = str.slice(i);
+        const char = str[i];
+        if (rest.startsWith(sep) && !str.slice(0, i).match(/\\(\\{2})*$/)) {
           if (inners === 0) {
             split.push(str.slice(index, i));
             index = i + sep.length;
@@ -81,25 +76,25 @@ function parser(options) {
     };
   }
 
-
   const parse = function parse(ascii, mathml, space, grouped) {
-
-    if (!ascii) { return mathml; }
+    if (!ascii) {
+      return mathml;
+    }
 
     if (ascii.match(/^\s/)) {
       // Dont include the space it if there is a binary infix becoming
       // a prefix
-      if (ascii.match(/^\s+(\/[^\/]|^[^\^]|_[^_|])/)) {
+      if (ascii.match(/^\s+(\/[^/]|^[^^]|_[^_|])/)) {
         return parse(ascii.trim(), mathml, true);
       }
 
       // Count the number of leading spaces
-      let spaces = ascii.match(/^ +/),
-          spacecount = spaces ? spaces[0].length : 0;
+      const spaces = ascii.match(/^ +/);
+      const spacecount = spaces ? spaces[0].length : 0;
 
       if (spacecount > 1) {
         // spacewidth is a linear function of spacecount
-        let spaceel = `<mspace width="${spacecount - 1}ex" />`;
+        const spaceel = `<mspace width="${spacecount - 1}ex" />`;
 
         return parse(ascii.trim(), mathml + spaceel, true);
       }
@@ -107,17 +102,16 @@ function parser(options) {
       return parse(ascii.trim(), mathml, true);
     }
 
-
     let [el, rest] = parseone(ascii, grouped);
 
     // ## Binary infixes ##
 
     // ### Fraction ###
-    if ((rest &&
-         rest.trimLeft().startsWith("/") ||
-         rest.trimLeft().startsWith("./")) &&
-        !rest.trimLeft().match(/^\.?\/\//)) {
-
+    if (
+      ((rest && rest.trimLeft().startsWith("/")) ||
+        rest.trimLeft().startsWith("./")) &&
+      !rest.trimLeft().match(/^\.?\/\//)
+    ) {
       [el, rest] = splitNextFraction(el, rest);
     }
 
@@ -126,12 +120,13 @@ function parser(options) {
 
   function parsegroup(ascii) {
     // Takes one asciiMath string and returns mathml in one group
-    if (ascii.trim().length === 0) { return ""; }
-    let mathml = parse(ascii, "", false, true);
+    if (ascii.trim().length === 0) {
+      return "";
+    }
+    const mathml = parse(ascii, "", false, true);
 
     return mathml === getlastel(mathml) ? mathml : mrow(mathml);
   }
-
 
   function parseone(ascii, grouped, lastel) {
     /**
@@ -141,132 +136,129 @@ function parser(options) {
 
     // TODO: split this up into smaller more readable code
 
-    if (!ascii) { return ["", ""]; }
+    if (!ascii) {
+      return ["", ""];
+    }
 
-    let el, rest;
+    let el;
+    let rest;
 
-    let head = ascii[0],
-        tail = ascii.slice(1),
-        nextsymbol = head + (tail.match(/^[A-Za-z]+/) || "");
-
+    const head = ascii[0];
+    const tail = ascii.slice(1);
+    const nextsymbol = head + (tail.match(/^[A-Za-z]+/) || "");
 
     if (ascii.startsWith("sqrt")) {
       // ## Roots ##
 
-      let split = parseone(ascii.slice(4).trim(), grouped);
+      const split = parseone(ascii.slice(4).trim(), grouped);
 
       el = msqrt(split[0] ? removeSurroundingBrackets(split[0]) : mrow(""));
-      rest = split[1];
-
+      [, rest] = split;
     } else if (ascii.startsWith("root")) {
-
-      let one = parseone(ascii.slice(4).trimLeft(), grouped),
-          index = one[0] ? removeSurroundingBrackets(one[0]) : mrow(""),
-          two = parseone(one[1].trimLeft(), grouped),
-          base = two[0] ? removeSurroundingBrackets(two[0]) : mrow("");
+      const one = parseone(ascii.slice(4).trimLeft(), grouped);
+      const index = one[0] ? removeSurroundingBrackets(one[0]) : mrow("");
+      const two = parseone(one[1].trimLeft(), grouped);
+      const base = two[0] ? removeSurroundingBrackets(two[0]) : mrow("");
 
       el = mroot(base + index);
-      rest = two[1];
-
+      [, rest] = two;
     } else if (ascii.startsWith("binom")) {
+      const [, , group, , after] = syntax.splitNextGroup(ascii);
+      const [a, b] = colsplit(group);
+      const over = parsegroup(a.trim());
+      const under = parsegroup(b.trim());
 
-      let [,, group,, after] = syntax.splitNextGroup(ascii),
-          [a, b] = colsplit(group),
-          over = parsegroup(a.trim()),
-          under = parsegroup(b.trim());
-
-      el = mfenced(mfrac(over + under, {linethickness: 0}),
-                   {open: "(", close: ")"});
+      el = mfenced(mfrac(over + under, { linethickness: 0 }), {
+        open: "(",
+        close: ")"
+      });
       rest = after;
-
     } else if (head === "\\" && ascii.length > 1) {
       // ## Forced opperator ##
 
-      if (ascii[1].match(/[(\[]/)) {
-        let stop = findmatching(tail);
+      if (ascii[1].match(/[([]/)) {
+        const stop = findmatching(tail);
         el = mo(ascii.slice(2, stop));
         rest = ascii.slice(stop + 1);
       } else {
         el = mo(ascii[1]);
         rest = ascii.slice(2);
       }
-
     } else if (accents.contains(nextsymbol)) {
-
       // ## Accents ##
 
-      let accent = accents.get(nextsymbol),
-          next = ascii.slice(nextsymbol.length).trimLeft(),
-          ijmatch = next.match(/^\s*\(?([ij])\)?/),
-          split = parseone(next);
+      const accent = accents.get(nextsymbol);
+      const next = ascii.slice(nextsymbol.length).trimLeft();
+      const ijmatch = next.match(/^\s*\(?([ij])\)?/);
+      const split = parseone(next);
 
       switch (accent.type) {
         // ## Accents on top ##
         case "over":
           if (ijmatch) {
             // use non-dotted i and j glyphs as to not clutter
-            el = mover(mi(ijmatch[1] === "i" ? "ı" : "ȷ") +
-                       mo(accent.accent, {accent: true}));
+            el = mover(
+              mi(ijmatch[1] === "i" ? "ı" : "ȷ") +
+                mo(accent.accent, { accent: true })
+            );
             rest = next.slice(ijmatch[0].length);
           } else {
-            el = mover(removeSurroundingBrackets(split[0])
-                        + mo(accent.accent, {accent: true}));
-            rest = split[1];
+            el = mover(
+              removeSurroundingBrackets(split[0]) +
+                mo(accent.accent, { accent: true })
+            );
+            [, rest] = split;
           }
           break;
         // ## Accents below ##
         case "under":
           el = munder(removeSurroundingBrackets(split[0]) + mo(accent.accent));
-          rest = split[1];
+          [, rest] = split;
           break;
         // ## Enclosings
         case "enclose":
           el = menclose(removeSurroundingBrackets(split[0]), accent.attrs);
-          rest = split[1];
+          [, rest] = split;
           break;
         default:
-          throw new Error("Invalid config for accent " + nextsymbol);
+          throw new Error(`Invalid config for accent ${nextsymbol}`);
       }
-
     } else if (syntax.isfontCommand(ascii)) {
-
       // ## Font Commands ##
 
-      let split = syntax.splitfont(ascii);
+      const split = syntax.splitfont(ascii);
 
-      el = tag(split.tagname)(split.text,
-                              split.font && {mathvariant: split.font});
+      el = tag(split.tagname)(
+        split.text,
+        split.font && { mathvariant: split.font }
+      );
       rest = split.rest;
-
     } else if (groupings.complex.contains(nextsymbol)) {
-
       // ## Complex groupings ##
 
-      let grouping = groupings.complex.get(nextsymbol),
-          next = ascii.slice(nextsymbol.length).trimLeft(),
-          split = parseone(next);
+      const grouping = groupings.complex.get(nextsymbol);
+      const next = ascii.slice(nextsymbol.length).trimLeft();
+      const split = parseone(next);
 
       el = mfenced(removeSurroundingBrackets(split[0]), grouping);
-      rest = split[1];
-
+      [, rest] = split;
     } else if (syntax.isgroupStart(ascii) || syntax.isvertGroupStart(ascii)) {
-
       // ## Groupings ##
 
-      let [, open, group, close, after] = syntax.isgroupStart(ascii) ?
-            syntax.splitNextGroup(ascii) :
-            syntax.splitNextVert(ascii);
+      // eslint-disable-next-line prefer-const
+      let [, open, group, close, after] = syntax.isgroupStart(ascii)
+        ? syntax.splitNextGroup(ascii)
+        : syntax.splitNextVert(ascii);
 
       rest = groupings.open.get(after);
-      let rows = (function() {
-        let lines = newlinesplit(group);
+      const rows = (() => {
+        const lines = newlinesplit(group);
         return lines.length > 1 ? lines : rowsplit(group);
-      }());
+      })();
 
-      if (syntax.ismatrixInterior(group.trim(),
-                                  options.colSep,
-                                  options.rowSep)) {
-
+      if (
+        syntax.ismatrixInterior(group.trim(), options.colSep, options.rowSep)
+      ) {
         // ### Matrix ##
 
         if (group.trim().endsWith(options.colSep)) {
@@ -274,13 +266,14 @@ function parser(options) {
           group = group.trimRight().slice(0, -1);
         }
 
-        let cases = open === "{" && close === "",
-            table = parsetable(group, cases && {columnalign: "center left"});
+        const cases = open === "{" && close === "";
+        const table = parsetable(
+          group,
+          cases && { columnalign: "center left" }
+        );
 
-        el = mfenced(table, {open: open, close: close});
-
+        el = mfenced(table, { open, close });
       } else if (rows.length > 1) {
-
         // ### Column vector ###
 
         let vector = rows.map(colsplit);
@@ -290,65 +283,66 @@ function parser(options) {
           vector = vector.slice(0, -1);
         }
 
-        let matrix = vector.map(function(row) {
-          return mtr(row.map(compose(mtd, parsegroup)).join(""));
-        }).join("");
+        const matrix = vector
+          .map(row => mtr(row.map(x => mtd(parsegroup(x))).join("")))
+          .join("");
 
-        el = mfenced(mtable(matrix), {open: open, close: close});
-
+        el = mfenced(mtable(matrix), { open, close });
       } else {
-
         // ### A fenced group ###
 
-        let cols = colsplit(group),
-            els = cols.map(parsegroup).join(""),
-            attrs = {open: open, close: close};
+        const cols = colsplit(group);
+        const els = cols.map(parsegroup).join("");
+        const attrs = { open, close };
 
-        if (options.colSep !== ",") { attrs.separators = options.colSep; }
+        if (options.colSep !== ",") {
+          attrs.separators = options.colSep;
+        }
         el = mfenced(els, attrs);
       }
-
     } else if (!grouped && syntax.isgroupable(ascii, options)) {
-
       // ## Whitespace ##
 
       // treat whitespace separated subexpressions as a group
-      let split = splitNextWhitespace(ascii);
+      const split = splitNextWhitespace(ascii);
 
       el = parsegroup(split[0]);
-      rest = split[1];
-
+      [, rest] = split;
     } else if (numbers.isdigit(head)) {
-
       // ## Number ##
 
-      let number = ascii.match(numberRegexp)[0];
+      const number = ascii.match(numberRegexp)[0];
 
       el = mn(number);
       rest = tail.slice(number.length - 1);
-
     } else if (ascii.match(/^#`[^`]+`/)) {
-
       // ## Forced number ##
 
-      let number = ascii.match(/^#`([^`]+)`/)[1];
+      const number = ascii.match(/^#`([^`]+)`/)[1];
       el = mn(number);
       rest = ascii.slice(number.length + 3);
-
-    } else if (ascii.match(new RegExp("^" + operators.regexp.source)) &&
-               !identifiers.contains(nextsymbol)) {
-
+    } else if (
+      ascii.match(new RegExp(`^${operators.regexp.source}`)) &&
+      !identifiers.contains(nextsymbol)
+    ) {
       // ## Operators ##
 
-      let [op, next] = syntax.splitNextOperator(ascii),
-          derivative = ascii.startsWith("'"),
-          prefix = contains(["∂", "∇"], op),
-          stretchy = contains(["|"], op),
-          mid = ascii.startsWith("| "),
-          attr = {};
-      if (derivative) { attr.lspace = 0; attr.rspace = 0; }
-      if (prefix) { attr.rspace = 0; }
-      if (stretchy) { attr.stretchy = true; }
+      const [op, next] = syntax.splitNextOperator(ascii);
+      const derivative = ascii.startsWith("'");
+      const prefix = contains(["∂", "∇"], op);
+      const stretchy = contains(["|"], op);
+      const mid = ascii.startsWith("| ");
+      const attr = {};
+      if (derivative) {
+        attr.lspace = 0;
+        attr.rspace = 0;
+      }
+      if (prefix) {
+        attr.rspace = 0;
+      }
+      if (stretchy) {
+        attr.stretchy = true;
+      }
       if (mid) {
         attr.lspace = "veryverythickmathspace";
         attr.rspace = "veryverythickmathspace";
@@ -356,56 +350,53 @@ function parser(options) {
 
       el = mo(op, !isempty(attr) && attr);
       rest = next;
-
     } else if (identifiers.contains(nextsymbol)) {
-
       // Perhaps a special identifier character
-      let ident = identifiers[nextsymbol];
+      const ident = identifiers[nextsymbol];
 
       // Uppercase greeks are roman font variant
-      let uppercase = ident.match(
-          /[\u0391-\u03A9\u2100-\u214F\u2200-\u22FF]/
+      const uppercase = ident.match(
+        /[\u0391-\u03A9\u2100-\u214F\u2200-\u22FF]/
       );
-      el = uppercase ? mi(ident, {mathvariant: "normal"}) : mi(ident);
+      el = uppercase ? mi(ident, { mathvariant: "normal" }) : mi(ident);
       rest = tail.slice(nextsymbol.length - 1);
-
     } else if (head === "O" && tail[0] === "/") {
       // The special case of the empty set. I suppose there is no
       // dividing by the latin capital letter O
-      el = mi(identifiers["O/"], {mathvariant: "normal"});
+      el = mi(identifiers["O/"], { mathvariant: "normal" });
       rest = tail.slice(1);
-
     } else {
       el = mi(head);
       rest = tail;
     }
 
-
     if (rest && rest.trimLeft().match(/\.?[\^_]/)) {
-
-      if ((lastel ? !lastel.match(/m(sup|over)/) : true) &&
-          rest.trim().startsWith("_") &&
-          (rest.trim().length <= 1 || !rest.trim()[1].match(/[|_]/))) {
-
+      if (
+        (lastel ? !lastel.match(/m(sup|over)/) : true) &&
+        rest.trim().startsWith("_") &&
+        (rest.trim().length <= 1 || !rest.trim()[1].match(/[|_]/))
+      ) {
         // ### Subscript ###
         [el, rest] = splitNextSubscript(el, rest);
-
-      } else if (lastel !== "mover" && rest.trim().startsWith("._") &&
-                 (rest.trim().length <= 2 || !rest.trim()[2].match(/[|_]/))) {
-
+      } else if (
+        lastel !== "mover" &&
+        rest.trim().startsWith("._") &&
+        (rest.trim().length <= 2 || !rest.trim()[2].match(/[|_]/))
+      ) {
         // ### Underscript ###
         [el, rest] = splitNextUnderscript(el, rest);
-
-      } else if ((lastel ? !lastel.match(/m(sub|under)/) : true) &&
-                 rest.trim().startsWith("^") &&
-                 (rest.trim().length <= 1 || rest.trim()[1] !== "^")) {
-
+      } else if (
+        (lastel ? !lastel.match(/m(sub|under)/) : true) &&
+        rest.trim().startsWith("^") &&
+        (rest.trim().length <= 1 || rest.trim()[1] !== "^")
+      ) {
         // ### Superscript ###
         [el, rest] = splitNextSuperscript(el, rest);
-
-      } else if (lastel !== "munder" && rest.trim().startsWith(".^") &&
-                 (rest.trim().length <= 2 || rest.trim()[2] !== "^")) {
-
+      } else if (
+        lastel !== "munder" &&
+        rest.trim().startsWith(".^") &&
+        (rest.trim().length <= 2 || rest.trim()[2] !== "^")
+      ) {
         // ### Overscript ###
         [el, rest] = splitNextOverscript(el, rest);
       }
@@ -414,23 +405,38 @@ function parser(options) {
     return [el, rest];
   }
 
-
   function splitNextSubscript(el, rest) {
-    let next = parseone(rest.trim().slice(1).trim(), true, "msub"),
-        sub = next[0] ? removeSurroundingBrackets(next[0]) : mrow("");
-    let ml,
-        ascii = next[1];
+    const next = parseone(
+      rest
+        .trim()
+        .slice(1)
+        .trim(),
+      true,
+      "msub"
+    );
+    const sub = next[0] ? removeSurroundingBrackets(next[0]) : mrow("");
+    let ml;
+    let ascii = next[1];
 
     // ### Supersubscript ###
-    if (ascii && ascii.trim().startsWith("^") &&
-        (ascii.trim().length <= 1 || !ascii.trim()[1] !== "^")) {
-      let next2 = parseone(ascii.trim().slice(1).trim(), true),
-          sup = next2[0] ? removeSurroundingBrackets(next2[0]) : mrow(""),
-          tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
+    if (
+      ascii &&
+      ascii.trim().startsWith("^") &&
+      (ascii.trim().length <= 1 || !ascii.trim()[1] !== "^")
+    ) {
+      const next2 = parseone(
+        ascii
+          .trim()
+          .slice(1)
+          .trim(),
+        true
+      );
+      const sup = next2[0] ? removeSurroundingBrackets(next2[0]) : mrow("");
+      const tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
       ml = tagfun(el + sub + sup);
-      ascii = next2[1];
+      [, ascii] = next2;
     } else {
-      let tagfun = syntax.shouldGoUnder(el) ? munder : msub;
+      const tagfun = syntax.shouldGoUnder(el) ? munder : msub;
       ml = tagfun(el + sub);
     }
 
@@ -438,42 +444,68 @@ function parser(options) {
   }
 
   function splitNextSuperscript(el, rest) {
-    let next = parseone(rest.trim().slice(1).trim(), true, "msup"),
-        sup = next[0] ? removeSurroundingBrackets(next[0]) : mrow("");
-    let ml,
-        ascii = next[1];
+    const next = parseone(
+      rest
+        .trim()
+        .slice(1)
+        .trim(),
+      true,
+      "msup"
+    );
+    const sup = next[0] ? removeSurroundingBrackets(next[0]) : mrow("");
+    let ml;
+    let ascii = next[1];
 
     // ### Super- subscript ###
-    if (ascii.trim().startsWith("_") &&
-        (ascii.trim().length <= 1 || !ascii.trim()[1].match(/[|_]/))) {
-      let next2 = parseone(ascii.trim().slice(1).trim(), true),
-          sub = next2[0] ? removeSurroundingBrackets(next2[0]) : mrow(""),
-          tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
+    if (
+      ascii.trim().startsWith("_") &&
+      (ascii.trim().length <= 1 || !ascii.trim()[1].match(/[|_]/))
+    ) {
+      const next2 = parseone(
+        ascii
+          .trim()
+          .slice(1)
+          .trim(),
+        true
+      );
+      const sub = next2[0] ? removeSurroundingBrackets(next2[0]) : mrow("");
+      const tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
       ml = tagfun(el + sub + sup);
-      ascii = next2[1];
+      [, ascii] = next2;
     } else {
-      let tagfun = syntax.shouldGoUnder(el) ? mover : msup;
+      const tagfun = syntax.shouldGoUnder(el) ? mover : msup;
       ml = tagfun(el + sup);
     }
 
     return [ml, ascii];
   }
 
-
   function splitNextUnderscript(el, rest) {
-    let next = parseone(rest.trim().slice(2).trim(), true, "munder"),
-        under = next[0] ? removeSurroundingBrackets(next[0]) : mrow("");
-    let ml,
-        ascii = next[1];
+    const next = parseone(
+      rest
+        .trim()
+        .slice(2)
+        .trim(),
+      true,
+      "munder"
+    );
+    const under = next[0] ? removeSurroundingBrackets(next[0]) : mrow("");
+    let ml;
+    let ascii = next[1];
 
     // ### Under- overscript ###
-    let overmatch = ascii.match(/^(\.?\^)[^\^]/);
+    const overmatch = ascii.match(/^(\.?\^)[^^]/);
     if (overmatch) {
-      let next2 = parseone(ascii.trim().slice(overmatch[1].length).trim(),
-                           true),
-          over = next2[0] ? removeSurroundingBrackets(next2[0]) : mrow("");
+      const next2 = parseone(
+        ascii
+          .trim()
+          .slice(overmatch[1].length)
+          .trim(),
+        true
+      );
+      const over = next2[0] ? removeSurroundingBrackets(next2[0]) : mrow("");
       ml = munderover(el + under + over);
-      ascii = next2[1];
+      [, ascii] = next2;
     } else {
       ml = munder(el + under);
     }
@@ -482,19 +514,31 @@ function parser(options) {
   }
 
   function splitNextOverscript(el, rest) {
-    let next = parseone(rest.trim().slice(2).trim(), true, "mover"),
-        over = next[0] ? removeSurroundingBrackets(next[0]) : mrow("");
-    let ml,
-        ascii = next[1];
+    const next = parseone(
+      rest
+        .trim()
+        .slice(2)
+        .trim(),
+      true,
+      "mover"
+    );
+    const over = next[0] ? removeSurroundingBrackets(next[0]) : mrow("");
+    let ml;
+    let ascii = next[1];
 
     // ### Under- overscript ###
-    let undermatch = ascii.match(/^(\.?_)[^_|]/);
+    const undermatch = ascii.match(/^(\.?_)[^_|]/);
     if (undermatch) {
-      let next2 = parseone(ascii.trim().slice(undermatch[1].length).trim(),
-                           true),
-          under = next2[0] ? removeSurroundingBrackets(next2[0]) : mrow("");
+      const next2 = parseone(
+        ascii
+          .trim()
+          .slice(undermatch[1].length)
+          .trim(),
+        true
+      );
+      const under = next2[0] ? removeSurroundingBrackets(next2[0]) : mrow("");
       ml = munderover(el + under + over);
-      ascii = next2[1];
+      [, ascii] = next2;
     } else {
       ml = mover(el + over);
     }
@@ -502,75 +546,73 @@ function parser(options) {
     return [ml, ascii];
   }
 
-
   function splitNextFraction(el, rest) {
-    let bevelled = rest.trim().startsWith("./"),
-        rem = rest.trim().slice(bevelled ? 2 : 1);
-    let next,
-        ml,
-        ascii;
+    const bevelled = rest.trim().startsWith("./");
+    const rem = rest.trim().slice(bevelled ? 2 : 1);
+    let next;
+    let ascii;
+
     if (rem.startsWith(" ")) {
-      let split = rem.trim().split(" ");
+      const split = rem.trim().split(" ");
       next = parsegroup(split[0]);
       ascii = rem.trimLeft().slice(split[0].length + 1);
     } else {
       [next, ascii] = parseone(rem);
     }
     next = next || mrow("");
-    ml = mfrac(removeSurroundingBrackets(el) +
-               removeSurroundingBrackets(next),
-               bevelled && {bevelled: true});
 
-    if (ascii && ascii.trim().startsWith("/") ||
-        ascii.trim().startsWith("./")) {
+    const ml = mfrac(
+      removeSurroundingBrackets(el) + removeSurroundingBrackets(next),
+      bevelled && { bevelled: true }
+    );
+
+    if (
+      (ascii && ascii.trim().startsWith("/")) ||
+      ascii.trim().startsWith("./")
+    ) {
       return splitNextFraction(ml, ascii);
     }
     return [ml, ascii];
   }
 
-
   function splitNextWhitespace(str) {
     const re = new RegExp(`(\\s|${options.colSep}|${options.rowSep}|$)`);
-    let match = str.match(re),
-        head = str.slice(0, match.index),
-        sep = match[0],
-        tail = str.slice(match.index + 1);
+    const match = str.match(re);
+    const head = str.slice(0, match.index);
+    const sep = match[0];
+    const tail = str.slice(match.index + 1);
 
-    let next = head,
-        rest = sep + tail;
+    let next = head;
+    let rest = sep + tail;
 
     if (!syntax.isgroupStart(tail.trim()) && syntax.endsInFunc(head)) {
-      let newsplit = splitNextWhitespace(tail);
+      const newsplit = splitNextWhitespace(tail);
       next += sep + newsplit[0];
-      rest = newsplit[1];
+      [, rest] = newsplit;
     } else if (head.match(/root$/)) {
-      let split1 = splitNextWhitespace(tail),
-          split2 = splitNextWhitespace(split1[1].trimLeft());
-      next += sep + split1[0] + " " + split2[0];
+      const split1 = splitNextWhitespace(tail);
+      const split2 = splitNextWhitespace(split1[1].trimLeft());
+      next += `${sep + split1[0]} ${split2[0]}`;
       rest = sep + split2[1];
     }
     return [next, rest];
   }
 
-
   function parsetable(matrix, attrs) {
-    let rows = (function() {
-      let lines = colsplit(matrix);
+    const rows = (() => {
+      const lines = colsplit(matrix);
       return lines.length > 1 ? lines : newlinesplit(matrix);
-    }()).map(function(el) {
-      return el.trim().slice(1, -1);
-    });
+    })().map(el => el.trim().slice(1, -1));
 
-    return mtable(rows.map(parserow).join(""), attrs);
+    return mtable(rows.map(row => parserow(row)).join(""), attrs);
   }
 
-  function parserow(row, acc) {
-    acc = typeof acc === "string" ? acc : "";
+  function parserow(row, acc = "") {
     if (!row || row.length === 0) {
       return mtr(acc);
     }
 
-    let [mathml, rest] = parsecell(row.trim(), "");
+    const [mathml, rest] = parsecell(row.trim(), "");
     return parserow(rest.trim(), acc + mathml);
   }
 
@@ -582,54 +624,50 @@ function parser(options) {
       return [mtd(acc), cell.slice(1).trim()];
     }
 
-    let [mathml, rest] = parseone(cell);
+    const [mathml, rest] = parseone(cell);
     return parsecell(rest.trim(), acc + mathml);
   }
 
   return parse;
 }
 
-
 function splitlast(mathml) {
   /**
    Return a pair of all but last eliment and the last eliment
    */
-  let lastel = getlastel(mathml),
-      prewels = mathml.slice(0, mathml.lastIndexOf(lastel));
+  const lastel = getlastel(mathml);
+  const prewels = mathml.slice(0, mathml.lastIndexOf(lastel));
 
   return [prewels, lastel];
 }
 
-
 function removeSurroundingBrackets(mathml) {
-  let inside = mathml.replace(/^<mfenced[^>]*>/, "")
-        .replace(/<\/mfenced>$/, "");
+  const inside = mathml
+    .replace(/^<mfenced[^>]*>/, "")
+    .replace(/<\/mfenced>$/, "");
   if (splitlast(inside)[1] === inside) {
     return inside;
-  } else {
-    return mrow(inside);
   }
+  return mrow(inside);
 }
-
 
 function getlastel(xmlstr) {
   // This breaks the linearity of the implimentation
   // optimation possible, perhaps an XML parser
-  let tagmatch = xmlstr.match(/<\/(m[a-z]+)>$/);
+  const tagmatch = xmlstr.match(/<\/(m[a-z]+)>$/);
   if (!tagmatch) {
-    let spacematch = xmlstr.match(/<mspace\s*([a-z]+="[a-z]")*\s*\?>/);
+    const spacematch = xmlstr.match(/<mspace\s*([a-z]+="[a-z]")*\s*\?>/);
     if (spacematch) {
-      let i = spacematch.match[0].length;
+      const i = spacematch.match[0].length;
       return xmlstr.slice(i);
-    } else {
-      return "";
     }
+    return "";
   }
 
-  let tagname = tagmatch[1];
+  const tagname = tagmatch[1];
 
-  let i = xmlstr.length - (tagname.length + 3),
-      inners = 0;
+  let i = xmlstr.length - (tagname.length + 3);
+  let inners = 0;
   for (i; i >= 0; i -= 1) {
     if (xmlstr.slice(i).startsWith(`<${tagname}`)) {
       if (inners === 0) {
@@ -645,17 +683,20 @@ function getlastel(xmlstr) {
   return xmlstr.slice(i);
 }
 
-
 function findmatching(str) {
-  let open = str[0],
-      close = open === "(" ? ")" :
-        open === "[" ? "]" :
-        str[0];
+  const open = str[0];
+  let close = open;
 
-  let inners = 0,
-      index = 0;
+  if (open === "(") {
+    close = ")";
+  } else if (open === "[") {
+    close = "]";
+  }
+
+  let inners = 0;
+  let index = 0;
   for (let i = 0; i < str.length; i += 1) {
-    let char = str[i];
+    const char = str[i];
     index += 1;
     if (char === close) {
       inners -= 1;
@@ -681,11 +722,6 @@ function last(arr) {
   return arr.slice(-1)[0];
 }
 
-function compose(f, g) {
-  return function(x) { return f(g(x)); };
-}
-
 parser.getlastel = getlastel;
-
 
 export default parser;
