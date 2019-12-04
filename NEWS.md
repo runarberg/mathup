@@ -13,6 +13,13 @@ Braking Changes
   into a binomial coefficient. It will stay as a column vector. Use
   `binom(a, b)` if you want the old behavior.
 
+Changes
+-------
+
+* Semicolon- and newline seperated matrices `[a, b; c, d]` now take
+  precedence over parenthesis delimited matrices `[(a, b), (c, d)]` in
+  case of ambiguity.
+
 Contributors
 ------------
 
