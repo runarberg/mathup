@@ -1,4 +1,4 @@
-import parser from "./lib/parser";
+import parser from "./parser";
 
 export function ascii2mathml(
   asciimath,

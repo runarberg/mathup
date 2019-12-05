@@ -1,5 +1,5 @@
 import test from "ava";
-import a2ml from "../index.es6.js";
+import a2ml from "../src/index.js";
 
 test("More then one subsequent whitespace keeps", t => {
   t.is(a2ml("a  b"), '<math><mi>a</mi><mspace width="1ex" /><mi>b</mi></math>');
