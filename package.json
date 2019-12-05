@@ -2,13 +2,22 @@
   "name": "ascii2mathml",
   "version": "0.7.0",
   "description": "The second AsciiMath – MathML converter",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/runarberg/ascii2mathml"
-  },
+  "keywords": [
+    "mathml",
+    "asciimath",
+    "asciimathml"
+  ],
+  "homepage": "https://runarberg.github.io/ascii2mathml/",
+  "bugs": "https://github.com/runarberg/ascii2mathml/issues",
+  "license": "MIT",
+  "author": "Rúnar Berg Baugsson Sigríðarson <runarberg@zoho.com>",
   "main": "lib/index.js",
   "bin": {
     "ascii2mathml": "bin/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/runarberg/ascii2mathml.git"
   },
   "scripts": {
     "clean": "rm -fr .nyc_output coverage/ dist/ lib/",
@@ -24,13 +33,6 @@
     "test": "nyc ava",
     "test:watch": "ava --watch"
   },
-  "keywords": [
-    "mathml",
-    "asciimath",
-    "asciimathml"
-  ],
-  "author": "Rúnar Berg Baugsson Sigríðarson",
-  "license": "MIT",
   "ava": {
     "require": [
       "@babel/register"
