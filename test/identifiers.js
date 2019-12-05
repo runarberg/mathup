@@ -1,5 +1,5 @@
 import test from "ava";
-import a2ml from "../index.es6.js";
+import a2ml from "../src/index.js";
 
 test("Greeks (uppercase in normal variant, lowercase in italic)", t => {
   t.is(

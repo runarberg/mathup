@@ -1,5 +1,5 @@
 import test from "ava";
-import a2ml from "../index.es6.js";
+import a2ml from "../src/index.js";
 
 test("Standard functions are identifiers", t => {
   t.is(a2ml("sin"), "<math><mi>sin</mi></math>");
@@ -30,7 +30,7 @@ test("Tangent = Sinus over Cosinus", t => {
   );
 });
 
-test("The hyperbolic functions", t => {
+test("The hyperbolic function", t => {
   t.is(
     a2ml(
       "sinh x = (e^x - e^(-x))/2, cosh x = (e^x + e^(-x))/2, tanh x = (sinh x)/(cosh x)"

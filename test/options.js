@@ -1,5 +1,5 @@
 import test from "ava";
-import a2ml from "../index.es6.js";
+import a2ml from "../src/index.js";
 
 test("Display block, when passed in", t => {
   t.is(a2ml("", { display: "block" }), '<math display="block"></math>');

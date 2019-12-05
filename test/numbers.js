@@ -1,5 +1,5 @@
 import test from "ava";
-import a2ml from "../index.es6.js";
+import a2ml from "../src/index.js";
 
 test("Unicode numerals", t => {
   t.is(a2ml("四十二"), "<math><mn>四十二</mn></math>");

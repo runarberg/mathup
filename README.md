@@ -3,6 +3,7 @@ Ascii2MathML
 
 [![npm](https://img.shields.io/npm/v/ascii2mathml.svg)](https://www.npmjs.com/package/ascii2mathml)
 [![Build Status](https://travis-ci.org/runarberg/ascii2mathml.svg?branch=master)](https://travis-ci.org/runarberg/ascii2mathml)
+[![Coverage Status](https://coveralls.io/repos/github/runarberg/ascii2mathml/badge.svg)](https://coveralls.io/github/runarberg/ascii2mathml)
 
 #### Installation ####
 

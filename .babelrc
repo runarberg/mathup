@@ -2,9 +2,9 @@
   "presets": [
     ["@babel/preset-env", {
       "targets": {
-        "node": "4"
+        "node": "current",
+        "browsers": ["last 2 versions", "not dead"]
       }
     }]
-  ],
-  "plugins": ["@babel/plugin-transform-template-literals"]
+  ]
 }

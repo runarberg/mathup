@@ -6,21 +6,22 @@
     "type": "git",
     "url": "https://github.com/runarberg/ascii2mathml"
   },
-  "main": "index.js",
+  "main": "lib/index.js",
   "bin": {
     "ascii2mathml": "bin/index.js"
   },
   "scripts": {
-    "babelify": "babel src/ -d lib/ && babel index.es6.js > index.js",
-    "browserify": "(echo \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" && browserify ./index.js -s ascii2mathml) > dist/ascii2mathml.js",
+    "clean": "rm -fr .nyc_output coverage/ dist/ lib/",
+    "babelify": "babel src/ -d lib/",
+    "browserify": "(echo \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" && browserify ./lib/index.js -s ascii2mathml) > dist/ascii2mathml.js",
     "minify": "uglifyjs dist/ascii2mathml.js -b beautify=false,ascii_only=true -c -m --preamble \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" > dist/ascii2mathml.min.js",
-    "lint": "eslint index.es6.js src/ test/",
+    "lint": "eslint src/ test/",
     "prebuild": "npm run lint",
     "build": "rm -fr lib && mkdir lib && npm run babelify",
     "predist": "npm run lint",
     "dist": "rm -fr dist && mkdir dist && npm run browserify && npm run minify",
     "prepare": "npm run build && npm run dist",
-    "test": "ava",
+    "test": "nyc ava",
     "test:watch": "ava --watch"
   },
   "keywords": [
@@ -45,20 +46,19 @@
       "node": true,
       "browser": false
     },
-
     "parserOptions": {
       "ecmaVersion": "2019",
       "sourceType": "module"
     },
-
     "extends": [
       "airbnb-base",
       "plugin:ava/recommended",
       "plugin:prettier/recommended"
     ],
-
     "rules": {
-      "import/extensions": ["ignorePackages"],
+      "import/extensions": [
+        "ignorePackages"
+      ],
       "no-use-before-define": [
         "error",
         {
@@ -67,15 +67,22 @@
       ]
     }
   },
+  "nyc": {
+    "reporter": [
+      "html",
+      "text",
+      "text-summary"
+    ]
+  },
   "devDependencies": {
     "@babel/cli": "^7.7.4",
     "@babel/core": "^7.7.4",
-    "@babel/plugin-transform-template-literals": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "@babel/register": "^7.7.4",
     "ava": "^2.4.0",
     "babelify": "^10.0.0",
     "browserify": "^16.5.0",
+    "coveralls": "^3.0.9",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^14.0.0",
     "eslint-config-prettier": "^6.7.0",
@@ -83,6 +90,7 @@
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.1",
     "expect.js": "^0.3.1",
+    "nyc": "^14.1.1",
     "prettier": "1.19.1",
     "uglify-js": "^3.7.1"
   },

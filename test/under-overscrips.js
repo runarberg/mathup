@@ -1,5 +1,5 @@
 import test from "ava";
-import a2ml from "../index.es6.js";
+import a2ml from "../src/index.js";
 
 test("Displays underscripts", t => {
   t.is(a2ml("X._a"), "<math><munder><mi>X</mi><mi>a</mi></munder></math>");
