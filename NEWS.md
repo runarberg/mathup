@@ -1,3 +1,17 @@
+Ascii2MathML v0.7.1 Release Notes
+=================================
+
+Fixes
+-----
+
+* `binom` function can now handle empty terms #32
+
+Contributors
+------------
+
+* runarberg <runarberg@zoho.com>
+
+
 Ascii2MathML v0.7.0 Release Notes
 =================================
 
