@@ -165,8 +165,8 @@ function parser(options) {
     } else if (ascii.startsWith("binom")) {
       const [, , group, , after] = syntax.splitNextGroup(ascii);
       const [a, b] = colsplit(group);
-      const over = parsegroup(a.trim());
-      const under = parsegroup(b.trim());
+      const over = parsegroup(a.trim()) || mrow("");
+      const under = parsegroup(b.trim()) || mrow("");
 
       el = mfenced(mfrac(over + under, { linethickness: 0 }), {
         open: "(",
