@@ -32,7 +32,6 @@ and include the script file
 
 ```html
 <script src="ascii2mathml.js"></script>
-ascii2mathml = ascii2mathml.default;
 ```
 
 #### Usage ####

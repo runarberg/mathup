@@ -11,25 +11,19 @@
   "bugs": "https://github.com/runarberg/ascii2mathml/issues",
   "license": "MIT",
   "author": "Rúnar Berg Baugsson Sigríðarson <runarberg@zoho.com>",
-  "main": "lib/index.js",
+  "main": "target/node/ascii2mathml.js",
   "bin": {
-    "ascii2mathml": "bin/index.js"
+    "ascii2mathml": "bin/ascii2mathml.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/runarberg/ascii2mathml.git"
   },
   "scripts": {
-    "clean": "rm -fr .nyc_output coverage/ dist/ lib/",
-    "babelify": "babel src/ -d lib/",
-    "browserify": "(echo \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" && browserify ./lib/index.js -s ascii2mathml) > dist/ascii2mathml.js",
-    "minify": "uglifyjs dist/ascii2mathml.js -b beautify=false,ascii_only=true -c -m --preamble \"/*! ${npm_package_name} v${npm_package_version} | (c) 2015 (MIT) | ${npm_package_homepage} */\" > dist/ascii2mathml.min.js",
+    "clean": "rm -fr .nyc_output coverage/ target/",
     "lint": "eslint src/ test/",
-    "prebuild": "npm run lint",
-    "build": "rm -fr lib && mkdir lib && npm run babelify",
-    "predist": "npm run lint",
-    "dist": "rm -fr dist && mkdir dist && npm run browserify && npm run minify",
-    "prepare": "npm run build && npm run dist",
+    "build": "rollup --config",
+    "prepare": "npm run build",
     "test": "nyc ava",
     "test:watch": "ava --watch"
   },
@@ -82,8 +76,6 @@
     "@babel/preset-env": "^7.7.4",
     "@babel/register": "^7.7.4",
     "ava": "^2.4.0",
-    "babelify": "^10.0.0",
-    "browserify": "^16.5.0",
     "coveralls": "^3.0.9",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^14.0.0",
@@ -94,7 +86,9 @@
     "expect.js": "^0.3.1",
     "nyc": "^14.1.1",
     "prettier": "1.19.1",
-    "uglify-js": "^3.7.1"
+    "rollup": "^1.27.8",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-terser": "^5.1.2"
   },
   "dependencies": {
     "minimist": "^1.2.0"
