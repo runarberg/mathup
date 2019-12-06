@@ -1,6 +1,6 @@
 import parser from "./parser";
 
-export function ascii2mathml(
+export default function ascii2mathml(
   asciimath,
   {
     annotate = false,
@@ -74,5 +74,3 @@ export function ascii2mathml(
 
   return out;
 }
-
-export default ascii2mathml;

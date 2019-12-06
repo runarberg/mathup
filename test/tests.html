@@ -5,26 +5,24 @@
     <title>ascii2MathML test cases</title>
     <style>
       .test-case {
-        font-size: 1.5em;
+        font-size: 1.25em;
+        margin-block-end: 2em;
       }
-      .test-case code {
+
+      .test-case pre {
         background: #ffc;
         border: 1px dashed black;
         border-radius: 0.2em;
-        display: inline-block;
-        margin-right: 2.5em;
-        padding: 0.05em 0.5em;
-        position: relative;
-        white-space: pre;
+        max-width: calc(100% - 2em);
+        overflow-x: auto;
+        padding: 0.5ex 0.5em;
+        width: max-content;
       }
-      .test-case code::after {
+
+      .test-case output::before {
         content: "⇒";
-        font-family: serifs;
         font-size: 1.5em;
-        margin: 0 1em;
-        position: absolute;
-        right: -2.5em;
-        top: -0.25em;
+        margin-inline-end: 1em;
       }
     </style>
   </head>
@@ -32,492 +30,739 @@
     <h1>ascii2MathML test cases</h1>
     <section id="basics">
       <h2>Basics</h2>
+
       <div class="test-case">
-        <code></code>
+        <pre><code></code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>42</code>
+        <pre><code>42</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>3.141592654</code>
+        <pre><code>3.141592654</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>x</code>
+        <pre><code>x</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>1+1 = 2</code>
+        <pre><code>1+1 = 2</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>3-2 = 1</code>
+        <pre><code>3-2 = 1</code></pre>
+        <output></output>
       </div>
     </section>
 
     <section id="numbers">
       <h2>Numbers</h2>
-      <div class="test-case">
-        <code data-display="block"
-          >1/2 + 1/3 = 5/6 = 0.↊, 2/3 + 1/4 = ↋/10 = 0.↋</code
-        >
+
+      <div class="test-case" data-display="block">
+        <pre><code>1/2 + 1/3 = 5/6 = 0.↊, 2/3 + 1/4 = ↋/10 = 0.↋</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code dir="rtl" data-dir="rtl">(١٠ - ح)^٢ = ٨١ح</code>
+        <pre><code dir="rtl" data-dir="rtl">(١٠ - ح)^٢ = ٨١ح</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>#`0x2A` = #`XLII` = #`4.2e+01` = #`forty two` = 42</code>
+        <pre><code>#`0x2A` = #`XLII` = #`4.2e+01` = #`forty two` = 42</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>`rgb`(48, 148, 171) == #`#3094AB`</code>
+        <pre><code>`rgb`(48, 148, 171) == #`#3094AB`</code></pre>
+        <output></output>
       </div>
     </section>
 
     <section id="operators">
       <h2>Operators</h2>
+
       <div class="test-case">
-        <code>\^</code>
+        <pre><code>\^</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>\\</code>
+        <pre><code>\\</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>\(int)</code>
+        <pre><code>\(int)</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>ı.^\^</code>
+        <pre><code>ı.^\^</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>x.^\[(n)]</code>
+        <pre><code>x.^\[(n)]</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block"
-          >sum_(n=0)^k a_n = a_0 + a_i + cdots + a_k</code
-        >
+
+      <div class="test-case" data-display="block">
+        <pre><code>sum_(n=0)^k a_n = a_0 + a_i + cdots + a_k</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>bf`F` @ bf`G` : U sube RR^3 -&gt; RR^2</code>
+        <pre><code>bf`F` @ bf`G` : U sube RR^3 -&gt; RR^2</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">e = sum_(n=0)^oo 1 / n!</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>e = sum_(n=0)^oo 1 / n!</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>f'(x), f''(x), f'''(x), f''''(x)</code>
+        <pre><code>f'(x), f''(x), f'''(x), f''''(x)</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>p(a | b) = (p(b | a)p(a)) / p(b)</code>
+        <pre><code>p(a | b) = (p(b | a)p(a)) / p(b)</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block"
-          >P_k(x) = f(a) + f'(a)(x-a) + (f''(a))/2! (x-a)^2 + cdots +
-          (f^((k))(a))/k! (x-a)^k</code
-        >
+
+      <div class="test-case" data-display="block">
+        <pre><code>P_k(x) = f(a) + f'(a)(x-a) + (f''(a))/2! (x-a)^2 + cdots + (f^((k))(a))/k! (x-a)^k</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block"
-          >grad f(x,y) = ((del f)/(del x) (x, y), (del f)/(del y) (x,y))</code
-        >
+
+      <div class="test-case" data-display="block">
+        <pre><code>grad f(x,y) = ((del f)/(del x) (x, y), (del f)/(del y) (x,y))</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block"
-          >oint_(del S) bf`F` * dbf`s` = dint_S grad xx bf`F` * dbf`s`</code
-        >
+
+      <div class="test-case" data-display="block">
+        <pre><code>oint_(del S) bf`F` * dbf`s` = dint_S grad xx bf`F` * dbf`s`</code></pre>
+        <output></output>
       </div>
     </section>
 
     <section id="whitespace">
       <h2>Whitespace</h2>
       <div class="test-case">
-        <code>a b</code>
+        <pre><code>a b</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>a  b</code>
+        <pre><code>a  b</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>a   b</code>
+        <pre><code>a   b</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>a    b</code>
+        <pre><code>a    b</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>a     b</code>
+        <pre><code>a     b</code></pre>
+        <output></output>
       </div>
     </section>
 
     <section id="identifiers">
       <h2>Identifiers</h2>
+
       <section id="greeks">
         <h3>Greeks</h3>
+
         <div class="test-case">
-          <code>Gamma Delta Theta Lambda Xi Pi Sigma Phi Psi Omega</code>
+          <pre><code>Gamma Delta Theta Lambda Xi Pi Sigma Phi Psi Omega</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi pi rho sigma tau upsilon phi chi psi omega</code>
+          <pre><code>alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi pi rho sigma tau upsilon phi chi psi omega</code></pre>
+          <output></output>
         </div>
       </section>
 
       <section id="special-symbols">
         <h3>Special symbols</h3>
+
         <div class="test-case">
-          <code>grad oo O/</code>
+          <pre><code>grad oo O/</code></pre>
+          <output></output>
         </div>
       </section>
 
       <section id="blackboard">
         <h3>Blackboard</h3>
+
         <div class="test-case">
-          <code>NN ZZ QQ RR CC</code>
+          <pre><code>NN ZZ QQ RR CC</code></pre>
+          <output></output>
         </div>
       </section>
     </section>
 
     <section id="standard-functions">
       <h2>Standard Functions</h2>
+
       <div class="test-case">
-        <code>tan = sin/cos</code>
+        <pre><code>tan = sin/cos</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">sinh x = (e^x - e^(-x))/2,  cosh x = (e^x + e^(-x))/2,  tanh x = (sinh x)/(cosh x)</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>sinh x = (e^x - e^(-x))/2,  cosh x = (e^x + e^(-x))/2,  tanh x = (sinh x)/(cosh x)</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">log_b x = (log_k x)/(log_k b)</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>log_b x = (log_k x)/(log_k b)</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>ln x^2 = 2 ln x</code>
+        <pre><code>ln x^2 = 2 ln x</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">ln(x/y) = ln x - ln y</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>ln(x/y) = ln x - ln y</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">det(A) = |(a, b), (c, d)| = ad - cd</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>det(A) = |(a, b), (c, d)| = ad - cd</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>a^(p-1) -= 1   (mod p)</code>
+        <pre><code>a^(p-1) -= 1   (mod p)</code></pre>
+        <output></output>
       </div>
     </section>
 
     <section id="fractions">
       <h2>Fractions</h2>
+
       <div class="test-case">
-        <code>a/b</code>
+        <pre><code>a/b</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>a./b</code>
+        <pre><code>a./b</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">a./b / c./d</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>a./b / c./d</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>(a+b)/(c+d)</code>
+        <pre><code>(a+b)/(c+d)</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>1+3 / 2+2</code>
+        <pre><code>1+3 / 2+2</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>1 + 3/2 + 2</code>
+        <pre><code>1 + 3/2 + 2</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>a/</code>
+        <pre><code>a/</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>b ./ </code>
+        <pre><code>b ./ </code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">phi = 1 + 1/(1 + 1/(1 + 1/(1 + 1/(1 + ddots))))</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>phi = 1 + 1/(1 + 1/(1 + 1/(1 + 1/(1 + ddots))))</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">cc`N`(x | mu, sigma^2) = 1/(sqrt(2pi sigma^2)) e^(-((x-mu)^2) / 2sigma^2)</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>cc`N`(x | mu, sigma^2) = 1/(sqrt(2pi sigma^2)) e^(-((x-mu)^2) / 2sigma^2)</code></pre>
+        <output></output>
       </div>
     </section>
 
     <section id="roots">
       <h2>Roots</h2>
+
       <div class="test-case">
-        <code>sqrt x</code>
+        <pre><code>sqrt x</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>root(n)(x)</code>
+        <pre><code>root(n)(x)</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>sqrt</code>
+        <pre><code>sqrt</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>root  </code>
+        <pre><code>root  </code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>root 3 </code>
+        <pre><code>root 3 </code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>binom(n, k)</code>
+        <pre><code>binom(n, k)</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>binom(a, b + c)</code>
+        <pre><code>binom(a, b + c)</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>sqrt 2 ~~ 1.414213562</code>
+        <pre><code>sqrt 2 ~~ 1.414213562</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">x = (-b +- sqrt(b^2 - 4ac)) / 2a</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>x = (-b +- sqrt(b^2 - 4ac)) / 2a</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>phi = 1+sqrt5 / 2</code>
+        <pre><code>phi = 1+sqrt5 / 2</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">rho = (root3 (108 + 12 sqrt 69) + root3 (108 - 12 sqrt 69)) / 6</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>rho = (root3 (108 + 12 sqrt 69) + root3 (108 - 12 sqrt 69)) / 6</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + cdots)))))))</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + cdots)))))))</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">(n; k) = n! / (n-k)!k!</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>(n; k) = n! / (n-k)!k!</code></pre>
+        <output></output>
       </div>
     </section>
 
     <section id="groupings">
       <h2>Groupings</h2>
+
       <div class="test-case">
-        <code>(a+b)</code>
+        <pre><code>(a+b)</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>a,b,c</code>
+        <pre><code>a,b,c</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>(a,b,c)</code>
+        <pre><code>(a,b,c)</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>(a,b,c</code>
+        <pre><code>(a,b,c</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>(</code>
+        <pre><code>(</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>(x+y)(x-y) = x^2-y^2</code>
+        <pre><code>(x+y)(x-y) = x^2-y^2</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>e^(-x)</code>
+        <pre><code>e^(-x)</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>e^(i tau) = 1</code>
+        <pre><code>e^(i tau) = 1</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>NN = {1, 2, 3, ...}</code>
+        <pre><code>NN = {1, 2, 3, ...}</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">(: V(t)^2 :) = lim_(T-&gt;oo) 1/T int_(-T./2)^(T./2) V(t)^2 dt</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>(: V(t)^2 :) = lim_(T-&gt;oo) 1/T int_(-T./2)^(T./2) V(t)^2 dt</code></pre>
+        <output></output>
       </div>
     </section>
 
     <section id="super-and-subscripts">
       <h2>Super and Subscripts</h2>
+
       <div class="test-case">
-	<code>a_i</code>
+        <pre><code>a_i</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-	<code>a^2</code>
+        <pre><code>a^2</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-	<code>a_i^2</code>
+        <pre><code>a_i^2</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-	<code>a^2_i</code>
+        <pre><code>a^2_i</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-	<code>2^2^2^2</code>
+        <pre><code>2^2^2^2</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-	<code>a^2 + b^2 = c^2</code>
+        <pre><code>a^2 + b^2 = c^2</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-	<code>(X^T)_(ij) = X_(ji)</code>
+        <pre><code>(X^T)_(ij) = X_(ji)</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-	<code data-display="block">ln x = int_1^x 1/t dt</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>ln x = int_1^x 1/t dt</code></pre>
+        <output></output>
       </div>
     </section>
 
     <section id="over-and-underscripts">
       <h2>Over and Underscripts</h2>
-      <div class="test-case">
-        <code data-display="block">lim_(a -&gt; b)</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>lim_(a -&gt; b)</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">sum_(i=0)^n</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>sum_(i=0)^n</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">prod_(i=1)^n</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>prod_(i=1)^n</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">phi =.^"def" a/b = (a+b)/a</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>phi =.^"def" a/b = (a+b)/a</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>X._(n xx m)</code>
+        <pre><code>X._(n xx m)</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">{: x + ... + x :}.^&OverBrace;.^(k  "times")</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>{: x + ... + x :}.^&OverBrace;.^(k  "times")</code></pre>
+        <output></output>
       </div>
     </section>
 
     <section id="matrices">
       <h2>Matrices</h2>
-      <div class="test-case">
-        <code data-display="block">(1; 2; 3)</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>(1; 2; 3)</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">[[a, b], [d, e]]</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>[[a, b], [d, e]]</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">[1, 2, 3; 4, 5, 6]</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>[1, 2, 3; 4, 5, 6]</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">[1, 2, 3;]</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>[1, 2, 3;]</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">[(a,b,c),]</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>[(a,b,c),]</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block" data-annotate="true">[[a, b, c]
+
+      <div class="test-case" data-display="block" data-annotate="true">
+        <pre><code>[[a, b, c]
  [d, e, f]
- [g, h, i]]</code>
+ [g, h, i]]</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">[a, d
+
+      <div class="test-case" data-display="block">
+        <pre><code>[a, d
  b, e
- c, f]</code>
+ c, f]</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block" data-annotate="true">n! = {[1, if n in {0, 1}]
-      [n(n - 1)!, otherwise]:}</code>
+
+      <div class="test-case" data-display="block" data-annotate="true">
+        <pre><code>n! = { [1,         if n in {0, 1}]
+       [n(n - 1)!, otherwise     ]</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">|(a,b,c), (d,e,f), (h,i,j)|</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>|(a,b,c), (d,e,f), (h,i,j)|</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">||a ; b ; c||</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>||a ; b ; c||</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">A = [[a_(1 1), a_(1 2), cdots, a_(1 n)], [a_(2 1), a_(2 2), cdots, a_(2 n)], [vdots, vdots, ddots, vdots], [a_(m 1), a_(m 2), cdots, a_(m n)]]</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>A = [[a_(1 1), a_(1 2), cdots, a_(1 n)], [a_(2 1), a_(2 2), cdots, a_(2 n)], [vdots, vdots, ddots, vdots], [a_(m 1), a_(m 2), cdots, a_(m n)]]</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">[[((a, b), (d, e)), -1], [1, ((f, g), (h, i))]]</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>[[((a, b), (d, e)), -1], [1, ((f, g), (h, i))]]</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">|x| = { (x\,, if x &gt;= 0), (-x\,, if x &lt; 0) :}</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>|x| = { (x\,, if x &gt;= 0), (-x\,, if x &lt; 0) :}</code></pre>
+        <output></output>
       </div>
-      <div class="test-case">
-        <code data-display="block">n! = { [1,  if n=0 or n=1],  [n(n-1)!,  if n &gt; 1] :}</code>
+
+      <div class="test-case" data-display="block">
+        <pre><code>n! = { [1,  if n=0 or n=1],  [n(n-1)!,  if n &gt; 1] :}</code></pre>
+        <output></output>
       </div>
     </section>
 
     <section id="fonts">
       <h2>Fonts</h2>
+
       <section id="text">
         <h3>Text</h3>
+
         <div class="test-case">
-          <code>"abcd"</code>
+          <pre><code>"abcd"</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>rm"AaBbCc"</code>
+          <pre><code>rm"AaBbCc"</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>it"AaBbCc"</code>
+          <pre><code>it"AaBbCc"</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>bf"AaBbCc"</code>
+          <pre><code>bf"AaBbCc"</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>bb"AaBbCc"</code>
+          <pre><code>bb"AaBbCc"</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>cc"AaBbCc"</code>
+          <pre><code>cc"AaBbCc"</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>fr"AaBbCc"</code>
+          <pre><code>fr"AaBbCc"</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>sf"AaBbCc"</code>
+          <pre><code>sf"AaBbCc"</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>tt"AaBbCc"</code>
+          <pre><code>tt"AaBbCc"</code></pre>
+          <output></output>
         </div>
-        <div class="test-case">
-          <code data-display="block">it`proj`_bf`v` bf`a` = (bf`a`*bf`v`)/||bf`v`||^2 bf`v`</code>
-        </div>        
+
+        <div class="test-case" data-display="block">
+          <pre><code>it`proj`_bf`v` bf`a` = (bf`a`*bf`v`)/||bf`v`||^2 bf`v`</code></pre>
+          <output></output>
+        </div>
       </section>
 
       <section id="forced-identifiers">
         <h3>Forced identifiers</h3>
+
         <div class="test-case">
-          <code>`Gamma` != Gamma</code>
+          <pre><code>`Gamma` != Gamma</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>rm`e`</code>
+          <pre><code>rm`e`</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>it`ln`</code>
+          <pre><code>it`ln`</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>bf`1234`</code>
+          <pre><code>bf`1234`</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>bb`1234`</code>
+          <pre><code>bb`1234`</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>cc`l`</code>
+          <pre><code>cc`l`</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>fr`g`</code>
+          <pre><code>fr`g`</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>sf`1234`</code>
+          <pre><code>sf`1234`</code></pre>
+          <output></output>
         </div>
+
         <div class="test-case">
-          <code>tt`1234`</code>
+          <pre><code>tt`1234`</code></pre>
+          <output></output>
         </div>
       </section>
     </section>
 
     <section id="accents">
       <h2>Accents</h2>
+
       <div class="test-case">
-        <code>hat x</code>
+        <pre><code>hat x</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>bar x</code>
+        <pre><code>bar x</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>ul x</code>
+        <pre><code>ul x</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>vec x</code>
+        <pre><code>vec x</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>dot x</code>
+        <pre><code>dot x</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>ddot x</code>
+        <pre><code>ddot x</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>tilde x</code>
+        <pre><code>tilde x</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>ddot i,  bar i,  hat j,  ul j</code>
+        <pre><code>ddot i,  bar i,  hat j,  ul j</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>3hat(xyz)</code>
+        <pre><code>3hat(xyz)</code></pre>
+        <output></output>
       </div>
+
       <div class="test-case">
-        <code>vec x = ahat i + bhat j + chat k</code>
+        <pre><code>vec x = ahat i + bhat j + chat k</code></pre>
+        <output></output>
       </div>
     </section>
-    <script src="../dist/ascii2mathml.js"></script>
+
+    <script src="../target/browser/ascii2mathml.js"></script>
+
     <script>
-      ascii2mathml = ascii2mathml.default;
-      var parser = new DOMParser();
-      Array.prototype.forEach.call(document.querySelectorAll(".test-case"), function (test) {
-        var code = test.querySelector("code");
-        var ascii = code.firstChild ? code.firstChild.textContent : "";
-        var conf = Object.assign({}, code.dataset);
-        var mathml = ascii2mathml(ascii, conf);
-        var math = parser.parseFromString(mathml, "text/html").querySelector("math");
-        test.appendChild(math);
-      });
+      for (const testCase of document.querySelectorAll(".test-case")) {
+        const conf = { ...testCase.dataset };
+        const input = testCase.querySelector("code").textContent;
+        const output = testCase.querySelector("output");
+
+        output.innerHTML = ascii2mathml(input, conf);
+      }
     </script>
   </body>
 </html>
