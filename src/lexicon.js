@@ -25,7 +25,7 @@ const digitRE = new RegExp(digitRange, "u");
 Object.defineProperties(numbers, {
   digitRange: { value: digitRange },
   digitRE: { value: digitRE },
-  isdigit: { value: char => char.match(digitRE) }
+  isdigit: { value: char => char.match(digitRE) },
 });
 
 // Identifiers
@@ -50,7 +50,7 @@ const funs = [
   "gcd",
   "lcm",
   "min",
-  "max"
+  "max",
 ];
 
 const identifiers = {
@@ -100,7 +100,7 @@ const identifiers = {
   NN: "ℕ",
   QQ: "ℚ",
   RR: "ℝ",
-  ZZ: "ℤ"
+  ZZ: "ℤ",
 };
 
 funs.forEach(fun => {
@@ -110,17 +110,17 @@ funs.forEach(fun => {
 Object.defineProperty(identifiers, "contains", {
   value(char) {
     return typeof identifiers[char] !== "undefined";
-  }
+  },
 });
 
 Object.defineProperty(identifiers, "funs", {
-  value: funs
+  value: funs,
 });
 
 Object.defineProperty(identifiers, "isfun", {
   value(str) {
     return funs.indexOf(str) >= 0;
-  }
+  },
 });
 
 // Operators
@@ -236,19 +236,19 @@ const operators = {
   "_|_": "⊥",
   TT: "⊤",
   "|--": "⊢",
-  "|==": "⊨"
+  "|==": "⊨",
 };
 
 Object.defineProperty(operators, "contains", {
   value(char) {
     return typeof operators[char] !== "undefined";
-  }
+  },
 });
 
 Object.defineProperty(operators, "get", {
   value(char) {
     return operators[char] || char;
-  }
+  },
 });
 
 function regexpEscape(str) {
@@ -268,8 +268,8 @@ Object.defineProperty(operators, "regexp", {
       `\u2200-\u22FF\u2A00-\u2AFF\u27C0-\u27E5\u2980-\u2982` +
       `\u2999-\u29FF\u2301-\u23FF\u25A0-\u25FF\u2B00-\u2BFF` +
       `\u2190-\u21FF\u27F0-\u27FF\u2900-\u297F\u20D0-\u20EF]` +
-      `)`
-  )
+      `)`,
+  ),
 });
 
 // Groupings
@@ -282,42 +282,42 @@ const groupings = {
     abs: { open: "|", close: "|" },
     floor: { open: "⌊", close: "⌋" },
     ceil: { open: "⌈", close: "⌉" },
-    norm: { open: "∥", close: "∥" }
-  }
+    norm: { open: "∥", close: "∥" },
+  },
 };
 
 Object.defineProperty(groupings.open, "regexp", {
-  value: /([[⟦⟨⟪⟬⟮⦃⦅⦇⦉⦋⦍⦏⦑⦓⦕⦗]|[({]:?)/
+  value: /([[⟦⟨⟪⟬⟮⦃⦅⦇⦉⦋⦍⦏⦑⦓⦕⦗]|[({]:?)/,
 });
 
 Object.defineProperty(groupings.close, "regexp", {
-  value: /([\]⟧⟩⟫⟭⟯⦄⦆⦈⦊⦌⦎⦐⦒⦔⦖⦘]|:?[)}])/
+  value: /([\]⟧⟩⟫⟭⟯⦄⦆⦈⦊⦌⦎⦐⦒⦔⦖⦘]|:?[)}])/,
 });
 
 Object.defineProperty(groupings.open, "get", {
   value(str) {
     const match = groupings.open[str];
     return typeof match === "string" ? match : str;
-  }
+  },
 });
 
 Object.defineProperty(groupings.close, "get", {
   value(str) {
     const match = groupings.close[str];
     return typeof match === "string" ? match : str;
-  }
+  },
 });
 
 Object.defineProperty(groupings.complex, "contains", {
   value(str) {
     return Object.keys(groupings.complex).indexOf(str) >= 0;
-  }
+  },
 });
 
 Object.defineProperty(groupings.complex, "get", {
   value(str) {
     return groupings.complex[str];
-  }
+  },
 });
 
 Object.freeze(groupings.open);
@@ -335,17 +335,17 @@ const fonts = {
   cc: "script",
   tt: "monospace",
   fr: "fraktur",
-  sf: "sans-serif"
+  sf: "sans-serif",
 };
 
 Object.defineProperty(fonts, "get", {
   value(str) {
     return fonts[str];
-  }
+  },
 });
 
 Object.defineProperty(fonts, "regexp", {
-  value: new RegExp(`(${Object.keys(fonts).join("|")})`)
+  value: new RegExp(`(${Object.keys(fonts).join("|")})`),
 });
 
 // Accents
@@ -359,23 +359,23 @@ const accents = {
   dot: { type: "over", accent: "⋅" },
   ddot: { type: "over", accent: "⋅⋅" },
   tilde: { type: "over", accent: "˜" },
-  cancel: { type: "enclose", attrs: { notation: "updiagonalstrike" } }
+  cancel: { type: "enclose", attrs: { notation: "updiagonalstrike" } },
 };
 
 Object.defineProperty(accents, "contains", {
   value(str) {
     return Object.keys(accents).indexOf(str) >= 0;
-  }
+  },
 });
 
 Object.defineProperty(accents, "get", {
   value(str) {
     return accents[str];
-  }
+  },
 });
 
 Object.defineProperty(accents, "regexp", {
-  value: new RegExp(`(${Object.keys(accents).join("|")})`)
+  value: new RegExp(`(${Object.keys(accents).join("|")})`),
 });
 
 export { numbers, identifiers, operators, groupings, fonts, accents };

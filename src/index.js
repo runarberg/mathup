@@ -1,4 +1,4 @@
-import parser from "./parser";
+import parser from "./parser.js";
 
 export default function ascii2mathml(
   asciimath,
@@ -11,8 +11,8 @@ export default function ascii2mathml(
 
     decimalMark = ".",
     colSep = decimalMark === "," ? ";" : ",",
-    rowSep = colSep === ";" ? ";;" : ";"
-  } = {}
+    rowSep = colSep === ";" ? ";;" : ";",
+  } = {},
 ) {
   // Curry
   if (typeof asciimath === "object") {
@@ -25,7 +25,7 @@ export default function ascii2mathml(
   if (bare) {
     if (standalone) {
       throw new Error(
-        "Can't output a valid HTML without a root <math> element"
+        "Can't output a valid HTML without a root <math> element",
       );
     }
     if (display && display.toLowerCase() !== "inline") {
@@ -33,7 +33,7 @@ export default function ascii2mathml(
     }
     if (dir && dir.toLowerCase() !== "ltr") {
       throw new Error(
-        "Can't have right-to-left direction without root element."
+        "Can't have right-to-left direction without root element.",
       );
     }
   }
@@ -41,7 +41,7 @@ export default function ascii2mathml(
   const parse = parser({
     decimalMark,
     colSep,
-    rowSep
+    rowSep,
   });
   let out;
 
@@ -60,7 +60,7 @@ export default function ascii2mathml(
 
     out = math(
       `<semantics>${mathml}<annotation encoding="application/AsciiMath">${asciimath}</annotation>` +
-        `</semantics>`
+        `</semantics>`,
     );
   } else {
     out = math(parse(asciimath.trim(), ""));
