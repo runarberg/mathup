@@ -1,4 +1,10 @@
-import { accents, identifiers, operators, groupings, fonts } from "./lexicon";
+import {
+  accents,
+  identifiers,
+  operators,
+  groupings,
+  fonts,
+} from "./lexicon.js";
 
 function splitNextOperator(str) {
   const re = new RegExp(`^${operators.regexp.source}`);
@@ -15,7 +21,7 @@ function isgroupStart(str) {
 
 function isgroupable(str, options) {
   const re = new RegExp(
-    `^[0-9A-Za-z+\\-!]{2,}(\\s|${options.colSep}|${options.rowSep})`
+    `^[0-9A-Za-z+\\-!]{2,}(\\s|${options.colSep}|${options.rowSep})`,
   );
   return str.match(re);
 }
@@ -55,7 +61,7 @@ const funcEndingRe = new RegExp(
     .concat(Object.keys(accents))
     .concat(["sqrt"])
     .sort((a, b) => a.length - b.length)
-    .join("|")})$`
+    .join("|")})$`,
 );
 
 function endsInFunc(str) {
@@ -109,10 +115,10 @@ function splitNextGroup(str) {
     groupings.open.get(open),
     str.slice(
       start + open.length,
-      close ? stop - (close.length - 1) : str.length
+      close ? stop - (close.length - 1) : str.length,
     ),
     close ? groupings.close.get(close) : "",
-    stop ? str.slice(stop + 1) : ""
+    stop ? str.slice(stop + 1) : "",
   ];
 }
 
@@ -132,7 +138,7 @@ function splitNextVert(str) {
       double ? "‖" : "|",
       str.slice(start + (double ? 2 : 1), stop),
       double ? "‖" : "|",
-      str.slice(stop + (double ? 2 : 1))
+      str.slice(stop + (double ? 2 : 1)),
     ];
   }
 
@@ -229,7 +235,7 @@ function splitfont(ascii) {
     tagname,
     text: ascii.slice(start + 1, stop),
     font: fontvariant,
-    rest: ascii.slice(stop + 1)
+    rest: ascii.slice(stop + 1),
   };
 }
 
@@ -249,7 +255,7 @@ const syntax = {
   ismatrixInterior,
   isfontCommand,
   splitfont,
-  shouldGoUnder
+  shouldGoUnder,
 };
 
 export default syntax;

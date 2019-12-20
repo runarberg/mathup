@@ -28,12 +28,12 @@ test("Should wrap operatos in <mo>", t => {
 test("1+1 = 2", t => {
   t.is(
     a2ml("1+1 = 2"),
-    "<math><mrow><mn>1</mn><mo>+</mo><mn>1</mn></mrow><mo>=</mo><mn>2</mn></math>"
+    "<math><mrow><mn>1</mn><mo>+</mo><mn>1</mn></mrow><mo>=</mo><mn>2</mn></math>",
   );
 });
 test("3-2 = 1", t => {
   t.is(
     a2ml("3-2 = 1"),
-    "<math><mrow><mn>3</mn><mo>-</mo><mn>2</mn></mrow><mo>=</mo><mn>1</mn></math>"
+    "<math><mrow><mn>3</mn><mo>-</mo><mn>2</mn></mrow><mo>=</mo><mn>1</mn></math>",
   );
 });

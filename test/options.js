@@ -12,7 +12,7 @@ test("right-to-left direction when passed in", t => {
 test("Should be able to be both at the same time", t => {
   t.is(
     a2ml("", { display: "block", dir: "rtl" }),
-    '<math display="block" dir="rtl"></math>'
+    '<math display="block" dir="rtl"></math>',
   );
 });
 
@@ -23,21 +23,21 @@ test("Bare does’t wrap in `<math>` element", t => {
 test("Standalone gives a valid HTML page", t => {
   t.is(
     a2ml("42", { standalone: true }),
-    "<!DOCTYPE html><html><head><title>42</title></head><body><math><mn>42</mn></math></body></html>"
+    "<!DOCTYPE html><html><head><title>42</title></head><body><math><mn>42</mn></math></body></html>",
   );
 });
 
 test("Annotated", t => {
   t.is(
     a2ml("42", { annotate: true }),
-    '<math><semantics><mn>42</mn><annotation encoding="application/AsciiMath">42</annotation></semantics></math>'
+    '<math><semantics><mn>42</mn><annotation encoding="application/AsciiMath">42</annotation></semantics></math>',
   );
 });
 
 test("Annotated give a single math element", t => {
   t.is(
     a2ml("40 + 2 = 42", { annotate: true }),
-    '<math><semantics><mrow><mn>40</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>42</mn></mrow><annotation encoding="application/AsciiMath">40 + 2 = 42</annotation></semantics></math>'
+    '<math><semantics><mrow><mn>40</mn><mo>+</mo><mn>2</mn><mo>=</mo><mn>42</mn></mrow><annotation encoding="application/AsciiMath">40 + 2 = 42</annotation></semantics></math>',
   );
 });
 
@@ -61,11 +61,11 @@ test("Curry when called with an object", t => {
   t.is(curried(""), '<math display="block"></math>');
   t.is(
     curried("42", { annotate: true, standalone: true }),
-    '<!DOCTYPE html><html><head><title>42</title></head><body><math display="block"><semantics><mn>42</mn><annotation encoding="application/AsciiMath">42</annotation></semantics></math></body></html>'
+    '<!DOCTYPE html><html><head><title>42</title></head><body><math display="block"><semantics><mn>42</mn><annotation encoding="application/AsciiMath">42</annotation></semantics></math></body></html>',
   );
   t.is(
     a2ml("42", { annotate: true, standalone: true }),
-    '<!DOCTYPE html><html><head><title>42</title></head><body><math><semantics><mn>42</mn><annotation encoding="application/AsciiMath">42</annotation></semantics></math></body></html>'
+    '<!DOCTYPE html><html><head><title>42</title></head><body><math><semantics><mn>42</mn><annotation encoding="application/AsciiMath">42</annotation></semantics></math></body></html>',
   );
 });
 
@@ -82,7 +82,7 @@ test('Column separators default to ";" when decimal marks are ","', t => {
 
   t.is(
     math("(1; 2; 3,14)"),
-    '<mfenced open="(" close=")" separators=";"><mn>1</mn><mn>2</mn><mn>3,14</mn></mfenced>'
+    '<mfenced open="(" close=")" separators=";"><mn>1</mn><mn>2</mn><mn>3,14</mn></mfenced>',
   );
 });
 
@@ -91,12 +91,12 @@ test('Row separators default to ";;" when column separators are ";"', t => {
 
   t.is(
     math("[1 ;; 2 ;; 3.14]", { colSep: ";" }),
-    '<mfenced open="[" close="]"><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3.14</mn></mtd></mtr></mtable></mfenced>'
+    '<mfenced open="[" close="]"><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3.14</mn></mtd></mtr></mtable></mfenced>',
   );
 
   t.is(
     math("[1 ;; 2 ;; 3,14]", { decimalMark: "," }),
-    '<mfenced open="[" close="]"><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3,14</mn></mtd></mtr></mtable></mfenced>'
+    '<mfenced open="[" close="]"><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3,14</mn></mtd></mtr></mtable></mfenced>',
   );
 });
 
@@ -105,12 +105,12 @@ test("Arbitrary column separators", t => {
 
   t.is(
     math("(1 | 2 | 3.14)", { colSep: "|" }),
-    '<mfenced open="(" close=")" separators="|"><mn>1</mn><mn>2</mn><mn>3.14</mn></mfenced>'
+    '<mfenced open="(" close=")" separators="|"><mn>1</mn><mn>2</mn><mn>3.14</mn></mfenced>',
   );
 
   t.is(
     math("(1; 2; 3,14)", { colSep: ";", decimalMark: "," }),
-    '<mfenced open="(" close=")" separators=";"><mn>1</mn><mn>2</mn><mn>3,14</mn></mfenced>'
+    '<mfenced open="(" close=")" separators=";"><mn>1</mn><mn>2</mn><mn>3,14</mn></mfenced>',
   );
 });
 
@@ -119,11 +119,11 @@ test("Arbitrary row separators", t => {
 
   t.is(
     math("(1 & 2 & 3.14)", { rowSep: "&" }),
-    '<mfenced open="(" close=")"><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3.14</mn></mtd></mtr></mtable></mfenced>'
+    '<mfenced open="(" close=")"><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3.14</mn></mtd></mtr></mtable></mfenced>',
   );
 
   t.is(
     math("(1 \\\\ 2 \\\\ 3,14)", { rowSep: "\\\\", decimalMark: "," }),
-    '<mfenced open="(" close=")"><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3,14</mn></mtd></mtr></mtable></mfenced>'
+    '<mfenced open="(" close=")"><mtable><mtr><mtd><mn>1</mn></mtd></mtr><mtr><mtd><mn>2</mn></mtd></mtr><mtr><mtd><mn>3,14</mn></mtd></mtr></mtable></mfenced>',
   );
 });

@@ -1,5 +1,11 @@
-import syntax from "./syntax";
-import { numbers, identifiers, operators, groupings, accents } from "./lexicon";
+import syntax from "./syntax.js";
+import {
+  numbers,
+  identifiers,
+  operators,
+  groupings,
+  accents,
+} from "./lexicon.js";
 
 function tag(tagname) {
   return function fn(content, attr) {
@@ -43,7 +49,7 @@ function parser(options) {
   const decimalMarkRE =
     options.decimalMark === "." ? "\\." : options.decimalMark;
   const numberRegexp = new RegExp(
-    `^${numbers.digitRange}+(${decimalMarkRE}${numbers.digitRange}+)?`
+    `^${numbers.digitRange}+(${decimalMarkRE}${numbers.digitRange}+)?`,
   );
   const colsplit = splitby(options.colSep);
   const rowsplit = splitby(options.rowSep);
@@ -170,7 +176,7 @@ function parser(options) {
 
       el = mfenced(mfrac(over + under, { linethickness: 0 }), {
         open: "(",
-        close: ")"
+        close: ")",
       });
       rest = after;
     } else if (head === "\\" && ascii.length > 1) {
@@ -199,13 +205,13 @@ function parser(options) {
             // use non-dotted i and j glyphs as to not clutter
             el = mover(
               mi(ijmatch[1] === "i" ? "ı" : "ȷ") +
-                mo(accent.accent, { accent: true })
+                mo(accent.accent, { accent: true }),
             );
             rest = next.slice(ijmatch[0].length);
           } else {
             el = mover(
               removeSurroundingBrackets(split[0]) +
-                mo(accent.accent, { accent: true })
+                mo(accent.accent, { accent: true }),
             );
             [, rest] = split;
           }
@@ -230,7 +236,7 @@ function parser(options) {
 
       el = tag(split.tagname)(
         split.text,
-        split.font && { mathvariant: split.font }
+        split.font && { mathvariant: split.font },
       );
       rest = split.rest;
     } else if (groupings.complex.contains(nextsymbol)) {
@@ -269,7 +275,7 @@ function parser(options) {
         const cases = open === "{" && close === "";
         const table = parsetable(
           group,
-          cases && { columnalign: "center left" }
+          cases && { columnalign: "center left" },
         );
 
         el = mfenced(table, { open, close });
@@ -356,7 +362,7 @@ function parser(options) {
 
       // Uppercase greeks are roman font variant
       const uppercase = ident.match(
-        /[\u0391-\u03A9\u2100-\u214F\u2200-\u22FF]/
+        /[\u0391-\u03A9\u2100-\u214F\u2200-\u22FF]/,
       );
       el = uppercase ? mi(ident, { mathvariant: "normal" }) : mi(ident);
       rest = tail.slice(nextsymbol.length - 1);
@@ -412,7 +418,7 @@ function parser(options) {
         .slice(1)
         .trim(),
       true,
-      "msub"
+      "msub",
     );
     const sub = next[0] ? removeSurroundingBrackets(next[0]) : mrow("");
     let ml;
@@ -429,7 +435,7 @@ function parser(options) {
           .trim()
           .slice(1)
           .trim(),
-        true
+        true,
       );
       const sup = next2[0] ? removeSurroundingBrackets(next2[0]) : mrow("");
       const tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
@@ -450,7 +456,7 @@ function parser(options) {
         .slice(1)
         .trim(),
       true,
-      "msup"
+      "msup",
     );
     const sup = next[0] ? removeSurroundingBrackets(next[0]) : mrow("");
     let ml;
@@ -466,7 +472,7 @@ function parser(options) {
           .trim()
           .slice(1)
           .trim(),
-        true
+        true,
       );
       const sub = next2[0] ? removeSurroundingBrackets(next2[0]) : mrow("");
       const tagfun = syntax.shouldGoUnder(el) ? munderover : msubsup;
@@ -487,7 +493,7 @@ function parser(options) {
         .slice(2)
         .trim(),
       true,
-      "munder"
+      "munder",
     );
     const under = next[0] ? removeSurroundingBrackets(next[0]) : mrow("");
     let ml;
@@ -501,7 +507,7 @@ function parser(options) {
           .trim()
           .slice(overmatch[1].length)
           .trim(),
-        true
+        true,
       );
       const over = next2[0] ? removeSurroundingBrackets(next2[0]) : mrow("");
       ml = munderover(el + under + over);
@@ -520,7 +526,7 @@ function parser(options) {
         .slice(2)
         .trim(),
       true,
-      "mover"
+      "mover",
     );
     const over = next[0] ? removeSurroundingBrackets(next[0]) : mrow("");
     let ml;
@@ -534,7 +540,7 @@ function parser(options) {
           .trim()
           .slice(undermatch[1].length)
           .trim(),
-        true
+        true,
       );
       const under = next2[0] ? removeSurroundingBrackets(next2[0]) : mrow("");
       ml = munderover(el + under + over);
@@ -563,7 +569,7 @@ function parser(options) {
 
     const ml = mfrac(
       removeSurroundingBrackets(el) + removeSurroundingBrackets(next),
-      bevelled && { bevelled: true }
+      bevelled && { bevelled: true },
     );
 
     if (
