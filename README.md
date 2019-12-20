@@ -2,8 +2,12 @@ Ascii2MathML
 ============
 
 [![npm](https://img.shields.io/npm/v/ascii2mathml.svg)](https://www.npmjs.com/package/ascii2mathml)
+[![License](https://img.shields.io/npm/l/ascii2mathml)](LICENSE)
 [![Build Status](https://travis-ci.org/runarberg/ascii2mathml.svg?branch=master)](https://travis-ci.org/runarberg/ascii2mathml)
-[![Coverage Status](https://coveralls.io/repos/github/runarberg/ascii2mathml/badge.svg)](https://coveralls.io/github/runarberg/ascii2mathml)
+[![Coverage Status](https://coveralls.io/repos/github/runarberg/ascii2mathml/badge.svg)](https://coveralls.io/github/runarberg/ascii2mathml)  
+[![dependencies](https://david-dm.org/runarberg/ascii2mathml/status.svg)](https://david-dm.org/runarberg/ascii2mathml)
+[![dev-dependencies](https://david-dm.org/runarberg/ascii2mathml/dev-status.svg)](https://david-dm.org/runarberg/ascii2mathml?type=dev)
+[![npms Score](https://badges.npms.io/ascii2mathml.svg)](https://api.npms.io/v2/package/ascii2mathml)
 
 #### Installation ####
 
