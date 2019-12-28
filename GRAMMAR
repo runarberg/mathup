@@ -1,0 +1,12 @@
+I ::= alpha | ("`", { anything }, "`");  identifier
+N ::= ({ digit } [, ".", { digit }]) | ("#", I);  number
+O ::= { symbol } | ("\", I);  operator
+T ::= '"', { anything }, '"';  text
+
+Infix = [ ".", ] ("_" | "^" | "/");  infix
+
+Term ::= (I | N | O | T) [, Term];  term
+Group ::= Open {[, Expr], Sep } [, Close];  group
+Expr ::= (Term | Group) [, Infix, Expr];  expression
+
+Sentence ::= Expr [, Sentence]

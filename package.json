@@ -21,7 +21,7 @@
   },
   "scripts": {
     "clean": "rm -fr .nyc_output coverage/ target/",
-    "lint": "eslint src/ test/",
+    "lint": "eslint --ext .js --ext .mjs --ext .cjs src/ test/",
     "build": "rollup --config",
     "prepare": "npm run build",
     "test": "nyc ava",
@@ -55,6 +55,12 @@
       "import/extensions": [
         "error",
         "ignorePackages"
+      ],
+      "no-restricted-syntax": [
+        "error",
+        "ForInStatement",
+        "LabeledStatement",
+        "WithStatement"
       ],
       "no-use-before-define": [
         "error",
