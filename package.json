@@ -20,7 +20,8 @@
     "url": "https://github.com/runarberg/ascii2mathml.git"
   },
   "scripts": {
-    "clean": "rm -fr .nyc_output coverage/ target/",
+    "clean": "rm -fr .nyc_output dependencies.mjs coverage/ target/",
+    "dependencies": "rollup --config --configDeps",
     "lint": "eslint --ext .js --ext .mjs --ext .cjs src/ test/",
     "build": "rollup --config",
     "prepare": "npm run build",
@@ -85,6 +86,8 @@
     "@babel/core": "^7.7.7",
     "@babel/preset-env": "^7.7.7",
     "@babel/register": "^7.7.7",
+    "@rollup/plugin-commonjs": "^11.0.0",
+    "@rollup/plugin-node-resolve": "^6.0.0",
     "ava": "^2.4.0",
     "coveralls": "^3.0.9",
     "eslint": "^6.7.2",

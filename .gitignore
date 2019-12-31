@@ -1,5 +1,6 @@
 .nyc_output
 npm-debug.log
+/dependencies.mjs
 coverage/
 node_modules/
 target/
