@@ -1,4 +1,4 @@
-import unicodeProperties from "unicode-properties";
+import { unicodeProperties } from "../../../dependencies.mjs";
 
 export function isAlphabetic(char) {
   if (!char) {
