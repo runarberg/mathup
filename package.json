@@ -23,9 +23,11 @@
   },
   "scripts": {
     "clean": "rm -fr .nyc_output dependencies.mjs coverage/ target/",
+    "demo": "node demo/server.mjs",
     "dependencies": "rollup --config --configDeps",
     "lint": "eslint --ext .js --ext .mjs --ext .cjs src/ test/ *.config.js *.src.mjs",
     "build": "rollup --config",
+    "predemo": "npm run dependencies",
     "prepare": "npm run build",
     "test": "nyc ava",
     "test:watch": "ava --watch"
