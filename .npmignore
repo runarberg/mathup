@@ -1,3 +1,2 @@
 test/
-src/
-index.es6.js
+src/**/*.test.js

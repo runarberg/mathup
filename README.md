@@ -59,40 +59,16 @@ echo <expression> | mathup [options]
 And cli options as inline comments
 
 ```js
-var options = {
-    decimalMark: '.',   // -m,  --decimalmark='.'
-    colSep: ',',        // -c,  --colsep=','
-    rowSep: ';',        // -r,  --rowsep=';'
-    display: 'inline',  // -d,  --display
-    dir: 'ltr',         //      --rtl
-    bare: false,        // -b,  --bare
-    standalone: false,  // -s,  --standalone
-    annotate: false     // -a,  --annotate
+import mathup from "mathup";
+
+const options = {
+    decimalMark: ".",   // -m,  --decimalmark="."
+    colSep: ",",        // -c,  --colsep=","
+    rowSep: ";",        // -r,  --rowsep=";"
+    display: "inline",  // -d,  --display
+    dir: "ltr",         //      --rtl
 }
 ```
-
-You can also call `mathup` with only a configuration object,
-that will return a new function with the new defaults. For example
-
-```js
-import mathup from 'mathup';
-
-const mathml = ({
-    decimalMark: ',',
-    colSep: ';',        // default if `,` is the decimal mark
-    rowSep: ';;'        // default if `;` is the column separator
-});
-
-mathml('40,2').toString();
-// <math><mn>40,2</mn></math>
-
-mathml('(40,2; 3,17; 2,72)', {bare: true}).toString();
-// <mfenced open="(" close=")" separators=";"><mn>40,2</mn><mn>3,14</mn><mn>2,72</mn></mfenced>
-
-mathml('[40,2 ;; 3,14 ;; 2,72]', {display: 'block'}).toString();
-// <math display="block"><mfenced open="[" close="]"><mtable><mtr><mtd><mn>40,2</mn></mtd></mtr><mtr><mtd><mn>3,14</mn></mtd></mtr><mtr><mtd><mn>2,72</mn></mtd></mtr></mtable></mfenced></math>
-```
-
 
 Reference
 ---------
