@@ -160,7 +160,7 @@
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>P_k(x) = f(a) + f'(a)(x-a) + (f''(a))/2! (x-a)^2 + cdots + (f^((k))(a))/k! (x-a)^k</code></pre>
+        <pre><code>P_k (x) = f(a) + f'(a)(x-a) + (f''(a))/2! (x-a)^2 + cdots + (f^(k)(a))/k! (x-a)^k</code></pre>
         <output></output>
       </div>
 
@@ -170,7 +170,7 @@
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>oint_(del S) bf`F` * dbf`s` = dint_S grad xx bf`F` * dbf`s`</code></pre>
+        <pre><code>oint_(del S) bf F * d bf s = dint_S grad xx bf F * d bf s</code></pre>
         <output></output>
       </div>
     </section>
@@ -248,7 +248,7 @@
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>sinh x = (e^x - e^(-x))/2,  cosh x = (e^x + e^(-x))/2,  tanh x = (sinh x)/(cosh x)</code></pre>
+        <pre><code>sinh x = (e^x - e^-x)/2 ,  cosh x = (e^x + e^-x)/2 ,  tanh x = (sinh x)/(cosh x)</code></pre>
         <output></output>
       </div>
 
@@ -268,7 +268,7 @@
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>det(A) = |(a, b), (c, d)| = ad - cd</code></pre>
+        <pre><code>det(A) = |(a, b; c, d)| = ad - cd</code></pre>
         <output></output>
       </div>
 
@@ -287,12 +287,12 @@
       </div>
 
       <div class="test-case">
-        <pre><code>a./b</code></pre>
+        <pre><code>a//b</code></pre>
         <output></output>
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>a./b / c./d</code></pre>
+        <pre><code>a//b / c//d</code></pre>
         <output></output>
       </div>
 
@@ -317,7 +317,7 @@
       </div>
 
       <div class="test-case">
-        <pre><code>b ./ </code></pre>
+        <pre><code>b // </code></pre>
         <output></output>
       </div>
 
@@ -327,7 +327,7 @@
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>cc`N`(x | mu, sigma^2) = 1/(sqrt(2pi sigma^2)) e^(-((x-mu)^2) / 2sigma^2)</code></pre>
+        <pre><code>cc N (x | mu, sigma^2) = 1/sqrt(2pi sigma^2) e^-((x-mu)^2 / 2sigma^2)</code></pre>
         <output></output>
       </div>
     </section>
@@ -341,7 +341,7 @@
       </div>
 
       <div class="test-case">
-        <pre><code>root(n)(x)</code></pre>
+        <pre><code>root(n, x)</code></pre>
         <output></output>
       </div>
 
@@ -381,12 +381,12 @@
       </div>
 
       <div class="test-case">
-        <pre><code>phi = 1+sqrt5 / 2</code></pre>
+        <pre><code>phi = (1+sqrt5) / 2</code></pre>
         <output></output>
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>rho = (root3 (108 + 12 sqrt 69) + root3 (108 - 12 sqrt 69)) / 6</code></pre>
+        <pre><code>rho = (root(3, 108 + 12 sqrt 69) + root(3, 108 - 12 sqrt 69)) / 6</code></pre>
         <output></output>
       </div>
 
@@ -396,7 +396,7 @@
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>(n; k) = n! / (n-k)!k!</code></pre>
+        <pre><code>binom(n, k) = n! / ((n-k)! k!)</code></pre>
         <output></output>
       </div>
     </section>
@@ -430,12 +430,12 @@
       </div>
 
       <div class="test-case">
-        <pre><code>(x+y)(x-y) = x^2-y^2</code></pre>
+        <pre><code>(x+y)(x-y) = x^2 - y^2</code></pre>
         <output></output>
       </div>
 
       <div class="test-case">
-        <pre><code>e^(-x)</code></pre>
+        <pre><code>e^-x</code></pre>
         <output></output>
       </div>
 
@@ -450,7 +450,7 @@
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>(: V(t)^2 :) = lim_(T-&gt;oo) 1/T int_(-T./2)^(T./2) V(t)^2 dt</code></pre>
+        <pre><code>(: V(t)^2 :) = lim_T->oo 1/T int_(-T/2)^(T/2) V(t)^2 dt</code></pre>
         <output></output>
       </div>
     </section>
@@ -489,7 +489,7 @@
       </div>
 
       <div class="test-case">
-        <pre><code>(X^T)_(ij) = X_(ji)</code></pre>
+        <pre><code>(X^T)_ij = X_ji</code></pre>
         <output></output>
       </div>
 
@@ -503,7 +503,7 @@
       <h2>Over and Underscripts</h2>
 
       <div class="test-case" data-display="block">
-        <pre><code>lim_(a -&gt; b)</code></pre>
+        <pre><code>lim_a->b</code></pre>
         <output></output>
       </div>
 
@@ -518,7 +518,7 @@
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>phi =.^"def" a/b = (a+b)/a</code></pre>
+        <pre><code>phi =.^"def" a/b = a+b / a</code></pre>
         <output></output>
       </div>
 
@@ -528,7 +528,7 @@
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>{: x + ... + x :}.^&OverBrace;.^(k  "times")</code></pre>
+        <pre><code>obrace(x + ... + x).^(k  "times")</code></pre>
         <output></output>
       </div>
     </section>
@@ -542,7 +542,7 @@
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>[[a, b], [d, e]]</code></pre>
+        <pre><code>[a, b; d, e]</code></pre>
         <output></output>
       </div>
 
@@ -557,14 +557,14 @@
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>[(a,b,c),]</code></pre>
+        <pre><code>[a,b,c;]</code></pre>
         <output></output>
       </div>
 
       <div class="test-case" data-display="block" data-annotate="true">
-        <pre><code>[[a, b, c]
- [d, e, f]
- [g, h, i]]</code></pre>
+        <pre><code>[a, b, c
+ d, e, f
+ g, h, i]</code></pre>
         <output></output>
       </div>
 
@@ -576,38 +576,42 @@
       </div>
 
       <div class="test-case" data-display="block" data-annotate="true">
-        <pre><code>n! = { [1,         if n in {0, 1}]
-       [n(n - 1)!, otherwise     ]</code></pre>
+        <pre><code>n! = { 1,         if n in {0, 1}
+       n(n - 1)!, otherwise</code></pre>
         <output></output>
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>|(a,b,c), (d,e,f), (h,i,j)|</code></pre>
+        <pre><code>|(a,b,c; d,e,f; h,i,j)|</code></pre>
         <output></output>
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>||a ; b ; c||</code></pre>
+        <pre><code>||(a ; b ; c)||</code></pre>
         <output></output>
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>A = [[a_(1 1), a_(1 2), cdots, a_(1 n)], [a_(2 1), a_(2 2), cdots, a_(2 n)], [vdots, vdots, ddots, vdots], [a_(m 1), a_(m 2), cdots, a_(m n)]]</code></pre>
+        <pre><code>
+A = [ a_(1 1), a_(1 2), cdots, a_(1 n)
+      a_(2 1), a_(2 2), cdots, a_(2 n)
+      vdots,   vdots,   ddots, vdots
+      a_(m 1), a_(m 2), cdots, a_(m n) ]</code></pre>
         <output></output>
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>[[((a, b), (d, e)), -1], [1, ((f, g), (h, i))]]</code></pre>
+        <pre><code>[[a, b; d, e], -1 ; 1, [f, g; h, i]]</code></pre>
         <output></output>
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>|x| = { (x\,, if x &gt;= 0), (-x\,, if x &lt; 0) :}</code></pre>
+        <pre><code>|x| = { x\,,  if x &gt;= 0;  -x\,,  if x &lt; 0</code></pre>
         <output></output>
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>n! = { [1,  if n=0 or n=1],  [n(n-1)!,  if n &gt; 1] :}</code></pre>
+        <pre><code>n! = { 1,  if n=0 or n=1;  n(n-1)!,  if n &gt; 1</code></pre>
         <output></output>
       </div>
     </section>
@@ -664,7 +668,7 @@
         </div>
 
         <div class="test-case" data-display="block">
-          <pre><code>it`proj`_bf`v` bf`a` = (bf`a`*bf`v`)/||bf`v`||^2 bf`v`</code></pre>
+          <pre><code>it`proj`_(bf v) bf a = bf(a*v) / (norm(bf v)^2) bf`v`</code></pre>
           <output></output>
         </div>
       </section>
@@ -758,7 +762,7 @@
       </div>
 
       <div class="test-case">
-        <pre><code>ddot i,  bar i,  hat j,  ul j</code></pre>
+        <pre><code>ddot i ,  bar i ,  hat j ,  ul j</code></pre>
         <output></output>
       </div>
 
