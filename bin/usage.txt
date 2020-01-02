@@ -1,15 +1,12 @@
 
-Usage: ascii2mathml [options] -- <expression>
+Usage: mathup [options] -- <expression>
 
 If called without expression, then will use stdin
 
-  -a,  --annotate     Include source as annotation
-  -b,  --bare         No root <math> element
   -c,  --colsep       Column separator, defaults to ","
   -d,  --display      Write expression display block style
   -m,  --decimalmark  Decimal mark, defaults to "."
   -r,  --rowsep       Row separator, defaults to ";"
-  -s,  --standalone   Wrap in a valid HTML page
        --rtl          Display in right-to-left direction
   -h,  --help         Show this message
 

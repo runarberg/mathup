@@ -1,54 +1,57 @@
-Ascii2MathML
-============
+mathup
+======
 
-[![npm](https://img.shields.io/npm/v/ascii2mathml.svg)](https://www.npmjs.com/package/ascii2mathml)
-[![License](https://img.shields.io/npm/l/ascii2mathml)](LICENSE)
-[![Build Status](https://travis-ci.org/runarberg/ascii2mathml.svg?branch=master)](https://travis-ci.org/runarberg/ascii2mathml)
-[![Coverage Status](https://coveralls.io/repos/github/runarberg/ascii2mathml/badge.svg)](https://coveralls.io/github/runarberg/ascii2mathml)
-[![Downloads](https://img.shields.io/npm/dm/ascii2mathml)](https://npm-stat.com/charts.html?package=ascii2mathml)  
-[![dependencies](https://david-dm.org/runarberg/ascii2mathml/status.svg)](https://david-dm.org/runarberg/ascii2mathml)
-[![dev-dependencies](https://david-dm.org/runarberg/ascii2mathml/dev-status.svg)](https://david-dm.org/runarberg/ascii2mathml?type=dev)
-[![npms Score](https://badges.npms.io/ascii2mathml.svg)](https://api.npms.io/v2/package/ascii2mathml)
+[![npm](https://img.shields.io/npm/v/mathup.svg)](https://www.npmjs.com/package/mathup)
+[![License](https://img.shields.io/npm/l/mathup)](LICENSE)
+[![Build Status](https://travis-ci.org/runarberg/mathup.svg?branch=master)](https://travis-ci.org/runarberg/mathup)
+[![Coverage Status](https://coveralls.io/repos/github/runarberg/mathup/badge.svg)](https://coveralls.io/github/runarberg/mathup)
+[![Downloads](https://img.shields.io/npm/dm/mathup)](https://npm-stat.com/charts.html?package=mathup)  
+[![dependencies](https://david-dm.org/runarberg/mathup/status.svg)](https://david-dm.org/runarberg/mathup)
+[![dev-dependencies](https://david-dm.org/runarberg/mathup/dev-status.svg)](https://david-dm.org/runarberg/mathup?type=dev)
+[![npms Score](https://badges.npms.io/mathup.svg)](https://api.npms.io/v2/package/mathup)
 
 #### Installation ####
 
 ##### npm #####
 
 ```bash
-npm install ascii2mathml
+npm install mathup
 ```
 
 ```js
-import ascii2mathml = from "ascii2mathml";
+import mathup from "mathup";
 ```
 
 ##### Client #####
 
 Download
-[full](https://raw.githubusercontent.com/runarberg/ascii2mathml/gh-pages/dist/ascii2mathml.js)
+[full](https://raw.githubusercontent.com/runarberg/mathup/gh-pages/dist/mathup.js)
 or
-[minified](https://raw.githubusercontent.com/runarberg/ascii2mathml/gh-pages/dist/ascii2mathml.min.js)
+[minified](https://raw.githubusercontent.com/runarberg/mathup/gh-pages/dist/mathup.min.js)
 and include the script file
 
 ```html
-<script src="ascii2mathml.js"></script>
+<script src="mathup.js"></script>
 ```
 
 #### Usage ####
 
 ```js
-var mathml = ascii2mathml(asciimath [, options]);
+var mathml = mathup(input [, options]);
+
+console.log(mathml.toString());
+document.body.appendChild(mathml.toDOM());
 ```
 
 Or on the command line
 
 ```bash
-npm install -g ascii2mathml
+npm install -g mathup
 
-ascii2mathml [options] -- <expression>
+mathup [options] -- <expression>
 
 # or from stdin
-echo <expression> | ascii2mathml [options]
+echo <expression> | mathup [options]
 ```
 
 #### Options (with defaults) ####
@@ -68,11 +71,11 @@ var options = {
 }
 ```
 
-You can also call `ascii2mathml` with only a configuration object,
+You can also call `mathup` with only a configuration object,
 that will return a new function with the new defaults. For example
 
 ```js
-import ascii2mathml from 'ascii2mathml';
+import mathup from 'mathup';
 
 const mathml = ({
     decimalMark: ',',
@@ -80,13 +83,13 @@ const mathml = ({
     rowSep: ';;'        // default if `;` is the column separator
 });
 
-mathml('40,2');
+mathml('40,2').toString();
 // <math><mn>40,2</mn></math>
 
-mathml('(40,2; 3,17; 2,72)', {bare: true});
+mathml('(40,2; 3,17; 2,72)', {bare: true}).toString();
 // <mfenced open="(" close=")" separators=";"><mn>40,2</mn><mn>3,14</mn><mn>2,72</mn></mfenced>
 
-mathml('[40,2 ;; 3,14 ;; 2,72]', {display: 'block'});
+mathml('[40,2 ;; 3,14 ;; 2,72]', {display: 'block'}).toString();
 // <math display="block"><mfenced open="[" close="]"><mtable><mtr><mtd><mn>40,2</mn></mtd></mtr><mtr><mtd><mn>3,14</mn></mtd></mtr><mtr><mtd><mn>2,72</mn></mtd></mtr></mtable></mfenced></math>
 ```
 
@@ -94,27 +97,26 @@ mathml('[40,2 ;; 3,14 ;; 2,72]', {display: 'block'});
 Reference
 ---------
 
-[See here](http://runarberg.github.io/ascii2mathml/#reference)
+[See here](http://runarberg.github.io/mathup/#reference)
 
 
-The second AsciiMath – MathML converter
----------------------------------------
+Easy MathML authoring tool with a quick to write syntax
+-------------------------------------------------------
 
-This package exposes a single function `ascii2mathml` that intuitively
-takes simple mathematical expressions written in an
-[*AsciiMath*](http://asciimath.org/) dialog, and outputs verbose and
-ugly (but structured) [*MathML*](http://www.w3.org/Math/), that is all
-it does.
+This package exposes a single function `mathup` that intuitively takes
+simple mathematical expressions written in a dialog similar to
+[*AsciiMath*](http://asciimath.org/), and outputs verbose and ugly
+(but structured) [*MathML*](http://www.w3.org/Math/). That is all it
+does.
 
-You can use it on the command line or on the server as a
-[node](http://nodejs.org/)/[io.js](https://iojs.org/) package, or in
-the browser by including the script source. In the browser, you choose
-how to parse the math in your document (by looking hard for any math-y
-substrings, parsing all expressions wrapped in `$`…`$`, or using some
-other excellent tools out there that does it for you). And you can
-choose what to do with the output as well (piping it to another
-program, calling your favorite DOM parser to inject it, or just
-logging it to the console).
+You can use it on the command line or on the server as an
+[npm](http://npmjs.com/) package, or in the browser by including the
+script source. In the browser, you choose how to parse the math in
+your document (by looking hard for any math-y substrings, parsing all
+expressions wrapped in `$`…`$`, or using some other excellent tools
+out there that does it for you). And you can choose what to do with
+the output as well (piping it to another program, calling your
+favorite DOM parser to inject it, or just logging it to the console).
 
 
 Why not just use *MathJax*?
@@ -128,7 +130,7 @@ mathematical expressions in a document. And you should probably use it
 to be able to read your expressions. However, MathJax is a complex
 piece of software that does a great deal more than just translate
 simple expression into structured form, and if that is all you want to
-do, then MathJax is definitely overkill. Ascii2MathML promises to be a
+do, then MathJax is definitely overkill. Mathup promises to be a
 lot faster (by doing less) then MathJax, and if the readers of your
 document (or users of your app) are using a
 [standard conforming browser](http://caniuse.com/#feat=mathml), they
@@ -150,8 +152,7 @@ is to make it simple for people to write simple expression. Of course
 I’ll try to give as much expressive power as possible in the way, but
 I won’t promise to make all complex things possible.
 
-If you want full support of MathML, and don't want to write all those
+If you want full support of MathML, and don’t want to write all those
 tags perhaps you should look for another tool. There are other great
 efforts to enable people to author MathML in TeX format, take a look
 at [TeXZilla](https://github.com/fred-wang/TeXZilla) for example.
-
