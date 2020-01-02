@@ -87,6 +87,9 @@
       "html",
       "text",
       "text-summary"
+    ],
+    "include": [
+      "src/**/*.mjs"
     ]
   },
   "prettier": {
