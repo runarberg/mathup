@@ -1,104 +1,69 @@
 import test from "ava";
-import a2ml from "../src/index.js";
+import mathup from "../src/index.mjs";
+
+const render = str => mathup(str).toString();
 
 test("Double quoted as text", t => {
-  t.is(a2ml('"alpha"'), "<math><mtext>alpha</mtext></math>");
+  t.snapshot(render('"alpha"'));
 });
 
 test("Backtick surrounded as identifiers", t => {
-  t.is(
-    a2ml("`Gamma` != Gamma"),
-    '<math><mi>Gamma</mi><mo>≠</mo><mi mathvariant="normal">Γ</mi></math>',
-  );
-  t.is(a2ml("`1`"), "<math><mi>1</mi></math>");
+  t.snapshot(render("`1`"));
+  t.snapshot(render("`Gamma` != Gamma"));
 });
 
 test("Mathvariants for texts", t => {
-  t.is(a2ml('rm"abc"'), '<math><mtext mathvariant="normal">abc</mtext></math>');
-  t.is(a2ml('it"abc"'), '<math><mtext mathvariant="italic">abc</mtext></math>');
-  t.is(a2ml('bf"abc"'), '<math><mtext mathvariant="bold">abc</mtext></math>');
-  t.is(
-    a2ml('bb"abc"'),
-    '<math><mtext mathvariant="double-struck">abc</mtext></math>',
-  );
-  t.is(a2ml('cc"abc"'), '<math><mtext mathvariant="script">abc</mtext></math>');
-  t.is(
-    a2ml('fr"abc"'),
-    '<math><mtext mathvariant="fraktur">abc</mtext></math>',
-  );
-  t.is(
-    a2ml('sf"abc"'),
-    '<math><mtext mathvariant="sans-serif">abc</mtext></math>',
-  );
-  t.is(
-    a2ml('tt"abc"'),
-    '<math><mtext mathvariant="monospace">abc</mtext></math>',
-  );
+  t.snapshot(render('rm"abc"'));
+  t.snapshot(render('it"abc"'));
+  t.snapshot(render('bf"abc"'));
+  t.snapshot(render('bb"abc"'));
+  t.snapshot(render('cc"abc"'));
+  t.snapshot(render('fr"abc"'));
+  t.snapshot(render('sf"abc"'));
+  t.snapshot(render('tt"abc"'));
 });
 
 test("Space after the variant label", t => {
-  t.is(
-    a2ml('rm "abc"'),
-    '<math><mtext mathvariant="normal">abc</mtext></math>',
-  );
-
-  t.is(
-    a2ml('it "abc"'),
-    '<math><mtext mathvariant="italic">abc</mtext></math>',
-  );
-
-  t.is(a2ml('bf "abc"'), '<math><mtext mathvariant="bold">abc</mtext></math>');
-
-  t.is(
-    a2ml('bb "abc"'),
-    '<math><mtext mathvariant="double-struck">abc</mtext></math>',
-  );
-
-  t.is(
-    a2ml('cc "abc"'),
-    '<math><mtext mathvariant="script">abc</mtext></math>',
-  );
-
-  t.is(
-    a2ml('fr "abc"'),
-    '<math><mtext mathvariant="fraktur">abc</mtext></math>',
-  );
-
-  t.is(
-    a2ml('sf "abc"'),
-    '<math><mtext mathvariant="sans-serif">abc</mtext></math>',
-  );
-
-  t.is(
-    a2ml('tt "abc"'),
-    '<math><mtext mathvariant="monospace">abc</mtext></math>',
-  );
+  t.snapshot(render('rm "abc"'));
+  t.snapshot(render('it "abc"'));
+  t.snapshot(render('bf "abc"'));
+  t.snapshot(render('bb "abc"'));
+  t.snapshot(render('cc "abc"'));
+  t.snapshot(render('fr "abc"'));
+  t.snapshot(render('sf "abc"'));
+  t.snapshot(render('tt "abc"'));
 });
 
 test("Mathvariants for identifiers", t => {
-  t.is(a2ml("rm`abc`"), '<math><mi mathvariant="normal">abc</mi></math>');
-  t.is(a2ml("it`abc`"), '<math><mi mathvariant="italic">abc</mi></math>');
-  t.is(a2ml("bf`abc`"), '<math><mi mathvariant="bold">abc</mi></math>');
-  t.is(
-    a2ml("bb`abc`"),
-    '<math><mi mathvariant="double-struck">abc</mi></math>',
-  );
-  t.is(a2ml("cc`abc`"), '<math><mi mathvariant="script">abc</mi></math>');
-  t.is(a2ml("fr`abc`"), '<math><mi mathvariant="fraktur">abc</mi></math>');
-  t.is(a2ml("sf`abc`"), '<math><mi mathvariant="sans-serif">abc</mi></math>');
-  t.is(a2ml("tt`abc`"), '<math><mi mathvariant="monospace">abc</mi></math>');
+  t.snapshot(render("rm`abc`"));
+  t.snapshot(render("it`abc`"));
+  t.snapshot(render("bf`abc`"));
+  t.snapshot(render("bb`abc`"));
+  t.snapshot(render("cc`abc`"));
+  t.snapshot(render("fr`abc`"));
+  t.snapshot(render("sf`abc`"));
+  t.snapshot(render("tt`abc`"));
 });
 
 test("Mathvariants for identifiers with space after variant", t => {
-  t.is(a2ml("rm `abc`"), '<math><mi mathvariant="normal">abc</mi></math>');
-  t.is(a2ml("it `abc`"), '<math><mi mathvariant="italic">abc</mi></math>');
-  t.is(a2ml("bf `abc`"), '<math><mi mathvariant="bold">abc</mi></math>');
-  t.is(
-    a2ml("bb `abc`"),
-    '<math><mi mathvariant="double-struck">abc</mi></math>',
-  );
-  t.is(a2ml("cc `abc`"), '<math><mi mathvariant="script">abc</mi></math>');
-  t.is(a2ml("fr `abc`"), '<math><mi mathvariant="fraktur">abc</mi></math>');
-  t.is(a2ml("sf `abc`"), '<math><mi mathvariant="sans-serif">abc</mi></math>');
-  t.is(a2ml("tt `abc`"), '<math><mi mathvariant="monospace">abc</mi></math>');
+  t.snapshot(render("rm `abc`"));
+  t.snapshot(render("it `abc`"));
+  t.snapshot(render("bf `abc`"));
+  t.snapshot(render("bb `abc`"));
+  t.snapshot(render("cc `abc`"));
+  t.snapshot(render("fr `abc`"));
+  t.snapshot(render("sf `abc`"));
+  t.snapshot(render("tt `abc`"));
+});
+
+test("Mathvariants for terms", t => {
+  t.snapshot(render("bb 1+1"));
+});
+
+test("Mathvariants for fenced groups", t => {
+  t.snapshot(render("bb (A, B)"));
+});
+
+test("Mathvariants for matrices", t => {
+  t.snapshot(render("bf [a; b]"));
 });

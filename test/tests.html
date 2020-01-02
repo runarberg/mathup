@@ -2,7 +2,20 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>ascii2MathML test cases</title>
+    <title>mathup test cases</title>
+
+    <script type="module" defer>
+      import mathup from "../src/index.mjs";
+
+      for (const testCase of document.querySelectorAll(".test-case")) {
+        const conf = { ...testCase.dataset };
+        const input = testCase.querySelector("code").textContent;
+        const output = testCase.querySelector("output");
+
+        output.appendChild(mathup(input, conf).toDOM());
+      }
+    </script>
+
     <style>
       .test-case {
         font-size: 1.25em;
@@ -26,8 +39,10 @@
       }
     </style>
   </head>
+
   <body>
-    <h1>ascii2MathML test cases</h1>
+    <h1>mathup test cases</h1>
+
     <section id="basics">
       <h2>Basics</h2>
 
@@ -76,7 +91,7 @@
       </div>
 
       <div class="test-case">
-        <pre><code>#`0x2A` = #`XLII` = #`4.2e+01` = #`forty two` = 42</code></pre>
+        <pre><code>#0x2A = #XLII = #`4.2e+01` = #`forty two` = 42</code></pre>
         <output></output>
       </div>
 
@@ -100,7 +115,12 @@
       </div>
 
       <div class="test-case">
-        <pre><code>\(int)</code></pre>
+        <pre><code>\int</code></pre>
+        <output></output>
+      </div>
+
+      <div class="test-case">
+        <pre><code>\`foo bar`</code></pre>
         <output></output>
       </div>
 
@@ -110,17 +130,17 @@
       </div>
 
       <div class="test-case">
-        <pre><code>x.^\[(n)]</code></pre>
+        <pre><code>x.^\(n)</code></pre>
         <output></output>
       </div>
 
       <div class="test-case" data-display="block">
-        <pre><code>sum_(n=0)^k a_n = a_0 + a_i + cdots + a_k</code></pre>
+        <pre><code>sum_(n=0)^k a_n = a_0 + a_1 + cdots + a_k</code></pre>
         <output></output>
       </div>
 
       <div class="test-case">
-        <pre><code>bf`F` @ bf`G` : U sube RR^3 -&gt; RR^2</code></pre>
+        <pre><code>bf F @ bf G  :  U sube RR^3 -> RR^2</code></pre>
         <output></output>
       </div>
 
@@ -748,21 +768,9 @@
       </div>
 
       <div class="test-case">
-        <pre><code>vec x = ahat i + bhat j + chat k</code></pre>
+        <pre><code>vec x = a hat i + b hat j + c hat k</code></pre>
         <output></output>
       </div>
     </section>
-
-    <script src="../target/browser/ascii2mathml.js"></script>
-
-    <script>
-      for (const testCase of document.querySelectorAll(".test-case")) {
-        const conf = { ...testCase.dataset };
-        const input = testCase.querySelector("code").textContent;
-        const output = testCase.querySelector("output");
-
-        output.innerHTML = ascii2mathml(input, conf);
-      }
-    </script>
   </body>
 </html>

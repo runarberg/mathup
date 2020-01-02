@@ -1,39 +1,36 @@
 import test from "ava";
-import a2ml from "../src/index.js";
+import mathup from "../src/index.mjs";
+
+const render = str => mathup(str).toString();
 
 test("Should wrap all expressions in <math>", t => {
-  t.is(a2ml(""), "<math></math>");
+  t.snapshot(render(""));
 });
 
 test("Should wrap numbers in <mn>", t => {
-  t.is(a2ml("42"), "<math><mn>42</mn></math>");
+  t.snapshot(render("42"));
 });
 
 test("Should wrap decimals in <mn>", t => {
-  t.is(a2ml("3.141592654"), "<math><mn>3.141592654</mn></math>");
+  t.snapshot(render("3.141592654"));
 });
 
 test("Should wrap identifiers in <mi>", t => {
-  t.is(a2ml("x"), "<math><mi>x</mi></math>");
-  t.is(a2ml("y"), "<math><mi>y</mi></math>");
-  t.is(a2ml("a"), "<math><mi>a</mi></math>");
-  t.is(a2ml("ni"), "<math><mi>n</mi><mi>i</mi></math>");
+  t.snapshot(render("x"));
+  t.snapshot(render("y"));
+  t.snapshot(render("a"));
+  t.snapshot(render("ni"));
 });
 
 test("Should wrap operatos in <mo>", t => {
-  t.is(a2ml("+"), "<math><mo>+</mo></math>");
-  t.is(a2ml("-"), "<math><mo>-</mo></math>");
+  t.snapshot(render("+"));
+  t.snapshot(render("-"));
 });
 
 test("1+1 = 2", t => {
-  t.is(
-    a2ml("1+1 = 2"),
-    "<math><mrow><mn>1</mn><mo>+</mo><mn>1</mn></mrow><mo>=</mo><mn>2</mn></math>",
-  );
+  t.snapshot(render("1+1 = 2"));
 });
+
 test("3-2 = 1", t => {
-  t.is(
-    a2ml("3-2 = 1"),
-    "<math><mrow><mn>3</mn><mo>-</mo><mn>2</mn></mrow><mo>=</mo><mn>1</mn></math>",
-  );
+  t.snapshot(render("3-2 = 1"));
 });

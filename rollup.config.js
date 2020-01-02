@@ -23,7 +23,7 @@ const dependenciesConfig = {
 };
 
 const defaultConfig = {
-  input: "src/index.js",
+  input: "src/index.mjs",
   output: [
     {
       file: `target/node/${NAME}.cjs`,
@@ -31,14 +31,14 @@ const defaultConfig = {
       sourcemap: true,
     },
     {
-      file: `target/browser/${NAME}.js`,
+      file: `target/browser/${NAME}.iife.js`,
       format: "iife",
       name: NAME,
       banner: `/*! ${NAME} v${VERSION} | (c) 2015-${YEAR} (${LICENSE}) | ${HOMEPAGE} */`,
       sourcemap: true,
     },
     {
-      file: `target/browser/${NAME}.min.js`,
+      file: `target/browser/${NAME}.iife.min.js`,
       format: "iife",
       name: NAME,
       plugins: [terser()],
@@ -46,16 +46,7 @@ const defaultConfig = {
   ],
   plugins: [
     babel({
-      babelrc: false,
-      presets: [
-        [
-          "@babel/preset-env",
-          {
-            modules: false,
-            targets: "last 2 versions, not dead",
-          },
-        ],
-      ],
+      runtimeHelpers: true,
     }),
   ],
 };

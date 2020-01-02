@@ -1,3 +1,83 @@
+mathup v.next Release Notes
+===========================
+
+Language Changes
+----------------
+
+* Meaningful identifiers and operators need to be cannot immedietly
+  follow—or be followed by— an alphabetic character. E.g. `asinb` will
+  not combine the `sin` into a single identifier. Surround the
+  identifier with spaces to get the desired result. E.g. `a sin b`,
+  or—better yet—use zero width operators (U+2061–U+2064) `a⁢sin⁡b`.
+* Infixes (e.g. `/`, `^`, or `_`) will—if whitespace
+  separated—opperate on the previous- and following expressions,
+  and—if *not*—on the previous *token* and the following expression,
+  In the case of `sum_i=0^oo`, the `^` infix will be a superscript of
+  `0`, not the `sum`. Add a whitespace before the `^` infix to make
+  `oo` a superscript of `sum`. Previously `i=0` had to be in
+  parenthesis and in that case, it works like before.
+* Font commands now work on the following expression, as opposed to
+  just following token elements. E.g. now its possible to do
+  `bf [a; b]` to make all the terms of the matrix bold-face.
+* **Bevelled fractions** (`a./b`) have been removed. They are
+  deprecated in MathML and might be removed from browsers soon. Use
+  `a//b` instead for a fraction slash operator.
+* Removed **nested bracket matrix** notation: `[(a, b), (c, d)]`. Use
+  column seperators or newlines for writing matrices: `[a, b; c, d]`.
+* **pipe fences and matrices** (`|a,b;c,d|` and `||a,b;c,d||`) now
+  require inner parenthesis (`|(a,b;c,d)|` and `||(a,b;c,d)||`
+  respectively).
+* **Unicode numbers** are now strictly (with one expection) in the Nd,
+  Nl, and No unicode categories. The only exceptions are the dozenal
+  `U+218A ↊ TURNED DIGIT TWO` and `U+218B ↋ TURNED DIGIT THREE`. This
+  **omits CJK numerals** (like 二, 四, or 万) that were previously
+  mapped to number literals. Prepend then with octothorpe (`#四十二`)
+  if you want the old behavior.
+* **Backslash operators** in brackets `\(foo)`, `\[bar]` have been
+  removed. Instead they follow the same syntax as octothorpe numbers.
+  Write `\int` for alphanumeric operators, or `` \`foo bar` `` if they
+  contain symbols. If you need to use a backtick as an operator then
+  the fencing follows the same syntax as markdown. ``` \`` ` `` ```.
+  The same goes for octothorpe numbers `` #`forty two` ``, identifiers
+  `` `foo bar` ``, and text ` "" "in quotes" "" `.
+* **Roots** are now notated as taking two args (just like
+  `binom`). write `root(a, b)` or `root a b`. Unlike previous versions
+  `root(a)(b)` will now include the brackets around `a` and `b`.
+
+Output Changes
+--------------
+
+* Fenced groups will no long render in the **deprecated `<mfenced>`
+  element**. Instead it renders in the visually equivalent `<mrow>`s
+  with `<mo>`s as fences and seperators.
+* `lim` and `mod` now map to opperators and render in an `<mo>`
+  element.
+
+
+Additions
+---------
+
+* Added `.toString()` and `.toDOM()` methods to the returned object.
+* Added `obrace` and `ubrace` to accents.
+
+Breaking Changes
+----------------
+
+* Removed the following opitons from the main function—*they might be
+  reimplented if demand is there*:
+  - `annotate`
+  - `bare`
+  - `standalone`
+* Calling main function with a single option parameter no longer
+  returns another main function with those options applied. If you
+  want to curry the main function, use an arrow function or a library:
+  ```js
+  const curried = input => mathup(input, { display: "block" })
+  ```
+* Main function no longer returns string by default. Use the
+  `.toString()` method of the returned object instead.
+
+
 Ascii2MathML v0.7.1 Release Notes
 =================================
 
