@@ -65,6 +65,6 @@ test("Taylor polynomial", t => {
 
 test("Strokes theorem", t => {
   t.snapshot(
-    render("oint._(del S) bf F * d bf s = dint._S grad xx bf F * d bf s"),
+    render("oint_(del S) bf F * d bf S = dint_S grad xx bf F * d bf s"),
   );
 });
