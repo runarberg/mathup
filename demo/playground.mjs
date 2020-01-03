@@ -1,18 +1,46 @@
-/* eslint-disable import/no-absolute-path, import/no-unresolved */
-import compiler from "/src/compiler/index.mjs";
-
 const playground = document.getElementById("playground");
 const input = playground.querySelector("[name='input']");
-const output = playground.querySelector("[name='output']");
-const compile = compiler({ display: "block" });
+const display = playground.querySelector("[name='display']");
+const dir = playground.querySelector("[name='dir']");
+const decimalMark = playground.querySelector("[name='decimal-mark']");
+const colSep = playground.querySelector("[name='col-sep']");
+const rowSep = playground.querySelector("[name='row-sep']");
+const mathUp = playground.querySelector("math-up");
 
 function handleInput() {
-  for (const child of output.children) {
-    child.remove();
-  }
+  mathUp.textContent = input.value;
+}
 
-  output.appendChild(compile(input.value).toDOM());
+function handleDisplayChange() {
+  mathUp.display = display.checked ? display.value : "";
+}
+
+function handleDirChange() {
+  mathUp.dir = dir.checked ? dir.value : "";
+}
+
+function handleDecimalMarkChange() {
+  mathUp.decimalMark = decimalMark.value;
+}
+
+function handleColSepChange() {
+  mathUp.colSep = colSep.value;
+}
+
+function handleRowSepChange() {
+  mathUp.rowSep = rowSep.value;
 }
 
 handleInput();
+handleDisplayChange();
+handleDirChange();
+handleDecimalMarkChange();
+handleColSepChange();
+handleRowSepChange();
+
 input.addEventListener("input", handleInput);
+display.addEventListener("change", handleDisplayChange);
+dir.addEventListener("change", handleDirChange);
+decimalMark.addEventListener("input", handleDecimalMarkChange);
+colSep.addEventListener("input", handleColSepChange);
+rowSep.addEventListener("input", handleRowSepChange);
