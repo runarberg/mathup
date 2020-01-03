@@ -4,6 +4,7 @@
   grid-template:
     "header header"
     "input  output"
+    "menu   output"
     / auto 1fr;
 }
 
@@ -22,4 +23,8 @@
 .playground textarea {
   height: 10em;
   width: 45ch;
+}
+
+.playground > .output {
+  grid-area: output;
 }
