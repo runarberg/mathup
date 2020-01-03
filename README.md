@@ -132,3 +132,41 @@ If you want full support of MathML, and don’t want to write all those
 tags perhaps you should look for another tool. There are other great
 efforts to enable people to author MathML in TeX format, take a look
 at [TeXZilla](https://github.com/fred-wang/TeXZilla) for example.
+
+
+Testing
+-------
+
+Run the test suites with:
+
+```bash
+npm test
+```
+
+As for manual and visual tests, if you are running node 13 or newer,
+you don’t need to compile between edit and run as the code is written
+without transpilation in mind. The code works in both browsers and
+node without any transcompilation.
+
+For a simple test do:
+
+```bash
+./bin/mathup.mjs -- 'my expression'
+```
+
+You can open a playground and a demo on http://localhost:8000 with:
+
+```bash
+npm run demo
+```
+
+If you are running a version of node that doensn’t yet support native
+modules you can run a python server in the root directory instead:
+
+```bash
+python3 -m http.server
+```
+
+You will find the playground at <http://localhost:8000/demo/>. Again,
+you don’t need to run `npm run build` between the edit and run
+cycle. A simple page refresh enough to apply your changes.
