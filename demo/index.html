@@ -18,7 +18,7 @@
     <section id="component">
       <h2>Component</h2>
 
-      <math-up>a^2 + b^2 = c^2</math-up>
+      <math-up display="block">x = -b+-sqrt(b^2 - 4ac) / 2a</math-up>
     </section>
 
     <section id="playground" class="playground">
@@ -111,7 +111,7 @@
         </test-case>
 
         <test-case display="block">
-          bf F @ bf G  :  U sube RR^3 -&lt; RR^2
+          bf F @ bf G  :  U sube RR^3 -&gt; RR^2
         </test-case>
 
         <test-case display="block">e = sum_(n=0)^oo 1 / n!</test-case>
@@ -120,10 +120,10 @@
           f&apos;(x), f&apos;&apos;(x), f&apos;&apos;&apos;(x), f&apos;&apos;&apos;&apos;(x)
         </test-case>
 
-        <test-case display="block">p(a | b) = (p(b | a)p(a)) / p(b)</test-case>
+        <test-case display="block">p(a | b) = p(b | a)p(a) / p(b)</test-case>
 
         <test-case display="block">
-          P_k (x) = f(a) + f&apos;(a)(x-a) + (f&apos;&apos(a))/2! (x-a)^2 + cdots + (f^(k)(a))/k! (x-a)^k
+          P_k (x) = f(a) + f&apos;(a)(x-a) + f&apos;&apos;(a) / 2! (x-a)^2 + cdots + f^(k)(a) / k! (x-a)^k
         </test-case>
 
         <test-case display="block">
@@ -230,13 +230,13 @@
         <test-case>sqrt 2 ~~ 1.414213562</test-case>
 
         <test-case display="block">
-          x = (-b +- sqrt(b^2 - 4ac)) / 2a
+          x = -b+-sqrt(b^2 - 4ac) / 2a
         </test-case>
 
-        <test-case>phi = (1+sqrt5) / 2</test-case>
+        <test-case>phi = 1+sqrt5 / 2</test-case>
 
         <test-case display="block">
-          rho = (root(3, 108 + 12 sqrt 69) + root(3, 108 - 12 sqrt 69)) / 6
+          rho = (root3 108+12sqrt(69) + root3 108-12sqrt(69)) / 6
         </test-case>
 
         <test-case display="block">
@@ -244,7 +244,7 @@
         </test-case>
 
         <test-case display="block">
-          binom(n, k) = n! / ((n-k)! k!)
+          binom(n, k) = n! / k!(n-k)!
         </test-case>
       </section>
 
@@ -262,7 +262,7 @@
         <test-case>NN = {1, 2, 3, ...}</test-case>
 
         <test-case display="block">
-          (: V(t)^2 :) = lim_T-&lt;oo 1/T int_(-T/2)^(T/2) V(t)^2 dt
+          (: V(t)^2 :) = lim_T-&gt;oo 1/T int_(-T/2)^(T/2) V(t)^2 dt
         </test-case>
       </section>
 
@@ -285,7 +285,7 @@
       <section id="test-cases-over-underscripts">
         <h3>Over and Underscripts</h3>
 
-        <test-case display="block">lim_a-&lt;b</test-case>
+        <test-case display="block">lim_a-&gt;b</test-case>
         <test-case display="block">sum_(i=0)^n</test-case>
         <test-case display="block">prod_(i=1)^n</test-case>
 
