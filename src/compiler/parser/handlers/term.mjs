@@ -6,6 +6,7 @@ const KEEP_GOING_TYPES = [
   "number",
   "operator",
   "paren.open",
+  "prefix",
   "text",
 ];
 

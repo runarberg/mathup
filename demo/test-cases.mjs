@@ -36,14 +36,27 @@ class TestCaseElement extends HTMLElement {
     const code = document.createElement("code");
     const mathUp = document.createElement("math-up");
     const input = this.textContent.trim();
+    const options = {
+      display: this.getAttribute("display"),
+      dir: this.getAttribute("dir"),
+      decimalMark: this.getAttribute("desimal-mark"),
+      colSep: this.getAttribute("col-sep"),
+      rowSep: this.getAttribute("row-sep"),
+    };
 
+    shadowRoot.className = "test-case";
     code.textContent = input;
     mathUp.textContent = input;
+
+    for (const [key, value] of Object.entries(options)) {
+      if (value) {
+        mathUp[key] = value;
+      }
+    }
 
     pre.appendChild(code);
     shadowRoot.appendChild(pre);
     shadowRoot.appendChild(mathUp);
-    shadowRoot.className = "test-case";
     shadow.appendChild(shadowRoot);
   }
 }

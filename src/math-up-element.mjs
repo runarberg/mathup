@@ -18,7 +18,7 @@ export default class MathUpElement extends HTMLElement {
     this.options = options;
 
     const shadow = this.attachShadow({ mode: "open" });
-    let currentMathNode = mathup(this.textContent).toDOM();
+    let currentMathNode = mathup(this.textContent, options).toDOM();
 
     const updateNode = () => {
       if (currentMathNode) {
