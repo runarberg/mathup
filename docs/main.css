@@ -1,0 +1,269 @@
+/*
+ * Font faces Linux Libertine
+ * http://www.linuxlibertine.org/
+ */
+
+@font-face {
+  font-family: "Libertinus";
+  src: url(fonts/libertinus/LibertinusSerif-Regular.woff2);
+}
+
+@font-face {
+  font-family: "Libertinus";
+  font-weight: bold;
+  src: url(fonts/libertinus/LibertinusSerif-Bold.woff2);
+}
+
+@font-face {
+  font-family: "Libertinus";
+  font-style: italic;
+  src: url(fonts/libertinus/LibertinusSerif-Italic.woff2);
+}
+
+@font-face {
+  font-family: "Libertinus";
+  font-style: italic;
+  font-weight: bold;
+  src: url(fonts/libertinus/LibertinusSerif-BoldItalic.woff2);
+}
+
+@font-face {
+  font-family: "Libertinus Mono";
+  src: url(fonts/libertinus/LibertinusMono-Regular.woff2);
+}
+
+@font-face {
+  font-family: "Libertinus Math";
+  src: url(fonts/libertinus/LibertinusMath-Regular.woff2);
+}
+
+body {
+  font-family: "Libertinus", "Linux Libertine", geogia, serifs;
+  font-size: 20px;
+}
+
+pre,
+code {
+  font-family: "Libertinus Mono", monospace;
+  font-size: 0.9em;
+}
+
+math,
+math-up {
+  font-family: "Libertinus Math", "Asana Math", math;
+}
+
+code {
+  background: #f0f0f0;
+}
+
+pre,
+pre > code,
+.examples code {
+  background: #202016;
+  color: #f0f0f0;
+  text-align: left;
+}
+
+pre {
+  border-radius: 5px;
+  max-width: 80ex;
+  margin: 1ex 2em;
+  overflow-x: auto;
+  padding: 1ex 2ex;
+}
+
+h2 {
+  font-size: 2em;
+}
+h3 {
+  font-size: 1.5em;
+}
+h4 {
+  font-size: 1.2em;
+}
+h5 {
+  font-size: 1.05em;
+}
+
+body > h1 {
+  text-align: center;
+  font-size: 3em;
+}
+
+.main-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.main-nav > ul {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  display: flex;
+}
+.main-nav > ul > li {
+  flex: 1 1 33.33%;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+}
+.main-nav > ul > li > ul {
+  background: white;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  display: none;
+  position: absolute;
+  left: 10%;
+  right: 10%;
+}
+.main-nav > ul > li:hover > ul {
+  display: block;
+}
+.main-nav > ul > li > ul > li {
+  text-align: left;
+  font-weight: normal;
+}
+.main-nav a {
+  display: block;
+  color: black;
+  text-decoration: none;
+}
+.main-nav > ul > li > ul a {
+  text-indent: 1em;
+}
+.main-nav a:hover,
+.main-nav > ul > li:hover > a {
+  background: black;
+  color: white;
+}
+
+.try {
+  display: flex;
+  font-size: 1.05em;
+  margin: 2em 0;
+  width: 100%;
+}
+
+.try > .input {
+  flex: 0 1 40%;
+  margin: 1ex;
+}
+
+.try > .input input,
+.try > .input textarea {
+  background: #dbbc66;
+  border: 1px solid #202016;
+  border-radius: 5px;
+  color: #202016;
+  font-family: "Linux Libertine Mono", monospace;
+  font-size: 0.9em;
+}
+
+.try > .input textarea {
+  display: block;
+  margin: 1em auto;
+  padding: 1.5em 1em;
+  height: 3em;
+  width: 80%;
+}
+
+.try > .input .options {
+  margin-left: 2em;
+}
+
+.try > .input input + label::before {
+  content: "";
+  display: block;
+}
+
+.try > .input input {
+  font-weight: bold;
+  text-align: center;
+  width: 1.5em;
+}
+.try > .input label {
+  line-height: 1.5em;
+}
+
+.try > .output {
+  border-left: 1px solid black;
+  flex: 0 1 60%;
+  padding-left: 1em;
+}
+
+.try > .output output {
+  display: block;
+}
+
+.try > .output math-up {
+  font-size: 1.6em;
+}
+
+article {
+  margin: 2em 1em;
+}
+
+article h2,
+article h3 {
+  text-align: center;
+}
+
+article p {
+  line-height: 1.5em;
+}
+
+article section + section {
+  margin-top: 2em;
+}
+
+#philosophy,
+#use {
+  max-width: 60em;
+  margin: 1em auto;
+}
+
+input[type="checkbox"][rel="toggle"] {
+  display: none;
+}
+input[type="checkbox"][rel="toggle"] + label {
+  display: inline-block;
+  width: 1em;
+}
+input[type="checkbox"][rel="toggle"] + label::after {
+  content: "◀";
+  padding-left: 1em;
+}
+input[type="checkbox"][rel="toggle"]:checked + label::after {
+  content: "▼";
+}
+input[type="checkbox"][rel="toggle"] + label + table {
+  display: none;
+}
+input[type="checkbox"][rel="toggle"]:checked + label + table {
+  display: table;
+}
+
+.columns {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.columns > div {
+  width: 45%;
+}
+.columns > .examples {
+  width: 55%;
+}
+
+.examples ul {
+  margin: 0 0 0 1.1em;
+  padding: 0;
+  list-style: none;
+  text-align: center;
+}
+
+.examples li + li {
+  margin-top: 2em;
+}
