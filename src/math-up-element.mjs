@@ -20,12 +20,21 @@ export default class MathUpElement extends HTMLElement {
     const shadow = this.attachShadow({ mode: "open" });
     let currentMathNode = mathup(this.textContent, options).toDOM();
 
+    if (this.getAttribute("inherit-font")) {
+      currentMathNode.style.fontFamily = "inherit";
+    }
+
     const updateNode = () => {
       if (currentMathNode) {
         currentMathNode.remove();
       }
 
       currentMathNode = mathup(this.textContent, options).toDOM();
+
+      if (this.getAttribute("inherit-font") !== null) {
+        currentMathNode.style.fontFamily = "inherit";
+      }
+
       shadow.appendChild(currentMathNode);
     };
 

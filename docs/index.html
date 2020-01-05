@@ -1,0 +1,1490 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Mathup</title>
+
+    <link rel="shortcut" type="image/x-icon" href="favicon.ico" />
+    <link rel="stylesheet" href="assets/paraiso.dark.css" />
+    <link rel="stylesheet" href="main.css" />
+
+    <script src="../src/math-up-element.mjs" type="module"></script>
+    <script src="./use-example-element.mjs" type="module"></script>
+    <script src="./main.mjs" type="module" defer></script>
+  </head>
+
+  <body>
+    <h1>Mathup</h1>
+
+    <section id="try" class="try">
+      <div class="input">
+        <p>You write…</p>
+        <textarea id="try-input">bb E [X] = int_(-oo)^oo x f(x)  dx</textarea>
+        <div class="options">
+          <label for="try-decimalmark">Decimal mark</label>
+          <input
+            id="try-decimalmark"
+            type="text"
+            name="decimal-mark"
+            value="."
+          />
+          <label for="try-colsep">Column separators</label>
+          <input id="try-colsep" type="text" name="col-sep" value="," />
+          <label for="try-rowsep">Row Separators</label>
+          <input id="try-rowsep" type="text" name="row-sep" value=";" />
+          <label for="try-display">Display block</label>
+          <input
+            id="try-display"
+            type="checkbox"
+            name="display"
+            value="block"
+            checked
+          />
+          <label for="try-dir">Direction rtl</label>
+          <input id="try-dir" type="checkbox" name="dir" value="rtl" />
+        </div>
+      </div>
+      <div class="output">
+        <p>…and see</p>
+        <output id="try-output"><math-up inherit-font></math-up></output>
+      </div>
+    </section>
+
+    <article>
+      <nav class="main-nav">
+        <ul>
+          <li>
+            <a href="#use">Use</a>
+            <ul>
+              <li><a href="#installation">Installation</a></li>
+              <li><a href="#usage">Usage</a></li>
+              <li><a href="#options">Options</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#philosophy">Philosophy</a>
+            <ul>
+              <li>
+                <a href="#the-second-asciimath-mathml-converter"
+                  >The second AsciiMath – MathML converter</a
+                >
+              </li>
+              <li><a href="#why-not-mathjax">Why not just use MathJax</a></li>
+              <li><a href="#why-not-tex">Why AsciiMath / Why not TeΧ</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#reference">Reference</a>
+            <ul>
+              <li><a href="#basics">Basics</a></li>
+              <li><a href="#numbers">Numbers</a></li>
+              <li><a href="#operators">Operators</a></li>
+              <li><a href="#identifiers">Identifiers</a></li>
+              <li><a href="#spaces">Spaces</a></li>
+              <li><a href="#fractions">Fractions</a></li>
+              <li><a href="#sub-and-superscripts">Sub and superscripts</a></li>
+              <li><a href="#roots">Roots</a></li>
+              <li><a href="#groupings">Groupings</a></li>
+              <li><a href="#matrices">Matrices</a></li>
+              <li><a href="#accents">Accents</a></li>
+              <li><a href="#font-commands">Font commands</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <section id="use">
+        <section id="installation">
+          <h4>Installation</h4>
+          <h5>npm</h5>
+          <pre><code class="language-bash">npm install mathup
+</code></pre>
+          <pre><code class="language-js"><span class="hljs-keyword">import</span> mathup <span class="hljs-keyword">from</span> <span class="hljs-string">"mathup"</span>;
+</code></pre>
+          <h5>Client</h5>
+          Download
+          <a
+            href="https://raw.githubusercontent.com/runarberg/mathup/gh-pages/dist/mathup.js"
+            >full</a
+          >
+          or
+          <a
+            href="https://raw.githubusercontent.com/runarberg/mathup/gh-pages/dist/mathup.min.js"
+            >minified</a
+          >
+          and include the script file
+          <pre><code class="language-html">&lt;<span class="hljs-tag">script</span> <span class="hljs-keyword">src</span>=<span class="hljs-string">"mathup.js"</span>&gt;&lt;/<span class="hljs-tag">script</span>&gt;
+</code></pre>
+        </section>
+
+        <section id="usage">
+          <h4>Usage</h4>
+          <pre><code class="language-js">mathup(asciimath [, options]);
+</code></pre>
+          <p>Or on the command line</p>
+          <pre><code class="language-bash">npm install -g mathup
+mathup [options] -- &lt;expression&gt;
+
+<span class="hljs-comment"># or from stdin</span>
+<span class="hljs-built_in">echo</span> &lt;expression&gt; <span class="hljs-keyword">|</span> mathup [options]
+</code></pre>
+        </section>
+
+        <section id="options">
+          <h4>Options (with defaults)</h4>
+          <pre><code class="language-js"><span class="hljs-keyword">var</span> options = {
+  decimalMark: <span class="hljs-string">'.'</span>,   <span class="hljs-comment">// -m,  --decimalmark='.'</span>
+  colSep: <span class="hljs-string">','</span>,        <span class="hljs-comment">// -c,  --colsep=','</span>
+  rowSep: <span class="hljs-string">';'</span>,        <span class="hljs-comment">// -r,  --rowsep=';'</span>
+  display: <span class="hljs-string">'inline'</span>,  <span class="hljs-comment">// -d,  --display</span>
+  dir: <span class="hljs-string">'ltr'</span>,         <span class="hljs-comment">//      --rtl</span>
+  bare: <span class="hljs-literal">false</span>,        <span class="hljs-comment">// -b,  --bare</span>
+  standalone: <span class="hljs-literal">false</span>,  <span class="hljs-comment">// -s,  --standalone</span>
+  annotate: <span class="hljs-literal">false</span>     <span class="hljs-comment">// -a,  --annotate</span>
+}
+</code></pre>
+
+          <pre><code class="language-js"><span class="hljs-keyword">import</span> mathup <span class="hljs-keyword">from</span> <span class="hljs-string">'mathup'</span>
+
+<span class="hljs-keyword">const</span> <span class="hljs-function">mathml</span> = <span class="hljs-params">input</span> =&gt; mathup(input, {
+    decimalMark: <span class="hljs-string">','</span>,
+    colSep: <span class="hljs-string">';'</span>,        <span class="hljs-comment">// default if `,` is the decimal mark</span>
+    rowSep: <span class="hljs-string">';;'</span>        <span class="hljs-comment">// default if `;` is the column separator</span>
+});
+
+mathml(<span class="hljs-string">'40,2'</span>);
+<span class="hljs-comment">// &lt;math&gt;&lt;mn&gt;40,2&lt;/mn&gt;&lt;/math&gt;</span>
+
+mathml(<span class="hljs-string">'(40,2; 3,17; 2,72)'</span>);
+<span class="hljs-comment">// &lt;math&gt;&lt;mfenced open=&quot;(&quot; close=&quot;)&quot; separators=&quot;;&quot;&gt;&lt;mn&gt;40,2&lt;/mn&gt;&lt;mn&gt;3,14&lt;/mn&gt;&lt;mn&gt;2,72&lt;/mn&gt;&lt;/mfenced&gt;&lt;/math&gt;</span>
+
+mathml(<span class="hljs-string">'[40,2 ;; 3,14 ;; 2,72]'</span>);
+<span class="hljs-comment">// &lt;math&gt;&lt;mfenced open=&quot;[&quot; close=&quot;]&quot;&gt;&lt;mtable&gt;&lt;mtr&gt;&lt;mtd&gt;&lt;mn&gt;40,2&lt;/mn&gt;&lt;/mtd&gt;&lt;/mtr&gt;&lt;mtr&gt;&lt;mtd&gt;&lt;mn&gt;3,14&lt;/mn&gt;&lt;/mtd&gt;&lt;/mtr&gt;&lt;mtr&gt;&lt;mtd&gt;&lt;mn&gt;2,72&lt;/mn&gt;&lt;/mtd&gt;&lt;/mtr&gt;&lt;/mtable&gt;&lt;/mfenced&gt;&lt;/math&gt;</span>
+</code></pre>
+        </section>
+      </section>
+
+      <section id="philosophy">
+        <section id="the-second-asciimath-mathml-converter">
+          <h2>The second AsciiMath – MathML converter</h2>
+          <p>
+            This package exposes a single function <code>mathup</code> that
+            intuitively takes simple mathematical expressions written in an
+            <a href="https://asciimath.org/"><em>AsciiMath</em></a> dialog, and
+            outputs verbose and ugly (but structured)
+            <a href="https://www.w3.org/Math/"><em>MathML</em></a
+            >, that is all it does.
+          </p>
+          <p>
+            You can use it on the command line or on the server as a
+            <a href="https://nodejs.org/">node</a> package, or in the browser by
+            including the script source. In the browser, you choose how to parse
+            the math in your document (by looking hard for any math-y
+            substrings, parsing all expressions wrapped in
+            <code>$</code>…<code>$</code>, or using some other excellent tools
+            out there that does it for you). And you can choose what to do with
+            the output as well (piping it to another program, calling your
+            favorite DOM parser to inject it, or just logging it to the
+            console).
+          </p>
+        </section>
+
+        <section id="why-not-mathjax">
+          <h2>Why not just use <em>MathJax</em>?</h2>
+          <p>
+            <a href="https://www.mathjax.org/"><em>MathJax</em></a> is an
+            excellent tool that you should probably be using if all you want to
+            do is include complex mathematical expressions in a document. And
+            you should probably use it <em>along side</em> this package as well
+            if you want
+            <a href="https://www.chromestatus.com/features/5240822173794304"
+              >Chrome users</a
+            >
+            to be able to read your expressions. However, MathJax is a complex
+            piece of software that does a great deal more than just translate
+            simple expression into structured form, and if that is all you want
+            to do, then MathJax is definitely overkill. Mathup promises to be a
+            lot faster (by doing less) then MathJax, and if the readers of your
+            document (or users of your app) are using a
+            <a href="https://caniuse.com/#feat=mathml"
+              >standard conforming browser</a
+            >, they will benefit a great bit. You will be able to translate your
+            expression on the server before your readers even open the document,
+            reducing any lag time to native.
+          </p>
+        </section>
+
+        <section id="why-not-tex">
+          <h2>Why AsciiMath / Why not TeΧ?</h2>
+          <p>
+            I wrote this tool, because I wanted to be able to author
+            mathematical expressions quickly, with no overhead (imagine
+            <code>1/2</code> instead of <code>\frac{1}{2}</code>). TeΧ
+            expressions can easily become verbose and annoying to write
+            (especially on keyboards with complex access to the <code>\</code>,
+            <code>{</code>, and <code>}</code> keys). However, the purpose of
+            this package is <em>not</em> to give people complete control over
+            MathML in a non-verbose way, the purpose is to make it simple for
+            people to write simple expression. Of course I’ll try to give as
+            much expressive power as possible in the way, but I won’t promise to
+            make all complex things possible.
+          </p>
+          <p>
+            If you want full support of MathML, and don’t want to write all
+            those tags perhaps you should look for another tool. There are other
+            great efforts to enable people to author MathML in TeX format, take
+            a look at
+            <a href="https://github.com/fred-wang/TeXZilla">TeXZilla</a> for
+            example.
+          </p>
+        </section>
+      </section>
+
+      <section id="reference">
+        <h2>Reference</h2>
+        <section id="basics" class="columns">
+          <div class="column">
+            <h3>Basics</h3>
+            <p>
+              MathML has four token elements (identifiers
+              <code>&lt;mi&gt;</code>, operators <code>&lt;mo&gt;</code>,
+              numbers <code>&lt;mn&gt;</code> and text
+              <code>&lt;mtext&gt;</code>). Mathup recognizes which of these you
+              mean when you write simple expressions, (for example:
+              <code>1+1 = 2</code> ⇒
+              <code
+                >&lt;mn&gt;1&lt;/mn&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;2&lt;/mn&gt;</code
+              >; <code>sin theta</code> ⇒
+              <code>&lt;mi&gt;sin&lt;/mi&gt;&lt;mi&gt;θ&lt;/mi&gt;</code>).
+              Mathup will also recognize most of the unicode characters you’ll
+              write. If a character comes from one of the mathematical operator
+              code blocks it will wrap it in an <code>&lt;mo&gt;</code> tag,
+              otherwise it will be wrapped in an <code>&lt;mi&gt;</code> tag.
+            </p>
+          </div>
+          <aside class="examples">
+            <ul>
+              <li><use-example>x ∈ ℝ</use-example></li>
+              <li><use-example>α ∝ 1</use-example></li>
+              <li><use-example>π ≈ 3.141592654</use-example></li>
+              <li><use-example>1+1 = 2</use-example></li>
+              <li><use-example>3-2 = 1</use-example></li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="numbers" class="columns">
+          <div>
+            <h3>Numbers</h3>
+            <p>
+              Numbers are usually what you think they are (including unicode
+              numerals like Ⅻ or &#x218B;). However if you want to write a
+              number in an odd way (like spelling it out, as a hex string, or as
+              a roman numeral) you can prepend a string with <code>#</code>,
+              (e.g. <code>#0x2A</code>) or—if your number includes a non
+              alphanumeric character—prepend a backticked fence (like in
+              markdown) <code>#`</code>…<code>`</code>like so:
+              <code>#`forty two`</code> or <code>#`` `42 ``</code> to make
+              <code>`42</code> a number.
+            </p>
+          </div>
+
+          <!-- prettier-ignore -->
+          <aside class="examples">
+            <ul>
+              <li>
+                <use-example decimal-mark="٫">π ≈ ٣٫١٤١٥٩٢٦٥</use-example>
+              </li>
+              <li><use-example dir="rtl">(١٠ - ح)^٢ = ٨١ح</use-example></li>
+              <li><use-example>#`4.2e+01` = 4.2 xx 10^1 = 42</use-example></li>
+              <li>
+                <use-example>`rgb`(48, 148, 171) == #`#3094AB`</use-example>
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="operators" class="columns">
+          <div>
+            <h3>Operators</h3>
+            <p>
+              The first character after a backslash (<code>\</code>) will become
+              an opperator, if you need more then one character in the operator
+              (sucn as for <code>and</code>), you can parenthesis it in normal
+              (<code>\(operator)</code>) or squared (<code>\[operator]</code>)
+              brackets. In addition, the following will automatically be
+              interpreted as operators.
+            </p>
+
+            <h4><label for="operational-table-toggle">Operational</label></h4>
+            <input type="checkbox" id="operational-table-toggle" rel="toggle" />
+            <label for="operational-table-toggle">Show/hide</label>
+            <table>
+              <thead>
+                <tr>
+                  <th style="text-align:center">Command</th>
+                  <th style="text-align:center">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align:center"><code>+</code></td>
+                  <td style="text-align:center">+</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>-</code></td>
+                  <td style="text-align:center">−</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>*</code></td>
+                  <td style="text-align:center">⋅</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>**</code></td>
+                  <td style="text-align:center">∗</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>+-</code></td>
+                  <td style="text-align:center">±</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>***</code></td>
+                  <td style="text-align:center">⋆</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>//</code></td>
+                  <td style="text-align:center">/</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>\\</code></td>
+                  <td style="text-align:center">\</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>xx</code></td>
+                  <td style="text-align:center">×</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>-:</code></td>
+                  <td style="text-align:center">÷</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>|&gt;&lt;</code></td>
+                  <td style="text-align:center">⋉</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>&gt;&lt;|</code></td>
+                  <td style="text-align:center">⋊</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>|&gt;&lt;|</code></td>
+                  <td style="text-align:center">⋈</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>@</code></td>
+                  <td style="text-align:center">∘</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>o+</code></td>
+                  <td style="text-align:center">⊕</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>ox</code></td>
+                  <td style="text-align:center">⊗</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>o.</code></td>
+                  <td style="text-align:center">⊙</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>sum</code></td>
+                  <td style="text-align:center">∑</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>prod</code></td>
+                  <td style="text-align:center">∏</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>int</code></td>
+                  <td style="text-align:center">∫</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>dint</code></td>
+                  <td style="text-align:center">∬</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>oint</code></td>
+                  <td style="text-align:center">∮</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>^^</code></td>
+                  <td style="text-align:center">∧</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>^^^</code></td>
+                  <td style="text-align:center">⋀</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>vv</code></td>
+                  <td style="text-align:center">∨</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>vvv</code></td>
+                  <td style="text-align:center">⋁</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>nn</code></td>
+                  <td style="text-align:center">∩</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>nnn</code></td>
+                  <td style="text-align:center">⋂</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>uu</code></td>
+                  <td style="text-align:center">∪</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>uuu</code></td>
+                  <td style="text-align:center">⋃</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4>
+              <label for="miscellaneous-table-toggle">Miscellaneous</label>
+            </h4>
+            <input
+              type="checkbox"
+              id="miscellaneous-table-toggle"
+              rel="toggle"
+            />
+            <label for="miscellaneous-table-toggle">Show/hide</label>
+            <table>
+              <thead>
+                <tr>
+                  <th style="text-align:center">Command</th>
+                  <th style="text-align:center">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align:center"><code>del</code></td>
+                  <td style="text-align:center">∂</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>grad</code></td>
+                  <td style="text-align:center">∇</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>aleph</code></td>
+                  <td style="text-align:center">ℵ</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>/_</code></td>
+                  <td style="text-align:center">∠</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>diamond</code></td>
+                  <td style="text-align:center">⋄</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>square</code></td>
+                  <td style="text-align:center">□</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>|__</code></td>
+                  <td style="text-align:center">⌊</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>__|</code></td>
+                  <td style="text-align:center">⌋</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>|~</code></td>
+                  <td style="text-align:center">⌈</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>~|</code></td>
+                  <td style="text-align:center">⌉</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4><label for="relational-table-toggle">Relational</label></h4>
+            <input type="checkbox" id="relational-table-toggle" rel="toggle" />
+            <label for="relational-table-toggle">Show/hide</label>
+            <table>
+              <thead>
+                <tr>
+                  <th style="text-align:center">Command</th>
+                  <th style="text-align:center">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align:center"><code>=</code></td>
+                  <td style="text-align:center">=</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>!=</code></td>
+                  <td style="text-align:center">≠</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>&lt;</code></td>
+                  <td style="text-align:center">&lt;</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>&gt;</code></td>
+                  <td style="text-align:center">&gt;</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>&lt;=</code></td>
+                  <td style="text-align:center">≤</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>&gt;=</code></td>
+                  <td style="text-align:center">≥</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>-&lt;</code></td>
+                  <td style="text-align:center">≺</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>-&lt;=</code></td>
+                  <td style="text-align:center">⪯</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>&gt;-</code></td>
+                  <td style="text-align:center">≻</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>&gt;-=</code></td>
+                  <td style="text-align:center">⪰</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>in</code></td>
+                  <td style="text-align:center">∈</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>!in</code></td>
+                  <td style="text-align:center">∉</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>sub</code></td>
+                  <td style="text-align:center">⊂</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>sup</code></td>
+                  <td style="text-align:center">⊃</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>sube</code></td>
+                  <td style="text-align:center">⊆</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>supe</code></td>
+                  <td style="text-align:center">⊇</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>-=</code></td>
+                  <td style="text-align:center">≡</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>==</code></td>
+                  <td style="text-align:center">≡</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>~=</code></td>
+                  <td style="text-align:center">≅</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>~=</code></td>
+                  <td style="text-align:center">≅</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>~~</code></td>
+                  <td style="text-align:center">≈</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>prop</code></td>
+                  <td style="text-align:center">∝</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4><label for="logical-table-toggle">Logical</label></h4>
+            <input type="checkbox" id="logical-table-toggle" rel="toggle" />
+            <label for="logical-table-toggle">Show/hide</label>
+            <table>
+              <thead>
+                <tr>
+                  <th style="text-align:center">Command</th>
+                  <th style="text-align:center">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align:center"><code>and</code></td>
+                  <td style="text-align:center">and</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>or</code></td>
+                  <td style="text-align:center">or</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>not</code></td>
+                  <td style="text-align:center">¬</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>if</code></td>
+                  <td style="text-align:center">if</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>AA</code></td>
+                  <td style="text-align:center">∀</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>EE</code></td>
+                  <td style="text-align:center">∃</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>_|_</code></td>
+                  <td style="text-align:center">⊥</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>TT</code></td>
+                  <td style="text-align:center">⊤</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>|--</code></td>
+                  <td style="text-align:center">⊢</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>|==</code></td>
+                  <td style="text-align:center">⊨</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4><label for="arrows-table-toggle">Arrows</label></h4>
+            <input type="checkbox" id="arrows-table-toggle" rel="toggle" />
+            <label for="arrows-table-toggle">Show/hide</label>
+            <table>
+              <thead>
+                <tr>
+                  <th style="text-align:center">Command</th>
+                  <th style="text-align:center">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align:center"><code>uarr</code></td>
+                  <td style="text-align:center">↑</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>darr</code></td>
+                  <td style="text-align:center">↓</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>rarr</code></td>
+                  <td style="text-align:center">→</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>-&gt;</code></td>
+                  <td style="text-align:center">→</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>|-&gt;</code></td>
+                  <td style="text-align:center">↦</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>&gt;-&gt;</code></td>
+                  <td style="text-align:center">↣</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>-&gt;&gt;</code></td>
+                  <td style="text-align:center">↠</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>&gt;-&gt;&gt;</code></td>
+                  <td style="text-align:center">⤖</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>larr</code></td>
+                  <td style="text-align:center">←</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>&lt;-</code></td>
+                  <td style="text-align:center">←</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>harr</code></td>
+                  <td style="text-align:center">↔</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>&lt;-&gt;</code></td>
+                  <td style="text-align:center">↔</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>rArr</code></td>
+                  <td style="text-align:center">⇒</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>=&gt;</code></td>
+                  <td style="text-align:center">⇒</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>lArr</code></td>
+                  <td style="text-align:center">⇐</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>hArr</code></td>
+                  <td style="text-align:center">⇔</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>&lt;=&gt;</code></td>
+                  <td style="text-align:center">⇔</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h4><label for="punctuations-table-toggle">Punctuations</label></h4>
+            <input
+              type="checkbox"
+              id="punctuations-table-toggle"
+              rel="toggle"
+            />
+            <label for="punctuations-table-toggle">Show/hide</label>
+            <table>
+              <thead>
+                <tr>
+                  <th style="text-align:center">Command</th>
+                  <th style="text-align:center">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align:center"><code>:.</code></td>
+                  <td style="text-align:center">∴</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>...</code></td>
+                  <td style="text-align:center">…</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>cdots</code></td>
+                  <td style="text-align:center">⋯</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>ddots</code></td>
+                  <td style="text-align:center">⋱</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>vdots</code></td>
+                  <td style="text-align:center">⋮</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- prettier-ignore -->
+          <aside class="examples">
+            <ul>
+              <li>
+                <use-example>
+                  sum_(n=0)^k a_n = a_0 + a_i + cdots + a_k
+                </use-example>
+              </li>
+              <li>
+                <use-example>
+                  e = sum_(n=0)^oo 1 / n!
+                </use-example>
+              </li>
+              <li>
+                <use-example>
+                  bf F @ bf G  :  U sube RR^3 -&gt; RR^2
+                </use-example>
+              </li>
+              <li>
+                <use-example>
+                  f'(x), f''(x), f'''(x), f''''(x)
+                </use-example>
+              </li>
+              <li>
+                <use-example>
+                  P_k (x) = f(a) + f'(a)(x-a) + (f''(a))/2! (x-a)^2 + cdots + (f^(k)(a))/k! (x-a)^k
+                </use-example>
+              </li>
+              <li>
+                <use-example>
+                  grad f(x,y) = ((del f)/(del x) (x, y), (del f)/(del y)(x,y))
+                </use-example>
+              </li>
+              <li>
+                <use-example>
+                  oint_(del S) bf F * d bf s = dint_S grad xx bf`F` *  d bf s
+                </use-example>
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="identifiers" class="columns">
+          <div class="column">
+            <h3>Identifiers</h3>
+            <p>
+              Identifiers are any non-space separated characters in between
+              backticks (<code>`</code>). You can alter the font variant of the
+              identifier by prefixing with a font command
+              (<code>rm`identifier`</code>). The following are supplied as
+              stanard identifiers so you <em>don’t</em> need to surround them
+              with backticks:
+            </p>
+            <ul>
+              <li>sin</li>
+              <li>cos</li>
+              <li>tan</li>
+              <li>csc</li>
+              <li>sec</li>
+              <li>cot</li>
+              <li>sinh</li>
+              <li>cosh</li>
+              <li>tanh</li>
+              <li>log</li>
+              <li>ln</li>
+              <li>det</li>
+              <li>dim</li>
+              <li>lim</li>
+              <li>mod</li>
+              <li>gcd</li>
+              <li>lcm</li>
+              <li>min</li>
+              <li>max</li>
+            </ul>
+            <p>
+              In addition any greek character name will compile to it’s
+              corresponding character (<code>alpha</code> ⇒
+              <math> <mi>α</mi> </math>; <code>Gamma</code> ⇒
+              <math> <mi mathvariant="normal">Γ</mi> </math>). Only greek
+              capital letters that don’t look like their corresponding latin
+              capital letter will convert. In addition, Greek capitals will
+              convert with normal (roman) font variant however.
+            </p>
+            <p>
+              The following additional identifiers are also provided through
+              commands
+            </p>
+            <input type="checkbox" rel="toggle" />
+            <table>
+              <thead>
+                <tr>
+                  <th style="text-align:center">Command</th>
+                  <th style="text-align:center">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align:center"><code>oo</code></td>
+                  <td style="text-align:center">∞</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>O/</code></td>
+                  <td style="text-align:center">∅</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>CC</code></td>
+                  <td style="text-align:center">ℂ</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>NN</code></td>
+                  <td style="text-align:center">ℕ</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>QQ</code></td>
+                  <td style="text-align:center">ℚ</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>RR</code></td>
+                  <td style="text-align:center">ℝ</td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>ZZ</code></td>
+                  <td style="text-align:center">ℤ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- prettier-ignore -->
+          <aside class="examples">
+            <ul>
+              <li><use-example>tan = sin/cos</use-example></li>
+              <li><use-example>sinh x = (e^x - e^(-x)) / 2</use-example></li>
+              <li><use-example>ln x/y = ln x - ln y</use-example></li>
+              <li>
+                <use-example>
+                  `Gamma`(theta | alpha, beta) = beta^alpha / Gamma(alpha) theta^(alpha - 1) e^(-beta theta)
+                </use-example>
+              </li>
+              <li><use-example>lim_(x-&gt;oo)</use-example></li>
+              <li><use-example>`sup`(O/) = -oo</use-example></li>
+              <li><use-example>min._(x in NN) = 0</use-example></li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="spaces" class="columns">
+          <div class="column">
+            <h3>Spaces</h3>
+            <p>
+              MathML has an element called <code>&lt;mspace&gt;</code>. Two or
+              more spaces in a row will be translated into that element where it
+              makes sense. The width of the element will be
+              <math>
+                <mfenced
+                  ><mrow><mn>1</mn><mo>−</mo><mi>n</mi></mrow></mfenced
+                > </math
+              >ex, where <math><mi>n</mi></math> is the number of spaces.
+            </p>
+          </div>
+
+          <!-- prettier-ignore -->
+          <aside class="examples">
+            <ul>
+              <li>
+                <use-example>
+                  bb P (x) = 1  \for 0 &leq; x &leq; 1
+                </use-example>
+              </li>
+
+              <li>
+                <use-example>
+                  QQ = {p, q in ZZ  :  p/q}
+                </use-example>
+              </li>
+
+              <li>
+                <use-example>
+                  P(A | B) = P(B | A)P(A) / P(B)
+                </use-example>
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="fractions" class="columns">
+          <div class="column">
+            <h3>Fractions</h3>
+            <p>
+              In MathML you enclose fractions in an
+              <code>&lt;mfrac&gt;</code> element. In Mathup you simply separate
+              the numerator <math><mi>a</mi></math> and the denominator
+              <math><mi>b</mi></math> with a slash (<code>a/b</code>). Mathup
+              tries to be smart about what you mean as numerator and denominator
+              by looking at the spaces you surround you subexpressions with, so
+              <code>a+b / c+d</code> is <em>not</em> the same thing as
+              <code>a + b/c + d</code>.
+            </p>
+          </div>
+
+          <!-- prettier-ignore -->
+          <aside class="examples">
+            <ul>
+              <li><use-example>1+2 / 3+4</use-example></li>
+              <li><use-example>1+2/3+4</use-example></li>
+              <li><use-example>a//b / c//d</use-example></li>
+              <li><use-example>a/b // c/d</use-example></li>
+              <li>
+                <use-example>phi = 1 + 1/(1 + 1/(1 + 1/(1 + 1/(1 + ddots))))</use-example>
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="sub-and-superscripts" class="columns">
+          <div class="column">
+            <h3>Sub and superscripts</h3>
+            <p>
+              The underscore will impose the following expression as a subscript
+              on the preceding expression (<code>a_i</code> ⇒
+              <math>
+                <msub><mi>a</mi><mi>i</mi></msub> </math
+              >), the ascii caret will impose a superscript (<code>a^2</code> ⇒
+              <math>
+                <msup><mi>a</mi><mn>2</mn></msup> </math
+              >), and the (expression, underscore, caret) / (experssion, caret,
+              underscore) sequence (<code>a_i^2</code>/<code>a^2_i</code>) will
+              impose a sub and superscript on the first expression yielding
+              <math>
+                <msubsup><mi>a</mi><mi>i</mi><mn>2</mn></msubsup> </math
+              >.
+            </p>
+            <p>
+              Over and underscripts follow a similar pattern exept with
+              <code>._</code> for underscripts and <code>.^</code> for
+              overscripts. Also <code>lim_x</code> will put <em>x</em> as an
+              underscript, and <code>sum_a^b</code> and
+              <code>prod_a^b</code> will put <math><mi>a</mi></math> and
+              <math><mi>b</mi></math> as under and overscripts.
+            </p>
+          </div>
+
+          <!-- prettier-ignore -->
+          <aside class="examples">
+            <ul>
+              <li><use-example>2^2^2^2</use-example></li>
+              <li><use-example>a^2 + b^2 = c^2</use-example></li>
+              <li><use-example>ln x = int_1^x 1/t dt</use-example></li>
+
+              <li>
+                <use-example>
+                  (X^T)_(ij) = X_(ji),  X._(n xx m) &lt;=&gt; (X^T)._(m xx n)
+                </use-example>
+              </li>
+
+              <li>
+                <use-example>
+                  phi =.^"def" a/b = a+b / a
+                </use-example>
+              </li>
+
+              <li>
+                <use-example>
+                  obrace(x + ... + x).^(k  "times")
+                </use-example>
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="roots" class="columns">
+          <div class="column">
+            <h3>Roots</h3>
+            <p>
+              MathML has <code>&lt;msqrt&gt;</code> and
+              <code>&lt;mroot&gt;</code> tags for roots. Mathup similarly
+              provides <code>sqrt x</code> and <code>root n x</code> for the
+              squared root of <math><mi>x</mi></math> and the
+              <math><mi>n</mi></math
+              >-th root of <math><mi>x</mi></math> respectively.
+            </p>
+          </div>
+
+          <!-- prettier-ignore -->
+          <aside class="examples">
+            <ul>
+              <li><use-example>phi = 1+sqrt5 / 2</use-example></li>
+              <li>
+                <use-example>
+                  x = -b+-sqrt(b^2 - 4ac) / 2a
+                </use-example>
+              </li>
+
+              <li>
+                <use-example>
+                  rho = (root(3, 108 + 12 sqrt 69) + root(3, 108 - 12 sqrt 69)) / 6
+                </use-example>
+              </li>
+
+              <li>
+                <use-example>
+                  sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + cdots)))))))
+                </use-example>
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="groupings" class="columns">
+          <div class="column">
+            <h3>Groupings</h3>
+            <p>
+              MathML uses fences to group numers and identifiers together.
+              Mathup opens a fence with open parentesis (even unicode ones) and
+              closes it with a close parentesis. Note that parentesis don’t have
+              to match, but they do have to come in open/close pairs. If you
+              need an open parentesis to close a group, you are forced to
+              represent them as operators like so
+              <code>{x ∈ X : a &lt; x &lt; b} = \]a, b\([)</code>. Open
+              parenthesis are any of <code>(</code>, <code>[</code>,
+              <code>{</code>, <code>⟦</code>, <code>⟨</code>, <code>⟪</code>,
+              <code>⟬</code>, <code>⟮</code>, <code>⦃</code>, <code>⦅</code>,
+              <code>⦇</code>, <code>⦉</code>, <code>⦋</code>, <code>⦍</code>,
+              <code>⦏</code>, <code>⦑</code>, <code>⦓</code>, <code>⦕</code>,
+              <code>⦗</code> and closing are any of <code>)</code>,
+              <code>]</code>, <code>}</code>, <code>⟧</code>, <code>⟩</code>,
+              <code>⟫</code>, <code>⟭</code>, <code>⟯</code>, <code>⦄</code>,
+              <code>⦆</code>, <code>⦈</code>, <code>⦊</code>, <code>⦌</code>,
+              <code>⦎</code>, <code>⦐</code>, <code>⦒</code>, <code>⦔</code>,
+              <code>⦖</code>, <code>⦘</code>. In addition <code>(:</code> will
+              compile to “⟨”, <code>:)</code> to “⟩”, and <code>{:</code> and
+              <code>:}</code> will open or close a group without displaying the
+              fences.
+            </p>
+
+            <p>Additionally, the following shortcuts are supported:</p>
+            <table>
+              <thead>
+                <tr>
+                  <th style="text-align:center">Command</th>
+                  <th style="text-align:center">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align:center"><code>binom(a, b)</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mfenced open="(" close=")">
+                        <mfrac linethickness="0"><mi>a</mi><mi>b</mi></mfrac>
+                      </mfenced>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>abs x</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mfenced open="|" close="|"><mi>x</mi></mfenced>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>floor x</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mfenced open="⌊" close="⌋"><mi>x</mi></mfenced>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>ceil x</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mfenced open="⌈" close="⌉"><mi>x</mi></mfenced>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>norm x</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mfenced open="∥" close="∥"><mi>x</mi></mfenced>
+                    </math>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- prettier-ignore -->
+          <aside class="examples">
+            <ul>
+              <li>
+                <use-example>
+                  binom(n, k) = n! / k!(n-k)!
+                </use-example>
+              </li>
+
+              <li>
+                <use-example>
+                  (: V(t)^2 :) = lim_(T-&gt;oo) 1/T int_(-T/2)^(T/2) V(t)^2  dt
+                </use-example>
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="matrices" class="columns">
+          <div class="column">
+            <h3>Matrices</h3>
+            <p>
+              Matrices are comma seperated groups inside a group. For example
+              <code>A = [[1,2,3], [4,5,6]]</code> is a 2×3 matrix and
+              <code>[[1,4], [2,5], [3,6]]</code> is
+              <math
+                ><msup><mi>A</mi><mi>T</mi></msup></math
+              >. You can quickly write a column vector with
+              <code>[1; 2; 3]</code>. A trailing row break is allowed so you can
+              write a single row matrix as <code>[1,2,3;]</code> or
+              <code>[(1,2,3),]</code>. A new-line character acts intuitively in
+              a matrix environment.
+            </p>
+            <p>
+              All this does is put the outer brackets as a fence around the
+              table inside, so if you want case assignmet you can write:
+            </p>
+            <code>|x| = { (x, if x &gt;= 0), (-x, otherwise) :} </code>
+            <p>
+              As a bonus this will also left align the condition column for you.
+            </p>
+          </div>
+
+          <!-- prettier-ignore -->
+          <aside class="examples">
+            <ul>
+              <li>
+                <use-example>
+[λ_0, λ_1, ...;] [p_(0 0), p_(0 1), ...
+                  p_(1 0), p_(1 1), ...
+                  vdots,   vdots,   ddots]
+                </use-example>
+              </li>
+
+              <li><use-example>1 / ad-bc [d, -b; -c, a]</use-example></li>
+
+              <li>
+                <use-example>
+                  ||(bf x)||^2 = [x_1 ; x_2 ; x_3]*[x_1 ; x_2 ; x_3]
+                </use-example>
+              </li>
+
+              <li>
+                <use-example>
+n! = { 1,       if n=0 or n=1
+       n(n-1)!, if n &gt; 1
+                </use-example>
+              </li>
+
+              <li>
+                <use-example>
+                  det A = |(a, b; c, d)| = ad - bc
+                </use-example>
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="accents" class="columns">
+          <div class="column">
+            <h3>Accents</h3>
+            <p>
+              The following commands will add accents over or under the
+              following expression or add other types of highlighting:
+            </p>
+            <table>
+              <thead>
+                <tr>
+                  <th style="text-align:center">Command</th>
+                  <th style="text-align:center">Result</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align:center"><code>hat a</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mover><mi>a</mi><mo accent="true">^</mo></mover>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>bar a</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mover><mi>a</mi><mo accent="true">‾</mo></mover>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>vec a</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mover><mi>a</mi><mo accent="true">→</mo></mover>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>dot a</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mover><mi>a</mi><mo accent="true">⋅</mo></mover>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>ddot a</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mover><mi>a</mi><mo accent="true">⋅⋅</mo></mover>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>tilde a</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mover><mi>a</mi><mo accent="true">˜</mo></mover>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>ul a</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <munder><mi>a</mi><mo>_</mo></munder>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>cancel a+b</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <menclose notation="updiagonalstrike">
+                        <mi>a</mi><mo>+</mo><mi>b</mi>
+                      </menclose>
+                    </math>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- prettier-ignore -->
+          <aside class="examples">
+            <ul>
+              <li>
+                <use-example>
+                  bar x = 1/n sum_(i=0)^n x_i
+                </use-example>
+              </li>
+
+              <li>
+                <use-example>
+                  vec x = a hat i + b hat j + c hat k
+                </use-example>
+              </li>
+
+              <li>
+                <use-example>
+                  X -&gt; x + tilde x
+                </use-example>
+              </li>
+
+              <li>
+                <use-example>
+                  hat(xyz)
+                </use-example>
+              </li>
+
+              <li>
+                <use-example>
+                  cancel(a + b)
+                </use-example>
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="font-commands" class="columns">
+          <div class="column">
+            <h3>Font commands</h3>
+            <p>
+              Forced identifiers and texts takes a preceding font command as a
+              parameter. That means you can write <code>bf`v`</code> if you want
+              to bold-face an identifier or <code>it&quot;text&quot;</code> if
+              you want some text italicized. The following commands have the
+              following font variant:
+            </p>
+            <table>
+              <thead>
+                <tr>
+                  <th style="text-align:center">Command</th>
+                  <th style="text-align:center">Variant</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align:center"><code>rm</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mtext mathvariant="normal">normal</mtext>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>bf</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mtext mathvariant="bold">bold</mtext>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>it</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mtext mathvariant="italic">italic</mtext>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>bb</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mtext mathvariant="double-struck">double-struck</mtext>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>cc</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mtext mathvariant="script">script</mtext>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>fr</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mtext mathvariant="fraktur">fraktur</mtext>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>sf</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mtext mathvariant="sans-serif">sans-serif</mtext>
+                    </math>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:center"><code>tt</code></td>
+                  <td style="text-align:center">
+                    <math>
+                      <mtext mathvariant="monospace">monospace</mtext>
+                    </math>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <p>
+              Adding a space in between the command and the text<br />
+              (<code>it "text"</code>) is supported as well.
+            </p>
+          </div>
+
+          <!-- prettier-ignore -->
+          <aside class="examples">
+            <ul>
+              <li>
+                <use-example>
+                  bb(1)_({x in X})
+                </use-example>
+              </li>
+
+              <li>
+                <use-example>
+                  it proj _(bf v) bf a = (bf a*v) / (norm(bf v)^2) bf v
+                </use-example>
+              </li>
+            </ul>
+          </aside>
+        </section>
+      </section>
+    </article>
+  </body>
+</html>
