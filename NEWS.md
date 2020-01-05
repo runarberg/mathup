@@ -4,18 +4,17 @@ mathup v.next Release Notes
 Language Changes
 ----------------
 
-* Meaningful identifiers and operators need to be cannot immedietly
-  follow—or be followed by— an alphabetic character. E.g. `asinb` will
-  not combine the `sin` into a single identifier. Surround the
-  identifier with spaces to get the desired result. E.g. `a sin b`,
-  or—better yet—use zero width operators (U+2061–U+2064) `a⁢sin⁡b`.
-* Infixes (e.g. `/`, `^`, or `_`) will—if whitespace
-  separated—opperate on the previous- and following expressions,
-  and—if *not*—on the previous *token* and the following expression,
-  In the case of `sum_i=0^oo`, the `^` infix will be a superscript of
-  `0`, not the `sum`. Add a whitespace before the `^` infix to make
-  `oo` a superscript of `sum`. Previously `i=0` had to be in
-  parenthesis and in that case, it works like before.
+* Meaningful identifiers and operators cannot immedietly follow—or be
+  followed by—an alphabetic character. E.g. `asinb` will not combine
+  the `sin` into a single identifier. Surround the identifier with
+  spaces to get the desired result. E.g. `a sin b`, or—better yet—use
+  invisible (zero width) operators (U+2061–U+2064; `a&*sin&$b`; see
+  below).
+* **Infixes** (e.g. `/`, `^`, or `_`) now follow a consistent
+  grammar. It will operate on the previous/next literal if it
+  immediately presides/follows (e.g. no space between), otherwise it
+  will operate on the previous/next expression (i.e. terms grouped
+  together by surrounding space/parens/other infixes).
 * Font commands now work on the following expression, as opposed to
   just following token elements. E.g. now its possible to do
   `bf [a; b]` to make all the terms of the matrix bold-face.

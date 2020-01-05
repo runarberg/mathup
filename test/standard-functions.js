@@ -10,8 +10,8 @@ test("Tangent = Sinus over Cosinus", t => {
 test("The hyperbolic function", t => {
   t.snapshot(
     render(
-      `{: sinh x = (e^x - e^-x) / 2 \\,
-          cosh x = (e^x + e^-x) / 2 \\,
+      `{: sinh x = (e^x - e^ -x) / 2 \\,
+          cosh x = (e^x + e^ -x) / 2 \\,
           tanh x = (sinh x) / (cosh x) .`,
     ),
   );
@@ -34,5 +34,5 @@ test("2×2 determinants", t => {
 });
 
 test("Fermats little theorem", t => {
-  t.snapshot(render("a^p-1 -= 1   (mod p)"));
+  t.snapshot(render("a^ p-1 -= 1   (mod p)"));
 });

@@ -52,7 +52,7 @@ test("Simplify polynomials", t => {
 });
 
 test("Exponential decay", t => {
-  t.snapshot(render("e^-x"));
+  t.snapshot(render("e^ -x"));
 });
 
 test("Eulers identity", t => {
@@ -65,7 +65,7 @@ test("The natural numbers", t => {
 
 test("Average over time", t => {
   t.snapshot(
-    render("(: V(t)^2 :) = lim._T->oo 1/T int_(- T/2)^(T/2) V(t)^2 dt"),
+    render("(: V(t)^2 :) = lim_ T->oo 1/T int_(-T/2)^(T/2) V(t)^2 dt"),
   );
 });
 

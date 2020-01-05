@@ -6,8 +6,8 @@
     <title>Mathup Demo</title>
 
     <script src="/src/math-up-element.mjs" type="module"></script>
+    <script src="/demo/test-cases.mjs" type="module"></script>
     <script src="/demo/playground.mjs" type="module" defer></script>
-    <script src="/demo/test-cases.mjs" type="module" defer></script>
 
     <link rel="stylesheet" href="/demo/playground.css" />
   </head>
@@ -104,7 +104,7 @@
         <test-case>\int</test-case>
         <test-case>\`foo bar`</test-case>
         <test-case>ı.^\^</test-case>
-        <test-case>x.^\(n)</test-case>
+        <test-case>x.^ \(n)</test-case>
 
         <test-case display="block">
           sum_(n=0)^k a_n = a_0 + a_1 + cdots + a_k
@@ -123,7 +123,7 @@
         <test-case display="block">p(a | b) = p(b | a)p(a) / p(b)</test-case>
 
         <test-case display="block">
-          P_k (x) = f(a) + f&apos;(a)(x-a) + f&apos;&apos;(a) / 2! (x-a)^2 + cdots + f^(k)(a) / k! (x-a)^k
+          P_k(x) = f(a) + f&apos;(a)(x-a) + f&apos;&apos;(a) / 2! (x-a)^2 + cdots + f^(k)(a) / k! (x-a)^k
         </test-case>
 
         <test-case display="block">
@@ -176,7 +176,7 @@
         <test-case>tan = sin/cos</test-case>
 
         <test-case display="block">
-          sinh x = (e^x - e^-x)/2 ,  cosh x = (e^x + e^-x)/2 ,  tanh x = (sinh x)/(cosh x)
+          sinh x = (e^x - e^ -x)/2,  cosh x = (e^x + e^ -x)/2,  tanh x = (sinh x)/(cosh x)
         </test-case>
 
         <test-case display="block">
@@ -186,7 +186,7 @@
         <test-case>ln x^2 = 2 ln x</test-case>
 
         <test-case display="block">
-          ln(x/y) = ln x - ln y
+          ln x/y = ln x - ln y
         </test-case>
 
         <test-case display="block">
@@ -203,17 +203,21 @@
         <test-case>a//b</test-case>
         <test-case display="block">a//b / c//d</test-case>
         <test-case>(a+b)/(c+d)</test-case>
-        <test-case>1+3 / 2+2</test-case>
-        <test-case>1 + 3/2 + 2</test-case>
+        <test-case>1+2/3+4</test-case>
+        <test-case>1+2 / 3+4</test-case>
+        <test-case>1+2 /3+4</test-case>
+        <test-case>1+2/ 3+4</test-case>
+        <test-case>1 + 2/3 + 4</test-case>
+        <test-case>1 + 2 / 3 + 4</test-case>
         <test-case>a/</test-case>
         <test-case>b // </test-case>
 
         <test-case display="block">
-          phi = 1 + 1/(1 + 1/(1 + 1/(1 + 1/(1 + ddots))))
+          phi = 1+1/ 1+1/ 1+1/ 1+1/ 1+ddots
         </test-case>
 
         <test-case display="block">
-          cc N (x | mu, sigma^2) = 1/sqrt(2pi sigma^2) e^-((x-mu)^2 / 2sigma^2)
+          cc N (x | mu, sigma^2) = 1 / (sigma sqrt(2pi)) e ^ -1/2(x-mu / sigma)^2
         </test-case>
       </section>
 
@@ -240,7 +244,7 @@
         </test-case>
 
         <test-case display="block">
-          sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + sqrt(1 + cdots)))))))
+          sqrt 1+sqrt 1+sqrt 1+sqrt 1+sqrt 1+sqrt 1+sqrt 1+cdots
         </test-case>
 
         <test-case display="block">
@@ -257,12 +261,12 @@
         <test-case>(a,b,c</test-case>
         <test-case>(</test-case>
         <test-case>(x+y)(x-y) = x^2 - y^2</test-case>
-        <test-case>e^-x</test-case>
+        <test-case>e ^ -x</test-case>
         <test-case>e^(i tau) = 1</test-case>
         <test-case>NN = {1, 2, 3, ...}</test-case>
 
         <test-case display="block">
-          (: V(t)^2 :) = lim_T-&gt;oo 1/T int_(-T/2)^(T/2) V(t)^2 dt
+          (: V(t)^2 :) = lim _ T-&gt;oo 1/T int_(-T/2)^(T/2) V(t)^2  dt
         </test-case>
       </section>
 
@@ -275,19 +279,19 @@
         <test-case>a^2_i</test-case>
         <test-case>2^2^2^2</test-case>
         <test-case>a^2 + b^2 = c^2</test-case>
-        <test-case>(X^T)_ij = X_ji</test-case>
+        <test-case>(X^T)_ i&,j = X_ j&,i</test-case>
 
         <test-case display="block">
-          ln x = int_1^x 1/t dt
+          ln x = int_1^x 1/t  dt
         </test-case>
       </section>
 
       <section id="test-cases-over-underscripts">
         <h3>Over and Underscripts</h3>
 
-        <test-case display="block">lim_a-&gt;b</test-case>
-        <test-case display="block">sum_(i=0)^n</test-case>
-        <test-case display="block">prod_(i=1)^n</test-case>
+        <test-case display="block">lim _ a-&gt;b</test-case>
+        <test-case display="block">sum _ i=0 ^ n</test-case>
+        <test-case display="block">prod _ i=1 ^ n</test-case>
 
         <test-case display="block">
           phi =.^"def" a/b = a+b / a

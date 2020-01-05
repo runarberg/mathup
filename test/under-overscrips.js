@@ -29,8 +29,7 @@ test("Allows trailing under-overscript", t => {
 });
 
 test("Goes under limits", t => {
-  t.snapshot(render("lim_(a -> b)"));
-  t.snapshot(render("lim_a->b"));
+  t.snapshot(render("lim_ a->b"));
 });
 
 test("Goes over and under sums", t => {
