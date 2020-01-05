@@ -170,6 +170,10 @@ export const KNOWN_IDENTS = new Map([
 export const KNOWN_OPS = new Map([
   ["!=", { value: "≠" }],
   ["!in", { value: "∉" }],
+  ["&$", { value: "\u2061" }],
+  ["&*", { value: "\u2062" }],
+  ["&+", { value: "\u2064" }],
+  ["&,", { value: "\u2063" }],
   ["'", { value: "′", attrs: { lspace: 0, rspace: 0 } }],
   ["''", { value: "″", attrs: { lspace: 0, rspace: 0 } }],
   ["'''", { value: "‴", attrs: { lspace: 0, rspace: 0 } }],

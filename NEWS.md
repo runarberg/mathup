@@ -59,6 +59,9 @@ Additions
 
 * Added `.toString()` and `.toDOM()` methods to the returned object.
 * Added `obrace` and `ubrace` to accents.
+* Added invisible operators `&+`, `&*`, `&,`, and `&$` for implied
+  addition, multiplication, seperation and function application
+  respectively.
 
 Breaking Changes
 ----------------
