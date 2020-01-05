@@ -23,7 +23,7 @@ test("i hat", t => {
 });
 
 test("The operator (n) as an overscript", t => {
-  t.snapshot(render("x.^\\`(n)`"));
+  t.snapshot(render("x.^ \\`(n)`"));
 });
 
 test("Sums", t => {
@@ -35,7 +35,7 @@ test("Function composition", t => {
 });
 
 test("Eulers number", t => {
-  t.snapshot(render("e = sum_(n=0)^oo 1/n!"));
+  t.snapshot(render("e = sum_(n=0)^oo 1 / n!"));
 });
 
 test("Remove space around derivatives", t => {
@@ -58,7 +58,7 @@ test("Gradient", t => {
 test("Taylor polynomial", t => {
   t.snapshot(
     render(
-      "P_k(x) = f(a) + f'(a)(x-a) + (f''(a))/2! (x-a)^2 + cdots + (f^((k))(a))/k! (x-a)^k",
+      "P_k(x) = f(a) + f'(a)(x-a) + f''(a) / 2! (x-a)^2 + cdots + f^(k)(a) / k! (x-a)^k",
     ),
   );
 });

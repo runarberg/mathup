@@ -43,7 +43,7 @@ test("Pythagorean theorem", t => {
 });
 
 test("Matrix transpose", t => {
-  t.snapshot(render("(X^T)_ij = X_ji"));
+  t.snapshot(render("(X^T)_ i&,j = X_ j&,i"));
 });
 
 test("The natural logarithm", t => {

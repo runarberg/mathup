@@ -21,19 +21,22 @@ test("Allows trailing fractions", t => {
 });
 
 test("Significant whitespace in fractions", t => {
-  t.snapshot(render("1+3 / 2+2"));
-  t.snapshot(render("1 + 3/2 + 2"));
-  t.snapshot(render("a/b / c/d"));
+  t.snapshot(render("1+2/3+4"));
+  t.snapshot(render("1+2 /3+4"));
+  t.snapshot(render("1+2/ 3+4"));
+  t.snapshot(render("1+2 / 3+4"));
+  t.snapshot(render("1 + 2/3 + 4"));
+  t.snapshot(render("1 + 2 / 3 + 4"));
 });
 
 test("Golden ratio (continued fraction)", t => {
-  t.snapshot(render("phi = 1 + 1/(1 + 1/(1 + 1/(1 + 1/(1 + ddots))))"));
+  t.snapshot(render("phi = 1+1/ 1+1/ 1+1/ 1+1/ 1+ddots"));
 });
 
 test("Normal distribution", t => {
   t.snapshot(
     render(
-      "cc N (x | mu, sigma^2) = 1/sqrt(2pi sigma^2) e^-((x-mu)^2 / 2sigma^2)",
+      "cc N (x | mu, sigma^2) = 1 / (sigma sqrt(2pi)) e ^ -1/2(x-mu / sigma)^2",
     ),
   );
 });

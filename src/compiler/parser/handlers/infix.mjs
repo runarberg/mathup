@@ -1,8 +1,11 @@
+import handlers from "./index.mjs";
 import expr from "./expr.mjs";
 
 function empty() {
   return { type: "Term", items: [] };
 }
+
+const SHOULD_STOP = ["ident", "number", "operator", "text"];
 
 export default function infix({ stack, start, tokens }) {
   const token = tokens[start];
@@ -17,7 +20,20 @@ export default function infix({ stack, start, tokens }) {
     left = empty();
   }
 
-  let next = expr({ stack: [], start: start + 1, tokens });
+  while (left.type === "Term" && left.items.length === 1) {
+    [left] = left.items;
+  }
+
+  const nextToken = tokens[start + 1];
+
+  let next;
+  if (nextToken && SHOULD_STOP.includes(nextToken.type)) {
+    const handleRight = handlers.get(nextToken.type);
+
+    next = handleRight({ start: start + 1, tokens });
+  } else {
+    next = expr({ stack: [], start: start + 1, tokens });
+  }
 
   if (next && next.node && next.node.type === "SpaceLiteral") {
     next = expr({ stack: [], start: next.end, tokens });
