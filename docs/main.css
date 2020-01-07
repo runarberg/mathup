@@ -28,6 +28,11 @@
 }
 
 @font-face {
+  font-family: "Libertinus Keyboard";
+  src: url(fonts/libertinus/LibertinusKeyboard-Regular.woff2);
+}
+
+@font-face {
   font-family: "Libertinus Mono";
   src: url(fonts/libertinus/LibertinusMono-Regular.woff2);
 }
@@ -40,6 +45,10 @@
 body {
   font-family: "Libertinus", "Linux Libertine", geogia, serifs;
   font-size: 20px;
+}
+
+kbd {
+  font-family: "Libertinus Keyboard", "Linux Libertine Mono", monospace;
 }
 
 pre,
@@ -73,6 +82,26 @@ pre {
   padding: 1ex 2ex;
 }
 
+pre code .hl-built-in {
+  color: #f99b15;
+}
+
+pre code .hl-comment {
+  color: #8d8687;
+}
+
+pre code .hl-keyword {
+  color: #5bc4bf;
+}
+
+pre code .hl-string {
+  color: #48b685;
+}
+
+pre code .hl-tag-name {
+  color: #ef6155;
+}
+
 h2 {
   font-size: 2em;
 }
@@ -96,44 +125,54 @@ body > h1 {
   margin: 0;
   padding: 0;
 }
+
 .main-nav > ul {
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   display: flex;
 }
+
 .main-nav > ul > li {
-  flex: 1 1 33.33%;
-  font-size: 1.2em;
-  font-weight: bold;
-  text-align: center;
+  flex-grow: 1;
+  flex-basis: 15ch;
   position: relative;
 }
+
+.main-nav > ul > li > a {
+  font-weight: bold;
+  font-size: 1.2em;
+  text-align: center;
+}
+
 .main-nav > ul > li > ul {
   background: white;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  border-block-start: 1px solid white;
+  border-block-end: 2px solid black;
   display: none;
   position: absolute;
-  left: 10%;
-  right: 10%;
+  left: 0;
+  right: 0;
 }
+
+.main-nav > ul > li:focus-within > ul,
 .main-nav > ul > li:hover > ul {
   display: block;
 }
-.main-nav > ul > li > ul > li {
-  text-align: left;
-  font-weight: normal;
-}
+
 .main-nav a {
   display: block;
   color: black;
   text-decoration: none;
 }
+
 .main-nav > ul > li > ul a {
-  text-indent: 1em;
+  padding-inline: 1em;
 }
+
 .main-nav a:hover,
-.main-nav > ul > li:hover > a {
+.main-nav a:focus,
+.main-nav > ul > li:hover > a,
+.main-nav > ul > li:focus-within > a {
   background: black;
   color: white;
 }
@@ -182,6 +221,7 @@ body > h1 {
   text-align: center;
   width: 1.5em;
 }
+
 .try > .input label {
   line-height: 1.5em;
 }
@@ -223,38 +263,39 @@ article section + section {
   margin: 1em auto;
 }
 
-input[type="checkbox"][rel="toggle"] {
-  display: none;
-}
-input[type="checkbox"][rel="toggle"] + label {
-  display: inline-block;
-  width: 1em;
-}
-input[type="checkbox"][rel="toggle"] + label::after {
-  content: "◀";
-  padding-left: 1em;
-}
-input[type="checkbox"][rel="toggle"]:checked + label::after {
-  content: "▼";
-}
-input[type="checkbox"][rel="toggle"] + label + table {
-  display: none;
-}
-input[type="checkbox"][rel="toggle"]:checked + label + table {
-  display: table;
+.reference-section > section {
+  display: grid;
+  grid-template-columns: fit-content(52ch) minmax(30ch, 1fr);
+  grid-template-rows: repeat(10, auto);
 }
 
-.columns {
-  display: flex;
-  flex-wrap: wrap;
+.reference-section .examples {
+  grid-column: 2;
+  grid-row: 2 / -1;
+}
+
+.reference-section > section > :not(.examples) {
+  grid-column: 1;
+}
+
+.reference-section dl {
   align-items: center;
+  border-inline-start: 2px solid currentcolor;
+  display: grid;
+  grid-gap: 0.25ex 1em;
+  grid-template-columns: fit-content(16ch) 1fr;
+  margin-inline-start: 1em;
+  padding-inline-start: 1ex;
 }
 
-.columns > div {
-  width: 45%;
+.reference-section dl > dt {
+  grid-column: 1;
+  justify-self: end;
 }
-.columns > .examples {
-  width: 55%;
+
+.reference-section dl > dd {
+  grid-column: 2;
+  margin: 0;
 }
 
 .examples ul {

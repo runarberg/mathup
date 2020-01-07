@@ -23,7 +23,7 @@
   },
   "scripts": {
     "clean": "rm -fr .nyc_output dependencies.mjs coverage/ target/",
-    "demo": "node demo/server.mjs",
+    "server": "python3 -m http.server",
     "dependencies": "rollup --config --configDeps",
     "lint": "eslint --ext .js --ext .mjs --ext .cjs src/ test/ *.config.js *.src.mjs",
     "build": "rollup --config",

@@ -154,19 +154,9 @@ For a simple test do:
 ./bin/mathup.mjs -- 'my expression'
 ```
 
-You can open a playground and a demo on http://localhost:8000 with:
+You can open a playground and a demo on <http://localhost:8000/demo>
+or the documentation on <http://localhost:8000/docs> with:
 
 ```bash
-npm run demo
+npm run server
 ```
-
-If you are running a version of node that doensn’t yet support native
-modules you can run a python server in the root directory instead:
-
-```bash
-python3 -m http.server
-```
-
-You will find the playground at <http://localhost:8000/demo/>. Again,
-you don’t need to run `npm run build` between the edit and run
-cycle. A simple page refresh enough to apply your changes.
