@@ -2,14 +2,9 @@
   display: grid;
   grid-gap: 1em 2em;
   grid-template:
-    "header header"
     "input  output"
     "menu   output"
     / auto 1fr;
-}
-
-.playground h2 {
-  grid-area: header;
 }
 
 .playground label {

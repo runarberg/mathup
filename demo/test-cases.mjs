@@ -1,3 +1,5 @@
+import "../src/custom-element.mjs";
+
 const STYLE_CONTENT = `
 .test-case {
   font-size: 1.25em;

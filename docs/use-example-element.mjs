@@ -1,35 +1,39 @@
-const STYLE_CONTENT = `
+function css(style) {
+  const styleNode = document.createElement("style");
+
+  styleNode.textContent = style;
+
+  return styleNode;
+}
+
+const template = document.createElement("template");
+template.content.appendChild(css`
   .example-input {
     background: #202016;
     border-radius: 0.2em;
-    color: #F0F0F0;
+    color: #f0f0f0;
     display: inline-block;
     max-width: 100%;
     overflow-x: auto;
     padding: 0.05em 0.5em;
     text-align: left;
-    font-family: "Libertinus Mono", monospace;
-    font-size: 0.9em;
     white-space: pre;
   }
 
-  .example-output {
+  /* exportparts is not implemented in firefox */
+  math-up::part(math) {
     font-family: "Libertinus Math", "Asana Math", math;
     font-size: 1.2em;
   }
-`;
+`);
 
 class UseExampleElement extends HTMLElement {
   constructor() {
     super();
 
     const shadow = this.attachShadow({ mode: "open" });
+    const shadowRoot = template.content.cloneNode(true);
 
-    const shadowStyle = document.createElement("style");
-    shadowStyle.textContent = STYLE_CONTENT;
-    shadow.appendChild(shadowStyle);
-
-    const shadowRoot = document.createElement("div");
     const code = document.createElement("code");
     const mathUp = document.createElement("math-up");
     const input = this.textContent.trim();
@@ -42,11 +46,10 @@ class UseExampleElement extends HTMLElement {
     };
 
     code.className = "example-input";
+    code.part = "code";
     code.textContent = input;
-    mathUp.className = "example-output";
     mathUp.display = "block";
-    mathUp.textContent = input;
-    mathUp.setAttribute("inherit-font", "inherit-font");
+    mathUp.exportparts = "math";
 
     for (const [key, value] of Object.entries(options)) {
       if (value) {
@@ -54,6 +57,7 @@ class UseExampleElement extends HTMLElement {
       }
     }
 
+    mathUp.textContent = input;
     shadowRoot.appendChild(code);
     shadowRoot.appendChild(mathUp);
     shadow.appendChild(shadowRoot);

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Mathup Playground</title>
+
+    <link rel="stylesheet" href="/demo/playground.css" />
+    <script src="./playground.mjs" type="module" defer></script>
+  </head>
+
+  <body>
+    <h1>Mathup Playground</h1>
+
+    <nav>
+      <ul>
+        <li><a href="./index.html">Demo</a></li>
+        <li><a href="./playground.html">Playground</a></li>
+        <li><a href="./test-cases.html">Test Cases</a></li>
+        <li><a href="../docs/index.html">Docs</a></li>
+      </ul>
+    </nav>
+
+    <main id="playground" class="playground">
+      <label>
+        <span class="label">Input</span>
+        <textarea name="input"></textarea>
+      </label>
+
+      <menu>
+        <li>
+          <label>
+            Display Block
+            <input type="checkbox" name="display" value="block" />
+          </label>
+        </li>
+
+        <li>
+          <label>
+            Right-to-Left
+            <input type="checkbox" name="dir" value="rtl" />
+          </label>
+        </li>
+
+        <li>
+          <label>
+            Decimal Mark
+            <input name="decimal-mark" />
+          </label>
+        </li>
+
+        <li>
+          <label>
+            Column Seperator
+            <input name="col-sep" />
+          </label>
+        </li>
+
+        <li>
+          <label>
+            Row Seperator
+            <input name="row-sep" />
+          </label>
+        </li>
+      </menu>
+
+      <label class="output">
+        <span class="label">Output</span>
+        <output name="output"><math-up></math-up></output>
+      </label>
+    </main>
+  </body>
+</html>
