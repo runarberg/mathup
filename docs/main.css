@@ -52,13 +52,15 @@ kbd {
 }
 
 pre,
-code {
+code,
+use-example::part(code) {
   font-family: "Libertinus Mono", monospace;
   font-size: 0.9em;
 }
 
 math,
-math-up {
+math-up::part(math),
+use-example::part(math) {
   font-family: "Libertinus Math", "Asana Math", math;
 }
 

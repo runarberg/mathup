@@ -1,3 +1,5 @@
+import "../src/custom-element.mjs";
+
 const playground = document.getElementById("playground");
 const input = playground.querySelector("[name='input']");
 const display = playground.querySelector("[name='display']");

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Mathup Test Cases</title>
+
+    <script src="./test-cases.mjs" type="module"></script>
+  </head>
+
+  <body>
+    <h1>Mathup Test Cases</h1>
+
+    <nav>
+      <ul>
+        <li><a href="./index.html">Demo</a></li>
+        <li><a href="./playground.html">Playground</a></li>
+        <li><a href="./test-cases.html">Test Cases</a></li>
+        <li><a href="../docs/index.html">Docs</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section id="test-cases-basics">
+        <h2>Basics</h2>
+
+        <test-case></test-case>
+        <test-case>42</test-case>
+        <test-case>3.141592654</test-case>
+        <test-case>x</test-case>
+        <test-case>1+1 = 2</test-case>
+        <test-case>3-2 = 1</test-case>
+      </section>
+
+      <!-- prettier-ignore -->
+      <section id="test-cases-numbers">
+        <h2>Numbers</h2>
+
+        <test-case>1/2 + 1/3 = 5/6 = 0.↊, 2/3 + 1/4 = ↋/10 = 0.↋</test-case>
+        <test-case dir="rtl">(١٠ - ح)^٢ = ٨١ح</test-case>
+        <test-case>#0x2A = #XLII = #`4.2e+01` = #`forty two` = 42</test-case>
+        <test-case>`rgb`(48, 148, 171) == #`#3094AB`</test-case>
+      </section>
+
+      <!-- prettier-ignore -->
+      <section id="test-cases-operators">
+        <h2>Operators</h2>
+
+        <test-case>\^</test-case>
+        <test-case>\\</test-case>
+        <test-case>\int</test-case>
+        <test-case>\`foo bar`</test-case>
+        <test-case>ı.^\^</test-case>
+        <test-case>x.^ \(n)</test-case>
+
+        <test-case display="block">
+          sum_(n=0)^k a_n = a_0 + a_1 + cdots + a_k
+        </test-case>
+
+        <test-case display="block">
+          bf F @ bf G  :  U sube RR^3 -&gt; RR^2
+        </test-case>
+
+        <test-case display="block">e = sum_(n=0)^oo 1 / n!</test-case>
+
+        <test-case>
+          f&apos;(x), f&apos;&apos;(x), f&apos;&apos;&apos;(x), f&apos;&apos;&apos;&apos;(x)
+        </test-case>
+
+        <test-case display="block">p(a  |  b) = p(b  |  a)p(a) / p(b)</test-case>
+
+        <test-case display="block">
+          P_k(x) = f(a) + f&apos;(a)(x-a) + f&apos;&apos;(a) / 2! (x-a)^2 + cdots + f^(k)(a) / k! (x-a)^k
+        </test-case>
+
+        <test-case display="block">
+          grad f(x,y) = ((del f)/(del x) (x, y), (del f)/(del y) (x,y))
+        </test-case>
+
+        <test-case display="block">
+          oint_(del S) bf F * d bf s = dint_S grad xx bf F * d bf s
+        </test-case>
+      </section>
+
+      <!-- prettier-ignore -->
+      <section id="test-cases-whitespace">
+        <h2>Whitespace</h2>
+
+        <test-case>a b</test-case>
+        <test-case>a  b</test-case>
+        <test-case>a   b</test-case>
+        <test-case>a    b</test-case>
+        <test-case>a     b</test-case>
+      </section>
+
+      <!-- prettier-ignore -->
+      <section id="test-cases-identifiers">
+        <h2>Identifiers</h2>
+
+        <section>
+          <h3>Greeks</h3>
+
+          <test-case>Gamma Delta Theta Lambda Xi Pi Sigma Phi Psi Omega</test-case>
+          <test-case>
+            alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi pi rho sigma tau upsilon phi chi psi omega
+          </test-case>
+        </section>
+
+        <section>
+          <h3>Special symbols</h3>
+
+          <test-case>grad oo O/</test-case>
+        </section>
+
+        <section>
+          <h3>Blackboard</h3>
+
+          <test-case>NN ZZ QQ RR CC</test-case>
+        </section>
+      </section>
+
+      <!-- prettier-ignore -->
+      <section id="test-cases-standard-functions">
+        <h2>Standard Functions</h2>
+
+        <test-case>tan = sin/cos</test-case>
+
+        <test-case display="block">
+          sinh x = (e^x - e^ -x)/2,  cosh x = (e^x + e^ -x)/2,  tanh x = (sinh x)/(cosh x)
+        </test-case>
+
+        <test-case display="block">
+          log_b x = (log_k x)/(log_k b)
+        </test-case>
+
+        <test-case>ln x^2 = 2 ln x</test-case>
+
+        <test-case display="block">
+          ln x/y = ln x - ln y
+        </test-case>
+
+        <test-case display="block">
+          det(A) = |(a, b; c, d)| = ad - cd
+        </test-case>
+
+        <test-case>a^(p-1) == 1   (mod p)</test-case>
+      </section>
+
+      <!-- prettier-ignore -->
+      <section id="test-cases-fractions">
+        <h2>Fractions</h2>
+
+        <test-case>a/b</test-case>
+        <test-case>a//b</test-case>
+        <test-case display="block">a//b / c//d</test-case>
+        <test-case>(a+b)/(c+d)</test-case>
+        <test-case>1+2/3+4</test-case>
+        <test-case>1+2 / 3+4</test-case>
+        <test-case>1+2 /3+4</test-case>
+        <test-case>1+2/ 3+4</test-case>
+        <test-case>1 + 2/3 + 4</test-case>
+        <test-case>1 + 2 / 3 + 4</test-case>
+        <test-case>a/</test-case>
+        <test-case>b // </test-case>
+
+        <test-case display="block">
+          phi = 1+1/ 1+1/ 1+1/ 1+1/ 1+ddots
+        </test-case>
+
+        <test-case display="block">
+          cc N (x | mu, sigma^2) = 1 / (sigma sqrt(2pi)) e ^ -1/2(x-mu / sigma)^2
+        </test-case>
+      </section>
+
+      <!-- prettier-ignore -->
+      <section id="test-cases-roots">
+        <h2>Roots</h2>
+
+        <test-case>sqrt x</test-case>
+        <test-case>root(n, x)</test-case>
+        <test-case>sqrt</test-case>
+        <test-case>root  </test-case>
+        <test-case>root 3 </test-case>
+        <test-case>binom(n, k)</test-case>
+        <test-case>binom(a, b + c)</test-case>
+        <test-case>sqrt 2 ~~ 1.414213562</test-case>
+
+        <test-case display="block">
+          x = -b+-sqrt(b^2 - 4ac) / 2a
+        </test-case>
+
+        <test-case>phi = 1+sqrt5 / 2</test-case>
+
+        <test-case display="block">
+          rho = (root3 108+12sqrt(69) + root3 108-12sqrt(69)) / 6
+        </test-case>
+
+        <test-case display="block">
+          sqrt 1+sqrt 1+sqrt 1+sqrt 1+sqrt 1+sqrt 1+sqrt 1+cdots
+        </test-case>
+
+        <test-case display="block">
+          binom(n, k) = n! / k!(n-k)!
+        </test-case>
+      </section>
+
+      <!-- prettier-ignore -->
+      <section id="test-cases-groupings">
+        <h2>Groupings</h2>
+
+        <test-case>(a+b)</test-case>
+        <test-case>a,b,c</test-case>
+        <test-case>(a,b,c)</test-case>
+        <test-case>(a,b,c</test-case>
+        <test-case>(</test-case>
+        <test-case>(x+y)(x-y) = x^2 - y^2</test-case>
+        <test-case>e ^ -x</test-case>
+        <test-case>e^(i tau) = 1</test-case>
+        <test-case>NN = {1, 2, 3, ...}</test-case>
+
+        <test-case display="block">
+          (: V(t)^2 :) = lim _ T-&gt;oo 1/T int_(-T/2)^(T/2) V(t)^2  dt
+        </test-case>
+      </section>
+
+      <!-- prettier-ignore -->
+      <section id="test-cases-super-subscripts">
+        <h2>Super and Subscripts</h2>
+
+        <test-case>a_i</test-case>
+        <test-case>a^2</test-case>
+        <test-case>a_i^2</test-case>
+        <test-case>a^2_i</test-case>
+        <test-case>2^2^2^2</test-case>
+        <test-case>a^2 + b^2 = c^2</test-case>
+        <test-case>(X^T)_ i&,j = X_ j&,i</test-case>
+
+        <test-case display="block">
+          ln x = int_1^x 1/t  dt
+        </test-case>
+      </section>
+
+      <!-- prettier-ignore -->
+      <section id="test-cases-over-underscripts">
+        <h2>Over and Underscripts</h2>
+
+        <test-case display="block">lim _ a-&gt;b</test-case>
+        <test-case display="block">sum _ i=0 ^ n</test-case>
+        <test-case display="block">prod _ i=1 ^ n</test-case>
+
+        <test-case display="block">
+          phi =.^"def" a/b = a+b / a
+        </test-case>
+
+        <test-case>X._(n xx m)</test-case>
+
+        <test-case display="block">
+          obrace(x + ... + x).^(k  "times")
+        </test-case>
+      </section>
+
+      <!-- prettier-ignore -->
+      <section id="test-cases-matrices">
+        <h2>Matrices</h2>
+
+        <test-case display="block">(1; 2; 3)</test-case>
+        <test-case display="block">[a, b; d, e]</test-case>
+        <test-case display="block">[1, 2, 3; 4, 5, 6]</test-case>
+        <test-case display="block">[1, 2, 3;]</test-case>
+        <test-case display="block">[a,b,c;]</test-case>
+
+        <test-case display="block">
+ [a, b, c
+  d, e, f
+  g, h, i]
+        </test-case>
+
+        <test-case display="block">
+[a, d
+ b, e
+ c, f]
+        </test-case>
+
+        <test-case display="block">
+n! = { 1,         if n in {0, 1}
+       n(n - 1)!, otherwise
+        </test-case>
+
+        <test-case display="block">
+          |(a,b,c; d,e,f; h,i,j)|
+        </test-case>
+
+        <test-case display="block">||(a ; b ; c)||</test-case>
+
+        <test-case display="block">
+A = [ a_(1 1), a_(1 2), cdots, a_(1 n)
+      a_(2 1), a_(2 2), cdots, a_(2 n)
+      vdots,   vdots,   ddots, vdots
+      a_(m 1), a_(m 2), cdots, a_(m n) ]
+        </test-case>
+
+        <test-case display="block">
+          [[a, b; d, e], -1 ; 1, [f, g; h, i]]
+        </test-case>
+
+        <test-case display="block">
+          |x| = { x\,,  if x &gt;= 0;  -x\,,  if x &lt; 0
+        </test-case>
+
+        <test-case display="block">
+          n! = { 1,  if n=0 or n=1;  n(n-1)!,  if n &gt; 1
+        </test-case>
+      </section>
+
+      <!-- prettier-ignore -->
+      <section id="test-cases-fonts">
+        <h2>Fonts</h2>
+
+        <section>
+          <h3>Text</h3>
+
+          <test-case>"abcd"</test-case>
+          <test-case>rm"AaBbCc"</test-case>
+          <test-case>it"AaBbCc"</test-case>
+          <test-case>bf"AaBbCc"</test-case>
+          <test-case>bb"AaBbCc"</test-case>
+          <test-case>cc"AaBbCc"</test-case>
+          <test-case>fr"AaBbCc"</test-case>
+          <test-case>sf"AaBbCc"</test-case>
+          <test-case>tt"AaBbCc"</test-case>
+
+          <test-case display="block">
+            it`proj`_(bf v) bf a = bf(a*v) / (norm(bf v)^2) bf`v`
+          </test-case>
+        </section>
+
+        <section id="test-cases-forced-identifiers">
+          <h3>Forced identifiers</h3>
+
+          <test-case>`Gamma` != Gamma</test-case>
+          <test-case>rm`e`</test-case>
+          <test-case>it`ln`</test-case>
+          <test-case>bf`1234`</test-case>
+          <test-case>bb`1234`</test-case>
+          <test-case>cc`l`</test-case>
+          <test-case>fr`g`</test-case>
+          <test-case>sf`1234`</test-case>
+          <test-case>tt`1234`</test-case>
+        </section>
+      </section>
+
+      <!-- prettier-ignore -->
+      <section id="test-cases-accents">
+        <h2>Accents</h2>
+
+        <test-case>hat x</test-case>
+        <test-case>bar x</test-case>
+        <test-case>ul x</test-case>
+        <test-case>vec x</test-case>
+        <test-case>dot x</test-case>
+        <test-case>ddot x</test-case>
+        <test-case>tilde x</test-case>
+        <test-case>ddot i ,  bar i ,  hat j ,  ul j</test-case>
+        <test-case>3hat(xyz)</test-case>
+        <test-case>vec x = a hat i + b hat j + c hat k</test-case>
+      </section>
+    </main>
+  </body>
+</html>
