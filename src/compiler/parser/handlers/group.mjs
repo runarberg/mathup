@@ -4,8 +4,7 @@ export default function group({ start, tokens }) {
   let i = start;
   let token = tokens[i];
 
-  const open = token && token.type === "paren.open" ? token : null;
-
+  const open = token;
   const rows = [];
   const seps = [];
   let cols = [];
@@ -62,13 +61,8 @@ export default function group({ start, tokens }) {
       stack: cell,
     });
 
-    if (next) {
-      cell.push(next.node);
-      i = next.end || i + 1;
-    } else {
-      i += 1;
-    }
-
+    cell.push(next.node);
+    i = next.end;
     token = tokens[i];
   }
 
@@ -79,7 +73,7 @@ export default function group({ start, tokens }) {
   const close = token && token.type === "paren.close" ? token : null;
 
   const attrs = {
-    open: (open && open.value) || "",
+    open: open.value,
     close: (close && token.value) || "",
     seps,
   };
