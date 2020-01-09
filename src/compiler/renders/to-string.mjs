@@ -12,7 +12,7 @@ function escapeAttrValue(str) {
   return str.replace(/"/g, "&quot;");
 }
 
-export default function toString(node) {
+export default function toString(node, { bare } = {}) {
   const attrString = Object.entries(node.attrs || {})
     .map(([name, value]) => `${name}="${escapeAttrValue(`${value}`)}"`)
     .join(" ");
@@ -26,6 +26,10 @@ export default function toString(node) {
 
   if (node.childNodes) {
     const content = node.childNodes.map(toString).join("");
+
+    if (node.tag === "math" && bare) {
+      return content;
+    }
 
     return `<${openContent}>${content}</${node.tag}>`;
   }

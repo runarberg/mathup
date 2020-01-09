@@ -67,6 +67,7 @@ const options = {
     rowSep: ";",        // -r,  --rowsep=";"
     display: "inline",  // -d,  --display
     dir: "ltr",         //      --rtl
+    bare: false,        // -b,  --bare
 }
 ```
 

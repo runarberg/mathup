@@ -147,8 +147,11 @@
 <!--     -->mathml.toString();
 <!--     --><span class="hl-comment">// =&gt; "&lt;math&gt;&lt;mrow&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/math&gt;"</span>
 
-<!--     -->mathml.toDOM();
+<!--     --><span class="hl-keyword">const</span> mathNode = mathml.toDOM();
 <!--     --><span class="hl-comment">// =&gt; [object MathMLElement]</span>
+
+<!--     --><span class="hl-comment">// Update existing &lt;math&gt; node in place</span>
+<!--     -->mathup(<span class="hl-string">"3-2 = 1"</span>, { bare: <span class="hl-literal">true</span> }).updateDOM(mathNode);
 <!--  --></code></pre>
 
           <p>Or on the command line</p>
@@ -177,6 +180,8 @@
            --><span class="hl-comment">// -d  --display="inline"</span>
 <!--     -->  dir: <span class="hl-string">"ltr"</span>,         <!--
            --><span class="hl-comment">//     --rtl</span>
+<!--     -->  bare: <span class="hl-literal">false</span>,        <!--
+           --><span class="hl-comment">// -b  --bare</span>
 <!--     -->};<!--
        --></code></pre>
 
@@ -184,8 +189,18 @@
             <strong>Note:</strong> If you pick <code>,</code> as your decimal
             mark then <code>;</code> becomes the new default column separator.
             And if <code>;</code> is your column separator then the new default
-            row separator becomes <code>;;</code>.
+            row separator becomes <code>;;</code>. You can use <code>,</code> as
+            <em>both</em> a decimal mark <em>and</em> a row separator if you
+            take care to add a space between the row separator and the following
+            digit. However then you must set both explicitly.
           </p>
+
+          <pre><code><!--
+         --><span class="hl-keyword">const</span> options = {
+<!--     -->  decimalMark: <span class="hl-string">","</span>,
+<!--     -->  colSep: <span class="hl-string">","</span>,
+<!--     -->};<!--
+       --></code></pre>
         </section>
       </section>
 

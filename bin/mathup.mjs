@@ -24,6 +24,7 @@ function main() {
   }
 
   const options = {
+    bare: argv.b || argv.bare,
     display: argv.d || argv.display ? "block" : undefined,
     dir: argv.rtl ? "rtl" : undefined,
     decimalMark: argv.m || argv.decimalmark,

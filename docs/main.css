@@ -84,7 +84,8 @@ pre {
   padding: 1ex 2ex;
 }
 
-pre code .hl-built-in {
+pre code .hl-built-in,
+pre code .hl-literal {
   color: #f99b15;
 }
 
@@ -261,13 +262,19 @@ article section + section {
 
 #philosophy,
 #use {
-  max-width: 60em;
+  max-width: 80ch;
+  margin: 1em auto;
+}
+
+.reference-section {
+  max-width: 160ch;
   margin: 1em auto;
 }
 
 .reference-section > section {
+  justify-content: space-around;
   display: grid;
-  grid-template-columns: fit-content(52ch) minmax(30ch, 1fr);
+  grid-template-columns: minmax(0, 60ch) minmax(0, 1fr);
   grid-template-rows: repeat(10, auto);
 }
 

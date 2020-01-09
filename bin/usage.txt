@@ -3,6 +3,7 @@ Usage: mathup [options] -- <expression>
 
 If called without expression, then will use stdin
 
+  -b,  --bare         Don’t render the root `<math>`
   -c,  --colsep       Column separator, defaults to ","
   -d,  --display      Write expression display block style
   -m,  --decimalmark  Decimal mark, defaults to "."

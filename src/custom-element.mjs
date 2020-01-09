@@ -5,22 +5,21 @@ import mathup from "./index.mjs";
 const template = document.createElement("template");
 {
   const slot = document.createElement("slot");
+  const math = document.createElementNS(
+    "http://www.w3.org/1998/Math/MathML",
+    "math",
+  );
+
   slot.style.display = "none";
+  math.part = "math";
 
   template.content.appendChild(slot);
+  template.content.appendChild(math);
 }
 
 export default class MathUpElement extends HTMLElement {
   constructor() {
     super();
-
-    const options = {
-      decimalMark: this.getAttribute("decimal-mark") || undefined,
-      colSep: this.getAttribute("col-sep") || undefined,
-      rowSep: this.getAttribute("row-sep") || undefined,
-    };
-
-    this.options = options;
 
     const shadow = this.attachShadow({ mode: "open" });
     const shadowRoot = template.content.cloneNode(true);
@@ -37,21 +36,16 @@ export default class MathUpElement extends HTMLElement {
   update() {
     const input = this.textContent;
     const options = {
-      display: this.display,
-      dir: this.dir,
       decimalMark: this.decimalMark,
       colSep: this.colSep,
       rowSep: this.rowSep,
+
+      bare: true,
     };
 
-    for (const oldMathNode of this.shadowRoot.querySelectorAll("math")) {
-      oldMathNode.remove();
-    }
+    const mathNode = this.shadowRoot.querySelector("math");
 
-    const mathNode = mathup(input, options).toDOM();
-    mathNode.part = "math";
-
-    this.shadowRoot.appendChild(mathNode);
+    mathup(input, options).updateDOM(mathNode);
   }
 
   static get observedAttributes() {
@@ -60,10 +54,6 @@ export default class MathUpElement extends HTMLElement {
 
   attributeChangedCallback(name, oldValue, newValue) {
     const mathNode = this.shadowRoot.querySelector("math");
-
-    if (!mathNode) {
-      return;
-    }
 
     if (name === "display" || name === "dir") {
       mathNode.setAttribute(name, newValue);
@@ -97,7 +87,6 @@ export default class MathUpElement extends HTMLElement {
   }
 
   set decimalMark(value) {
-    this.options.decimalMark = value || undefined;
     this.setAttribute("decimal-mark", value);
   }
 
@@ -106,7 +95,6 @@ export default class MathUpElement extends HTMLElement {
   }
 
   set colSep(value) {
-    this.options.colSep = value || undefined;
     this.setAttribute("col-sep", value);
   }
 
@@ -115,7 +103,6 @@ export default class MathUpElement extends HTMLElement {
   }
 
   set rowSep(value) {
-    this.options.rowSep = value || undefined;
     this.setAttribute("row-sep", value);
   }
 }
