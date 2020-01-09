@@ -3,6 +3,7 @@ import parse from "./parser/parse.mjs";
 import toDOM from "./renders/to-dom.mjs";
 import toString from "./renders/to-string.mjs";
 import transformer from "./transformer/index.mjs";
+import updateDOM from "./renders/update-dom.mjs";
 
 export default function compiler(options) {
   return function compile(input) {
@@ -17,11 +18,15 @@ export default function compiler(options) {
       domTree,
 
       toDOM() {
-        return toDOM(domTree);
+        return toDOM(domTree, options);
       },
 
       toString() {
-        return toString(domTree);
+        return toString(domTree, options);
+      },
+
+      updateDOM(root) {
+        return updateDOM(root, domTree, options);
       },
     };
   };

@@ -1,10 +1,15 @@
 /* eslint-env browser */
 
-export default function toDOM(node) {
-  const element = document.createElementNS(
-    "http://www.w3.org/1998/Math/MathML",
-    node.tag,
-  );
+const NS = "http://www.w3.org/1998/Math/MathML";
+
+export default function toDOM(node, { bare } = {}) {
+  let element;
+
+  if (node.tag === "math" && bare) {
+    element = document.createDocumentFragment();
+  } else {
+    element = document.createElementNS(NS, node.tag);
+  }
 
   if (node.attrs) {
     for (const [name, value] of Object.entries(node.attrs)) {

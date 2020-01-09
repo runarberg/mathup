@@ -3,6 +3,7 @@ import compiler from "./compiler/index.mjs";
 export default function mathup(
   input,
   {
+    bare = false,
     dir = null,
     display = null,
 
@@ -12,6 +13,7 @@ export default function mathup(
   } = {},
 ) {
   const options = {
+    bare,
     dir,
     display,
 
