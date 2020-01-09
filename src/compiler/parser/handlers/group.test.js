@@ -80,6 +80,26 @@ test("group with one sep", t => {
   });
 });
 
+test("unclosed group with one sep", t => {
+  const tokens = [
+    { type: "paren.open", value: "foo" },
+    { type: "sep.col", value: "," },
+  ];
+
+  const { end, node } = group({ start: 0, tokens });
+
+  t.true(end >= 2);
+  t.deepEqual(node, {
+    type: "FencedGroup",
+    items: [[]],
+    attrs: {
+      seps: [","],
+      open: "foo",
+      close: "",
+    },
+  });
+});
+
 test("group with multiple seps", t => {
   const tokens = [
     { type: "paren.open", value: "" },
@@ -188,6 +208,21 @@ test("matrix groups with items", t => {
   t.true(node.items[0][1].length > 0);
   t.true(node.items[1][0].length > 0);
   t.true(node.items[1][1].length > 0);
+});
+
+test("unclosed matrix with one sep", t => {
+  const tokens = [
+    { type: "paren.open", value: "foo" },
+    { type: "sep.row", value: ";" },
+  ];
+
+  const { end, node } = group({ start: 0, tokens });
+
+  t.true(end >= 2);
+  t.is(node.type, "MatrixGroup");
+  t.is(node.attrs.open, "foo");
+  t.is(node.attrs.close, "");
+  t.deepEqual(node.items, [[[]]]);
 });
 
 test("sparce matrix groups", t => {

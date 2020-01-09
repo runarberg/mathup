@@ -1,9 +1,5 @@
 import expr from "./expr.mjs";
 
-function empty() {
-  return { type: "Term", items: [] };
-}
-
 export default function prefix({ start, tokens }) {
   const token = tokens[start];
   let next = expr({ stack: [], start: start + 1, tokens });
@@ -12,7 +8,8 @@ export default function prefix({ start, tokens }) {
     next = expr({ stack: [], start: next.end, tokens });
   }
 
-  if (token.arity > 1) {
+  // XXX: Arity > 2 not implemented.
+  if (token.arity === 2) {
     if (
       next &&
       next.node &&
@@ -38,15 +35,11 @@ export default function prefix({ start, tokens }) {
       };
     }
 
-    const first = next || { node: empty(), end: start + 1 };
+    const first = next;
     let second = next && expr({ stack: [], start: next.end, tokens });
 
     if (second && second.node && second.node.type === "SpaceLiteral") {
       second = expr({ stack: [], start: second.end, tokens });
-    }
-
-    if (!second) {
-      second = { node: empty(), end: first.end + 1 };
     }
 
     const items =
@@ -94,8 +87,8 @@ export default function prefix({ start, tokens }) {
       name: token.name,
       accent: token.accent,
       attrs: token.attrs,
-      items: [(next && next.node) || empty()],
+      items: [next.node],
     },
-    end: (next && next.end) || start + 1,
+    end: next.end,
   };
 }
