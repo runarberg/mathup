@@ -1,6 +1,3 @@
-/* eslint-env browser */
-/* eslint-disable no-param-reassign */
-
 import toDOM from "./to-dom.mjs";
 
 // eslint-disable-next-line no-empty-function
@@ -22,7 +19,7 @@ function* zip(iterables) {
   }
 }
 
-export default function updateDOM(parent, node, options) {
+export default function updateDOM(parent, node, options = {}) {
   if (!parent) {
     throw new Error("updateDOM called on null");
   }
@@ -31,7 +28,7 @@ export default function updateDOM(parent, node, options) {
     throw new Error("tag name mismatch");
   }
 
-  if (parent.tagName.toLowerCase() !== "math") {
+  if (!(node.tag === "math" && options.bare)) {
     const desiredAttrs = node.attrs || {};
     const removeAttrs = [];
 
@@ -58,22 +55,28 @@ export default function updateDOM(parent, node, options) {
 
   if (["mi", "mn", "mo", "mspace", "mtext"].includes(node.tag)) {
     if (parent.textContent !== node.textContent) {
+      // eslint-disable-next-line no-param-reassign
       parent.textContent = node.textContent;
     }
 
     return;
   }
 
+  // Collect in arrays to prevent the live updating from interfering
+  // with the schedule.
   const appendChilds = [];
   const removeChilds = [];
   const replaceChilds = [];
 
   for (const [child, desired] of zip([parent.children, node.childNodes])) {
     if (!desired) {
+      // parent.removeChild(child);
       removeChilds.push(child);
     } else if (!child) {
+      // parent.appendChild(toDOM(desired, options));
       appendChilds.push(toDOM(desired, options));
     } else if (child.tagName.toLowerCase() !== desired.tag) {
+      // parent.replaceChild(toDOM(desired, options), child);
       replaceChilds.push([child, toDOM(desired, options)]);
     } else {
       updateDOM(child, desired);
