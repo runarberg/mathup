@@ -1,4 +1,6 @@
+.nyc_output/
+coverage/
 demo/
 docs/
-test/
 src/**/*.test.js
+test/
