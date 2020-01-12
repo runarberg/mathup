@@ -8,15 +8,6 @@ export default function groupSep(
     return null;
   }
 
-  if (char.codePointAt(0) === 0x2063) {
-    // INVISIBLE SEPERATOR
-    return {
-      type: "sep.col",
-      value: char,
-      end: start + char.length,
-    };
-  }
-
   const colSepEnd = start + colSep.length;
   const rowSepEnd = start + rowSep.length;
 
