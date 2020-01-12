@@ -7,8 +7,8 @@ const tryColSep = document.getElementById("try-colsep");
 const tryRowSep = document.getElementById("try-rowsep");
 const tryMathUp = tryOutput.querySelector("math-up");
 
-tryMathUp.display = tryDisplay.checked ? tryDisplay.value : "";
-tryMathUp.dir = tryDir.checked ? tryDir.value : "";
+tryMathUp.display = tryDisplay.checked ? tryDisplay.value : null;
+tryMathUp.dir = tryDir.checked ? tryDir.value : null;
 tryMathUp.decimalMark = tryDecimalMark.value;
 tryMathUp.colSep = tryColSep.value;
 tryMathUp.rowSep = tryRowSep.value;
@@ -33,11 +33,11 @@ tryRowSep.addEventListener("change", event => {
 tryDisplay.addEventListener("change", event => {
   const { checked, value } = event.target;
 
-  tryMathUp.display = checked ? value : ".";
+  tryMathUp.display = checked ? value : null;
 });
 
 tryDir.addEventListener("change", event => {
   const { checked, value } = event.target;
 
-  tryMathUp.display = checked ? value : ".";
+  tryMathUp.dir = checked ? value : null;
 });
