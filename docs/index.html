@@ -124,48 +124,72 @@
 
           <h5>Client</h5>
 
-          Download
-          <a
-            href="https://raw.githubusercontent.com/runarberg/mathup/gh-pages/dist/mathup.js"
-            >full</a
-          >
-          or
-          <a
-            href="https://raw.githubusercontent.com/runarberg/mathup/gh-pages/dist/mathup.min.js"
-            >minified</a
-          >
-          and include the script file
+          <p>
+            Download one of the
+            <a href="https://github.com/runarberg/mathup/releases"
+              >released assets</a
+            >
+            and include the <b>module</b>:
+          </p>
 
-          <pre><code>&lt;<span class="hl-tag-name">script</span> <span class="hl-keyword">src</span>=<span class="hl-string">"mathup.js"</span>&gt;&lt;/<span class="hl-tag-name">script</span>&gt;</code></pre>
+          <pre><code>&lt;<span class="hl-tag-name">script</span> <span class="hl-keyword">type</span>=<span class="hl-string">"module"</span> <span class="hl-keyword">src</span>=<span class="hl-string">"mathup.mjs"</span>&gt;&lt;/<span class="hl-tag-name">script</span>&gt;</code></pre>
+
+          <p>…the <b>custom element</b>:</p>
+
+          <pre><code>&lt;<span class="hl-tag-name">script</span> <span class="hl-keyword">type</span>=<span class="hl-string">"module"</span> <span class="hl-keyword">src</span>=<span class="hl-string">"math-up-element.mjs"</span>&gt;&lt;/<span class="hl-tag-name">script</span>&gt;</code></pre>
+
+          <p>…or the <b>script</b>:</p>
+
+          <pre><code>&lt;<span class="hl-tag-name">script</span> <span class="hl-keyword">src</span>=<span class="hl-string">"mathup.iife.js"</span>&gt;&lt;/<span class="hl-tag-name">script</span>&gt;</code></pre>
         </section>
 
         <section id="usage">
           <h4>Usage</h4>
 
-          <pre><code><!--
-         --><span class="hl-keyword">const</span> expression = <span class="hl-string">"1+1 = 2"</span>;
-<!--     --><span class="hl-keyword">const</span> options = {};  <span class="hl-comment">// optional</span>
-<!--     --><span class="hl-keyword">const</span> mathml = mathup(expression, options);
+          <section id="usage/default">
+            <pre><code><!--
+           --><span class="hl-keyword">const</span> expression = <span class="hl-string">"1+1 = 2"</span>;
+<!--       --><span class="hl-keyword">const</span> options = {};  <span class="hl-comment">// optional</span>
+<!--       --><span class="hl-keyword">const</span> mathml = mathup(expression, options);
 
-<!--     -->mathml.toString();
-<!--     --><span class="hl-comment">// =&gt; "&lt;math&gt;&lt;mrow&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/math&gt;"</span>
+<!--       -->mathml.toString();
+<!--       --><span class="hl-comment">// =&gt; "&lt;math&gt;&lt;mrow&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mn&gt;1&lt;/mn&gt;&lt;/mrow&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/math&gt;"</span>
 
-<!--     --><span class="hl-keyword">const</span> mathNode = mathml.toDOM();
-<!--     --><span class="hl-comment">// =&gt; [object MathMLElement]</span>
+<!--       --><span class="hl-keyword">const</span> mathNode = mathml.toDOM();
+<!--       --><span class="hl-comment">// =&gt; [object MathMLElement]</span>
 
-<!--     --><span class="hl-comment">// Update existing &lt;math&gt; node in place</span>
-<!--     -->mathup(<span class="hl-string">"3-2 = 1"</span>, { bare: <span class="hl-literal">true</span> }).updateDOM(mathNode);
-<!--  --></code></pre>
+<!--       --><span class="hl-comment">// Update existing &lt;math&gt; node in place</span>
+<!--       -->mathup(<span class="hl-string">"3-2 = 1"</span>, { bare: <span class="hl-literal">true</span> }).updateDOM(mathNode);
+<!--    --></code></pre>
+          </section>
 
-          <p>Or on the command line</p>
+          <section id="usage/custom-element">
+            <h5>Custom Element</h5>
 
-          <pre><code><!--
-         -->npm install -g mathup
-<!--     -->mathup [options] -- &lt;expression&gt;
+            <pre><code><!--
+           -->&lt;<span class="hl-tag-name">math-up</span>
+<!--       -->  <span class="hl-keyword">display</span>=<span class="hl-string">"block"</span>
+<!--       -->  <span class="hl-keyword">dir</span>=<span class="hl-string">"ltr"</span>
+<!--       -->  <span class="hl-keyword">decimal-mark</span>=<span class="hl-string">","</span>
+<!--       -->  <span class="hl-keyword">col-sep</span>=<span class="hl-string">";"</span>
+<!--       -->  <span class="hl-keyword">row-sep</span>=<span class="hl-string">";;"</span>
+<!--       -->&gt;
+<!--       -->  1+1 = 2
+<!--       -->&lt;/<span class="hl-tag-name">math-up</span>&gt;<!--
+         --></code></pre>
+          </section>
 
-<!--     --><span class="hl-comment"># or from stdin</span>
-<!--     --><span class="hl-built-in">echo</span> &lt;expression&gt; <span class="hl-keyword">|</span> mathup [options]<!--
-       --></code></pre>
+          <section id="usage/command-line">
+            <h5>Command line</h5>
+
+            <pre><code><!--
+           -->npm install -g mathup
+<!--       -->mathup [options] -- &lt;expression&gt;
+
+<!--       --><span class="hl-comment"># or from stdin</span>
+<!--       --><span class="hl-built-in">echo</span> &lt;expression&gt; <span class="hl-keyword">|</span> mathup [options]<!--
+         --></code></pre>
+          </section>
         </section>
 
         <section id="options">
