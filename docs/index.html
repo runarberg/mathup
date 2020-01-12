@@ -922,7 +922,7 @@
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  P_k(x) = f(a) + f'(a)(x-a) + (f''(a))/2! (x-a)^2 + cdots + (f^(k)(a))/k! (x-a)^k
+                  P_k(x) = f(a) + f'(a)(x-a) + f''(a) / 2! (x-a)^2 + cdots + f^(k)(a) / k! (x-a)^k
                 </use-example>
               </li>
               <li>
@@ -934,7 +934,7 @@
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  oint_(del S) bf F * d bf s = dint_S grad xx bf`F` * d bf s
+                  oint_(del S) bf F * d bf s = dint_S grad xx bf F * d bf s
                 </use-example>
               </li>
             </ul>
@@ -1262,7 +1262,7 @@
           <aside class="examples">
             <ul>
               <li><use-example>tan = sin/cos</use-example></li>
-              <li><use-example>sinh x = (e^x - e^(-x)) / 2</use-example></li>
+              <li><use-example>sinh x = (e^x - e^ -x) / 2</use-example></li>
               <li><use-example>ln x/y = ln x - ln y</use-example></li>
               <li>
                 <!-- prettier-ignore -->
@@ -1295,7 +1295,7 @@
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  obrace(a\`↑↑`b = ubrace(a^ a^ ⋰^ a)._(b  "times")).^"" "up-arrow" notation ""
+                  obrace(a\`↑↑`b = ubrace(a^a^⋰^a)._(b  "times")).^"" "up-arrow" notation ""
                 </use-example>
               </li>
             </ul>
@@ -1417,21 +1417,44 @@
           </p>
 
           <p>
-            You can strategically place whitespace between the sub/sup, or
-            under/over character and the surrounding sub expressions just like
-            with fractions, e.g. <code>e^ -x</code>
-            yields
+            Unlike fractions, sub/super and under/overscripts are
+            <a href="https://en.wikipedia.org/wiki/Operator_associativity"
+              >right-associative</a
+            >
+            and take precedence over fractions. You can strategically place
+            whitespace between the sub/sup, or under/over character and the
+            surrounding sub expressions just like with fractions, e.g.
+            <code>e^ -1/2</code> yields
             <math>
               <msup>
                 <mi>e</mi>
-                <mrow><mo>-</mo><mi>x</mi> </mrow>
-              </msup> </math
-            >.
+                <mrow>
+                  <mo>-</mo>
+                  <mfrac>
+                    <mn>1</mn>
+                    <mn>2</mn>
+                  </mfrac>
+                </mrow>
+              </msup>
+            </math>
+            , while <code>e^ -1 / 2</code> yields
+            <math>
+              <mfrac>
+                <msup>
+                  <mi>e</mi>
+                  <mrow><mo>-</mo><mn>1</mn></mrow>
+                </msup>
+                <mn>2</mn>
+              </mfrac>
+            </math>
+            .
           </p>
 
           <aside class="examples">
             <ul>
-              <li><use-example>2^ 2^ 2^ 2</use-example></li>
+              <li><use-example>2^2^2^2</use-example></li>
+              <li><use-example>a^2/b^2</use-example></li>
+              <li><use-example>e^ -1/x</use-example></li>
               <li><use-example>a^2 + b^2 = c^2</use-example></li>
 
               <!-- prettier-ignore -->
@@ -1610,14 +1633,14 @@
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  {x ∈ X : a &lt; x &lt; b} = \]{: a, b :}\[
+                  {x ∈ X :  a &lt; x &lt; b} = \]{: a, b :}\[
                 </use-example>
               </li>
 
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  (: V(t)^2 :) = lim_(T-&gt;oo) 1/T int_(-T/2)^(T/2) V(t)^2  dt
+                  (: V(t)^2 :) = lim_ T-&gt;oo 1/T int_ -T/2 ^ T/2 V(t)^2  dt
                 </use-example>
               </li>
             </ul>
