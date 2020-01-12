@@ -34,6 +34,11 @@ export default class MathUpElement extends HTMLElement {
   }
 
   update() {
+    if (this.updateRequest) {
+      // Only perform once per animation frame.
+      window.cancelAnimationFrame(this.updateRequest);
+    }
+
     const input = this.textContent;
     const options = {
       decimalMark: this.decimalMark,
@@ -45,7 +50,9 @@ export default class MathUpElement extends HTMLElement {
 
     const mathNode = this.shadowRoot.querySelector("math");
 
-    mathup(input, options).updateDOM(mathNode);
+    this.updateRequest = window.requestAnimationFrame(() => {
+      mathup(input, options).updateDOM(mathNode);
+    });
   }
 
   static get observedAttributes() {
