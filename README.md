@@ -150,7 +150,7 @@ I wrote this tool, because I wanted to be able to author mathematical
 expressions quickly, with no overhead (imagine `1/2` instead of
 `\frac{1}{2}`). TeΧ expressions can easily become verbose and annoying
 to write (especially on keyboards with complex access to the
-<kbd>\</kbd>, <kbd>{</kbd>, and <kbd>}</kbd> keys). However, the
+<kbd> \ </kbd>, <kbd>{</kbd>, and <kbd>}</kbd> keys). However, the
 purpose of this package is *not* to give people complete control over
 MathML in a non-verbose way, the purpose is to make it simple for
 people to write simple expression. Of course I’ll try to give as much
