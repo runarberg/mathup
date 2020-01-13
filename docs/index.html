@@ -673,26 +673,6 @@
                 <math><mo>⋄</mo></math>
               </dd>
 
-              <dt><code>|~</code></dt>
-              <dd>
-                <math><mo>⌈</mo></math>
-              </dd>
-
-              <dt><code>~|</code></dt>
-              <dd>
-                <math><mo>⌉</mo></math>
-              </dd>
-
-              <dt><code>|__</code></dt>
-              <dd>
-                <math><mo>⌊</mo></math>
-              </dd>
-
-              <dt><code>__|</code></dt>
-              <dd>
-                <math><mo>⌋</mo></math>
-              </dd>
-
               <dt><code>square</code></dt>
               <dd>
                 <math><mo>□</mo></math>
@@ -1525,11 +1505,12 @@
           <p>
             You denote an unfenced group with <code>{:</code> and
             <code>:}</code>. You are free to surround the unfenced group with
-            arbitrary operators and the will become the new fence. Fore example
-            if you need an open parentesis to close a group, you can represent
-            them as operators like so
-            <code>{x ∈ X : a &lt; x &lt; b} = \]{: a, b :}\[</code>.
+            arbitrary operators and the will become the new fence. For example
+            if you need an open parenthesis to close a group, you can represent
+            them as operators like so:
           </p>
+
+          <pre><code>\]{: a, b :}\[</code></pre>
 
           <details>
             <summary>Additional fences</summary>
@@ -1590,6 +1571,28 @@
                   </mrow>
                 </math>
               </dd>
+
+              <dt><code>|~x~|</code></dt>
+              <dd>
+                <math>
+                  <mrow>
+                    <mo fence="true">⌈</mo>
+                    <mi>x</mi>
+                    <mo fence="true">⌉</mo>
+                  </mrow>
+                </math>
+              </dd>
+
+              <dt><code>|__x__|</code></dt>
+              <dd>
+                <math>
+                  <mrow>
+                    <mo fence="true">⌊</mo>
+                    <mi>x</mi>
+                    <mo fence="true">⌋</mo>
+                  </mrow>
+                </math>
+              </dd>
             </dl>
           </details>
 
@@ -1614,36 +1617,44 @@
               <dt><code>abs x</code></dt>
               <dd>
                 <math>
-                  <mo fence="true">|</mo>
-                  <mi>x</mi>
-                  <mo fence="true">|</mo>
+                  <mrow>
+                    <mo fence="true">|</mo>
+                    <mi>x</mi>
+                    <mo fence="true">|</mo>
+                  </mrow>
                 </math>
               </dd>
 
               <dt><code>norm x</code></dt>
               <dd>
                 <math>
-                  <mo fence="true">∥</mo>
-                  <mi>x</mi>
-                  <mo fence="true">∥</mo>
-                </math>
-              </dd>
-
-              <dt><code>floor x</code></dt>
-              <dd>
-                <math>
-                  <mo fence="true">⌊</mo>
-                  <mi>x</mi>
-                  <mo fence="true">⌋</mo>
+                  <mrow>
+                    <mo fence="true">∥</mo>
+                    <mi>x</mi>
+                    <mo fence="true">∥</mo>
+                  </mrow>
                 </math>
               </dd>
 
               <dt><code>ceil x</code></dt>
               <dd>
                 <math>
-                  <mo fence="true">⌈</mo>
-                  <mi>x</mi>
-                  <mo fence="true">⌉</mo>
+                  <mrow>
+                    <mo fence="true">⌈</mo>
+                    <mi>x</mi>
+                    <mo fence="true">⌉</mo>
+                  </mrow>
+                </math>
+              </dd>
+
+              <dt><code>floor x</code></dt>
+              <dd>
+                <math>
+                  <mrow>
+                    <mo fence="true">⌊</mo>
+                    <mi>x</mi>
+                    <mo fence="true">⌋</mo>
+                  </mrow>
                 </math>
               </dd>
             </dl>
@@ -1667,7 +1678,7 @@
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  (: V(t)^2 :) = lim_ T-&gt;oo 1/T int_ -T/2 ^ T/2 V(t)^2  dt
+                  &lt;&lt;V(t)^2&gt;&gt; = lim_ T-&gt;oo 1/T int _ -T/2 ^ T/2 V(t)^2  dt
                 </use-example>
               </li>
             </ul>

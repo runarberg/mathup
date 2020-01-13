@@ -209,7 +209,6 @@ export const KNOWN_OPS = new Map([
   ["TT", { value: "⊤" }],
   ["^^", { value: "∧" }],
   ["^^^", { value: "⋀" }],
-  ["__|", { value: "⌋" }],
   ["_|_", { value: "⊥" }],
   ["aleph", { value: "ℵ" }],
   ["and", { value: "and" }],
@@ -262,11 +261,28 @@ export const KNOWN_OPS = new Map([
   ["|==", { value: "⊨" }],
   ["|><", { value: "⋉" }],
   ["|><|", { value: "⋈" }],
-  ["|__", { value: "⌊" }],
-  ["|~", { value: "⌈" }],
   ["~=", { value: "≅" }],
-  ["~|", { value: "⌉" }],
   ["~~", { value: "≈" }],
+]);
+
+export const KNOWN_PARENS_OPEN = new Map([
+  ["(:", { value: "⟨" }],
+  ["<<", { value: "⟨" }],
+  ["{:", { value: "" }],
+  ["|(", { value: "|" }],
+  ["|__", { value: "⌊" }],
+  ["||(", { value: "∥" }],
+  ["|~", { value: "⌈" }],
+]);
+
+export const KNOWN_PARENS_CLOSE = new Map([
+  [")|", { value: "|" }],
+  [")||", { value: "∥" }],
+  [":)", { value: "⟩" }],
+  [":}", { value: "" }],
+  [">>", { value: "⟩" }],
+  ["__|", { value: "⌋" }],
+  ["~|", { value: "⌉" }],
 ]);
 
 export const KNOWN_PREFIX = new Map([

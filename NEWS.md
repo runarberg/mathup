@@ -4,6 +4,22 @@ mathup v.next Release Notes
 Language Changes
 ----------------
 
+* The following floor and ceil operators are now considered fences.
+  - `|__` ⇒ ⌊
+  - `__|` ⇒ ⌋
+  - `|~` ⇒ ⌈
+  - `~|` ⇒ ⌉
+* Added the following fences:
+  - `<<` ⇒ ⟨
+  - `>>` ⇒ ⟩
+
+
+mathup v1.0.0-alpha.2 Release Notes
+===================================
+
+Language Changes
+----------------
+
 * Meaningful identifiers and operators cannot immedietly follow—or be
   followed by—an alphabetic character. E.g. `asinb` will not combine
   the `sin` into a single identifier. Surround the identifier with

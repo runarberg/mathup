@@ -1,44 +1,46 @@
-import { isPunctOpen } from "../lexemes.mjs";
+import { KNOWN_PARENS_OPEN, isPunctOpen } from "../lexemes.mjs";
+
+function parenOpenPotential(partial) {
+  for (const [paren] of KNOWN_PARENS_OPEN) {
+    if (paren.startsWith(partial)) {
+      return true;
+    }
+  }
+
+  return false;
+}
 
 export default function(char, input, { start }) {
-  let end = start + char.length;
   let value = char;
 
-  if (char === "|") {
-    if (input[end] === "(") {
-      return {
-        type: "paren.open",
-        value: "|",
-        end: end + 1,
-      };
-    }
+  if (parenOpenPotential(value)) {
+    let [nextChar] = input.slice(start + value.length);
+    let nextValue = value + nextChar;
 
-    if (input[end] === "|" && input[end + 1] === "(") {
-      return {
-        type: "paren.open",
-        value: "∥",
-        end: end + 2,
-      };
+    while (nextChar && parenOpenPotential(nextValue)) {
+      value += nextChar;
+      [nextChar] = input.slice(start + value.length);
+      nextValue = value + nextChar;
     }
   }
 
-  if (!isPunctOpen(char)) {
-    return null;
+  const known = KNOWN_PARENS_OPEN.get(value);
+
+  if (known) {
+    return {
+      type: "paren.open",
+      value: known.value,
+      end: start + value.length,
+    };
   }
 
-  if (input[end] === ":") {
-    if (char === "(") {
-      value = "⟨";
-      end += 1;
-    } else if (char === "{") {
-      value = "";
-      end += 1;
-    }
+  if (isPunctOpen(char)) {
+    return {
+      type: "paren.open",
+      value,
+      end: start + char.length,
+    };
   }
 
-  return {
-    type: "paren.open",
-    value,
-    end,
-  };
+  return null;
 }
