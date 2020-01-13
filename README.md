@@ -24,26 +24,58 @@ import mathup from "mathup";
 
 ##### Client #####
 
-Download
-[full](https://raw.githubusercontent.com/runarberg/mathup/gh-pages/dist/mathup.js)
-or
-[minified](https://raw.githubusercontent.com/runarberg/mathup/gh-pages/dist/mathup.min.js)
-and include the script file
+Download one of the [released assets](https://github.com/runarberg/mathup/releases)
+and include the **module**:
 
 ```html
-<script src="mathup.js"></script>
+<script type="module" src="mathup.mjs"></script>
+```
+
+…the **custom element**:
+
+```html
+<script type="module" src="math-up-element.mjs"></script>
+```
+
+…or the **script**:
+
+```html
+<script src="mathup.iife.mjs"></script>
 ```
 
 #### Usage ####
 
 ```js
-var mathml = mathup(input [, options]);
+const expression = "1+1 = 2";
+const options = {};  // optional
+const mathml = mathup(expression, options);
 
-console.log(mathml.toString());
-document.body.appendChild(mathml.toDOM());
+mathml.toString();
+// => "<math><mrow><mn>1</mn><mo>+</mo><mn>1</mn></mrow><mo>=</mo><mn>2</mn></math>"
+
+const mathNode = mathml.toDOM();
+// => [object MathMLElement]
+
+// Update existing <math> node in place
+mathup("3-2 = 1", { bare: true }).updateDOM(mathNode);
 ```
 
-Or on the command line
+
+##### Custom Element #####
+
+```html
+<math-up
+  display="inline"
+  dir="ltr"
+  decimal-mark=","
+  col-sep=";"
+  row-sep=";;"
+>
+  1+1 = 2
+</math-up>
+```
+
+##### Command Line #####
 
 ```bash
 npm install -g mathup
@@ -56,18 +88,14 @@ echo <expression> | mathup [options]
 
 #### Options (with defaults) ####
 
-And cli options as inline comments
-
 ```js
-import mathup from "mathup";
-
 const options = {
-    decimalMark: ".",   // -m,  --decimalmark="."
-    colSep: ",",        // -c,  --colsep=","
-    rowSep: ";",        // -r,  --rowsep=";"
-    display: "inline",  // -d,  --display
-    dir: "ltr",         //      --rtl
-    bare: false,        // -b,  --bare
+  decimalMark: ".",   // -m,  --decimalmark="."
+  colSep: ",",        // -c,  --colsep=","
+  rowSep: ";",        // -r,  --rowsep=";"
+  display: "inline",  // -d,  --display
+  dir: "ltr",         //      --rtl
+  bare: false,        // -b,  --bare
 }
 ```
 
@@ -81,19 +109,18 @@ Easy MathML authoring tool with a quick to write syntax
 -------------------------------------------------------
 
 This package exposes a single function `mathup` that intuitively takes
-simple mathematical expressions written in a dialog similar to
-[*AsciiMath*](http://asciimath.org/), and outputs verbose and ugly
-(but structured) [*MathML*](http://www.w3.org/Math/). That is all it
-does.
+simple mathematical expressions—written in a markup language inspired
+by [*AsciiMath*](http://asciimath.org/)—and outputs structured
+[*MathML*](http://www.w3.org/Math/).
 
 You can use it on the command line or on the server as an
-[npm](http://npmjs.com/) package, or in the browser by including the
+[npm](https://npmjs.com) package, or in the browser by including the
 script source. In the browser, you choose how to parse the math in
-your document (by looking hard for any math-y substrings, parsing all
-expressions wrapped in `$`…`$`, or using some other excellent tools
-out there that does it for you). And you can choose what to do with
-the output as well (piping it to another program, calling your
-favorite DOM parser to inject it, or just logging it to the console).
+your document—by looking hard for any math-y substrings, parsing all
+expressions wrapped in `$`…`$`, or using some other excellent tools out
+there that does it for you. And you can choose what to do with the
+output as well—piping it to another program, inject it streight to the
+DOM, or just logging it to the console.
 
 
 Why not just use *MathJax*?
@@ -122,12 +149,13 @@ Why AsciiMath / Why not TeΧ?
 I wrote this tool, because I wanted to be able to author mathematical
 expressions quickly, with no overhead (imagine `1/2` instead of
 `\frac{1}{2}`). TeΧ expressions can easily become verbose and annoying
-to write (especially on keyboards with complex access to the `\`, `{`,
-and `}` keys). However, the purpose of this package is *not* to give
-people complete control over MathML in a non-verbose way, the purpose
-is to make it simple for people to write simple expression. Of course
-I’ll try to give as much expressive power as possible in the way, but
-I won’t promise to make all complex things possible.
+to write (especially on keyboards with complex access to the
+<kbd>\</kbd>, <kbd>{</kbd>, and <kbd>}</kbd> keys). However, the
+purpose of this package is *not* to give people complete control over
+MathML in a non-verbose way, the purpose is to make it simple for
+people to write simple expression. Of course I’ll try to give as much
+expressive power as possible in the way, but I won’t promise to make
+all complex things possible.
 
 If you want full support of MathML, and don’t want to write all those
 tags perhaps you should look for another tool. There are other great
@@ -155,8 +183,10 @@ For a simple test do:
 ./bin/mathup.mjs -- 'my expression'
 ```
 
-You can open a playground and a demo on <http://localhost:8000/demo>
-or the documentation on <http://localhost:8000/docs> with:
+You can open a
+[playground](http://localhost:8000/demo/playground.html) and [test
+cases](http://localhost:8000/demo/test-cases.html) on
+<http://localhost:8000/demo> by running:
 
 ```bash
 npm run server
