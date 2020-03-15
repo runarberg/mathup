@@ -51,6 +51,14 @@
 
           <label for="try-dir">Direction rtl</label>
           <input id="try-dir" type="checkbox" name="dir" value="rtl" />
+
+          <label for="try-polyfill">Polyfill</label>
+          <input
+            id="try-polyfill"
+            type="checkbox"
+            name="polyfill"
+            value="mathjax"
+          />
         </div>
       </div>
 
@@ -107,7 +115,12 @@
           </li>
 
           <li>
-            <a href="https://github.com/runarberg/mathup">Source</a>
+            <a href="https://github.com/runarberg/mathup">Source Code</a>
+            <ul>
+              <li>
+                <a href="https://github.com/runarberg/mathup">GitHub</a>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>
@@ -124,13 +137,55 @@
 
           <h5>Client</h5>
 
-          <p>
-            Download one of the
-            <a href="https://github.com/runarberg/mathup/releases"
-              >released assets</a
-            >
-            and include the <b>module</b>:
-          </p>
+          <p>Download one of the following:</p>
+
+          <ul>
+            <li>
+              Module (<a
+                href="https://cdn.jsdelivr.net/npm/mathup/target/module/mathup.mjs"
+                >full</a
+              >,
+              <a
+                href="https://cdn.jsdelivr.net/npm/mathup/target/module/mathup.min.mjs"
+                >min</a
+              >)
+            </li>
+
+            <li>
+              Script (<a
+                href="https://cdn.jsdelivr.net/npm/mathup/target/browser/mathup.iife.js"
+                >full</a
+              >,
+              <a
+                href="https://cdn.jsdelivr.net/npm/mathup/target/browser/mathup.iife.min.js"
+                >min</a
+              >)
+            </li>
+
+            <li>
+              Custom element as module (<a
+                href="https://cdn.jsdelivr.net/npm/mathup/target/module/math-up-element.mjs"
+                >full</a
+              >,
+              <a
+                href="https://cdn.jsdelivr.net/npm/mathup/target/module/math-up-element.min.mjs"
+                >min</a
+              >)
+            </li>
+
+            <li>
+              Custom element as script (<a
+                href="https://cdn.jsdelivr.net/npm/mathup/target/browser/math-up-element.iife.js"
+                >full</a
+              >,
+              <a
+                href="https://cdn.jsdelivr.net/npm/mathup/target/browser/math-up-element.iife.min.js"
+                >min</a
+              >)
+            </li>
+          </ul>
+
+          <p>…and include the <b>module</b>:</p>
 
           <pre><code>&lt;<span class="hl-tag-name">script</span> <span class="hl-keyword">type</span>=<span class="hl-string">"module"</span> <span class="hl-keyword">src</span>=<span class="hl-string">"mathup.mjs"</span>&gt;&lt;/<span class="hl-tag-name">script</span>&gt;</code></pre>
 
@@ -904,7 +959,7 @@
             <ul>
               <li>
                 <!-- prettier-ignore -->
-                <use-example>
+                <use-example polyfill="polyfill">
                   sum_(n=0)^k a_n = a_0 + a_i + cdots + a_k
                 </use-example>
               </li>
