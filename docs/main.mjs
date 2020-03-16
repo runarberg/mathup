@@ -26,17 +26,17 @@ tryInput.addEventListener("input", async event => {
     return;
   }
 
-  for (const node of tryOutput.querySelectorAll("mjx-container, math")) {
-    node.remove();
-  }
-
   await beforeAnimationFrame();
   await beforeAnimationFrame();
 
   const mathNode = tryMathUp.shadowRoot.querySelector("math");
 
+  for (const node of tryOutput.querySelectorAll("mjx-container, math")) {
+    node.remove();
+  }
+
   tryOutput.appendChild(document.importNode(mathNode, true));
-  window.MathJax.typeset();
+  window.MathJax.typeset([tryOutput]);
 });
 
 tryDecimalMark.addEventListener("change", event => {
