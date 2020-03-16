@@ -118,8 +118,11 @@ h5 {
   font-size: 1.05em;
 }
 
-body > h1 {
+body > header {
   text-align: center;
+}
+
+body > header h1 {
   font-size: 3em;
 }
 
