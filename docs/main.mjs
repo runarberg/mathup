@@ -97,6 +97,8 @@ async function setupPolyfill() {
     tryOutput.appendChild(document.importNode(mathNode, true));
   }
 
+  tryMathUp.style.display = "none";
+
   if (!window.MathJax) {
     if (document.querySelector(`script[src="${MATHJAX_SRC}"]`)) {
       await beforeAnimationFrame();
@@ -105,18 +107,17 @@ async function setupPolyfill() {
       return;
     }
 
-    tryMathUp.style.display = "none";
-
     const script = document.createElement("script");
 
     script.src = MATHJAX_SRC;
     script.async = true;
     document.head.appendChild(script);
     setupPolyfill();
+
     return;
   }
 
-  window.MathJax.typeset();
+  window.MathJax.typeset([tryOutput]);
 }
 
 function removePolyfill() {

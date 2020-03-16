@@ -237,10 +237,11 @@ body > h1 {
 
 .try > .output output {
   display: block;
+  font-size: 1.6em;
 }
 
-.try > .output math-up {
-  font-size: 1.6em;
+.try .polyfill-container {
+  font-size: 0.7em;
 }
 
 article {

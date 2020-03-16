@@ -51,8 +51,13 @@
 
           <label for="try-dir">Direction rtl</label>
           <input id="try-dir" type="checkbox" name="dir" value="rtl" />
+        </div>
+      </div>
 
-          <label for="try-polyfill">Polyfill</label>
+      <div class="output">
+        <p><label for="try-output">…and see</label></p>
+        <output id="try-output"><math-up></math-up></output>
+        <p class="polyfill-container">
           <input
             id="try-polyfill"
             type="checkbox"
@@ -60,12 +65,10 @@
             value="mathjax"
             autocomplete="off"
           />
-        </div>
-      </div>
-
-      <div class="output">
-        <p><label for="try-output">…and see</label></p>
-        <output id="try-output"><math-up></math-up></output>
+          <label for="try-polyfill">
+            Use MathJax instead of native MathML
+          </label>
+        </p>
       </div>
     </section>
 
@@ -960,7 +963,7 @@
             <ul>
               <li>
                 <!-- prettier-ignore -->
-                <use-example polyfill="polyfill">
+                <use-example>
                   sum_(n=0)^k a_n = a_0 + a_i + cdots + a_k
                 </use-example>
               </li>
