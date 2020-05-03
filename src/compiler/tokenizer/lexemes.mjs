@@ -151,6 +151,7 @@ export const KNOWN_IDENTS = new Map([
   ["omega", { value: "ω" }],
   ["oo", { value: "∞" }],
   ["phi", { value: "φ" }],
+  ["phiv", { value: "ϕ" }],
   ["pi", { value: "π" }],
   ["psi", { value: "ψ" }],
   ["rho", { value: "ρ" }],
