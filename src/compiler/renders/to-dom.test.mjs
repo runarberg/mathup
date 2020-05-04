@@ -1,11 +1,11 @@
 /* globals globalThis */
 
 import test from "ava";
-import { JSDOM } from "jsdom";
+import jsdom from "jsdom";
 
 import toDOM from "./to-dom.mjs";
 
-const { window } = new JSDOM();
+const { window } = new jsdom.JSDOM();
 
 test.before("set up DOM", () => {
   globalThis.document = window.document;
