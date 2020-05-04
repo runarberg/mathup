@@ -1,5 +1,5 @@
 export default function literal(tag) {
-  return node => ({
+  return (node) => ({
     tag,
     attrs: node.attrs,
     textContent: node.value,

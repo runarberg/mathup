@@ -1,5 +1,5 @@
 function escapeTextContent(str) {
-  return str.replace(/[&<]/g, c => {
+  return str.replace(/[&<]/g, (c) => {
     if (c === "&") {
       return "&amp;";
     }

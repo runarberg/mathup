@@ -10,7 +10,7 @@ function parenClosePotential(partial) {
   return false;
 }
 
-export default function(char, input, { grouping, start }) {
+export default function (char, input, { grouping, start }) {
   if (!grouping) {
     return null;
   }

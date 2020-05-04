@@ -4,7 +4,7 @@ function notNull(x) {
 
 export default function fencedGroup(node, transform) {
   const cols = node.items
-    .map(col => {
+    .map((col) => {
       if (col.length === 1) {
         return transform(col[0]);
       }

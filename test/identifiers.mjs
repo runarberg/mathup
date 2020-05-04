@@ -1,9 +1,9 @@
 import test from "ava";
 import mathup from "../src/index.mjs";
 
-const render = str => mathup(str).toString();
+const render = (str) => mathup(str).toString();
 
-test("Greeks (uppercase in normal variant, lowercase in italic)", t => {
+test("Greeks (uppercase in normal variant, lowercase in italic)", (t) => {
   t.snapshot(render("Gamma Delta Theta Lambda Xi Pi Sigma Phi Psi Omega"));
   t.snapshot(
     render(
@@ -12,14 +12,14 @@ test("Greeks (uppercase in normal variant, lowercase in italic)", t => {
   );
 });
 
-test("Special", t => {
+test("Special", (t) => {
   t.snapshot(render("oo O/"));
 });
 
-test("Blackboard", t => {
+test("Blackboard", (t) => {
   t.snapshot(render("NN ZZ QQ RR CC"));
 });
 
-test("Should force identifiers with (`)", t => {
+test("Should force identifiers with (`)", (t) => {
   t.snapshot(render("`int`"));
 });

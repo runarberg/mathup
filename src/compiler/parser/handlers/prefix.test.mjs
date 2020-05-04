@@ -2,7 +2,7 @@ import test from "ava";
 
 import prefix from "./prefix.mjs";
 
-test("empty unary", t => {
+test("empty unary", (t) => {
   const tokens = [{ type: "prefix", name: "foo" }];
   const { end, node } = prefix({ start: 0, tokens });
 
@@ -17,7 +17,7 @@ test("empty unary", t => {
   ]);
 });
 
-test("empty binary", t => {
+test("empty binary", (t) => {
   const tokens = [{ type: "prefix", name: "foo", arity: 2 }];
   const { end, node } = prefix({ start: 0, tokens });
 
@@ -36,7 +36,7 @@ test("empty binary", t => {
   ]);
 });
 
-test("single term unary", t => {
+test("single term unary", (t) => {
   const tokens = [
     { type: "prefix", name: "foo" },
     { type: "ident", value: "a" },
@@ -56,7 +56,7 @@ test("single term unary", t => {
   t.is(node.items[0].items[0].type, "IdentLiteral");
 });
 
-test("unary ignores following space", t => {
+test("unary ignores following space", (t) => {
   const tokens = [
     { type: "prefix", name: "foo" },
     { type: "space", value: " " },
@@ -75,7 +75,7 @@ test("unary ignores following space", t => {
   t.is(node.items[0].items[0].type, "IdentLiteral");
 });
 
-test("single term binary", t => {
+test("single term binary", (t) => {
   const tokens = [
     { type: "prefix", name: "foo", arity: 2 },
     { type: "ident", value: "a" },
@@ -96,7 +96,7 @@ test("single term binary", t => {
   t.is(node.items[1].items.length, 0);
 });
 
-test("single term binary with trailing space", t => {
+test("single term binary with trailing space", (t) => {
   const tokens = [
     { type: "prefix", name: "foo", arity: 2 },
     { type: "space", value: " " },
@@ -119,7 +119,7 @@ test("single term binary with trailing space", t => {
   t.is(node.items[1].items.length, 0);
 });
 
-test("dual term binary", t => {
+test("dual term binary", (t) => {
   const tokens = [
     { type: "prefix", name: "foo", arity: 2 },
     { type: "ident", value: "a" },
@@ -145,7 +145,7 @@ test("dual term binary", t => {
   t.is(node.items[1].items[0].value, "b");
 });
 
-test("dual term binary root reverses terms", t => {
+test("dual term binary root reverses terms", (t) => {
   const tokens = [
     { type: "prefix", name: "root", arity: 2 },
     { type: "ident", value: "a" },
@@ -171,7 +171,7 @@ test("dual term binary root reverses terms", t => {
   t.is(node.items[1].items[0].value, "a");
 });
 
-test("unary with attrs", t => {
+test("unary with attrs", (t) => {
   const tokens = [{ type: "prefix", name: "foo", attrs: { bar: "baz" } }];
   const { end, node } = prefix({ start: 0, tokens });
 
@@ -181,7 +181,7 @@ test("unary with attrs", t => {
   t.deepEqual(node.attrs, { bar: "baz" });
 });
 
-test("binary with attrs", t => {
+test("binary with attrs", (t) => {
   const tokens = [
     { type: "prefix", name: "foo", arity: 2, attrs: { bar: "baz" } },
   ];
@@ -193,7 +193,7 @@ test("binary with attrs", t => {
   t.deepEqual(node.attrs, { bar: "baz" });
 });
 
-test("unary with accent", t => {
+test("unary with accent", (t) => {
   const tokens = [{ type: "prefix", name: "foo", accent: "bar" }];
   const { end, node } = prefix({ start: 0, tokens });
 
@@ -203,7 +203,7 @@ test("unary with accent", t => {
   t.is(node.accent, "bar");
 });
 
-test("a fenced unary", t => {
+test("a fenced unary", (t) => {
   const tokens = [
     { type: "prefix", name: "foo" },
     { type: "paren.open", value: "(" },
@@ -223,7 +223,7 @@ test("a fenced unary", t => {
   t.is(node.items[0].items.length, 3);
 });
 
-test("a fenced binary", t => {
+test("a fenced binary", (t) => {
   const tokens = [
     { type: "prefix", name: "foo", arity: 2 },
     { type: "paren.open", value: "(" },
@@ -249,7 +249,7 @@ test("a fenced binary", t => {
   t.is(node.items[1].items[0].value, "b");
 });
 
-test("a fenced binary root reverses terms", t => {
+test("a fenced binary root reverses terms", (t) => {
   const tokens = [
     { type: "prefix", name: "root", arity: 2 },
     { type: "paren.open", value: "(" },
@@ -275,7 +275,7 @@ test("a fenced binary root reverses terms", t => {
   t.is(node.items[1].items[0].value, "a");
 });
 
-test("a fenced binary left empty", t => {
+test("a fenced binary left empty", (t) => {
   const tokens = [
     { type: "prefix", name: "foo", arity: 2 },
     { type: "paren.open", value: "(" },
@@ -292,7 +292,7 @@ test("a fenced binary left empty", t => {
   t.is(node.items.length, 2);
 });
 
-test("a fenced binary right empty", t => {
+test("a fenced binary right empty", (t) => {
   const tokens = [
     { type: "prefix", name: "foo", arity: 2 },
     { type: "paren.open", value: "(" },
@@ -309,7 +309,7 @@ test("a fenced binary right empty", t => {
   t.is(node.items.length, 2);
 });
 
-test("a fenced unary with attrs", t => {
+test("a fenced unary with attrs", (t) => {
   const tokens = [
     { type: "prefix", name: "foo", attrs: { bar: "baz" } },
     { type: "paren.open", value: "(" },
@@ -324,7 +324,7 @@ test("a fenced unary with attrs", t => {
   t.deepEqual(node.attrs, { bar: "baz" });
 });
 
-test("a fenced binary with attrs", t => {
+test("a fenced binary with attrs", (t) => {
   const tokens = [
     { type: "prefix", name: "foo", arity: 2, attrs: { bar: "baz" } },
     { type: "paren.open", value: "(" },
@@ -337,7 +337,7 @@ test("a fenced binary with attrs", t => {
   t.deepEqual(node.attrs, { bar: "baz" });
 });
 
-test("a fenced unary with accent", t => {
+test("a fenced unary with accent", (t) => {
   const tokens = [
     { type: "prefix", name: "foo", accent: "bar" },
     { type: "paren.open", value: "(" },
@@ -352,7 +352,7 @@ test("a fenced unary with accent", t => {
   t.is(node.accent, "bar");
 });
 
-test("a fenced unboxed unary", t => {
+test("a fenced unboxed unary", (t) => {
   const tokens = [
     { type: "prefix", name: "foo" },
     { type: "paren.open", value: "(" },

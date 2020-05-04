@@ -1,11 +1,11 @@
 import test from "ava";
 import quote from "./quote.mjs";
 
-test("rejects non-quote", t => {
+test("rejects non-quote", (t) => {
   t.is(quote("a", 'a "b" c', { start: 0 }), null);
 });
 
-test("fenced", t => {
+test("fenced", (t) => {
   t.deepEqual(quote('"', '"a bc"', { start: 0 }), {
     type: "text",
     value: "a bc",
@@ -13,7 +13,7 @@ test("fenced", t => {
   });
 });
 
-test("fenced no-close", t => {
+test("fenced no-close", (t) => {
   t.deepEqual(quote('"', '"foo bar', { start: 0 }), {
     type: "text",
     value: "foo bar",
@@ -21,7 +21,7 @@ test("fenced no-close", t => {
   });
 });
 
-test("fenced with inner backtics", t => {
+test("fenced with inner backtics", (t) => {
   t.deepEqual(quote('"', '"" "int" ""', { start: 0 }), {
     type: "text",
     value: '"int"',

@@ -1,11 +1,11 @@
 import test from "ava";
 import alpha from "./alpha.mjs";
 
-test("rejects non-alpha", t => {
+test("rejects non-alpha", (t) => {
   t.is(alpha(" ", " a bc", { start: 0 }), null);
 });
 
-test("single alpha is ident", t => {
+test("single alpha is ident", (t) => {
   const token = alpha("a", " a bc", { start: 1 });
 
   t.is(token.type, "ident");
@@ -14,7 +14,7 @@ test("single alpha is ident", t => {
   t.is(token.split, true);
 });
 
-test("subsequent alphas are separate ident", t => {
+test("subsequent alphas are separate ident", (t) => {
   const token = alpha("b", "bc ", { start: 0 });
 
   t.is(token.type, "ident");
@@ -23,7 +23,7 @@ test("subsequent alphas are separate ident", t => {
   t.is(token.split, true);
 });
 
-test("stops scanning on numeric", t => {
+test("stops scanning on numeric", (t) => {
   const token = alpha("d", "de2", { start: 0 });
 
   t.is(token.type, "ident");
@@ -32,7 +32,7 @@ test("stops scanning on numeric", t => {
   t.is(token.split, true);
 });
 
-test("trailing alphas", t => {
+test("trailing alphas", (t) => {
   const token = alpha("a", " abc", { start: 1 });
 
   t.is(token.type, "ident");
@@ -41,7 +41,7 @@ test("trailing alphas", t => {
   t.is(token.split, true);
 });
 
-test("known ident maps", t => {
+test("known ident maps", (t) => {
   const token = alpha("p", "pi", { start: 0 });
 
   t.is(token.type, "ident");
@@ -50,7 +50,7 @@ test("known ident maps", t => {
   t.falsy(token.split);
 });
 
-test("known ident greedy", t => {
+test("known ident greedy", (t) => {
   const token = alpha("s", "sinh", { start: 0 });
 
   t.is(token.type, "ident");
@@ -59,7 +59,7 @@ test("known ident greedy", t => {
   t.falsy(token.split);
 });
 
-test("substrings are not known idents", t => {
+test("substrings are not known idents", (t) => {
   const token = alpha("s", "sinfoo", { start: 0 });
 
   t.is(token.type, "ident");
@@ -68,7 +68,7 @@ test("substrings are not known idents", t => {
   t.is(token.split, true);
 });
 
-test("known ident with symbol", t => {
+test("known ident with symbol", (t) => {
   const token = alpha("O", "O/", { start: 0 });
 
   t.is(token.type, "ident");
@@ -77,7 +77,7 @@ test("known ident with symbol", t => {
   t.falsy(token.split);
 });
 
-test("known ident with symbol cannot be followed with an alphanum", t => {
+test("known ident with symbol cannot be followed with an alphanum", (t) => {
   const token = alpha("O", "O/1", { start: 0 });
 
   t.is(token.type, "ident");
@@ -86,7 +86,7 @@ test("known ident with symbol cannot be followed with an alphanum", t => {
   t.is(token.split, true);
 });
 
-test("known operators", t => {
+test("known operators", (t) => {
   const token = alpha("n", "not", { start: 0 });
 
   t.is(token.type, "operator");
@@ -95,7 +95,7 @@ test("known operators", t => {
   t.falsy(token.split);
 });
 
-test("known operator with symbol", t => {
+test("known operator with symbol", (t) => {
   const token = alpha("o", "o+", { start: 0 });
 
   t.is(token.type, "operator");
@@ -104,7 +104,7 @@ test("known operator with symbol", t => {
   t.falsy(token.split);
 });
 
-test("known operator with symbol cannot be followed by an alphanum", t => {
+test("known operator with symbol cannot be followed by an alphanum", (t) => {
   const token = alpha("o", "o+o", { start: 0 });
 
   t.is(token.type, "ident");

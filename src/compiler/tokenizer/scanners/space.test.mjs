@@ -1,11 +1,11 @@
 import test from "ava";
 import space from "./space.mjs";
 
-test("rejects non-space", t => {
+test("rejects non-space", (t) => {
   t.is(space("a", "a b", { start: 0 }), null);
 });
 
-test("single space", t => {
+test("single space", (t) => {
   t.deepEqual(space(" ", "a b", { start: 1 }), {
     type: "space",
     value: " ",
@@ -13,7 +13,7 @@ test("single space", t => {
   });
 });
 
-test("subsequent spaces", t => {
+test("subsequent spaces", (t) => {
   t.deepEqual(space(" ", "a   b", { start: 1 }), {
     type: "space",
     value: "   ",
@@ -21,7 +21,7 @@ test("subsequent spaces", t => {
   });
 });
 
-test("trailing spaces", t => {
+test("trailing spaces", (t) => {
   t.deepEqual(space(" ", "a  ", { start: 1 }), {
     type: "space",
     value: "  ",

@@ -1,7 +1,7 @@
 import test from "ava";
 import tokenizer from "./index.mjs";
 
-test("infix", t => {
+test("infix", (t) => {
   const tokenize = tokenizer();
 
   t.deepEqual(
@@ -20,7 +20,7 @@ test("infix", t => {
   );
 });
 
-test("infix modified", t => {
+test("infix modified", (t) => {
   const tokenize = tokenizer();
 
   t.deepEqual(
@@ -39,7 +39,7 @@ test("infix modified", t => {
   );
 });
 
-test("operators", t => {
+test("operators", (t) => {
   const tokenize = tokenizer();
 
   t.deepEqual(

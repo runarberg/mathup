@@ -4,12 +4,12 @@ import toDOM from "./to-dom.mjs";
 function* nullIter() {}
 
 function* zip(iterables) {
-  const iterators = iterables.map(iterable =>
+  const iterators = iterables.map((iterable) =>
     iterable ? iterable[Symbol.iterator]() : nullIter(),
   );
 
   while (true) {
-    const next = iterators.map(iterator => iterator.next());
+    const next = iterators.map((iterator) => iterator.next());
 
     if (next.every(({ done }) => done)) {
       return;

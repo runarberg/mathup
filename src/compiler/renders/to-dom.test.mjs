@@ -11,7 +11,7 @@ test.before("set up DOM", () => {
   globalThis.document = window.document;
 });
 
-test("empty expression", t => {
+test("empty expression", (t) => {
   const nodeTree = {
     tag: "math",
     childNodes: [],
@@ -26,7 +26,7 @@ test("empty expression", t => {
   t.is(domNode.textContent, "");
 });
 
-test("empty expression with attributes", t => {
+test("empty expression with attributes", (t) => {
   const nodeTree = {
     tag: "math",
     attrs: { display: "block" },
@@ -42,7 +42,7 @@ test("empty expression with attributes", t => {
   t.is(domNode.childNodes.length, 0);
 });
 
-test("expression with children", t => {
+test("expression with children", (t) => {
   const nodeTree = {
     tag: "math",
     childNodes: [
@@ -84,7 +84,7 @@ test("expression with children", t => {
   t.is(mn.textContent, "42");
 });
 
-test("bare expression", t => {
+test("bare expression", (t) => {
   const nodeTree = {
     tag: "math",
     childNodes: [

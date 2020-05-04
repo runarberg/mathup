@@ -7,7 +7,7 @@ import {
   isMark,
 } from "../lexemes.mjs";
 
-export default function(char, input, { start }) {
+export default function (char, input, { start }) {
   if (!isAlphabetic(char)) {
     return null;
   }

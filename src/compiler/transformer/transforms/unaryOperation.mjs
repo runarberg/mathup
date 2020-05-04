@@ -26,7 +26,7 @@ export default function unaryOperation(node, transform) {
   }
 
   if (node.name === "style" && node.items.length === 1) {
-    const addStyleAttrs = childNode => {
+    const addStyleAttrs = (childNode) => {
       if (canApplyVariant(childNode)) {
         return {
           ...childNode,

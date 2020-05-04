@@ -16,7 +16,7 @@ export default function prefix({ start, tokens }) {
       next.node.type === "FencedGroup" &&
       next.node.items.length === 2
     ) {
-      let items = next.node.items.map(col =>
+      let items = next.node.items.map((col) =>
         col.length === 1 ? col[0] : { type: "Term", items: col },
       );
 
@@ -65,7 +65,7 @@ export default function prefix({ start, tokens }) {
     next.node.items.length === 1
   ) {
     // The operant is not a matrix.
-    const items = next.node.items.map(col =>
+    const items = next.node.items.map((col) =>
       col.length === 1 ? col[0] : { type: "Term", items: col },
     );
 

@@ -1,11 +1,11 @@
 import test from "ava";
 import parenOpen from "./paren-open.mjs";
 
-test("rejects non-open-paren", t => {
+test("rejects non-open-paren", (t) => {
   t.is(parenOpen(" ", "a(b)", { start: 0 }), null);
 });
 
-test("single paren-open", t => {
+test("single paren-open", (t) => {
   t.deepEqual(parenOpen("(", "a(b)", { start: 1 }), {
     type: "paren.open",
     value: "(",
@@ -13,7 +13,7 @@ test("single paren-open", t => {
   });
 });
 
-test("trailing paren-open", t => {
+test("trailing paren-open", (t) => {
   t.deepEqual(parenOpen("(", "a(", { start: 1 }), {
     type: "paren.open",
     value: "(",
@@ -21,7 +21,7 @@ test("trailing paren-open", t => {
   });
 });
 
-test("combined paren-open", t => {
+test("combined paren-open", (t) => {
   t.deepEqual(parenOpen("(", "(:", { start: 0 }), {
     type: "paren.open",
     value: "⟨",
