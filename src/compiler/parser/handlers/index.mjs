@@ -3,7 +3,7 @@ import group from "./group.mjs";
 import prefix from "./prefix.mjs";
 import space from "./space.mjs";
 
-const literal = type => ({ start, tokens }) => {
+const literal = (type) => ({ start, tokens }) => {
   const { value, attrs } = tokens[start];
 
   return {

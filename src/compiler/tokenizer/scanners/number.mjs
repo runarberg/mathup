@@ -1,6 +1,6 @@
 import { isNumeric } from "../lexemes.mjs";
 
-export default function(char, input, { start }, { decimalMark = "." } = {}) {
+export default function (char, input, { start }, { decimalMark = "." } = {}) {
   if (!isNumeric(char)) {
     return null;
   }

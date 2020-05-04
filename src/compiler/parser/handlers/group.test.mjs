@@ -2,7 +2,7 @@ import test from "ava";
 
 import group from "./group.mjs";
 
-test("empty unfenced group", t => {
+test("empty unfenced group", (t) => {
   const tokens = [
     { type: "paren.open", value: "" },
     { type: "paren.close", value: "" },
@@ -22,7 +22,7 @@ test("empty unfenced group", t => {
   });
 });
 
-test("empty fenced group", t => {
+test("empty fenced group", (t) => {
   const tokens = [
     { type: "paren.open", value: "(" },
     { type: "paren.close", value: ")" },
@@ -42,7 +42,7 @@ test("empty fenced group", t => {
   });
 });
 
-test("empty unclosed group", t => {
+test("empty unclosed group", (t) => {
   const tokens = [{ type: "paren.open", value: "" }];
 
   const { end, node } = group({ start: 0, tokens });
@@ -59,7 +59,7 @@ test("empty unclosed group", t => {
   });
 });
 
-test("group with one sep", t => {
+test("group with one sep", (t) => {
   const tokens = [
     { type: "paren.open", value: "" },
     { type: "sep.col", value: "," },
@@ -80,7 +80,7 @@ test("group with one sep", t => {
   });
 });
 
-test("unclosed group with one sep", t => {
+test("unclosed group with one sep", (t) => {
   const tokens = [
     { type: "paren.open", value: "foo" },
     { type: "sep.col", value: "," },
@@ -100,7 +100,7 @@ test("unclosed group with one sep", t => {
   });
 });
 
-test("group with multiple seps", t => {
+test("group with multiple seps", (t) => {
   const tokens = [
     { type: "paren.open", value: "" },
     { type: "sep.col", value: "," },
@@ -122,7 +122,7 @@ test("group with multiple seps", t => {
   t.deepEqual(node.attrs.seps, [",", ","]);
 });
 
-test("unclosed group with multiple seps", t => {
+test("unclosed group with multiple seps", (t) => {
   const tokens = [
     { type: "paren.open", value: "" },
     { type: "sep.col", value: "," },
@@ -143,7 +143,7 @@ test("unclosed group with multiple seps", t => {
   t.deepEqual(node.attrs.seps, [",", ","]);
 });
 
-test("ignores leading spaces", t => {
+test("ignores leading spaces", (t) => {
   const tokens = [
     { type: "paren.open", value: "" },
     { type: "space", value: " " },
@@ -166,7 +166,7 @@ test("ignores leading spaces", t => {
   });
 });
 
-test("matrix groups", t => {
+test("matrix groups", (t) => {
   const tokens = [
     { type: "paren.open", value: "(" },
     { type: "sep.row", value: ";" },
@@ -182,7 +182,7 @@ test("matrix groups", t => {
   t.deepEqual(node.items, [[[]]]);
 });
 
-test("matrix groups with items", t => {
+test("matrix groups with items", (t) => {
   const tokens = [
     { type: "paren.open", value: "(" },
     { type: "ident", value: "foo" },
@@ -210,7 +210,7 @@ test("matrix groups with items", t => {
   t.true(node.items[1][1].length > 0);
 });
 
-test("unclosed matrix with one sep", t => {
+test("unclosed matrix with one sep", (t) => {
   const tokens = [
     { type: "paren.open", value: "foo" },
     { type: "sep.row", value: ";" },
@@ -225,7 +225,7 @@ test("unclosed matrix with one sep", t => {
   t.deepEqual(node.items, [[[]]]);
 });
 
-test("sparce matrix groups", t => {
+test("sparce matrix groups", (t) => {
   const tokens = [
     { type: "paren.open", value: "(" },
     { type: "sep.col", value: "," },
@@ -250,7 +250,7 @@ test("sparce matrix groups", t => {
   t.true(node.items[1][0].length > 0);
 });
 
-test("single line matrix groups", t => {
+test("single line matrix groups", (t) => {
   const tokens = [
     { type: "paren.open", value: "(" },
     { type: "ident", value: "foo" },
@@ -272,7 +272,7 @@ test("single line matrix groups", t => {
   t.true(node.items[0][1].length > 0);
 });
 
-test("unclosed matrix groups", t => {
+test("unclosed matrix groups", (t) => {
   const tokens = [
     { type: "paren.open", value: "(" },
     { type: "ident", value: "foo" },
@@ -293,7 +293,7 @@ test("unclosed matrix groups", t => {
   t.true(node.items[0][1].length > 0);
 });
 
-test("ignores leading spaces in matrix groups", t => {
+test("ignores leading spaces in matrix groups", (t) => {
   const tokens = [
     { type: "paren.open", value: "" },
     { type: "space", value: " " },

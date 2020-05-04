@@ -1,36 +1,36 @@
 import test from "ava";
 import mathup from "../src/index.mjs";
 
-const render = str => mathup(str).toString();
+const render = (str) => mathup(str).toString();
 
-test("Should wrap all expressions in <math>", t => {
+test("Should wrap all expressions in <math>", (t) => {
   t.snapshot(render(""));
 });
 
-test("Should wrap numbers in <mn>", t => {
+test("Should wrap numbers in <mn>", (t) => {
   t.snapshot(render("42"));
 });
 
-test("Should wrap decimals in <mn>", t => {
+test("Should wrap decimals in <mn>", (t) => {
   t.snapshot(render("3.141592654"));
 });
 
-test("Should wrap identifiers in <mi>", t => {
+test("Should wrap identifiers in <mi>", (t) => {
   t.snapshot(render("x"));
   t.snapshot(render("y"));
   t.snapshot(render("a"));
   t.snapshot(render("ni"));
 });
 
-test("Should wrap operatos in <mo>", t => {
+test("Should wrap operatos in <mo>", (t) => {
   t.snapshot(render("+"));
   t.snapshot(render("-"));
 });
 
-test("1+1 = 2", t => {
+test("1+1 = 2", (t) => {
   t.snapshot(render("1+1 = 2"));
 });
 
-test("3-2 = 1", t => {
+test("3-2 = 1", (t) => {
   t.snapshot(render("3-2 = 1"));
 });

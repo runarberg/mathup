@@ -1,11 +1,11 @@
 import test from "ava";
 import octothorpe from "./octothorpe.mjs";
 
-test("rejects non-octothorpe", t => {
+test("rejects non-octothorpe", (t) => {
   t.is(octothorpe("a", "a #b c", { start: 0 }), null);
 });
 
-test("single char", t => {
+test("single char", (t) => {
   t.deepEqual(octothorpe("#", "a #b c", { start: 2 }), {
     type: "number",
     value: "b",
@@ -13,7 +13,7 @@ test("single char", t => {
   });
 });
 
-test("multi chars", t => {
+test("multi chars", (t) => {
   t.deepEqual(octothorpe("#", "a #bcd e", { start: 2 }), {
     type: "number",
     value: "bcd",
@@ -21,7 +21,7 @@ test("multi chars", t => {
   });
 });
 
-test("multi chars trailing", t => {
+test("multi chars trailing", (t) => {
   t.deepEqual(octothorpe("#", "a #bcd", { start: 2 }), {
     type: "number",
     value: "bcd",
@@ -29,7 +29,7 @@ test("multi chars trailing", t => {
   });
 });
 
-test("fenced", t => {
+test("fenced", (t) => {
   t.deepEqual(octothorpe("#", "#`#a bc`", { start: 0 }), {
     type: "number",
     value: "#a bc",
@@ -37,7 +37,7 @@ test("fenced", t => {
   });
 });
 
-test("fenced no-close", t => {
+test("fenced no-close", (t) => {
   t.deepEqual(octothorpe("#", "#`forty two", { start: 0 }), {
     type: "number",
     value: "forty two",
@@ -45,7 +45,7 @@ test("fenced no-close", t => {
   });
 });
 
-test("fenced with inner backtics", t => {
+test("fenced with inner backtics", (t) => {
   t.deepEqual(octothorpe("#", "#`` `42` ``", { start: 0 }), {
     type: "number",
     value: "`42`",

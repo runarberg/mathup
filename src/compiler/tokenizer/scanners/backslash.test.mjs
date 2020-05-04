@@ -1,11 +1,11 @@
 import test from "ava";
 import backslash from "./backslash.mjs";
 
-test("rejects non-backslash", t => {
+test("rejects non-backslash", (t) => {
   t.is(backslash("a", "a \\b c", { start: 0 }), null);
 });
 
-test("single char", t => {
+test("single char", (t) => {
   t.deepEqual(backslash("\\", "a \\b c", { start: 2 }), {
     type: "operator",
     value: "b",
@@ -13,7 +13,7 @@ test("single char", t => {
   });
 });
 
-test("multi chars", t => {
+test("multi chars", (t) => {
   t.deepEqual(backslash("\\", "a \\bcd e", { start: 2 }), {
     type: "operator",
     value: "bcd",
@@ -21,7 +21,7 @@ test("multi chars", t => {
   });
 });
 
-test("multi chars trailing", t => {
+test("multi chars trailing", (t) => {
   t.deepEqual(backslash("\\", "a \\bcd", { start: 2 }), {
     type: "operator",
     value: "bcd",
@@ -29,7 +29,7 @@ test("multi chars trailing", t => {
   });
 });
 
-test("fenced", t => {
+test("fenced", (t) => {
   t.deepEqual(backslash("\\", "\\`\\a bc`", { start: 0 }), {
     type: "operator",
     value: "\\a bc",
@@ -37,7 +37,7 @@ test("fenced", t => {
   });
 });
 
-test("fenced no-close", t => {
+test("fenced no-close", (t) => {
   t.deepEqual(backslash("\\", "\\`foo bar", { start: 0 }), {
     type: "operator",
     value: "foo bar",
@@ -45,7 +45,7 @@ test("fenced no-close", t => {
   });
 });
 
-test("fenced with inner backtics", t => {
+test("fenced with inner backtics", (t) => {
   t.deepEqual(backslash("\\", "\\`` `int` ``", { start: 0 }), {
     type: "operator",
     value: "`int`",

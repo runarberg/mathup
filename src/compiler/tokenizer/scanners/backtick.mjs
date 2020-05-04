@@ -1,6 +1,6 @@
 import { handleBacktick } from "./utils.mjs";
 
-export default function(char, input, { start }) {
+export default function (char, input, { start }) {
   if (char !== "`") {
     return null;
   }

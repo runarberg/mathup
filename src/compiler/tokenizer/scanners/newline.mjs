@@ -1,4 +1,4 @@
-export default function(char, input, { start, grouping }) {
+export default function (char, input, { start, grouping }) {
   if (char !== "\n") {
     return null;
   }

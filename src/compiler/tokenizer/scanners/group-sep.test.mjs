@@ -1,16 +1,16 @@
 import test from "ava";
 import groupSep from "./group-sep.mjs";
 
-test("rejects non-group-sep", t => {
+test("rejects non-group-sep", (t) => {
   t.is(groupSep("a", "(a,b)", { start: 1, grouping: true }), null);
 });
 
-test("rejects group-sep in non-grouping context", t => {
+test("rejects group-sep in non-grouping context", (t) => {
   t.is(groupSep(",", "(a,b)", { start: 2, grouping: false }), null);
   t.is(groupSep(";", "(a;b)", { start: 2, grouping: false }), null);
 });
 
-test("simple col-sep", t => {
+test("simple col-sep", (t) => {
   t.deepEqual(groupSep(",", "(a,b)", { start: 2, grouping: true }), {
     type: "sep.col",
     value: ",",
@@ -18,7 +18,7 @@ test("simple col-sep", t => {
   });
 });
 
-test("simple row-sep", t => {
+test("simple row-sep", (t) => {
   t.deepEqual(groupSep(";", "(a;b)", { start: 2, grouping: true }), {
     type: "sep.row",
     value: ";",
@@ -26,7 +26,7 @@ test("simple row-sep", t => {
   });
 });
 
-test("custom col-sep", t => {
+test("custom col-sep", (t) => {
   t.deepEqual(
     groupSep(
       ";",
@@ -42,7 +42,7 @@ test("custom col-sep", t => {
   );
 });
 
-test("custom row-sep", t => {
+test("custom row-sep", (t) => {
   t.deepEqual(
     groupSep(
       ";",

@@ -17,9 +17,9 @@ export default function matrixGroup(node, transform) {
 
   childNodes.push({
     tag: "mtable",
-    childNodes: node.items.map(row => ({
+    childNodes: node.items.map((row) => ({
       tag: "mtr",
-      childNodes: row.map(col => ({
+      childNodes: row.map((col) => ({
         tag: "mtd",
         childNodes: col.map(transform).filter(notNull),
       })),

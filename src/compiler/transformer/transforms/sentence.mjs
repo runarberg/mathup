@@ -17,6 +17,6 @@ export default function sentence(node, transform, options) {
   return {
     tag: "math",
     attrs,
-    childNodes: node.body.map(transform).filter(x => x !== null),
+    childNodes: node.body.map(transform).filter((x) => x !== null),
   };
 }

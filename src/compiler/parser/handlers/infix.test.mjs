@@ -2,7 +2,7 @@ import test from "ava";
 
 import infix from "./infix.mjs";
 
-test("empty binary infix", t => {
+test("empty binary infix", (t) => {
   const tokens = [{ type: "infix", value: "frac" }];
   const { end, node } = infix({ start: 0, stack: [], tokens });
 
@@ -16,7 +16,7 @@ test("empty binary infix", t => {
   t.is(node.items[1].items.length, 0);
 });
 
-test("empty sup", t => {
+test("empty sup", (t) => {
   const tokens = [{ type: "infix", value: "sup" }];
   const { end, node } = infix({ start: 0, stack: [], tokens });
 
@@ -30,7 +30,7 @@ test("empty sup", t => {
   t.is(node.items[1].items.length, 0);
 });
 
-test("leading frac", t => {
+test("leading frac", (t) => {
   const tokens = [
     { type: "infix", value: "frac" },
     { type: "ident", value: "a" },
@@ -47,7 +47,7 @@ test("leading frac", t => {
   t.is(node.items[1].value, "a");
 });
 
-test("leading sub", t => {
+test("leading sub", (t) => {
   const tokens = [
     { type: "infix", value: "sub" },
     { type: "ident", value: "a" },
@@ -64,7 +64,7 @@ test("leading sub", t => {
   t.is(node.items[1].value, "a");
 });
 
-test("trailing frac", t => {
+test("trailing frac", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "frac" },
@@ -85,7 +85,7 @@ test("trailing frac", t => {
   t.is(node.items[1].items.length, 0);
 });
 
-test("trailing over", t => {
+test("trailing over", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "over" },
@@ -106,7 +106,7 @@ test("trailing over", t => {
   t.is(node.items[1].items.length, 0);
 });
 
-test("simple frac", t => {
+test("simple frac", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "frac" },
@@ -128,7 +128,7 @@ test("simple frac", t => {
   t.is(node.items[1].value, "b");
 });
 
-test("trailing under", t => {
+test("trailing under", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "over" },
@@ -150,7 +150,7 @@ test("trailing under", t => {
   t.is(node.items[1].value, "b");
 });
 
-test("single term subsup", t => {
+test("single term subsup", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "sub" },
@@ -189,7 +189,7 @@ test("single term subsup", t => {
   t.is(node.items[2].value, "c");
 });
 
-test("single term supsub", t => {
+test("single term supsub", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "sup" },
@@ -228,7 +228,7 @@ test("single term supsub", t => {
   t.is(node.items[2].value, "b");
 });
 
-test("single term underover", t => {
+test("single term underover", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "under" },
@@ -267,7 +267,7 @@ test("single term underover", t => {
   t.is(node.items[2].value, "c");
 });
 
-test("single term overunder", t => {
+test("single term overunder", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "over" },
@@ -306,7 +306,7 @@ test("single term overunder", t => {
   t.is(node.items[2].value, "b");
 });
 
-test("frac with space after", t => {
+test("frac with space after", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "frac" },
@@ -331,7 +331,7 @@ test("frac with space after", t => {
   t.is(node.items[1].items.length, 2);
 });
 
-test("sup with space after", t => {
+test("sup with space after", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "sup" },
@@ -356,7 +356,7 @@ test("sup with space after", t => {
   t.is(node.items[1].items.length, 2);
 });
 
-test("frac with space before", t => {
+test("frac with space before", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "ident", value: "b" },
@@ -390,7 +390,7 @@ test("frac with space before", t => {
   t.is(node.items[1].value, "c");
 });
 
-test("under with space before", t => {
+test("under with space before", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "ident", value: "b" },
@@ -424,7 +424,7 @@ test("under with space before", t => {
   t.is(node.items[1].value, "c");
 });
 
-test("removes fences around fracs", t => {
+test("removes fences around fracs", (t) => {
   const tokens = [
     { type: "paren.open", value: "(" },
     { type: "ident", value: "a" },
@@ -470,7 +470,7 @@ test("removes fences around fracs", t => {
   t.is(node.items[1].items[1].value, "d");
 });
 
-test("removes fences around sup exponents", t => {
+test("removes fences around sup exponents", (t) => {
   const tokens = [
     { type: "paren.open", value: "(" },
     { type: "ident", value: "a" },
@@ -515,7 +515,7 @@ test("removes fences around sup exponents", t => {
   t.is(node.items[1].items[1].value, "d");
 });
 
-test("but keeps a singleton exponent in fences", t => {
+test("but keeps a singleton exponent in fences", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "sup" },
@@ -538,7 +538,7 @@ test("but keeps a singleton exponent in fences", t => {
   t.is(node.items[1].attrs.close, ")");
 });
 
-test("but keeps multi-celled in fences", t => {
+test("but keeps multi-celled in fences", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "sub" },
@@ -563,7 +563,7 @@ test("but keeps multi-celled in fences", t => {
   t.is(node.items[1].attrs.close, ")");
 });
 
-test("chains sub sup into subsup ternary", t => {
+test("chains sub sup into subsup ternary", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "sub" },
@@ -592,7 +592,7 @@ test("chains sub sup into subsup ternary", t => {
   t.is(node.items[2].value, "x");
 });
 
-test("chains sup sub into subsup ternary", t => {
+test("chains sup sub into subsup ternary", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "sup" },
@@ -621,7 +621,7 @@ test("chains sup sub into subsup ternary", t => {
   t.is(node.items[2].value, "x");
 });
 
-test("chains under over into underover ternary", t => {
+test("chains under over into underover ternary", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "under" },
@@ -650,7 +650,7 @@ test("chains under over into underover ternary", t => {
   t.is(node.items[2].value, "x");
 });
 
-test("chains over under into underover ternary", t => {
+test("chains over under into underover ternary", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "over" },
@@ -679,7 +679,7 @@ test("chains over under into underover ternary", t => {
   t.is(node.items[2].value, "x");
 });
 
-test("lim subs sub for under", t => {
+test("lim subs sub for under", (t) => {
   const tokens = [
     { type: "operator", value: "lim" },
     { type: "infix", value: "sub" },
@@ -692,7 +692,7 @@ test("lim subs sub for under", t => {
   t.is(node.name, "under");
 });
 
-test("sum subs subsup for underover", t => {
+test("sum subs subsup for underover", (t) => {
   const tokens = [
     { type: "operator", value: "∑" },
     { type: "infix", value: "sub" },
@@ -716,7 +716,7 @@ test("sum subs subsup for underover", t => {
   t.is(node.name, "underover");
 });
 
-test("no subbing sub for under normally", t => {
+test("no subbing sub for under normally", (t) => {
   const tokens = [
     { type: "operator", value: "normal" },
     { type: "infix", value: "sub" },
@@ -729,7 +729,7 @@ test("no subbing sub for under normally", t => {
   t.is(node.name, "sub");
 });
 
-test("left associates fracs", t => {
+test("left associates fracs", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "frac" },
@@ -763,7 +763,7 @@ test("left associates fracs", t => {
   t.is(node.items[1].value, "c");
 });
 
-test("right associates sups", t => {
+test("right associates sups", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "sup" },
@@ -797,7 +797,7 @@ test("right associates sups", t => {
   t.is(node.items[1].items[1].value, "c");
 });
 
-test("right associates sups deeply", t => {
+test("right associates sups deeply", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "sup" },

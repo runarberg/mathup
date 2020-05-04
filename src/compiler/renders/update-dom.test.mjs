@@ -17,15 +17,15 @@ test.before("set up DOM", () => {
   globalThis.document = window.document;
 });
 
-test("fails if no parent", t => {
+test("fails if no parent", (t) => {
   t.throws(() => updateDOM(null));
 });
 
-test("fails if called on detached trees", t => {
+test("fails if called on detached trees", (t) => {
   t.throws(() => updateDOM(createRoot(), { tag: "mn", textContent: "42" }));
 });
 
-test("no root attr change on bare", t => {
+test("no root attr change on bare", (t) => {
   const root = createRoot();
   root.className = "my-math";
 
@@ -38,7 +38,7 @@ test("no root attr change on bare", t => {
   t.is(root.className, "");
 });
 
-test("propagate tree", t => {
+test("propagate tree", (t) => {
   const root = createRoot();
 
   updateDOM(root, {
@@ -59,7 +59,7 @@ test("propagate tree", t => {
   t.is(root.childNodes[2].textContent, "1");
 });
 
-test("updates tree", t => {
+test("updates tree", (t) => {
   const root = createRoot();
 
   updateDOM(root, {
@@ -109,7 +109,7 @@ test("updates tree", t => {
   t.is(mn.textContent, "42");
 });
 
-test("adds attibutes", t => {
+test("adds attibutes", (t) => {
   const root = createRoot();
 
   updateDOM(root, {
@@ -136,7 +136,7 @@ test("adds attibutes", t => {
   t.is(mtext.getAttribute("mathvariant"), "double-struck");
 });
 
-test("replaces an attibutes", t => {
+test("replaces an attibutes", (t) => {
   const root = createRoot();
 
   updateDOM(root, {
@@ -168,7 +168,7 @@ test("replaces an attibutes", t => {
   t.is(mtext.getAttribute("mathvariant"), "bold");
 });
 
-test("removes an attibutes", t => {
+test("removes an attibutes", (t) => {
   const root = createRoot();
 
   updateDOM(root, {
@@ -203,7 +203,7 @@ test("removes an attibutes", t => {
   t.is(mtext.getAttribute("mathvariant"), "bold");
 });
 
-test("alters text content", t => {
+test("alters text content", (t) => {
   const root = createRoot();
 
   updateDOM(root, {
@@ -233,7 +233,7 @@ test("alters text content", t => {
   t.is(mtext.textContent, "baz quux");
 });
 
-test("adds children", t => {
+test("adds children", (t) => {
   const root = createRoot();
 
   updateDOM(root, {
@@ -265,7 +265,7 @@ test("adds children", t => {
   t.is(mrow.children[2].textContent, "1");
 });
 
-test("removes children", t => {
+test("removes children", (t) => {
   const root = createRoot();
 
   updateDOM(root, {
