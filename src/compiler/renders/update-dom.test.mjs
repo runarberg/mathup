@@ -1,12 +1,12 @@
 /* globals globalThis */
 
 import test from "ava";
-import { JSDOM } from "jsdom";
+import jsdom from "jsdom";
 
 import updateDOM from "./update-dom.mjs";
 
 const NS = "http://www.w3.org/1998/Math/MathML";
-const { window } = new JSDOM();
+const { window } = new jsdom.JSDOM();
 const { document } = window;
 
 function createRoot() {
