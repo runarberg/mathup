@@ -166,6 +166,27 @@ export const KNOWN_IDENTS = new Map([
   ["upsilon", { value: "υ" }],
   ["xi", { value: "ξ" }],
   ["zeta", { value: "ζ" }],
+
+  // Colors
+  // We also set attrs so that users will have a preview when
+  // they are used as standalone identifiers.
+  ["aqua", { value: "aqua", attrs: { mathcolor: "aqua" } }],
+  ["black", { value: "black", attrs: { mathcolor: "black" } }],
+  ["blue", { value: "blue", attrs: { mathcolor: "blue" } }],
+  ["fuchsia", { value: "fuchsia", attrs: { mathcolor: "fuchsia" } }],
+  ["gray", { value: "gray", attrs: { mathcolor: "gray" } }],
+  ["green", { value: "green", attrs: { mathcolor: "green" } }],
+  ["lime", { value: "lime", attrs: { mathcolor: "lime" } }],
+  ["maroon", { value: "maroon", attrs: { mathcolor: "maroon" } }],
+  ["navy", { value: "navy", attrs: { mathcolor: "navy" } }],
+  ["olive", { value: "olive", attrs: { mathcolor: "olive" } }],
+  ["purple", { value: "purple", attrs: { mathcolor: "purple" } }],
+  ["red", { value: "red", attrs: { mathcolor: "red" } }],
+  ["silver", { value: "silver", attrs: { mathcolor: "silver" } }],
+  ["teal", { value: "teal", attrs: { mathcolor: "teal" } }],
+  ["white", { value: "white", attrs: { mathcolor: "white" } }],
+  ["yellow", { value: "yellow", attrs: { mathcolor: "yellow" } }],
+  ["transparent", { value: "transparent" }],
 ]);
 
 export const KNOWN_OPS = new Map([
@@ -328,4 +349,10 @@ export const KNOWN_PREFIX = new Map([
   // Roots
   ["root", { name: "root", arity: 2 }],
   ["sqrt", { name: "sqrt" }],
+
+  // Attributes
+  ["id", { name: "style", attrName: "id", arity: 2 }],
+  ["href", { name: "style", attrName: "href", arity: 2 }],
+  ["color", { name: "style", attrName: "mathcolor", arity: 2 }],
+  ["background", { name: "style", attrName: "mathbackground", arity: 2 }],
 ]);
