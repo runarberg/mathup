@@ -6,8 +6,6 @@ mathup
 [![Build Status](https://travis-ci.org/runarberg/mathup.svg?branch=master)](https://travis-ci.org/runarberg/mathup)
 [![Coverage Status](https://coveralls.io/repos/github/runarberg/mathup/badge.svg)](https://coveralls.io/github/runarberg/mathup)
 [![Downloads](https://img.shields.io/npm/dm/mathup)](https://npm-stat.com/charts.html?package=mathup)  
-[![dependencies](https://david-dm.org/runarberg/mathup/status.svg)](https://david-dm.org/runarberg/mathup)
-[![dev-dependencies](https://david-dm.org/runarberg/mathup/dev-status.svg)](https://david-dm.org/runarberg/mathup?type=dev)
 [![npms Score](https://badges.npms.io/mathup.svg)](https://api.npms.io/v2/package/mathup)
 
 #### Installation ####
@@ -126,21 +124,15 @@ DOM, or just logging it to the console.
 Why not just use *MathJax*?
 ---------------------------
 
-[*MathJax*](http://www.mathjax.org/) is an excellent tool that you
-should probably be using if all you want to do is include complex
-mathematical expressions in a document. And you should probably use it
-*along side* this package as well if you want
-[Chrome users](http://www.chromestatus.com/features/5240822173794304)
-to be able to read your expressions. However, MathJax is a complex
-piece of software that does a great deal more than just translate
-simple expression into structured form, and if that is all you want to
-do, then MathJax is definitely overkill. Mathup promises to be a
-lot faster (by doing less) then MathJax, and if the readers of your
-document (or users of your app) are using a
-[standard conforming browser](http://caniuse.com/#feat=mathml), they
-will benefit a great bit. You will be able to translate your
-expression on the server before your readers even open the document,
-reducing any lag time to native.
+[*MathJax*](http://www.mathjax.org/) is an excellent tool that you can
+safely use if all you want to do is include complex mathematical
+expressions in a document. However, MathJax is a complex piece of
+software that does a great deal more than just translate simple
+expression into structured form, and if that is all you want to do,
+then MathJax is definitely overkill. Mathup promises to be a lot
+faster (by doing less) then MathJax. While MathJax will search for
+expressions, parse them, translate and render them. Mathup only parses
+and translates them, and let the browser do the rendering.
 
 
 Why AsciiMath / Why not TeΧ?
