@@ -22,7 +22,7 @@
     "url": "https://github.com/runarberg/mathup.git"
   },
   "scripts": {
-    "clean": "rm -fr .c8_output dependencies.mjs coverage/ target/",
+    "clean": "rm -fr coverage/ target/",
     "server": "python3 -m http.server",
     "lint": "eslint --ext .js --ext .mjs --ext .cjs src/ test/ *.config.mjs",
     "build": "rollup --config",
@@ -54,6 +54,7 @@
   "c8": {
     "reporter": [
       "html",
+      "lcov",
       "text",
       "text-summary"
     ],
@@ -119,7 +120,6 @@
     "@rollup/plugin-terser": "^0.4.1",
     "ava": "^5.2.0",
     "c8": "^7.13.0",
-    "coveralls": "^3.1.1",
     "eslint": "^8.38.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.8.0",
