@@ -12,8 +12,8 @@
   "bugs": "https://github.com/runarberg/mathup/issues",
   "license": "MIT",
   "author": "Rúnar Berg Baugsson Sigríðarson <runarberg@zoho.com>",
-  "main": "target/node/mathup.cjs",
-  "module": "target/module/mathup.mjs",
+  "type": "module",
+  "exports": "src/index.js",
   "bin": {
     "mathup": "bin/mathup.js"
   },
@@ -24,7 +24,7 @@
   "scripts": {
     "clean": "rm -fr coverage/ target/",
     "server": "python3 -m http.server",
-    "lint": "eslint --ext .js --ext .mjs --ext .cjs src/ test/ *.config.mjs",
+    "lint": "eslint --ext .js  src/ test/ *.config.js",
     "build": "rollup --config",
     "prepare": "npm run build",
     "test": "c8 ava",
@@ -59,8 +59,8 @@
       "text-summary"
     ],
     "include": [
-      "src/**/*.mjs",
-      "!src/**/*test.mjs"
+      "src/**/*.js",
+      "!src/**/*test.js"
     ]
   },
   "eslintConfig": {
@@ -87,9 +87,9 @@
         "error",
         {
           "devDependencies": [
-            "*.config.mjs",
-            "**/*.test.mjs",
-            "/test/**/*.mjs"
+            "*.config.js",
+            "**/*.test.js",
+            "/test/**/*.js"
           ]
         }
       ],

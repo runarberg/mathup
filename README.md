@@ -26,19 +26,19 @@ Download one of the [released assets](https://github.com/runarberg/mathup/releas
 and include the **module**:
 
 ```html
-<script type="module" src="mathup.mjs"></script>
+<script type="module" src="mathup.js"></script>
 ```
 
 …the **custom element**:
 
 ```html
-<script type="module" src="math-up-element.mjs"></script>
+<script type="module" src="math-up-element.js"></script>
 ```
 
 …or the **script**:
 
 ```html
-<script src="mathup.iife.mjs"></script>
+<script src="mathup.iife.js"></script>
 ```
 
 #### Usage ####
@@ -172,7 +172,7 @@ node without any transcompilation.
 For a simple test do:
 
 ```bash
-./bin/mathup.mjs -- 'my expression'
+./bin/mathup.js -- 'my expression'
 ```
 
 You can open a
