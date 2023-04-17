@@ -1,6 +1,6 @@
 import { handleQuote } from "./utils.mjs";
 
-export default function quote(char, input, { start }) {
+export default function quoteScanner(char, input, { start }) {
   if (char !== '"') {
     return null;
   }

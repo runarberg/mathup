@@ -1,4 +1,4 @@
-export default function groupSep(
+export default function groupSepScanner(
   char,
   input,
   { grouping, start },

@@ -1,6 +1,6 @@
 import { handlePrefixed } from "./utils.mjs";
 
-export default function backslash(char, input, { start }) {
+export default function backslashScanner(char, input, { start }) {
   if (char !== "\\") {
     return null;
   }

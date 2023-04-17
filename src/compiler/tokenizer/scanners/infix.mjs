@@ -6,7 +6,7 @@ const INFIX_MAP = new Map([
   ["._", "under"],
 ]);
 
-export default function (char, input, { start }) {
+export default function infixScanner(char, input, { start }) {
   if (char === ".") {
     const next = input[start + 1];
     const infix = INFIX_MAP.get(`.${next}`);

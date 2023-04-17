@@ -1,4 +1,4 @@
-export default function space(char, input, { start }) {
+export default function spaceScanner(char, input, { start }) {
   if (char !== " ") {
     return null;
   }

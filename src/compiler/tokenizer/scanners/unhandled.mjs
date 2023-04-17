@@ -1,6 +1,6 @@
 import { isMark } from "../lexemes.mjs";
 
-export default function unhandled(char, input, { start }) {
+export default function unhandledScanner(char, input, { start }) {
   let value = char;
   let [next] = input.slice(start + char.length);
 

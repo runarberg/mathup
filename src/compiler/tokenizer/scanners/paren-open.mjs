@@ -10,7 +10,7 @@ function parenOpenPotential(partial) {
   return false;
 }
 
-export default function (char, input, { start }) {
+export default function parenOpenScanner(char, input, { start }) {
   let value = char;
 
   if (parenOpenPotential(value)) {

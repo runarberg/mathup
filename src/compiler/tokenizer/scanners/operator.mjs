@@ -10,7 +10,7 @@ function opsPotential(partial) {
   return false;
 }
 
-export default function operator(char, input, { start }) {
+export default function operatorScanner(char, input, { start }) {
   let value = char;
 
   if (opsPotential(value)) {
