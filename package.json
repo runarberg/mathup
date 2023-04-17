@@ -24,11 +24,9 @@
   "scripts": {
     "clean": "rm -fr .c8_output dependencies.mjs coverage/ target/",
     "server": "python3 -m http.server",
-    "dependencies": "rollup --config --configDeps",
-    "lint": "eslint --ext .js --ext .mjs --ext .cjs src/ test/ *.config.mjs *.src.mjs",
+    "lint": "eslint --ext .js --ext .mjs --ext .cjs src/ test/ *.config.mjs",
     "build": "rollup --config",
     "prepare": "npm run build",
-    "preserver": "npm run dependencies",
     "test": "c8 ava",
     "test:watch": "ava --watch"
   },
@@ -118,8 +116,6 @@
     "@babel/preset-env": "^7.21.4",
     "@babel/runtime": "^7.21.0",
     "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-commonjs": "^24.1.0",
-    "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-terser": "^0.4.1",
     "ava": "^5.2.0",
     "c8": "^7.13.0",
@@ -136,7 +132,6 @@
     "rollup": "^3.20.4"
   },
   "dependencies": {
-    "minimist": "^1.2.8",
-    "unicode-properties": "^1.4.1"
+    "minimist": "^1.2.8"
   }
 }

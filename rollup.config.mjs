@@ -1,6 +1,4 @@
 import babel from "@rollup/plugin-babel";
-import commonjs from "@rollup/plugin-commonjs";
-import resolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
 
 const {
@@ -10,17 +8,6 @@ const {
   npm_package_license: LICENSE,
 } = process.env;
 const YEAR = new Date().getFullYear();
-
-const dependenciesConfig = {
-  input: "dependencies.src.mjs",
-  output: [
-    {
-      file: `dependencies.mjs`,
-      format: "esm",
-    },
-  ],
-  plugins: [resolve(), commonjs()],
-};
 
 const defaultConfig = {
   input: "src/index.mjs",
@@ -95,10 +82,6 @@ const customElementConfig = {
   ],
 };
 
-export default function rollup(args) {
-  if (args.configDeps === true) {
-    return dependenciesConfig;
-  }
-
-  return [dependenciesConfig, defaultConfig, customElementConfig];
+export default function rollup() {
+  return [defaultConfig, customElementConfig];
 }

@@ -1,110 +1,73 @@
-import { unicodeProperties } from "../../../dependencies.mjs";
+const LETTER_RE = /^\p{L}/u;
 
 export function isAlphabetic(char) {
   if (!char) {
     return false;
   }
 
-  const category = unicodeProperties.getCategory(char.codePointAt(0));
-
-  return (
-    category === "Lu" ||
-    category === "Ll" ||
-    category === "Lt" ||
-    category === "Lm" ||
-    category === "Lo"
-  );
+  return LETTER_RE.test(char);
 }
+
+const LETTER_NUMBER_RE = /^[\p{L}\p{N}]/u;
 
 export function isAlphanumeric(char) {
   if (!char) {
     return false;
   }
 
-  const category = unicodeProperties.getCategory(char.codePointAt(0));
-
-  return (
-    category === "Lu" ||
-    category === "Ll" ||
-    category === "Lt" ||
-    category === "Lm" ||
-    category === "Lo" ||
-    category === "Nd" ||
-    category === "Nl" ||
-    category === "No"
-  );
+  return LETTER_NUMBER_RE.test(char);
 }
+
+const MARK_RE = /^\p{M}/u;
 
 export function isMark(char) {
   if (!char) {
     return false;
   }
 
-  return unicodeProperties.isMark(char.codePointAt(0));
+  return MARK_RE.test(char);
 }
+
+// Duodecimal literals are in the So category.
+const NUMBER_RE = /^[\p{N}\u{218a}-\u{218b}]/u;
 
 export function isNumeric(char) {
   if (!char) {
     return false;
   }
 
-  const codePoint = char.codePointAt(0);
-
-  // Dozenal literals are in the So category for some reason.
-  if (codePoint === 0x218a || codePoint === 0x218b) {
-    return true;
-  }
-
-  const category = unicodeProperties.getCategory(codePoint);
-
-  return category === "Nd" || category === "Nl" || category === "No";
+  return NUMBER_RE.test(char);
 }
+
+// Invisible opperators are in the Cf category.
+const OPERATOR_RE = /^[\p{P}\p{Sm}\p{So}\u{2061}-\u{2064}]/u;
 
 export function isOperational(char) {
   if (!char) {
     return false;
   }
 
-  const codePoint = char.codePointAt(0);
-
-  // Invisible opperators are in the Cf category.
-  if (codePoint >= 0x2061 && codePoint <= 0x2064) {
-    return true;
-  }
-
-  const category = unicodeProperties.getCategory(codePoint);
-
-  return (
-    category === "Pc" ||
-    category === "Pd" ||
-    category === "Pe" ||
-    category === "Pf" ||
-    category === "Pi" ||
-    category === "Po" ||
-    category === "Ps" ||
-    category === "Sm" ||
-    category === "So"
-  );
+  return OPERATOR_RE.test(char);
 }
+
+const PUNCT_OPEN_RE = /^\p{Pe}/u;
 
 export function isPunctClose(char) {
   if (!char) {
     return false;
   }
 
-  const category = unicodeProperties.getCategory(char.codePointAt(0));
-
-  return category === "Pe";
+  return PUNCT_OPEN_RE.test(char);
 }
+
+const PUNCT_CLOSE_RE = /^\p{Ps}/u;
 
 export function isPunctOpen(char) {
   if (!char) {
     return false;
   }
 
-  const category = unicodeProperties.getCategory(char.codePointAt(0));
-
-  return category === "Ps";
+  return PUNCT_CLOSE_RE.test(char);
 }
 
 export const KNOWN_IDENTS = new Map([
