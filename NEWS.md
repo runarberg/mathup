@@ -1,6 +1,9 @@
 mathup v.next Release Notes
 ===========================
 
+mathup v1.0.0-alpha.3 Release Notes
+===================================
+
 Language Changes
 ----------------
 
@@ -12,6 +15,13 @@ Language Changes
 * Added the following fences:
   - `<<` ⇒ ⟨
   - `>>` ⇒ ⟩
+
+
+Output Changes
+--------------
+
+* `mathvariant="double-struck"` is deprecated. So now we do the text
+  transforms directly on the output.
 
 
 mathup v1.0.0-alpha.2 Release Notes
