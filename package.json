@@ -24,8 +24,9 @@
   "scripts": {
     "clean": "rm -fr coverage/ dist/",
     "server": "python3 -m http.server",
-    "lint": "eslint --ext .js  src/ test/ *.config.js",
     "build": "rollup --config",
+    "check": "tsc --noEmit",
+    "lint": "eslint --ext .js  src/ test/ *.config.js",
     "prepare": "npm run build",
     "test": "c8 ava",
     "test:watch": "ava --watch"
@@ -129,7 +130,8 @@
     "expect.js": "^0.3.1",
     "jsdom": "^21.1.2",
     "prettier": "2.8.7",
-    "rollup": "^3.29.4"
+    "rollup": "^3.29.4",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
     "minimist": "^1.2.8"

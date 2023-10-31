@@ -2,16 +2,15 @@
 
 import mathup from "./index.js";
 
+const MATHML_NS = "http://www.w3.org/1998/Math/MathML";
+
 const template = document.createElement("template");
 {
   const slot = document.createElement("slot");
-  const math = document.createElementNS(
-    "http://www.w3.org/1998/Math/MathML",
-    "math",
-  );
+  const math = document.createElementNS(MATHML_NS, "math");
 
   slot.style.display = "none";
-  math.part = "math";
+  math.setAttribute("part", "math");
 
   template.content.appendChild(slot);
   template.content.appendChild(math);
@@ -22,11 +21,13 @@ export default class MathUpElement extends HTMLElement {
     super();
 
     const shadow = this.attachShadow({ mode: "open" });
-    const shadowRoot = template.content.cloneNode(true);
+    const shadowRoot =
+      /** @type {DocumentFragment} */
+      (template.content.cloneNode(true));
 
     const slot = shadowRoot.querySelector("slot");
 
-    slot.addEventListener("slotchange", () => {
+    slot?.addEventListener("slotchange", () => {
       this.update();
     });
 
@@ -48,22 +49,30 @@ export default class MathUpElement extends HTMLElement {
       bare: true,
     };
 
-    const mathNode = this.shadowRoot.querySelector("math");
+    const mathNode = this.shadowRoot?.querySelector("math");
 
-    this.updateRequest = window.requestAnimationFrame(() => {
-      mathup(input, options).updateDOM(mathNode);
-    });
+    if (input != null && mathNode) {
+      this.updateRequest = window.requestAnimationFrame(() => {
+        mathup(input, options).updateDOM(mathNode);
+      });
+    }
   }
 
   static get observedAttributes() {
     return ["display", "dir", "decimal-mark", "col-sep", "row-sep"];
   }
 
-  attributeChangedCallback(name, oldValue, newValue) {
-    const mathNode = this.shadowRoot.querySelector("math");
+  /**
+   * @param {string} name
+   * @param {string} _oldValue
+   * @param {string} newValue
+   * @returns {void}
+   */
+  attributeChangedCallback(name, _oldValue, newValue) {
+    const mathNode = this.shadowRoot?.querySelector("math");
 
     if (name === "display" || name === "dir") {
-      mathNode.setAttribute(name, newValue);
+      mathNode?.setAttribute(name, newValue);
     } else if (
       name === "decimal-mark" ||
       name === "col-sep" ||

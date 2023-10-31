@@ -1,3 +1,6 @@
+/**
+ * @type {import("./index.js").Scanner}
+ */
 export default function newlineScanner(char, input, { start, grouping }) {
   if (char !== "\n") {
     return null;

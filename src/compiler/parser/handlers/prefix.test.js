@@ -2,6 +2,10 @@ import test from "ava";
 
 import prefix from "./prefix.js";
 
+/**
+ * @typedef {import("../../tokenizer/index.js").Token} Token
+ */
+
 test("empty unary", (t) => {
   const tokens = [{ type: "prefix", name: "foo" }];
   const { end, node } = prefix({ start: 0, tokens });
@@ -18,8 +22,9 @@ test("empty unary", (t) => {
 });
 
 test("empty binary", (t) => {
+  /** @type {Token[]} */
   const tokens = [{ type: "prefix", name: "foo", arity: 2 }];
-  const { end, node } = prefix({ start: 0, tokens });
+  const { end, node } = prefix({ start: 0, tokens, stack: [] });
 
   t.true(end >= 1);
   t.is(node.type, "BinaryOperation");
@@ -37,13 +42,14 @@ test("empty binary", (t) => {
 });
 
 test("single term unary", (t) => {
+  /** @type {Token[]} */
   const tokens = [
     { type: "prefix", name: "foo" },
     { type: "ident", value: "a" },
     { type: "space", value: " " },
-    { type: "doesnt.matter", value: "wont reach" },
+    { type: "ident", value: "wont reach" },
   ];
-  const { end, node } = prefix({ start: 0, tokens });
+  const { end, node } = prefix({ start: 0, tokens, stack: [] });
 
   t.is(end, 2);
   t.is(node.type, "UnaryOperation");
@@ -57,12 +63,13 @@ test("single term unary", (t) => {
 });
 
 test("unary ignores following space", (t) => {
+  /** @type {Token[]} */
   const tokens = [
     { type: "prefix", name: "foo" },
     { type: "space", value: " " },
     { type: "ident", value: "a" },
   ];
-  const { end, node } = prefix({ start: 0, tokens });
+  const { end, node } = prefix({ start: 0, tokens, stack: [] });
 
   t.is(end, 3);
   t.is(node.type, "UnaryOperation");
@@ -76,11 +83,12 @@ test("unary ignores following space", (t) => {
 });
 
 test("single term binary", (t) => {
+  /** @type {Token[]} */
   const tokens = [
     { type: "prefix", name: "foo", arity: 2 },
     { type: "ident", value: "a" },
   ];
-  const { end, node } = prefix({ start: 0, tokens });
+  const { end, node } = prefix({ start: 0, tokens, stack: [] });
 
   t.true(end >= tokens.length);
   t.is(node.type, "BinaryOperation");
@@ -97,13 +105,14 @@ test("single term binary", (t) => {
 });
 
 test("single term binary with trailing space", (t) => {
+  /** @type {Token[]} */
   const tokens = [
     { type: "prefix", name: "foo", arity: 2 },
     { type: "space", value: " " },
     { type: "ident", value: "a" },
     { type: "space", value: " " },
   ];
-  const { end, node } = prefix({ start: 0, tokens });
+  const { end, node } = prefix({ start: 0, tokens, stack: [] });
 
   t.true(end >= tokens.length);
   t.is(node.type, "BinaryOperation");
@@ -120,13 +129,14 @@ test("single term binary with trailing space", (t) => {
 });
 
 test("dual term binary", (t) => {
+  /** @type {Token[]} */
   const tokens = [
     { type: "prefix", name: "foo", arity: 2 },
     { type: "ident", value: "a" },
     { type: "space", value: " " },
     { type: "ident", value: "b" },
   ];
-  const { end, node } = prefix({ start: 0, tokens });
+  const { end, node } = prefix({ start: 0, tokens, stack: [] });
 
   t.is(end, 4);
   t.is(node.type, "BinaryOperation");
@@ -139,7 +149,7 @@ test("dual term binary", (t) => {
   t.is(node.items[0].items[0].type, "IdentLiteral");
   t.is(node.items[0].items[0].value, "a");
 
-  t.is(node.items[1].type, "Term");
+  t.is(node.items[1]?.type, "Term");
   t.is(node.items[1].items.length, 1);
   t.is(node.items[1].items[0].type, "IdentLiteral");
   t.is(node.items[1].items[0].value, "b");
@@ -325,11 +335,12 @@ test("a fenced unary with attrs", (t) => {
 });
 
 test("a fenced binary with attrs", (t) => {
+  /** @type {Token[]} */
   const tokens = [
     { type: "prefix", name: "foo", arity: 2, attrs: { bar: "baz" } },
     { type: "paren.open", value: "(" },
   ];
-  const { end, node } = prefix({ start: 0, tokens });
+  const { end, node } = prefix({ start: 0, tokens, stack: [] });
 
   t.true(end >= tokens.length);
   t.is(node.type, "BinaryOperation");

@@ -1,3 +1,11 @@
+/**
+ * @typedef {import("../parse.js").State} State
+ * @typedef {import("../index.js").SpaceLiteral} SpaceLiteral
+ */
+/**
+ * @param {State} state
+ * @returns {{ node: SpaceLiteral, end: number }}
+ */
 export default function space({ start, tokens }) {
   const token = tokens[start];
   const blockSpace = token.value.startsWith("\n");

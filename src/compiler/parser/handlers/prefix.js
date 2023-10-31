@@ -1,8 +1,34 @@
 import expr from "./expr.js";
 
+/**
+ * @typedef {import("../index.js").Node} Node
+ * @typedef {import("../index.js").UnaryOperation} UnaryOperation
+ * @typedef {import("../index.js").BinaryOperation} BinaryOperation
+ */
+
+/**
+ * @param {Node[]} nodes
+ * @return {Node}
+ */
+function toTermOrUnwrap(nodes) {
+  if (nodes.length === 1) {
+    return nodes[0];
+  }
+
+  return { type: "Term", items: nodes };
+}
+
+/**
+ * @param {import("../parse.js").State} State
+ * @return {{ node: UnaryOperation | BinaryOperation, end: number }}
+ */
 export default function prefix({ start, tokens }) {
   const token = tokens[start];
   let next = expr({ stack: [], start: start + 1, tokens });
+
+  if (!token.name) {
+    throw new Error("Got BinaryToken without a name");
+  }
 
   if (next && next.node && next.node.type === "SpaceLiteral") {
     next = expr({ stack: [], start: next.end, tokens });
@@ -16,13 +42,12 @@ export default function prefix({ start, tokens }) {
       next.node.type === "FencedGroup" &&
       next.node.items.length === 2
     ) {
-      let items = next.node.items.map((col) =>
-        col.length === 1 ? col[0] : { type: "Term", items: col },
-      );
-
-      if (token.name === "root") {
-        items = items.reverse();
-      }
+      const [first, second] = next.node.items;
+      /** @type {[Node, Node]} */
+      const items =
+        token.name === "root"
+          ? [toTermOrUnwrap(second), toTermOrUnwrap(first)]
+          : [toTermOrUnwrap(first), toTermOrUnwrap(second)];
 
       return {
         node: {
@@ -42,6 +67,7 @@ export default function prefix({ start, tokens }) {
       second = expr({ stack: [], start: second.end, tokens });
     }
 
+    /** @type {[Node, Node]} */
     const items =
       token.name === "root"
         ? [second.node, first.node]
@@ -65,9 +91,8 @@ export default function prefix({ start, tokens }) {
     next.node.items.length === 1
   ) {
     // The operant is not a matrix.
-    const items = next.node.items.map((col) =>
-      col.length === 1 ? col[0] : { type: "Term", items: col },
-    );
+    /** @type [Node] */
+    const items = [toTermOrUnwrap(next.node.items[0])];
 
     return {
       node: {

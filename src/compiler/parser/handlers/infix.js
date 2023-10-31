@@ -1,13 +1,30 @@
 import handlers from "./index.js";
 import expr from "./expr.js";
 
+/**
+ * @typedef {import("../parse.js").State} State
+ * @typedef {import("../index.js").Node} Node
+ * @typedef {import("../index.js").Term} Term
+ * @typedef {import("../index.js").BinaryOperation} BinaryOperation
+ * @typedef {import("../index.js").TernaryOperation} TernaryOperation
+ */
+
+/**
+ * @return {Term}
+ */
 function empty() {
   return { type: "Term", items: [] };
 }
 
 const SHOULD_STOP = ["ident", "number", "operator", "text"];
 
-// Remove surrounding brackets.
+/**
+ * Remove surrounding brackets.
+ *
+ * @template {BinaryOperation | TernaryOperation} Operation
+ * @param {Operation} node
+ * @returns {Operation}
+ */
 function maybeRemoveFence(node) {
   const mutated = node;
 
@@ -46,7 +63,13 @@ function maybeRemoveFence(node) {
   return mutated;
 }
 
-// Change `lim` to `under`, and `sum` and `prod` to `under` or `over`.
+/**
+ * Change `lim` to `under`, and `sum` and `prod` to `under` or `over`.
+ *
+ * @template {BinaryOperation | TernaryOperation} Operation
+ * @param {Operation} node
+ * @returns {Operation}
+ */
 function maybeApplyUnderOver(node) {
   const mutated = node;
   const [operator] = node.items;
@@ -76,10 +99,21 @@ function maybeApplyUnderOver(node) {
   return mutated;
 }
 
+/**
+ * @template {BinaryOperation | TernaryOperation} Operation
+ * @param {Operation} node
+ * @returns {Operation}
+ */
 function post(node) {
   return maybeRemoveFence(maybeApplyUnderOver(node));
 }
 
+/**
+ * @param {string} op
+ * @param {BinaryOperation} left
+ * @param {Node} right
+ * @returns {BinaryOperation | TernaryOperation}
+ */
 function maybeTernary(op, left, right) {
   if (left.name === "sub" && op === "sup") {
     const [base, sub] = left.items;
@@ -130,6 +164,11 @@ function maybeTernary(op, left, right) {
   return rightAssociate(node.name, node.items);
 }
 
+/**
+ * @param {string} op
+ * @param {[Node, Node]} operants
+ * @returns {BinaryOperation}
+ */
 function rightAssociate(op, [left, right]) {
   if (left.type !== "BinaryOperation" || op === "frac") {
     return {
@@ -148,6 +187,10 @@ function rightAssociate(op, [left, right]) {
   };
 }
 
+/**
+ * @param {State} state
+ * @returns {{ node: BinaryOperation | TernaryOperation, end: number }}
+ */
 export default function infix({ stack, start, tokens }) {
   const token = tokens[start];
 
@@ -167,7 +210,11 @@ export default function infix({ stack, start, tokens }) {
   if (nextToken && SHOULD_STOP.includes(nextToken.type)) {
     const handleRight = handlers.get(nextToken.type);
 
-    next = handleRight({ start: start + 1, tokens });
+    if (!handleRight) {
+      throw new Error("Unknown handler");
+    }
+
+    next = handleRight({ stack: [], start: start + 1, tokens });
   } else {
     next = expr({ stack: [], start: start + 1, tokens });
   }

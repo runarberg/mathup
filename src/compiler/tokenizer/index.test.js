@@ -1,8 +1,14 @@
 import test from "ava";
 import tokenizer from "./index.js";
 
+const options = {
+  decimalMark: ".",
+  colSep: ",",
+  rowSep: ";",
+};
+
 test("infix", (t) => {
-  const tokenize = tokenizer();
+  const tokenize = tokenizer(options);
 
   t.deepEqual(
     [...tokenize("a_b / 2^3")],
@@ -21,7 +27,7 @@ test("infix", (t) => {
 });
 
 test("infix modified", (t) => {
-  const tokenize = tokenizer();
+  const tokenize = tokenizer(options);
 
   t.deepEqual(
     [...tokenize("a._b // 2.^3")],
@@ -40,7 +46,7 @@ test("infix modified", (t) => {
 });
 
 test("operators", (t) => {
-  const tokenize = tokenizer();
+  const tokenize = tokenizer(options);
 
   t.deepEqual(
     [...tokenize("* ** *** .. ...")],

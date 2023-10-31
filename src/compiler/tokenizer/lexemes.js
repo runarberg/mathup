@@ -1,5 +1,10 @@
+/**
+ * @typedef {(char: string) => boolean} LeximeTest
+ */
+
 const LETTER_RE = /^\p{L}/u;
 
+/** @type {LeximeTest} */
 export function isAlphabetic(char) {
   if (!char) {
     return false;
@@ -10,6 +15,7 @@ export function isAlphabetic(char) {
 
 const LETTER_NUMBER_RE = /^[\p{L}\p{N}]/u;
 
+/** @type {LeximeTest} */
 export function isAlphanumeric(char) {
   if (!char) {
     return false;
@@ -20,6 +26,7 @@ export function isAlphanumeric(char) {
 
 const MARK_RE = /^\p{M}/u;
 
+/** @type {LeximeTest} */
 export function isMark(char) {
   if (!char) {
     return false;
@@ -31,6 +38,7 @@ export function isMark(char) {
 // Duodecimal literals are in the So category.
 const NUMBER_RE = /^[\p{N}\u{218a}-\u{218b}]/u;
 
+/** @type {LeximeTest} */
 export function isNumeric(char) {
   if (!char) {
     return false;
@@ -42,6 +50,7 @@ export function isNumeric(char) {
 // Invisible opperators are in the Cf category.
 const OPERATOR_RE = /^[\p{P}\p{Sm}\p{So}\u{2061}-\u{2064}]/u;
 
+/** @type {LeximeTest} */
 export function isOperational(char) {
   if (!char) {
     return false;
@@ -52,6 +61,7 @@ export function isOperational(char) {
 
 const PUNCT_OPEN_RE = /^\p{Pe}/u;
 
+/** @type {LeximeTest} */
 export function isPunctClose(char) {
   if (!char) {
     return false;
@@ -62,6 +72,7 @@ export function isPunctClose(char) {
 
 const PUNCT_CLOSE_RE = /^\p{Ps}/u;
 
+/** @type {LeximeTest} */
 export function isPunctOpen(char) {
   if (!char) {
     return false;

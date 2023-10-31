@@ -1,14 +1,32 @@
 import expr from "./expr.js";
 
+/**
+ * @typedef {import("../index.js").Node} Node
+ * @typedef {import("../index.js").FencedGroup} FencedGroup
+ * @typedef {import("../index.js").MatrixGroup} MatrixGroup
+ */
+
+/**
+ * @param {import("../parse.js").State} State
+ * @returns {{ node: FencedGroup | MatrixGroup, end: number }}
+ */
 export default function group({ start, tokens }) {
   let i = start;
   let token = tokens[i];
 
   const open = token;
-  const rows = [];
+
+  /** @type {string[]} */
   const seps = [];
-  let cols = [];
+
+  /** @type {Node[]} */
   let cell = [];
+
+  /** @type {Node[][]} */
+  let cols = [];
+
+  /** @type {Node[][][]} */
+  const rows = [];
 
   i += 1;
   token = tokens[i];
@@ -70,6 +88,7 @@ export default function group({ start, tokens }) {
     cols.push(cell);
   }
 
+  const end = i + 1;
   const close = token && token.type === "paren.close" ? token : null;
 
   const attrs = {
@@ -78,20 +97,21 @@ export default function group({ start, tokens }) {
     seps,
   };
 
-  let type = "FencedGroup";
-  let items = cols;
+  if (rows.length === 0) {
+    return {
+      node: { type: "FencedGroup", items: cols, attrs },
+      end,
+    };
+  }
 
-  if (rows.length > 0) {
-    type = "MatrixGroup";
-    items = rows;
+  const rowItems = rows;
 
-    if (cols.length > 0) {
-      items.push(cols);
-    }
+  if (cols.length > 0) {
+    rowItems.push(cols);
   }
 
   return {
-    node: { type, items, attrs },
-    end: i + 1,
+    node: { type: "MatrixGroup", items: rowItems, attrs },
+    end,
   };
 }

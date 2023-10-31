@@ -1,3 +1,12 @@
+/**
+ * @typedef {import("../../parser/index.js").Literal} Literal
+ * @typedef {import("../../parser/index.js").SpaceLiteral} SpaceLiteral
+ */
+
+/**
+ * @param {string} char
+ * @returns {string}
+ */
 function maybeGetDoubleStruckChar(char) {
   const charCode = char.charCodeAt(0);
   if (charCode >= 48 && charCode <= 57) {
@@ -35,6 +44,10 @@ function maybeGetDoubleStruckChar(char) {
   return char;
 }
 
+/**
+ * @param {string} before
+ * @returns {string}
+ */
 function getDoubleStruckText(before) {
   let after = "";
   for (const char of before) {
@@ -43,6 +56,10 @@ function getDoubleStruckText(before) {
   return after;
 }
 
+/**
+ * @param {string} tag
+ * @return {import("../index.js").TransformFn<Exclude<Literal, SpaceLiteral>>}
+ */
 export default function literal(tag) {
   return (node) => {
     if (node.attrs && node.attrs.mathvariant === "double-struck") {

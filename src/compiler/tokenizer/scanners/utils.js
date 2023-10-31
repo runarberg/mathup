@@ -1,5 +1,12 @@
 import { isAlphanumeric } from "../lexemes.js";
 
+/**
+ * @param {string} char
+ * @param {number} pos
+ * @param {string} input
+ * @param {{ offset?: number }} options
+ * @returns {{ value: string, end: number }}
+ */
 function handleFence(char, pos, input, { offset = 0 } = {}) {
   let len = 0;
 
@@ -36,14 +43,32 @@ function handleFence(char, pos, input, { offset = 0 } = {}) {
   };
 }
 
+/**
+ * @param {number} pos
+ * @param {string} input
+ * @param {{ offset?: number }} [options]
+ * @returns {ReturnType<typeof handleFence>}
+ */
 export function handleBacktick(pos, input, options) {
   return handleFence("`", pos, input, options);
 }
 
+/**
+ * @param {number} pos
+ * @param {string} input
+ * @param {{ offset?: number }} [options]
+ * @returns {ReturnType<typeof handleFence>}
+ */
 export function handleQuote(pos, input, options) {
   return handleFence('"', pos, input, options);
 }
 
+/**
+ * @param {string} prefix
+ * @param {number} pos
+ * @param {string} input
+ * @returns {{ value: string, end: number }}
+ */
 export function handlePrefixed(prefix, pos, input) {
   const start = pos + prefix.length;
   let value = "";

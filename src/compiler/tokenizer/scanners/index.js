@@ -14,6 +14,14 @@ import space from "./space.js";
 
 export { default as unhandled } from "./unhandled.js";
 
+/**
+ * @typedef {Required<import("../index.js").TokenizerOptions>} Options
+ * @typedef {import("../index.js").State} State
+ * @typedef {import("../index.js").Token} Token
+ * @typedef {(char: string, input: string, state: State, options: Options) => (Token & { end: number } | null)} Scanner
+ *
+ * @type {Scanner[]}
+ */
 export default [
   space,
   alpha,

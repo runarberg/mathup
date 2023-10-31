@@ -1,3 +1,6 @@
+/**
+ * @type {import("./index.js").Scanner}
+ */
 export default function spaceScanner(char, input, { start }) {
   if (char !== " ") {
     return null;

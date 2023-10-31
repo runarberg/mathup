@@ -1,7 +1,18 @@
-function notNull(x) {
-  return x !== null;
+/**
+ * @typedef {import("../../parser/index.js").MatrixGroup} MatrixGroup
+ */
+
+/**
+ * @param {import("../index.js").Tag | null} tag
+ * @returns {boolean}
+ */
+function notNull(tag) {
+  return tag !== null;
 }
 
+/**
+ * @type {import("../index.js").TransformFn<MatrixGroup>}
+ */
 export default function matrixGroup(node, transform) {
   const childNodes = [];
 

@@ -3,6 +3,18 @@ import group from "./group.js";
 import prefix from "./prefix.js";
 import space from "./space.js";
 
+/**
+ * @typedef {import("../../tokenizer/index.js").TokenType} TokenType
+ * @typedef {import("../parse.js").State} State
+ * @typedef {import("../index.js").Node} Node
+ * @typedef {(state: State) => { node: Node, end: number }} Handler
+ * @typedef {"Ident" | "Number" | "Operator" | "Text"} LiteralType
+ */
+
+/**
+ * @param {LiteralType} type
+ * @returns {Handler}
+ */
 const literal =
   (type) =>
   ({ start, tokens }) => {
@@ -18,7 +30,8 @@ const literal =
     };
   };
 
-export default new Map([
+/** @type {[TokenType, Handler][]} */
+const handlers = [
   ["ident", literal("Ident")],
   ["number", literal("Number")],
   ["operator", literal("Operator")],
@@ -27,4 +40,6 @@ export default new Map([
   ["paren.open", group],
   ["prefix", prefix],
   ["space", space],
-]);
+];
+
+export default new Map(handlers);

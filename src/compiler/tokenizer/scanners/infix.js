@@ -6,6 +6,9 @@ const INFIX_MAP = new Map([
   ["._", "under"],
 ]);
 
+/**
+ * @type {import("./index.js").Scanner}
+ */
 export default function infixScanner(char, input, { start }) {
   if (char === ".") {
     const next = input[start + 1];

@@ -7,7 +7,11 @@ import updateDOM from "./update-dom.js";
 
 const NS = "http://www.w3.org/1998/Math/MathML";
 const { window } = new jsdom.JSDOM();
-const { document } = window;
+const { document, Element } = window;
+
+/**
+ * @typedef {import("../transformer/index.js").Tag} Tag
+ */
 
 function createRoot() {
   return document.createElementNS(NS, "math");
@@ -15,25 +19,29 @@ function createRoot() {
 
 test.before("set up DOM", () => {
   globalThis.document = window.document;
+  globalThis.Element = Element;
 });
 
 test("fails if no parent", (t) => {
+  // @ts-ignore
   t.throws(() => updateDOM(null));
 });
 
 test("fails if called on detached trees", (t) => {
-  t.throws(() => updateDOM(createRoot(), { tag: "mn", textContent: "42" }));
+  t.throws(() =>
+    updateDOM(createRoot(), { tag: "mn", textContent: "42" }, { bare: true }),
+  );
 });
 
 test("no root attr change on bare", (t) => {
   const root = createRoot();
   root.className = "my-math";
 
-  updateDOM(root, { tag: "math", chilren: [] }, { bare: true });
+  updateDOM(root, { tag: "math" }, { bare: true });
 
   t.is(root.className, "my-math");
 
-  updateDOM(root, { tag: "math", chilren: [] });
+  updateDOM(root, { tag: "math" }, { bare: false });
 
   t.is(root.className, "");
 });
@@ -41,14 +49,18 @@ test("no root attr change on bare", (t) => {
 test("propagate tree", (t) => {
   const root = createRoot();
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [
-      { tag: "mn", textContent: "1" },
-      { tag: "mo", textContent: "+" },
-      { tag: "mn", textContent: "1" },
-    ],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [
+        { tag: "mn", textContent: "1" },
+        { tag: "mo", textContent: "+" },
+        { tag: "mn", textContent: "1" },
+      ],
+    },
+    { bare: true },
+  );
 
   t.is(root.childNodes.length, 3);
   t.is(root.childNodes[0].tagName, "mn");
@@ -62,30 +74,38 @@ test("propagate tree", (t) => {
 test("updates tree", (t) => {
   const root = createRoot();
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [
-      { tag: "mn", textContent: "1" },
-      { tag: "mo", textContent: "+" },
-      { tag: "mn", textContent: "1" },
-    ],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [
+        { tag: "mn", textContent: "1" },
+        { tag: "mo", textContent: "+" },
+        { tag: "mn", textContent: "1" },
+      ],
+    },
+    { bare: true },
+  );
 
   t.is(root.childNodes.length, 3);
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [
-      {
-        tag: "mfrac",
-        attrs: { linethickness: "0" },
-        childNodes: [
-          { tag: "mi", textContent: "n" },
-          { tag: "mn", textContent: "42" },
-        ],
-      },
-    ],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [
+        {
+          tag: "mfrac",
+          attrs: { linethickness: "0" },
+          childNodes: [
+            { tag: "mi", textContent: "n" },
+            { tag: "mn", textContent: "42" },
+          ],
+        },
+      ],
+    },
+    { bare: true },
+  );
 
   t.is(root.childNodes.length, 1);
 
@@ -112,25 +132,33 @@ test("updates tree", (t) => {
 test("adds attibutes", (t) => {
   const root = createRoot();
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [{ tag: "mtext", textContent: "foo bar" }],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [{ tag: "mtext", textContent: "foo bar" }],
+    },
+    { bare: true },
+  );
 
   const [mtext] = root.childNodes;
 
   t.is(mtext.attributes.length, 0);
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [
-      {
-        tag: "mtext",
-        attrs: { mathvariant: "double-struck" },
-        textContent: "foo bar",
-      },
-    ],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [
+        {
+          tag: "mtext",
+          attrs: { mathvariant: "double-struck" },
+          textContent: "foo bar",
+        },
+      ],
+    },
+    { bare: true },
+  );
 
   t.is(mtext.attributes.length, 1);
   t.is(mtext.getAttribute("mathvariant"), "double-struck");
@@ -139,31 +167,39 @@ test("adds attibutes", (t) => {
 test("replaces an attibutes", (t) => {
   const root = createRoot();
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [
-      {
-        tag: "mtext",
-        attrs: { mathvariant: "double-struck" },
-        textContent: "foo bar",
-      },
-    ],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [
+        {
+          tag: "mtext",
+          attrs: { mathvariant: "double-struck" },
+          textContent: "foo bar",
+        },
+      ],
+    },
+    { bare: true },
+  );
 
   const [mtext] = root.childNodes;
 
   t.is(mtext.getAttribute("mathvariant"), "double-struck");
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [
-      {
-        tag: "mtext",
-        attrs: { mathvariant: "bold" },
-        textContent: "foo bar",
-      },
-    ],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [
+        {
+          tag: "mtext",
+          attrs: { mathvariant: "bold" },
+          textContent: "foo bar",
+        },
+      ],
+    },
+    { bare: true },
+  );
 
   t.is(mtext.getAttribute("mathvariant"), "bold");
 });
@@ -171,16 +207,20 @@ test("replaces an attibutes", (t) => {
 test("removes an attibutes", (t) => {
   const root = createRoot();
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [
-      {
-        tag: "mtext",
-        attrs: { color: "rebeccapurlple", mathvariant: "double-struck" },
-        textContent: "foo bar",
-      },
-    ],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [
+        {
+          tag: "mtext",
+          attrs: { color: "rebeccapurlple", mathvariant: "double-struck" },
+          textContent: "foo bar",
+        },
+      ],
+    },
+    { bare: true },
+  );
 
   const [mtext] = root.childNodes;
 
@@ -188,16 +228,20 @@ test("removes an attibutes", (t) => {
   t.is(mtext.getAttribute("color"), "rebeccapurlple");
   t.is(mtext.getAttribute("mathvariant"), "double-struck");
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [
-      {
-        tag: "mtext",
-        attrs: { mathvariant: "bold" },
-        textContent: "foo bar",
-      },
-    ],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [
+        {
+          tag: "mtext",
+          attrs: { mathvariant: "bold" },
+          textContent: "foo bar",
+        },
+      ],
+    },
+    { bare: true },
+  );
 
   t.is(mtext.attributes.length, 1);
   t.is(mtext.getAttribute("mathvariant"), "bold");
@@ -206,29 +250,37 @@ test("removes an attibutes", (t) => {
 test("alters text content", (t) => {
   const root = createRoot();
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [
-      {
-        tag: "mtext",
-        textContent: "foo bar",
-      },
-    ],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [
+        {
+          tag: "mtext",
+          textContent: "foo bar",
+        },
+      ],
+    },
+    { bare: true },
+  );
 
   const [mtext] = root.childNodes;
 
   t.is(mtext.textContent, "foo bar");
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [
-      {
-        tag: "mtext",
-        textContent: "baz quux",
-      },
-    ],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [
+        {
+          tag: "mtext",
+          textContent: "baz quux",
+        },
+      ],
+    },
+    { bare: true },
+  );
 
   t.is(mtext.textContent, "baz quux");
 });
@@ -236,28 +288,36 @@ test("alters text content", (t) => {
 test("adds children", (t) => {
   const root = createRoot();
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [{ tag: "mrow", childNodes: [] }],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [{ tag: "mrow", childNodes: [] }],
+    },
+    { bare: true },
+  );
 
   const [mrow] = root.childNodes;
 
   t.is(mrow.children.length, 0);
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [
-      {
-        tag: "mrow",
-        childNodes: [
-          { tag: "mn", textContent: "1" },
-          { tag: "mo", textContent: "+" },
-          { tag: "mn", textContent: "1" },
-        ],
-      },
-    ],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [
+        {
+          tag: "mrow",
+          childNodes: [
+            { tag: "mn", textContent: "1" },
+            { tag: "mo", textContent: "+" },
+            { tag: "mn", textContent: "1" },
+          ],
+        },
+      ],
+    },
+    { bare: true },
+  );
 
   t.is(mrow.children.length, 3);
   t.is(mrow.children[0].textContent, "1");
@@ -268,33 +328,41 @@ test("adds children", (t) => {
 test("removes children", (t) => {
   const root = createRoot();
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [
-      {
-        tag: "mrow",
-        childNodes: [
-          { tag: "mn", textContent: "1" },
-          { tag: "mo", textContent: "+" },
-          { tag: "mn", textContent: "1" },
-        ],
-      },
-    ],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [
+        {
+          tag: "mrow",
+          childNodes: [
+            { tag: "mn", textContent: "1" },
+            { tag: "mo", textContent: "+" },
+            { tag: "mn", textContent: "1" },
+          ],
+        },
+      ],
+    },
+    { bare: true },
+  );
 
   const [mrow] = root.childNodes;
 
   t.is(mrow.children.length, 3);
 
-  updateDOM(root, {
-    tag: "math",
-    childNodes: [
-      {
-        tag: "mrow",
-        childNodes: [{ tag: "mo", textContent: "+" }],
-      },
-    ],
-  });
+  updateDOM(
+    root,
+    {
+      tag: "math",
+      childNodes: [
+        {
+          tag: "mrow",
+          childNodes: [{ tag: "mo", textContent: "+" }],
+        },
+      ],
+    },
+    { bare: true },
+  );
 
   t.is(mrow.children.length, 1);
   t.is(mrow.children[0].tagName, "mo");

@@ -1,5 +1,8 @@
 import { handlePrefixed } from "./utils.js";
 
+/**
+ * @type {import("./index.js").Scanner}
+ */
 export default function octothorpeScanner(char, input, { start }) {
   if (char !== "#") {
     return null;

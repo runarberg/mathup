@@ -1,5 +1,9 @@
 import { KNOWN_PARENS_CLOSE, isPunctClose } from "../lexemes.js";
 
+/**
+ * @param {string} partial
+ * @returns {boolean}
+ */
 function parenClosePotential(partial) {
   for (const [paren] of KNOWN_PARENS_CLOSE) {
     if (paren.startsWith(partial)) {
@@ -10,6 +14,9 @@ function parenClosePotential(partial) {
   return false;
 }
 
+/**
+ * @type {import("./index.js").Scanner}
+ */
 export default function parenCloseScanner(char, input, { grouping, start }) {
   if (!grouping) {
     return null;

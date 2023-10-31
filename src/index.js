@@ -1,27 +1,13 @@
 import compiler from "./compiler/index.js";
 
-export default function mathup(
-  input,
-  {
-    bare = false,
-    dir = null,
-    display = null,
-
-    decimalMark = ".",
-    colSep = decimalMark === "," ? ";" : ",",
-    rowSep = colSep === ";" ? ";;" : ";",
-  } = {},
-) {
-  const options = {
-    bare,
-    dir,
-    display,
-
-    decimalMark,
-    colSep,
-    rowSep,
-  };
-
+/**
+ * @typedef {import("./compiler/index.js").Result} Mathup
+ * @typedef {import("./compiler/index.js").Options} Options
+ * @param {string} input
+ * @param {Options} [options]
+ * @returns {Mathup}
+ */
+export default function mathup(input, options = {}) {
   const compile = compiler(options);
 
   return compile(input);
