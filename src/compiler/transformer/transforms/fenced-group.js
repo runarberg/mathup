@@ -1,7 +1,18 @@
-function notNull(x) {
-  return x !== null;
+/**
+ * @typedef {import("../../parser/index.js").FencedGroup} FencedGroup
+ */
+
+/**
+ * @param {import("../index.js").Tag | null} tag
+ * @returns {boolean}
+ */
+function notNull(tag) {
+  return tag !== null;
 }
 
+/**
+ * @type {import("../index.js").TransformFn<FencedGroup>}
+ */
 export default function fencedGroup(node, transform) {
   const cols = node.items
     .map((col) => {
@@ -16,11 +27,11 @@ export default function fencedGroup(node, transform) {
     })
     .reduce(
       (joined, next, i) => {
-        joined.childNodes.push(next);
+        joined?.childNodes?.push(next);
 
         const sep = node.attrs.seps[i];
         if (sep) {
-          joined.childNodes.push({
+          joined?.childNodes?.push({
             tag: "mo",
             textContent: sep,
             attrs: { separator: "true" },
@@ -37,7 +48,7 @@ export default function fencedGroup(node, transform) {
 
   const { open, close } = node.attrs;
 
-  if (!open && !close) {
+  if (cols && !open && !close) {
     return cols;
   }
 
@@ -53,7 +64,7 @@ export default function fencedGroup(node, transform) {
     });
   }
 
-  if (cols.childNodes.length === 1) {
+  if (cols?.childNodes?.length === 1) {
     childNodes.push(cols.childNodes[0]);
   } else {
     childNodes.push(cols);

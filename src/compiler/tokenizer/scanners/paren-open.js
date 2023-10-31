@@ -1,5 +1,9 @@
 import { KNOWN_PARENS_OPEN, isPunctOpen } from "../lexemes.js";
 
+/**
+ * @param {string} partial
+ * @returns {boolean}
+ */
 function parenOpenPotential(partial) {
   for (const [paren] of KNOWN_PARENS_OPEN) {
     if (paren.startsWith(partial)) {
@@ -10,6 +14,9 @@ function parenOpenPotential(partial) {
   return false;
 }
 
+/**
+ * @type {import("./index.js").Scanner}
+ */
 export default function parenOpenScanner(char, input, { start }) {
   let value = char;
 

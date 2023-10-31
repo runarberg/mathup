@@ -23,6 +23,7 @@ function main() {
     return;
   }
 
+  /** @type {import("../src/index.js").Options} */
   const options = {
     bare: argv.b || argv.bare,
     display: argv.d || argv.display ? "block" : undefined,

@@ -1,7 +1,11 @@
+/**
+ * @param {TemplateStringsArray} style
+ * @returns {HTMLStyleElement}
+ */
 function css(style) {
   const styleNode = document.createElement("style");
 
-  styleNode.textContent = style;
+  styleNode.textContent = style.join("");
 
   return styleNode;
 }
@@ -35,8 +39,10 @@ class UseExampleElement extends HTMLElement {
     const shadowRoot = template.content.cloneNode(true);
 
     const code = document.createElement("code");
-    const mathUp = document.createElement("math-up");
-    const input = this.textContent.trim();
+    const mathUp = /** @type {import("../src/custom-element.js").default} */ (
+      document.createElement("math-up")
+    );
+    const input = this?.textContent?.trim() ?? "";
     const options = {
       display: this.getAttribute("display"),
       dir: this.getAttribute("dir"),
@@ -46,13 +52,15 @@ class UseExampleElement extends HTMLElement {
     };
 
     code.className = "example-input";
-    code.part = "code";
+    code.setAttribute("part", "code");
     code.textContent = input;
+
     mathUp.display = "block";
-    mathUp.exportparts = "math";
+    mathUp.setAttribute("exportparts", "math");
 
     for (const [key, value] of Object.entries(options)) {
       if (value) {
+        // @ts-ignore
         mathUp[key] = value;
       }
     }

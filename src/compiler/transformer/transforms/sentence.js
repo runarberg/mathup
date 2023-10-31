@@ -1,18 +1,18 @@
-function pickNotNull(keys, obj) {
-  if (!obj) {
-    return {};
+/**
+ * @typedef {import("../../parser/index.js").Sentence} Sentence
+ * @type {import("../index.js").TransformFn<Sentence>}
+ */
+export default function sentence(node, transform, options) {
+  /** @type {Record<string, string>} */
+  const attrs = {};
+
+  if (options.dir) {
+    attrs.dir = options.dir;
   }
 
-  return Object.fromEntries(
-    Object.entries(obj).filter(
-      ([key, value]) =>
-        keys.includes(key) && value !== null && typeof value !== "undefined",
-    ),
-  );
-}
-
-export default function sentence(node, transform, options) {
-  const attrs = pickNotNull(["dir", "display"], options);
+  if (options.display) {
+    attrs.display = options.display;
+  }
 
   return {
     tag: "math",

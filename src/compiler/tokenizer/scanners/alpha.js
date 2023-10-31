@@ -7,6 +7,9 @@ import {
   isMark,
 } from "../lexemes.js";
 
+/**
+ * @type {import("./index.js").Scanner}
+ */
 export default function alphaScanner(char, input, { start }) {
   if (!isAlphabetic(char)) {
     return null;

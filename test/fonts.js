@@ -1,7 +1,13 @@
 import test from "ava";
 import mathup from "../src/index.js";
 
-const render = (str) => mathup(str).toString();
+/**
+ * @param {string} str
+ * @returns {string}
+ */
+function render(str) {
+  return mathup(str).toString();
+}
 
 test("Double quoted as text", (t) => {
   t.snapshot(render('"alpha"'));

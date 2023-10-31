@@ -1,7 +1,13 @@
 import test from "ava";
 import mathup from "../src/index.js";
 
-const render = (str) => mathup(str).toString();
+/**
+ * @param {string} str
+ * @returns {string}
+ */
+function render(str) {
+  return mathup(str).toString();
+}
 
 test("Greeks (uppercase in normal variant, lowercase in italic)", (t) => {
   t.snapshot(render("Gamma Delta Theta Lambda Xi Pi Sigma Phi Psi Omega"));

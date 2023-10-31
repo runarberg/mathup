@@ -1,5 +1,9 @@
 import { KNOWN_OPS, isOperational } from "../lexemes.js";
 
+/**
+ * @param {string} partial
+ * @returns {boolean}
+ */
 function opsPotential(partial) {
   for (const [op] of KNOWN_OPS) {
     if (op.startsWith(partial)) {
@@ -10,6 +14,9 @@ function opsPotential(partial) {
   return false;
 }
 
+/**
+ * @type {import("./index.js").Scanner}
+ */
 export default function operatorScanner(char, input, { start }) {
   let value = char;
 

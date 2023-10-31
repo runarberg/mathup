@@ -1,5 +1,18 @@
 import expr from "./handlers/expr.js";
 
+/**
+ * @typedef {import("../tokenizer/index.js").Token} Token
+ * @typedef {import("./index.js").Node} Node
+ * @typedef {import("./index.js").Sentence} Sentence
+ *
+ * @typedef {object} State
+ * @property {Token[]} tokens
+ * @property {number} start
+ * @property {Node[]} stack
+ *
+ * @param {Token[]} tokens
+ * @returns {Sentence}
+ */
 export default function parse(tokens) {
   const body = [];
   let pos = 0;

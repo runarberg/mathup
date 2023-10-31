@@ -1,7 +1,14 @@
 import test from "ava";
 import mathup from "../src/index.js";
 
-const render = (str, options) => mathup(str, options).toString();
+/**
+ * @param {string} str
+ * @param {import("../src/index.js").Options} [options]
+ * @returns {string}
+ */
+function render(str, options) {
+  return mathup(str, options).toString();
+}
 
 test("Display block, when passed in", (t) => {
   t.snapshot(render("", { display: "block" }));

@@ -1,13 +1,36 @@
 import scanners, { unhandled } from "./scanners/index.js";
 import { isMark } from "./lexemes.js";
 
-export default function createTokenizer({
-  decimalMark = ".",
-  colSep = decimalMark === "," ? ";" : ",",
-  rowSep = colSep === ";" ? ";;" : ";",
-} = {}) {
-  const options = { decimalMark, colSep, rowSep };
-
+/**
+ * @typedef {"ident" | "infix" | "number" | "operator" | "paren.close" | "paren.open" | "prefix" | "sep.col" | "sep.row" | "space" | "text"} TokenType
+ *
+ * @typedef {object} Token
+ * @property {TokenType} type
+ * @property {string} value
+ * @property {string} [accent]
+ * @property {number} [arity]
+ * @property {string} [name]
+ * @property {boolean} [split]
+ * @property {string} [value]
+ * @property {Record<string, string | number | boolean | null | undefined>} [attrs]
+ *
+ * @typedef {object} State
+ * @property {number} start
+ * @property {boolean} grouping
+ *
+ * @typedef {object} TokenizerOptions
+ * @property {string} [decimalMark="."] - Decimal separator.
+ * @property {string} [colSep=","] - Column separator e.g. for arrays and matrices.
+ * @property {string} [rowSep=";"] - Row separator e.g. for matrices.
+ *
+ * @param {Required<TokenizerOptions>} options
+ */
+export default function createTokenizer(options) {
+  /**
+   * @param {string} input
+   * @param {State} state
+   * @returns {Token & { end: number }}
+   */
   function nextToken(input, state) {
     const [char] = input.slice(state.start);
 
@@ -22,6 +45,10 @@ export default function createTokenizer({
     return unhandled(char, input, state, options);
   }
 
+  /**
+   * @param {string} input
+   * @returns {Generator<Token>}
+   */
   return function* tokenize(input) {
     let pos = 0;
     let nestLevel = 0;

@@ -1,17 +1,23 @@
 import test from "ava";
 import groupSep from "./group-sep.js";
 
+const options = {
+  decimalMark: ".",
+  colSep: ",",
+  rowSep: ";",
+};
+
 test("rejects non-group-sep", (t) => {
-  t.is(groupSep("a", "(a,b)", { start: 1, grouping: true }), null);
+  t.is(groupSep("a", "(a,b)", { start: 1, grouping: true }, options), null);
 });
 
 test("rejects group-sep in non-grouping context", (t) => {
-  t.is(groupSep(",", "(a,b)", { start: 2, grouping: false }), null);
-  t.is(groupSep(";", "(a;b)", { start: 2, grouping: false }), null);
+  t.is(groupSep(",", "(a,b)", { start: 2, grouping: false }, options), null);
+  t.is(groupSep(";", "(a;b)", { start: 2, grouping: false }, options), null);
 });
 
 test("simple col-sep", (t) => {
-  t.deepEqual(groupSep(",", "(a,b)", { start: 2, grouping: true }), {
+  t.deepEqual(groupSep(",", "(a,b)", { start: 2, grouping: true }, options), {
     type: "sep.col",
     value: ",",
     end: 3,
@@ -19,7 +25,7 @@ test("simple col-sep", (t) => {
 });
 
 test("simple row-sep", (t) => {
-  t.deepEqual(groupSep(";", "(a;b)", { start: 2, grouping: true }), {
+  t.deepEqual(groupSep(";", "(a;b)", { start: 2, grouping: true }, options), {
     type: "sep.row",
     value: ";",
     end: 3,
@@ -32,7 +38,7 @@ test("custom col-sep", (t) => {
       ";",
       "(3.14; 2.72)",
       { start: 5, grouping: true },
-      { colSep: ";", rowSep: ";;" },
+      { decimalMark: ".", colSep: ";", rowSep: ";;" },
     ),
     {
       type: "sep.col",
@@ -48,7 +54,7 @@ test("custom row-sep", (t) => {
       ";",
       "(3.14 ;; 2.72)",
       { start: 6, grouping: true },
-      { colSep: ";", rowSep: ";;" },
+      { decimalMark: ".", colSep: ";", rowSep: ";;" },
     ),
     {
       type: "sep.row",

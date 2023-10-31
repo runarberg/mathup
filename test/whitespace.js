@@ -1,7 +1,13 @@
 import test from "ava";
 import mathup from "../src/index.js";
 
-const render = (str) => mathup(str).toString();
+/**
+ * @param {string} str
+ * @returns {string}
+ */
+function render(str) {
+  return mathup(str).toString();
+}
 
 test("More then one subsequent whitespace keeps", (t) => {
   t.snapshot(render("a  b"));

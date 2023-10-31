@@ -37,7 +37,7 @@ class TestCaseElement extends HTMLElement {
     const pre = document.createElement("pre");
     const code = document.createElement("code");
     const mathUp = document.createElement("math-up");
-    const input = this.textContent.trim();
+    const input = this?.textContent?.trim() ?? "";
     const options = {
       display: this.getAttribute("display"),
       dir: this.getAttribute("dir"),
@@ -52,6 +52,7 @@ class TestCaseElement extends HTMLElement {
 
     for (const [key, value] of Object.entries(options)) {
       if (value) {
+        // @ts-ignore
         mathUp[key] = value;
       }
     }

@@ -3,6 +3,11 @@ import toDOM from "./to-dom.js";
 // eslint-disable-next-line no-empty-function
 function* nullIter() {}
 
+/**
+ * @template {unknown[]} T - Tuple type with item type of each input iterator
+ * @param {{ [K in keyof T]: Iterable<T[K]> }} iterables - The iterators to be zipped
+ * @returns {Generator<T, void>}
+ */
 function* zip(iterables) {
   const iterators = iterables.map((iterable) =>
     iterable ? iterable[Symbol.iterator]() : nullIter(),
@@ -15,11 +20,19 @@ function* zip(iterables) {
       return;
     }
 
-    yield next.map(({ value }) => value);
+    yield /** @type {T} */ (next.map(({ value }) => value));
   }
 }
 
-export default function updateDOM(parent, node, options = {}) {
+/**
+ * @typedef {import("../transformer/index.js").Tag} Tag
+ *
+ * @param {Element} parent
+ * @param {Tag} node
+ * @param {Required<import("./index.js").RenderOptions>} options
+ * @returns {void}
+ */
+export default function updateDOM(parent, node, options) {
   if (!parent) {
     throw new Error("updateDOM called on null");
   }
@@ -38,7 +51,7 @@ export default function updateDOM(parent, node, options = {}) {
       if (!newValue) {
         removeAttrs.push(attr.name);
       } else if (newValue !== attr.value) {
-        parent.setAttribute(attr.name, newValue);
+        parent.setAttribute(attr.name, `${newValue}`);
       }
     }
 
@@ -48,7 +61,7 @@ export default function updateDOM(parent, node, options = {}) {
 
     for (const [name, value] of Object.entries(desiredAttrs)) {
       if (!parent.getAttribute(name)) {
-        parent.setAttribute(name, value);
+        parent.setAttribute(name, `${value}`);
       }
     }
   }
@@ -56,7 +69,7 @@ export default function updateDOM(parent, node, options = {}) {
   if (["mi", "mn", "mo", "mspace", "mtext"].includes(node.tag)) {
     if (parent.textContent !== node.textContent) {
       // eslint-disable-next-line no-param-reassign
-      parent.textContent = node.textContent;
+      parent.textContent = node.textContent ?? "";
     }
 
     return;
@@ -68,7 +81,12 @@ export default function updateDOM(parent, node, options = {}) {
   const removeChilds = [];
   const replaceChilds = [];
 
-  for (const [child, desired] of zip([parent.children, node.childNodes])) {
+  for (const [child, desired] of zip(
+    /** @type {[HTMLCollection, (Tag | null)[]]} */ ([
+      parent.children,
+      node.childNodes,
+    ]),
+  )) {
     if (!desired) {
       // parent.removeChild(child);
       removeChilds.push(child);
@@ -79,7 +97,7 @@ export default function updateDOM(parent, node, options = {}) {
       // parent.replaceChild(toDOM(desired, options), child);
       replaceChilds.push([child, toDOM(desired, options)]);
     } else {
-      updateDOM(child, desired);
+      updateDOM(child, desired, { bare: false });
     }
   }
 

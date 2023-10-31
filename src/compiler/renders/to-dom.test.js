@@ -9,6 +9,7 @@ const { window } = new jsdom.JSDOM();
 
 test.before("set up DOM", () => {
   globalThis.document = window.document;
+  globalThis.Element = window.Element;
 });
 
 test("empty expression", (t) => {
@@ -17,7 +18,12 @@ test("empty expression", (t) => {
     childNodes: [],
   };
 
-  const domNode = toDOM(nodeTree);
+  const domNode = toDOM(nodeTree, { bare: false });
+
+  if (!(domNode instanceof globalThis.Element)) {
+    t.fail("expected domNode to be instance of Element");
+    return;
+  }
 
   t.is(domNode.tagName, "math");
   t.is(domNode.namespaceURI, "http://www.w3.org/1998/Math/MathML");
@@ -33,7 +39,12 @@ test("empty expression with attributes", (t) => {
     childNodes: [],
   };
 
-  const domNode = toDOM(nodeTree);
+  const domNode = toDOM(nodeTree, { bare: false });
+
+  if (!(domNode instanceof globalThis.Element)) {
+    t.fail("expected domNode to be instance of Element");
+    return;
+  }
 
   t.is(domNode.tagName, "math");
   t.is(domNode.namespaceURI, "http://www.w3.org/1998/Math/MathML");
@@ -57,7 +68,12 @@ test("expression with children", (t) => {
     ],
   };
 
-  const domNode = toDOM(nodeTree);
+  const domNode = toDOM(nodeTree, { bare: false });
+
+  if (!(domNode instanceof globalThis.Element)) {
+    t.fail("expected domNode to be instance of Element");
+    return;
+  }
 
   t.is(domNode.tagName, "math");
   t.is(domNode.namespaceURI, "http://www.w3.org/1998/Math/MathML");
@@ -66,6 +82,11 @@ test("expression with children", (t) => {
 
   const [mfrac] = domNode.childNodes;
 
+  if (!(mfrac instanceof globalThis.Element)) {
+    t.fail("expected mfrac to be instance of Element");
+    return;
+  }
+
   t.is(mfrac.tagName, "mfrac");
   t.is(mfrac.attributes.length, 1);
   t.is(mfrac.getAttribute("linethickness"), "0");
@@ -73,10 +94,20 @@ test("expression with children", (t) => {
 
   const [mi, mn] = mfrac.childNodes;
 
+  if (!(mi instanceof globalThis.Element)) {
+    t.fail("expected mi to be instance of Element");
+    return;
+  }
+
   t.is(mi.tagName, "mi");
   t.is(mi.attributes.length, 0);
   t.is(mi.children.length, 0);
   t.is(mi.textContent, "n");
+
+  if (!(mn instanceof globalThis.Element)) {
+    t.fail("expected mi to be instance of Element");
+    return;
+  }
 
   t.is(mn.tagName, "mn");
   t.is(mn.attributes.length, 0);

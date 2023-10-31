@@ -1,8 +1,11 @@
+/**
+ * @type {import("./index.js").Scanner}
+ */
 export default function groupSepScanner(
-  char,
+  _char,
   input,
   { grouping, start },
-  { colSep = ",", rowSep = ";" } = {},
+  { colSep, rowSep },
 ) {
   if (!grouping) {
     return null;
