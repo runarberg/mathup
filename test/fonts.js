@@ -23,6 +23,14 @@ test("Mathvariants for texts", (t) => {
   t.snapshot(render('tt"abc"'));
 });
 
+test("Double-struck characters", (t) => {
+  t.snapshot(render('bb"0123456789"'));
+  t.snapshot(render('bb"abcdefghijklmnopqrstuvwxyz"'));
+  t.snapshot(render('bb"ABCDEFGHIJKLMNOPQRSTUVWXYZ"'));
+  t.snapshot(render('bb"R"'));
+  t.snapshot(render('bb"1-R.ℤ"'));
+});
+
 test("Space after the variant label", (t) => {
   t.snapshot(render('rm "abc"'));
   t.snapshot(render('it "abc"'));
