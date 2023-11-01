@@ -13,29 +13,29 @@ const defaultConfig = {
   input: "src/index.js",
   output: [
     {
-      file: `target/node/${NAME}.cjs`,
+      file: `dist/node/${NAME}.cjs`,
       format: "cjs",
       sourcemap: true,
     },
     {
-      file: `target/module/${NAME}.mjs`,
+      file: `dist/module/${NAME}.js`,
       format: "module",
       sourcemap: true,
     },
     {
-      file: `target/module/${NAME}.min.mjs`,
+      file: `dist/module/${NAME}.min.js`,
       format: "module",
       plugins: [terser()],
     },
     {
-      file: `target/browser/${NAME}.iife.js`,
+      file: `dist/browser/${NAME}.iife.js`,
       format: "iife",
       name: NAME,
       banner: `/*! ${NAME} v${VERSION} | (c) 2015-${YEAR} (${LICENSE}) | ${HOMEPAGE} */`,
       sourcemap: true,
     },
     {
-      file: `target/browser/${NAME}.iife.min.js`,
+      file: `dist/browser/${NAME}.iife.min.js`,
       format: "iife",
       name: NAME,
       plugins: [terser()],
@@ -52,24 +52,24 @@ const customElementConfig = {
   input: "src/custom-element.js",
   output: [
     {
-      file: `target/module/math-up-element.js`,
+      file: `dist/module/math-up-element.js`,
       format: "module",
       sourcemap: true,
     },
     {
-      file: `target/module/math-up-element.min.js`,
+      file: `dist/module/math-up-element.min.js`,
       format: "module",
       plugins: [terser()],
     },
     {
-      file: `target/browser/math-up-element.iife.js`,
+      file: `dist/browser/math-up-element.iife.js`,
       format: "iife",
       name: "MathUpElement",
       banner: `/*! ${NAME} v${VERSION} | (c) 2015-${YEAR} (${LICENSE}) | ${HOMEPAGE} */`,
       sourcemap: true,
     },
     {
-      file: `target/browser/math-up-element.iife.min.js`,
+      file: `dist/browser/math-up-element.iife.min.js`,
       format: "iife",
       name: "MathUpElement",
       plugins: [terser()],

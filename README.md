@@ -1,5 +1,4 @@
-mathup
-======
+# mathup
 
 [![npm](https://img.shields.io/npm/v/mathup.svg)](https://www.npmjs.com/package/mathup)
 [![License](https://img.shields.io/npm/l/mathup)](LICENSE)
@@ -8,9 +7,9 @@ mathup
 [![Downloads](https://img.shields.io/npm/dm/mathup)](https://npm-stat.com/charts.html?package=mathup)  
 [![npms Score](https://badges.npms.io/mathup.svg)](https://api.npms.io/v2/package/mathup)
 
-#### Installation ####
+#### Installation
 
-##### npm #####
+##### npm
 
 ```bash
 npm install mathup
@@ -20,9 +19,9 @@ npm install mathup
 import mathup from "mathup";
 ```
 
-##### Client #####
+##### Client
 
-Download one of the [released assets](https://github.com/runarberg/mathup/releases)
+Download or link one or more of the [released assets](https://www.jsdelivr.com/package/npm/mathup?tab=files&path=dist)
 and include the **module**:
 
 ```html
@@ -41,11 +40,11 @@ and include the **module**:
 <script src="mathup.iife.js"></script>
 ```
 
-#### Usage ####
+#### Usage
 
 ```js
 const expression = "1+1 = 2";
-const options = {};  // optional
+const options = {}; // optional
 const mathml = mathup(expression, options);
 
 mathml.toString();
@@ -58,22 +57,15 @@ const mathNode = mathml.toDOM();
 mathup("3-2 = 1", { bare: true }).updateDOM(mathNode);
 ```
 
-
-##### Custom Element #####
+##### Custom Element
 
 ```html
-<math-up
-  display="inline"
-  dir="ltr"
-  decimal-mark=","
-  col-sep=";"
-  row-sep=";;"
->
+<math-up display="inline" dir="ltr" decimal-mark="," col-sep=";" row-sep=";;">
   1+1 = 2
 </math-up>
 ```
 
-##### Command Line #####
+##### Command Line
 
 ```bash
 npm install -g mathup
@@ -84,8 +76,9 @@ mathup [options] -- <expression>
 echo <expression> | mathup [options]
 ```
 
-#### Options (with defaults) ####
+#### Options (with defaults)
 
+<!-- prettier-ignore -->
 ```js
 const options = {
   decimalMark: ".",   // -m,  --decimalmark="."
@@ -97,19 +90,16 @@ const options = {
 }
 ```
 
-Reference
----------
+## Reference
 
 [See here](http://runarberg.github.io/mathup/#reference)
 
-
-Easy MathML authoring tool with a quick to write syntax
--------------------------------------------------------
+## Easy MathML authoring tool with a quick to write syntax
 
 This package exposes a single function `mathup` that intuitively takes
 simple mathematical expressions—written in a markup language inspired
-by [*AsciiMath*](http://asciimath.org/)—and outputs structured
-[*MathML*](http://www.w3.org/Math/).
+by [_AsciiMath_](http://asciimath.org/)—and outputs structured
+[_MathML_](http://www.w3.org/Math/).
 
 You can use it on the command line or on the server as an
 [npm](https://npmjs.com) package, or in the browser by including the
@@ -120,11 +110,9 @@ there that does it for you. And you can choose what to do with the
 output as well—piping it to another program, inject it streight to the
 DOM, or just logging it to the console.
 
+## Why not just use _MathJax_?
 
-Why not just use *MathJax*?
----------------------------
-
-[*MathJax*](http://www.mathjax.org/) is an excellent tool that you can
+[_MathJax_](http://www.mathjax.org/) is an excellent tool that you can
 safely use if all you want to do is include complex mathematical
 expressions in a document. However, MathJax is a complex piece of
 software that does a great deal more than just translate simple
@@ -134,16 +122,14 @@ faster (by doing less) then MathJax. While MathJax will search for
 expressions, parse them, translate and render them. Mathup only parses
 and translates them, and let the browser do the rendering.
 
-
-Why AsciiMath / Why not TeΧ?
-----------------------------
+## Why AsciiMath / Why not TeΧ?
 
 I wrote this tool, because I wanted to be able to author mathematical
 expressions quickly, with no overhead (imagine `1/2` instead of
 `\frac{1}{2}`). TeΧ expressions can easily become verbose and annoying
 to write (especially on keyboards with complex access to the
 <kbd> \ </kbd>, <kbd>{</kbd>, and <kbd>}</kbd> keys). However, the
-purpose of this package is *not* to give people complete control over
+purpose of this package is _not_ to give people complete control over
 MathML in a non-verbose way, the purpose is to make it simple for
 people to write simple expression. Of course I’ll try to give as much
 expressive power as possible in the way, but I won’t promise to make
@@ -154,9 +140,7 @@ tags perhaps you should look for another tool. There are other great
 efforts to enable people to author MathML in TeX format, take a look
 at [TeXZilla](https://github.com/fred-wang/TeXZilla) for example.
 
-
-Testing
--------
+## Testing
 
 Run the test suites with:
 

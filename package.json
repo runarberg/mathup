@@ -22,7 +22,7 @@
     "url": "https://github.com/runarberg/mathup.git"
   },
   "scripts": {
-    "clean": "rm -fr coverage/ target/",
+    "clean": "rm -fr coverage/ dist/",
     "server": "python3 -m http.server",
     "lint": "eslint --ext .js  src/ test/ *.config.js",
     "build": "rollup --config",
@@ -45,7 +45,7 @@
         "@babel/preset-env",
         {
           "targets": {
-            "node": "12"
+            "node": "18"
           }
         }
       ]
