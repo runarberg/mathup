@@ -13,9 +13,9 @@
   "license": "MIT",
   "author": "Rúnar Berg Baugsson Sigríðarson <runarberg@zoho.com>",
   "type": "module",
-  "exports": "src/index.js",
+  "exports": "./src/index.js",
   "bin": {
-    "mathup": "bin/mathup.js"
+    "mathup": "./bin/mathup.js"
   },
   "repository": {
     "type": "git",
