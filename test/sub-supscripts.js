@@ -49,7 +49,7 @@ test("Pythagorean theorem", (t) => {
 });
 
 test("Matrix transpose", (t) => {
-  t.snapshot(render("(X^T)_ i&,j = X_ j&,i"));
+  t.snapshot(render("(X^T)_ i.,j = X_ j.,i"));
 });
 
 test("The natural logarithm", (t) => {
