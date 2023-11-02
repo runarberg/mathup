@@ -272,16 +272,6 @@ export const KNOWN_PREFIX = new Map([
   ["ul", { name: "under", accent: "_" }],
   ["vec", { name: "over", accent: "→" }],
 
-  // Fonts
-  ["rm", { name: "style", attrs: { mathvariant: "normal" } }],
-  ["bf", { name: "style", attrs: { mathvariant: "bold" } }],
-  ["it", { name: "style", attrs: { mathvariant: "italic" } }],
-  ["bb", { name: "style", attrs: { mathvariant: "double-struck" } }],
-  ["cc", { name: "style", attrs: { mathvariant: "script" } }],
-  ["tt", { name: "style", attrs: { mathvariant: "monospace" } }],
-  ["fr", { name: "style", attrs: { mathvariant: "fraktur" } }],
-  ["sf", { name: "style", attrs: { mathvariant: "sans-serif" } }],
-
   // Groups
   ["abs", { name: "fence", attrs: { open: "|", close: "|" } }],
   [
@@ -302,4 +292,16 @@ export const KNOWN_PREFIX = new Map([
   // Roots
   ["root", { name: "root", arity: 2 }],
   ["sqrt", { name: "sqrt" }],
+]);
+
+export const KNOWN_COMMANDS = new Map([
+  // Fonts
+  ["rm", { name: "text-transform", value: "normal" }],
+  ["bf", { name: "text-transform", value: "bold" }],
+  ["it", { name: "text-transform", value: "italic" }],
+  ["bb", { name: "text-transform", value: "double-struck" }],
+  ["cc", { name: "text-transform", value: "script" }],
+  ["tt", { name: "text-transform", value: "monospace" }],
+  ["fr", { name: "text-transform", value: "fraktur" }],
+  ["sf", { name: "text-transform", value: "sans-serif" }],
 ]);

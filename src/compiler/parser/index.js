@@ -28,6 +28,7 @@
  * @property {"UnaryOperation"} type
  * @property {string} name
  * @property {string} [accent]
+ * @property {string[]} [transforms]
  * @property { LiteralAttrs } [attrs]
  * @property { [Node] } items
  *

@@ -12,5 +12,5 @@
     "lib": ["esnext", "DOM", "DOM.iterable"]
   },
   "include": ["**/*.js"],
-  "exclude": ["**/*.config.js", "**/*.test.js", "bin/", "coverage/", "target/"]
+  "exclude": ["**/*.config.js", "**/*.test.js", "bin/", "coverage/", "dist/"]
 }

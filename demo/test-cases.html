@@ -219,7 +219,7 @@
         <test-case>NN = {1, 2, 3, ...}</test-case>
 
         <test-case display="block">
-          (: V(t)^2 :) = lim _ T-&gt;oo 1/T int_(-T/2)^(T/2) V(t)^2  dt
+          (: V(t)^2 :) = lim_(T-&gt;oo) 1/T int_(-T/2)^(T/2) V(t)^2  dt
         </test-case>
       </section>
 
@@ -244,9 +244,9 @@
       <section id="test-cases-over-underscripts">
         <h2>Over and Underscripts</h2>
 
-        <test-case display="block">lim _ a-&gt;b</test-case>
-        <test-case display="block">sum _ i=0 ^ n</test-case>
-        <test-case display="block">prod _ i=1 ^ n</test-case>
+        <test-case display="block">lim_(a-&gt;b)</test-case>
+        <test-case display="block">sum_(i=0)^n</test-case>
+        <test-case display="block">prod_(i=1)^n</test-case>
 
         <test-case display="block">
           phi =.^"def" a/b = a+b / a
@@ -316,6 +316,18 @@ A = [ a_(1 1), a_(1 2), cdots, a_(1 n)
       <section id="test-cases-fonts">
         <h2>Fonts</h2>
 
+        <test-case display="block">
+          bb E[X] = int_(-oo)^oo x f(x)  bb it dx
+        </test-case>
+
+        <test-case display="block">
+          bb P(x) = 1   \for 0 &leq; x &leq; 1
+        </test-case>
+
+        <test-case display="block">
+          it`proj`_(bf v) bf a = (bf a*v) / (norm(bf v)^2) bf v
+        </test-case>
+
         <section>
           <h3>Text</h3>
 
@@ -323,15 +335,21 @@ A = [ a_(1 1), a_(1 2), cdots, a_(1 n)
           <test-case>rm"AaBbCc"</test-case>
           <test-case>it"AaBbCc"</test-case>
           <test-case>bf"AaBbCc"</test-case>
+          <test-case>bf it "AaBbCc"</test-case>
           <test-case>bb"AaBbCc"</test-case>
           <test-case>cc"AaBbCc"</test-case>
+          <test-case>bf cc"AaBbCc"</test-case>
           <test-case>fr"AaBbCc"</test-case>
+          <test-case>fr bf"AaBbCc"</test-case>
           <test-case>sf"AaBbCc"</test-case>
+          <test-case>it sf"AaBbCc"</test-case>
+          <test-case>bf sf"AaBbCc"</test-case>
+          <test-case>it bf sf"AaBbCc"</test-case>
           <test-case>tt"AaBbCc"</test-case>
+          <test-case>bf tt"AaBbCc"</test-case>
+          <test-case>it tt"AaBbCc"</test-case>
+          <test-case>it bf tt"AaBbCc"</test-case>
 
-          <test-case display="block">
-            it`proj`_(bf v) bf a = bf(a*v) / (norm(bf v)^2) bf`v`
-          </test-case>
         </section>
 
         <section id="test-cases-forced-identifiers">
@@ -340,12 +358,18 @@ A = [ a_(1 1), a_(1 2), cdots, a_(1 n)
           <test-case>`Gamma` != Gamma</test-case>
           <test-case>rm`e`</test-case>
           <test-case>it`ln`</test-case>
+          <test-case>bf it`ln`</test-case>
           <test-case>bf`1234`</test-case>
           <test-case>bb`1234`</test-case>
           <test-case>cc`l`</test-case>
+          <test-case>bf cc`l`</test-case>
           <test-case>fr`g`</test-case>
+          <test-case>bf fr`g`</test-case>
           <test-case>sf`1234`</test-case>
+          <test-case>bf sf`1234`</test-case>
+          <test-case>it sf`AaBbCc`</test-case>
           <test-case>tt`1234`</test-case>
+          <test-case>i rm i</test-case>
         </section>
       </section>
 

@@ -29,7 +29,7 @@
       <div class="input">
         <p><label for="try-input">You write…</label></p>
 
-        <textarea id="try-input">bb E [X] = int_(-oo)^oo x f(x)  dx</textarea>
+        <textarea id="try-input">bb E[X] = int_(-oo)^oo x f(x)  dx</textarea>
 
         <div class="options">
           <label for="try-decimalmark">Decimal mark</label>
@@ -1404,7 +1404,7 @@
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  bb P (x) = 1   \for 0 &leq; x &leq; 1
+                  bb P(x) = 1   \for 0 &leq; x &leq; 1
                 </use-example>
               </li>
 
@@ -1759,7 +1759,7 @@
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  &lt;&lt;V(t)^2&gt;&gt; = lim_ T-&gt;oo 1/T int _ -T/2 ^ T/2 V(t)^2  dt
+                  &lt;&lt;V(t)^2&gt;&gt; = lim_(T-&gt;oo) 1/T int_(-T/2)^(T/2) V(t)^2  dt
                 </use-example>
               </li>
             </ul>
@@ -1971,8 +1971,23 @@ n! = { 1,       if n=0 or n=1
           <h3>Font commands</h3>
 
           <p>
-            You can prefix any expression with a font command. Then all token
-            elements in that expression will have the following variant.
+            You can prefix any expression with a font command. Then
+            all token elements in that expression will have the
+            following variant. Some variants can be combined, order
+            doesn’t matter.
+          </p>
+
+          <p>
+            Bold (<code>bf</code>), italic (<code>it</code>),
+            sans-serif (<code>sf</code>), and monospace
+            (<code>tt</code>) on texts (<code>bf tt "text"</code>) are
+            set using CSS. If you want to control the font-family of
+            sans-serif and monospace texts, you can set
+            the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties">CSS
+            custom
+            properties</a> <code>--mathup-font-family-sans-serif</code>
+            and <code>--mathup-font-family-monospace</code>
+            respectively.
           </p>
 
           <details>
@@ -1982,56 +1997,98 @@ n! = { 1,       if n=0 or n=1
               <dt><code>rm</code></dt>
               <dd>
                 <math>
-                  <mtext mathvariant="normal">normal</mtext>
+                  <mtext>normal</mtext>
                 </math>
               </dd>
 
               <dt><code>bf</code></dt>
               <dd>
                 <math>
-                  <mtext mathvariant="bold">bold</mtext>
+                  <mtext style="font-weight:bold;">bold</mtext>
                 </math>
               </dd>
 
               <dt><code>it</code></dt>
               <dd>
                 <math>
-                  <mtext mathvariant="italic">italic</mtext>
+                  <mtext style="font-style:italic;">italic</mtext>
+                </math>
+              </dd>
+
+              <dt><code>bf it</code></dt>
+              <dd>
+                <math>
+                  <mtext style="font-weight:bold;font-style:italic;">bold italic</mtext>
                 </math>
               </dd>
 
               <dt><code>bb</code></dt>
               <dd>
                 <math>
-                  <mtext mathvariant="double-struck">double-struck</mtext>
+                  <mtext>𝕕𝕠𝕦𝕓𝕝𝕖-𝕤𝕥𝕣𝕦𝕔𝕜</mtext>
                 </math>
               </dd>
 
               <dt><code>cc</code></dt>
               <dd>
                 <math>
-                  <mtext mathvariant="script">script</mtext>
+                  <mtext>𝓈𝒸𝓇𝒾𝓅𝓉</mtext>
+                </math>
+              </dd>
+
+              <dt><code>bf cc</code></dt>
+              <dd>
+                <math>
+                  <mtext>𝓼𝓬𝓻𝓲𝓹𝓽</mtext>
                 </math>
               </dd>
 
               <dt><code>fr</code></dt>
               <dd>
                 <math>
-                  <mtext mathvariant="fraktur">fraktur</mtext>
+                  <mtext>𝔣𝔯𝔞𝔠𝔱𝔲𝔯</mtext>
+                </math>
+              </dd>
+
+              <dt><code>bf fr</code></dt>
+              <dd>
+                <math>
+                  <mtext>𝖋𝖗𝖆𝖈𝖙𝖚𝖗</mtext>
                 </math>
               </dd>
 
               <dt><code>sf</code></dt>
               <dd>
                 <math>
-                  <mtext mathvariant="sans-serif">sans-serif</mtext>
+                  <mtext>𝗌𝖺𝗇𝗌-𝗌𝖾𝗋𝗂𝖿</mtext>
+                </math>
+              </dd>
+
+              <dt><code>bf sf</code></dt>
+              <dd>
+                <math>
+                  <mtext>𝘀𝗮𝗻𝘀-𝘀𝗲𝗿𝗶𝗳</mtext>
+                </math>
+              </dd>
+
+              <dt><code>it sf</code></dt>
+              <dd>
+                <math>
+                  <mtext>𝘴𝘢𝘯𝘴-𝘴𝘦𝘳𝘪𝘧</mtext>
+                </math>
+              </dd>
+
+              <dt><code>bf it sf</code></dt>
+              <dd>
+                <math>
+                  <mtext>𝙨𝙖𝙣𝙨-𝙨𝙚𝙧𝙞𝙛</mtext>
                 </math>
               </dd>
 
               <dt><code>tt</code></dt>
               <dd>
                 <math>
-                  <mtext mathvariant="monospace">monospace</mtext>
+                  <mtext>𝚖𝚘𝚗𝚘𝚜𝚙𝚊𝚌𝚎</mtext>
                 </math>
               </dd>
             </dl>
@@ -2042,14 +2099,21 @@ n! = { 1,       if n=0 or n=1
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  bb`1` _({x in X})
+                  bb`1`_({x in X})
                 </use-example>
               </li>
 
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  it`proj` _(bf v) bf a = (bf a*v) / (norm(bf v)^2) bf v
+                  it`proj`_(bf v) bf a = (bf a*v) / (norm(bf v)^2) bf v
+                </use-example>
+              </li>
+
+              <li>
+                <!-- prettier-ignore -->
+                <use-example>
+                  bb E[X] = int_(-oo)^oo x f(x)  bb it d x
                 </use-example>
               </li>
             </ul>
