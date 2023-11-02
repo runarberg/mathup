@@ -1,3 +1,4 @@
+import command from "./command.js";
 import infix from "./infix.js";
 import group from "./group.js";
 import prefix from "./prefix.js";
@@ -32,6 +33,7 @@ const literal =
 
 /** @type {[TokenType, Handler][]} */
 const handlers = [
+  ["command", command],
   ["ident", literal("Ident")],
   ["number", literal("Number")],
   ["operator", literal("Operator")],

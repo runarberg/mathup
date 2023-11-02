@@ -18,7 +18,7 @@ test("Backtick surrounded as identifiers", (t) => {
   t.snapshot(render("`Gamma` != Gamma"));
 });
 
-test("Mathvariants for texts", (t) => {
+test("fonts and style commands on texts", (t) => {
   t.snapshot(render('rm"abc"'));
   t.snapshot(render('it"abc"'));
   t.snapshot(render('bf"abc"'));
@@ -37,7 +37,7 @@ test("Double-struck characters", (t) => {
   t.snapshot(render('bb"1-R.ℤ"'));
 });
 
-test("Space after the variant label", (t) => {
+test("Space after the command label", (t) => {
   t.snapshot(render('rm "abc"'));
   t.snapshot(render('it "abc"'));
   t.snapshot(render('bf "abc"'));
@@ -48,7 +48,14 @@ test("Space after the variant label", (t) => {
   t.snapshot(render('tt "abc"'));
 });
 
-test("Mathvariants for identifiers", (t) => {
+test("stacked commands on text", (t) => {
+  t.snapshot(render('bf it "abc"'));
+  t.snapshot(render('it bf "abc"'));
+  t.snapshot(render('sf it bf "abc"'));
+  t.snapshot(render('bf fr "abc"'));
+});
+
+test("text-transforms for identifiers", (t) => {
   t.snapshot(render("rm`abc`"));
   t.snapshot(render("it`abc`"));
   t.snapshot(render("bf`abc`"));
@@ -59,7 +66,23 @@ test("Mathvariants for identifiers", (t) => {
   t.snapshot(render("tt`abc`"));
 });
 
-test("Mathvariants for identifiers with space after variant", (t) => {
+test("mathvariant normal", (t) => {
+  t.snapshot(render("rm i"));
+  t.snapshot(render("rm Γ"));
+});
+
+test("text-transforms for identifiers with space after variant", (t) => {
+  t.snapshot(render("rm `abc`"));
+  t.snapshot(render("it `abc`"));
+  t.snapshot(render("bf `abc`"));
+  t.snapshot(render("bb `abc`"));
+  t.snapshot(render("cc `abc`"));
+  t.snapshot(render("fr `abc`"));
+  t.snapshot(render("sf `abc`"));
+  t.snapshot(render("tt `abc`"));
+});
+
+test("stacked text-transforms for identifiers", (t) => {
   t.snapshot(render("rm `abc`"));
   t.snapshot(render("it `abc`"));
   t.snapshot(render("bf `abc`"));

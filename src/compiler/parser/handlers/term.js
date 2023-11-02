@@ -6,6 +6,7 @@ import handlers from "./index.js";
  */
 
 const KEEP_GOING_TYPES = [
+  "command",
   "ident",
   "infix",
   "number",

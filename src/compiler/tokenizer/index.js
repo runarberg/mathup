@@ -2,7 +2,7 @@ import scanners, { unhandled } from "./scanners/index.js";
 import { isMark } from "./lexemes.js";
 
 /**
- * @typedef {"ident" | "infix" | "number" | "operator" | "paren.close" | "paren.open" | "prefix" | "sep.col" | "sep.row" | "space" | "text"} TokenType
+ * @typedef {"command" | "ident" | "infix" | "number" | "operator" | "paren.close" | "paren.open" | "prefix" | "sep.col" | "sep.row" | "space" | "text"} TokenType
  *
  * @typedef {object} Token
  * @property {TokenType} type

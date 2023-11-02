@@ -1,22 +1,15 @@
+import {
+  literalValue,
+  textLiteralAttrs,
+  textLiteralValue,
+} from "./text-transforms.js";
+
 /**
  * @typedef {import("../../parser/index.js").Node} ASTNode
  * @typedef {import("../../parser/index.js").UnaryOperation} UnaryOperation
  * @typedef {import("../../parser/index.js").Literal} Literal
  * @typedef {import("../../parser/index.js").SpaceLiteral} SpaceLiteral
  */
-
-/**
- * @param {ASTNode} node
- * @returns {node is Exclude<Literal, SpaceLiteral>}
- */
-function canApplyVariant(node) {
-  return (
-    node.type === "IdentLiteral" ||
-    node.type === "NumberLiteral" ||
-    node.type === "OperatorLiteral" ||
-    node.type === "TextLiteral"
-  );
-}
 
 /**
  * @template {ASTNode} Node
@@ -39,20 +32,50 @@ function canApplyVariant(node) {
  * @param {Node | Node[] | Node[][]} childNode
  * @param {UnaryOperation} node
  */
-function addStyleAttrs(childNode, node) {
+function handleCommand(childNode, node) {
   if (Array.isArray(childNode)) {
     return childNode.map((grandChild) =>
-      addStyleAttrs(/** @type {Node} */ (grandChild), node),
+      handleCommand(/** @type {Node} */ (grandChild), node),
     );
   }
 
-  if (canApplyVariant(childNode)) {
+  if (childNode.type === "TextLiteral") {
+    const { attrs = {}, transforms = [] } = node;
+
+    return {
+      ...childNode,
+      attrs: textLiteralAttrs(attrs, transforms),
+      value: textLiteralValue(childNode.value, transforms),
+    };
+  }
+
+  if (
+    childNode.type === "IdentLiteral" &&
+    childNode.value.length === 1 &&
+    node.transforms &&
+    node.transforms.length === 1 &&
+    node.transforms[0] === "normal"
+  ) {
+    // Disable auto-italic idents
     return {
       ...childNode,
       attrs: {
-        ...(childNode.attrs || {}),
-        ...node.attrs,
+        ...(childNode.attrs ?? {}),
+        mathvariant: "normal",
       },
+    };
+  }
+
+  if (
+    childNode.type === "IdentLiteral" ||
+    childNode.type === "NumberLiteral" ||
+    childNode.type === "OperatorLiteral"
+  ) {
+    const { transforms = [] } = node;
+
+    return {
+      ...childNode,
+      value: literalValue(childNode.value, transforms),
     };
   }
 
@@ -60,7 +83,7 @@ function addStyleAttrs(childNode, node) {
     return {
       ...childNode,
       items: childNode.items.map((grandChild) =>
-        addStyleAttrs(/** @type {Node} */ (grandChild), node),
+        handleCommand(/** @type {Node} */ (grandChild), node),
       ),
     };
   }
@@ -72,6 +95,10 @@ function addStyleAttrs(childNode, node) {
  * @type {import("../index.js").TransformFn<UnaryOperation>}
  */
 export default function unaryOperation(node, transform) {
+  if (node.name === "command") {
+    return transform(handleCommand(node.items[0], node));
+  }
+
   if (node.name === "fence") {
     const { open, close } = node.attrs || {};
 
@@ -88,10 +115,6 @@ export default function unaryOperation(node, transform) {
       tag: "mrow",
       childNodes,
     };
-  }
-
-  if (node.name === "style" && node.items.length === 1) {
-    return transform(addStyleAttrs(node.items[0], node));
   }
 
   const tag = `m${node.name}`;

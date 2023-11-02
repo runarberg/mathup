@@ -1,4 +1,5 @@
 import {
+  KNOWN_COMMANDS,
   KNOWN_IDENTS,
   KNOWN_OPS,
   KNOWN_PREFIX,
@@ -88,6 +89,18 @@ export default function alphaScanner(char, input, { start }) {
         type: "prefix",
         end: start + value.length,
         ...prefix,
+      };
+    }
+  }
+
+  {
+    const command = KNOWN_COMMANDS.get(value);
+
+    if (command) {
+      return {
+        type: "command",
+        end: start + value.length,
+        ...command,
       };
     }
   }

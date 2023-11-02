@@ -42,7 +42,7 @@ test("Golden ratio (continued fraction)", (t) => {
 test("Normal distribution", (t) => {
   t.snapshot(
     render(
-      "cc N (x | mu, sigma^2) = 1 / (sigma sqrt(2pi)) e ^ -1/2(x-mu / sigma)^2",
+      "cc N(x | mu, sigma^2) = 1 / (sigma sqrt(2pi)) e ^ -1/2(x-mu / sigma)^2",
     ),
   );
 });

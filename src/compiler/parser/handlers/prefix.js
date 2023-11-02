@@ -24,12 +24,12 @@ function toTermOrUnwrap(nodes) {
  */
 export default function prefix({ start, tokens }) {
   const token = tokens[start];
-  let next = expr({ stack: [], start: start + 1, tokens });
 
   if (!token.name) {
-    throw new Error("Got BinaryToken without a name");
+    throw new Error("Got prefix token without a name");
   }
 
+  let next = expr({ stack: [], start: start + 1, tokens });
   if (next && next.node && next.node.type === "SpaceLiteral") {
     next = expr({ stack: [], start: next.end, tokens });
   }
