@@ -143,6 +143,7 @@ export const KNOWN_IDENTS = new Map([
 ]);
 
 export const KNOWN_OPS = new Map([
+  ["-", { value: "−" }],
   ["!=", { value: "≠" }],
   ["!in", { value: "∉" }],
   [".$", { value: "\u2061" }],
