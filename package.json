@@ -28,6 +28,8 @@
     "check": "tsc --noEmit",
     "lint": "eslint --ext .js  src/ test/ *.config.js",
     "prepare": "npm run build",
+    "prettier": "prettier --ignore-path .ignore --write .",
+    "prettier:ci": "prettier --ignore-path .ignore --check .",
     "test": "c8 ava",
     "test:watch": "ava --watch"
   },
@@ -108,9 +110,6 @@
       ]
     }
   },
-  "prettier": {
-    "trailingComma": "all"
-  },
   "devDependencies": {
     "@babel/cli": "^7.23.0",
     "@babel/core": "^7.23.2",
@@ -123,13 +122,13 @@
     "c8": "^7.14.0",
     "eslint": "^8.52.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^8.10.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-ava": "^14.0.0",
     "eslint-plugin-import": "^2.29.0",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-prettier": "^5.0.1",
     "expect.js": "^0.3.1",
     "jsdom": "^21.1.2",
-    "prettier": "2.8.7",
+    "prettier": "3.0.3",
     "rollup": "^3.29.4",
     "typescript": "^5.2.2"
   },
