@@ -20,6 +20,15 @@ test("All accents", (t) => {
   t.snapshot(render("cancel x"));
 });
 
+test("Dotless variants", (t) => {
+  t.snapshot(render("hat h"));
+  t.snapshot(render("hat i"));
+  t.snapshot(render("hat j"));
+  t.snapshot(render("hat k"));
+  t.snapshot(render("ul i"));
+  t.snapshot(render("ul j"));
+});
+
 test("Should put accents over all the following parenthesis", (t) => {
   t.snapshot(render("3hat(xyz)"));
 });

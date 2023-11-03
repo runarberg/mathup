@@ -118,23 +118,48 @@ export default function unaryOperation(node, transform) {
   }
 
   const tag = `m${node.name}`;
+  let [operant] = node.items;
 
-  const childNodes =
-    node.items.length === 1
-      ? [transform(node.items[0])]
-      : [{ tag: "mrow", childNodes: node.items.map(transform) }];
+  if (operant.type === "Term" && operant.items.length === 1) {
+    // There is no need of a singleton term.
+    [operant] = operant.items;
+  }
 
   if (node.accent) {
-    childNodes.push({
-      tag: "mo",
-      textContent: node.accent,
-      attrs: { accent: true },
-    });
+    const attrs = node.attrs ? { ...node.attrs } : {};
+    if (node.name === "over") {
+      attrs.accent = true;
+
+      // Remove the dot from i and j to make way for the accent.
+      if (operant.type === "IdentLiteral") {
+        if (operant.value === "i") {
+          operant.value = "ı";
+        } else if (operant.value === "j") {
+          operant.value = "ȷ";
+        }
+      }
+    } else if (node.name === "under") {
+      attrs.accentunder = true;
+    }
+
+    const childNodes = [
+      transform(operant),
+      {
+        tag: "mo",
+        textContent: node.accent,
+      },
+    ];
+
+    return {
+      tag,
+      childNodes,
+      attrs,
+    };
   }
 
   return {
     tag,
-    childNodes,
+    childNodes: [transform(operant)],
     attrs: node.attrs,
   };
 }
