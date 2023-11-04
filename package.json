@@ -129,7 +129,7 @@
     "expect.js": "^0.3.1",
     "jsdom": "^21.1.2",
     "prettier": "3.0.3",
-    "rollup": "^3.29.4",
+    "rollup": "^4.3.0",
     "typescript": "^5.2.2"
   },
   "dependencies": {
