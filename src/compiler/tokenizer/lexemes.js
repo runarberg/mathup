@@ -247,13 +247,13 @@ export const KNOWN_PARENS_OPEN = new Map([
   ["{:", { value: "" }],
   ["|(", { value: "|" }],
   ["|__", { value: "⌊" }],
-  ["||(", { value: "∥" }],
+  ["||(", { value: "‖" }],
   ["|~", { value: "⌈" }],
 ]);
 
 export const KNOWN_PARENS_CLOSE = new Map([
   [")|", { value: "|" }],
-  [")||", { value: "∥" }],
+  [")||", { value: "‖" }],
   [":)", { value: "⟩" }],
   [":}", { value: "" }],
   [">>", { value: "⟩" }],
@@ -285,7 +285,7 @@ export const KNOWN_PREFIX = new Map([
   ],
   ["ceil", { name: "fence", attrs: { open: "⌈", close: "⌉" } }],
   ["floor", { name: "fence", attrs: { open: "⌊", close: "⌋" } }],
-  ["norm", { name: "fence", attrs: { open: "∥", close: "∥" } }],
+  ["norm", { name: "fence", attrs: { open: "‖", close: "‖" } }],
 
   // Notations
   ["cancel", { name: "enclose", attrs: { notation: "updiagonalstrike" } }],
