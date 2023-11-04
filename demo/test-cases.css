@@ -1,0 +1,18 @@
+test-case {
+  font-size: 1.25em;
+  margin-block-end: 2em;
+}
+
+test-case::part(math) {
+  font-family: var(--math-font-family, math);
+}
+
+test-case::part(input) {
+  background: #ffc;
+  border: 1px dashed black;
+  border-radius: 0.2em;
+  max-width: calc(100% - 2em);
+  overflow-x: auto;
+  padding: 0.5ex 0.5em;
+  width: max-content;
+}

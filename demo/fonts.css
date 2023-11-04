@@ -1,0 +1,24 @@
+@font-face {
+  font-family: "Asana Math";
+  src: url(/demo/fonts/asana/Asana-Math.woff2);
+}
+
+@font-face {
+  font-family: "DejaVu Math Tex Gyre";
+  src: url(/demo/fonts/deja-vu/DejaVuMathTeXGyre.woff2);
+}
+
+@font-face {
+  font-family: "Latin Modern Math";
+  src: url(/demo/fonts/latin-modern/latinmodern-math.woff2);
+}
+
+@font-face {
+  font-family: "Libertinus Math";
+  src: url(/docs/fonts/libertinus/LibertinusMath-Regular.woff2);
+}
+
+@font-face {
+  font-family: "STIX Math";
+  src: url(/demo/fonts/stix/STIXMath-Regular.woff2);
+}

@@ -9,6 +9,9 @@ if (!playground) {
 /** @type {HTMLTextAreaElement | null} */
 const input = playground.querySelector("textarea[name='input']");
 
+/** @type {HTMLSelectElement | null} */
+const fontSelect = playground.querySelector("select[name='font']");
+
 /** @type {HTMLInputElement | null} */
 const display = playground.querySelector("input[name='display']");
 
@@ -30,6 +33,18 @@ const mathUp = playground.querySelector("math-up");
 function handleInput() {
   if (mathUp && input) {
     mathUp.textContent = input.value;
+  }
+}
+
+function handleFontChange() {
+  if (fontSelect) {
+    const { value } = fontSelect;
+
+    if (value) {
+      document.documentElement.style.setProperty("--math-font-family", value);
+    } else {
+      document.documentElement.style.removeProperty("--math-font-family");
+    }
   }
 }
 
@@ -64,6 +79,7 @@ function handleRowSepChange() {
 }
 
 handleInput();
+handleFontChange();
 handleDisplayChange();
 handleDirChange();
 handleDecimalMarkChange();
@@ -71,6 +87,7 @@ handleColSepChange();
 handleRowSepChange();
 
 input?.addEventListener("input", handleInput);
+fontSelect?.addEventListener("change", handleFontChange);
 display?.addEventListener("change", handleDisplayChange);
 dir?.addEventListener("change", handleDirChange);
 decimalMark?.addEventListener("input", handleDecimalMarkChange);
