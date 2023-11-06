@@ -1,6 +1,6 @@
-import tokenizer from "./tokenizer/index.js";
 import { parse } from "./parser/index.js";
 import { toDOM, toString, updateDOM } from "./renders/index.js";
+import tokenizer from "./tokenizer/index.js";
 import transformer from "./transformer/index.js";
 
 /**
@@ -10,9 +10,9 @@ import transformer from "./transformer/index.js";
  * @typedef {TokenizerOptions & TransformerOptions & RenderOptions} Options
  *
  * @typedef {object} Result
- * @property { () => string } toString
- * @property { () => Element | DocumentFragment } toDOM
- * @property { <El extends Element>(root: El) => void } updateDOM
+ * @property {() => string} toString
+ * @property {() => Element | DocumentFragment} toDOM
+ * @property {(root: Element) => void} updateDOM
  *
  * @param {Options} options
  * @returns {(input: string) => Result}
@@ -31,8 +31,8 @@ export default function compiler({
   const renderOptions = { bare };
 
   /**
-   * @param { string } input - Mathup expression
-   * @returns { Result }
+   * @param {string} input - Mathup expression
+   * @returns {Result}
    */
   return function compile(input) {
     const tokenize = tokenizer(tokenizerOptions);

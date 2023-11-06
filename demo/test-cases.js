@@ -46,6 +46,9 @@ customElements.define("test-case", TestCaseElement);
 /** @type {HTMLSelectElement | null} */
 const fontSelect = document.querySelector("select[name='font']");
 
+/**
+ * @returns {void}
+ */
 function handleFontChange() {
   if (fontSelect) {
     const { value } = fontSelect;

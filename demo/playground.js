@@ -27,15 +27,21 @@ const colSep = playground.querySelector("input[name='col-sep']");
 /** @type {HTMLInputElement | null} */
 const rowSep = playground.querySelector("input[name='row-sep']");
 
-/** @type import("../src/custom-element.js").default | null */
+/** @type {import("../src/custom-element.js").default | null} */
 const mathUp = playground.querySelector("math-up");
 
+/**
+ * @returns {void}
+ */
 function handleInput() {
   if (mathUp && input) {
     mathUp.textContent = input.value;
   }
 }
 
+/**
+ * @returns {void}
+ */
 function handleFontChange() {
   if (fontSelect) {
     const { value } = fontSelect;
@@ -48,30 +54,45 @@ function handleFontChange() {
   }
 }
 
+/**
+ * @returns {void}
+ */
 function handleDisplayChange() {
   if (mathUp && display) {
     mathUp.display = display.checked ? display.value : "";
   }
 }
 
+/**
+ * @returns {void}
+ */
 function handleDirChange() {
   if (mathUp && dir) {
     mathUp.dir = dir.checked ? dir.value : "";
   }
 }
 
+/**
+ * @returns {void}
+ */
 function handleDecimalMarkChange() {
   if (mathUp && decimalMark) {
     mathUp.decimalMark = decimalMark.value;
   }
 }
 
+/**
+ * @returns {void}
+ */
 function handleColSepChange() {
   if (mathUp && colSep) {
     mathUp.colSep = colSep.value;
   }
 }
 
+/**
+ * @returns {void}
+ */
 function handleRowSepChange() {
   if (mathUp && rowSep) {
     mathUp.rowSep = rowSep.value;

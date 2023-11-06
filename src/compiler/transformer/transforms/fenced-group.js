@@ -1,6 +1,4 @@
-/**
- * @typedef {import("../../parser/index.js").FencedGroup} FencedGroup
- */
+/** @typedef {import("../../parser/index.js").FencedGroup} FencedGroup */
 
 /**
  * @param {import("../index.js").Tag | null} tag
@@ -10,9 +8,7 @@ function notNull(tag) {
   return tag !== null;
 }
 
-/**
- * @type {import("../index.js").TransformFn<FencedGroup>}
- */
+/** @type {import("../index.js").TransformFn<FencedGroup>} */
 export default function fencedGroup(node, transform) {
   const cols = node.items
     .map((col) => {

@@ -51,7 +51,6 @@ export default function group({ start, tokens }) {
         token = tokens[i];
       }
 
-      // eslint-disable-next-line no-continue
       continue;
     }
 
@@ -69,7 +68,6 @@ export default function group({ start, tokens }) {
         token = tokens[i];
       }
 
-      // eslint-disable-next-line no-continue
       continue;
     }
 

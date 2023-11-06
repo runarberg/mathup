@@ -1,5 +1,3 @@
-/* globals globalThis */
-
 import test from "ava";
 import jsdom from "jsdom";
 

@@ -8,7 +8,7 @@ import expr from "./expr.js";
 
 /**
  * @param {Node[]} nodes
- * @return {Node}
+ * @returns {Node}
  */
 function toTermOrUnwrap(nodes) {
   if (nodes.length === 1) {
@@ -20,7 +20,7 @@ function toTermOrUnwrap(nodes) {
 
 /**
  * @param {import("../parse.js").State} State
- * @return {{ node: UnaryOperation | BinaryOperation, end: number }}
+ * @returns {{ node: UnaryOperation | BinaryOperation; end: number }}
  */
 export default function prefix({ start, tokens }) {
   const token = tokens[start];
@@ -91,7 +91,7 @@ export default function prefix({ start, tokens }) {
     next.node.items.length === 1
   ) {
     // The operant is not a matrix.
-    /** @type [Node] */
+    /** @type {[Node]} */
     const items = [toTermOrUnwrap(next.node.items[0])];
 
     return {

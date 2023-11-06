@@ -1,3 +1,6 @@
+/**
+ * @returns {void}
+ */
 function main() {
   const tryInput = /** @type {HTMLTextAreaElement} */ (
     document.getElementById("try-input")
@@ -123,6 +126,9 @@ function main() {
     }
   });
 
+  /**
+   * @returns {Promise<number>}
+   */
   function beforeAnimationFrame() {
     return new Promise((resolve) => {
       requestAnimationFrame(resolve);
@@ -131,10 +137,17 @@ function main() {
 
   const MATHJAX_SRC = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/mml-chtml.js";
 
+  /**
+   * @returns {Promise<void>}
+   */
   async function setupPolyfill() {
     for (const example of document.querySelectorAll("use-example")) {
       if (!example.parentNode?.querySelector("mjx-container, math")) {
-        /** @type {import("../src/custom-element.js").default | null | undefined} */
+        /**
+         * @type {import("../src/custom-element.js").default
+         *   | null
+         *   | undefined}
+         */
         const mathUpNode = example.shadowRoot?.querySelector("math-up");
         const mathNode = mathUpNode?.shadowRoot?.querySelector("math");
 
@@ -181,6 +194,9 @@ function main() {
     window.MathJax.typeset([tryOutput]);
   }
 
+  /**
+   * @returns {void}
+   */
   function removePolyfill() {
     if (tryMathUp) {
       tryMathUp.style.removeProperty("display");

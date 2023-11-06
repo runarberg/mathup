@@ -1,4 +1,5 @@
 import test from "ava";
+
 import tokenizer from "./index.js";
 
 const options = {

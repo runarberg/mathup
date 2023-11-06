@@ -1,6 +1,11 @@
 import babel from "@rollup/plugin-babel";
 import terser from "@rollup/plugin-terser";
 
+/**
+ * @typedef {import("rollup").RollupOptions} RollupOptions
+ * @typedef {import("rollup").RollupOptionsFunction} RollupOptionsFunction
+ */
+
 const {
   npm_package_name: NAME,
   npm_package_version: VERSION,
@@ -9,6 +14,7 @@ const {
 } = process.env;
 const YEAR = new Date().getFullYear();
 
+/** @type {RollupOptions} */
 const defaultConfig = {
   input: "src/index.js",
   output: [
@@ -48,6 +54,7 @@ const defaultConfig = {
   ],
 };
 
+/** @type {RollupOptions} */
 const customElementConfig = {
   input: "src/custom-element.js",
   output: [
@@ -82,6 +89,7 @@ const customElementConfig = {
   ],
 };
 
+/** @type {RollupOptionsFunction} */
 export default function rollup() {
   return [defaultConfig, customElementConfig];
 }

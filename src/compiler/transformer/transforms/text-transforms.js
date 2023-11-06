@@ -265,10 +265,10 @@ function fontFamilyStyleValue(family) {
  * @typedef {import("../../parser/index.js").LiteralAttrs} LiteralAttrs
  * @param {LiteralAttrs} attrs
  * @param {string[]} transforms
- * @returns LiteralAttrs
+ * @returns {LiteralAttrs}
  */
 export function textLiteralAttrs(attrs, transforms) {
-  /** @type Map<string, string> */
+  /** @type {Map<string, string>} */
   const styles = new Map();
 
   if (transforms.includes("bold")) {

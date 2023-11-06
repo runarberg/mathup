@@ -1,8 +1,19 @@
-import scanners, { unhandled } from "./scanners/index.js";
 import { isMark } from "./lexemes.js";
+import scanners, { unhandled } from "./scanners/index.js";
 
 /**
- * @typedef {"command" | "ident" | "infix" | "number" | "operator" | "paren.close" | "paren.open" | "prefix" | "sep.col" | "sep.row" | "space" | "text"} TokenType
+ * @typedef {"command"
+ *   | "ident"
+ *   | "infix"
+ *   | "number"
+ *   | "operator"
+ *   | "paren.close"
+ *   | "paren.open"
+ *   | "prefix"
+ *   | "sep.col"
+ *   | "sep.row"
+ *   | "space"
+ *   | "text"} TokenType
  *
  * @typedef {object} Token
  * @property {TokenType} type
@@ -11,7 +22,6 @@ import { isMark } from "./lexemes.js";
  * @property {number} [arity]
  * @property {string} [name]
  * @property {boolean} [split]
- * @property {string} [value]
  * @property {Record<string, string | number | boolean | null | undefined>} [attrs]
  *
  * @typedef {object} State
@@ -19,11 +29,14 @@ import { isMark } from "./lexemes.js";
  * @property {boolean} grouping
  *
  * @typedef {object} TokenizerOptions
- * @property {string} [decimalMark="."] - Decimal separator.
- * @property {string} [colSep=","] - Column separator e.g. for arrays and matrices.
- * @property {string} [rowSep=";"] - Row separator e.g. for matrices.
+ * @property {string} [decimalMark="."] - Decimal separator. Default is `"."`
+ * @property {string} [colSep=","] - Column separator e.g. for arrays and
+ *   matrices. Default is `","`
+ * @property {string} [rowSep=";"] - Row separator e.g. for matrices. Default is
+ *   `";"`
  *
  * @param {Required<TokenizerOptions>} options
+ * @returns {(input: string) => Generator<Token>}
  */
 export default function createTokenizer(options) {
   /**
@@ -47,7 +60,7 @@ export default function createTokenizer(options) {
 
   /**
    * @param {string} input
-   * @returns {Generator<Token>}
+   * @yields {Token}
    */
   return function* tokenize(input) {
     let pos = 0;

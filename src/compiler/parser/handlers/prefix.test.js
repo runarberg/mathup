@@ -2,9 +2,7 @@ import test from "ava";
 
 import prefix from "./prefix.js";
 
-/**
- * @typedef {import("../../tokenizer/index.js").Token} Token
- */
+/** @typedef {import("../../tokenizer/index.js").Token} Token */
 
 test("empty unary", (t) => {
   const tokens = [{ type: "prefix", name: "foo" }];

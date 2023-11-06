@@ -9,7 +9,7 @@ const NS = "http://www.w3.org/1998/Math/MathML";
  * @returns {Element | DocumentFragment}
  */
 export default function toDOM(node, { bare }) {
-  /** @type Element | DocumentFragment */
+  /** @type {Element | DocumentFragment} */
   let element;
 
   if (node.tag === "math" && bare) {

@@ -13,24 +13,33 @@ import {
 
 /**
  * @template {ASTNode} Node
- *
  * @overload
  * @param {Node} childNode
  * @param {UnaryOperation} node
  * @returns {Node}
- *
+ */
+
+/**
+ * @template {ASTNode} Node
  * @overload
  * @param {Node[]} childNode
  * @param {UnaryOperation} node
  * @returns {Node[]}
- *
+ */
+
+/**
+ * @template {ASTNode} Node
  * @overload
  * @param {Node[][]} childNode
  * @param {UnaryOperation} node
  * @returns {Node[][]}
- *
+ */
+
+/**
+ * @template {ASTNode} Node
  * @param {Node | Node[] | Node[][]} childNode
  * @param {UnaryOperation} node
+ * @returns {Node | Node[] | Node[][]}
  */
 function handleCommand(childNode, node) {
   if (Array.isArray(childNode)) {
@@ -91,9 +100,7 @@ function handleCommand(childNode, node) {
   return childNode;
 }
 
-/**
- * @type {import("../index.js").TransformFn<UnaryOperation>}
- */
+/** @type {import("../index.js").TransformFn<UnaryOperation>} */
 export default function unaryOperation(node, transform) {
   if (node.name === "command") {
     return transform(handleCommand(node.items[0], node));

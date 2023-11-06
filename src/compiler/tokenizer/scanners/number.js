@@ -1,8 +1,6 @@
 import { isNumeric } from "../lexemes.js";
 
-/**
- * @type {import("./index.js").Scanner}
- */
+/** @type {import("./index.js").Scanner} */
 export default function numberScanner(char, input, { start }, { decimalMark }) {
   if (!isNumeric(char)) {
     return null;

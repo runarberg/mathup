@@ -1,4 +1,5 @@
 import test from "ava";
+
 import backtick from "./backtick.js";
 
 test("rejects non-backtick", (t) => {

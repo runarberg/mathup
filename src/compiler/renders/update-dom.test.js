@@ -1,5 +1,3 @@
-/* globals globalThis */
-
 import test from "ava";
 import jsdom from "jsdom";
 
@@ -9,10 +7,11 @@ const NS = "http://www.w3.org/1998/Math/MathML";
 const { window } = new jsdom.JSDOM();
 const { document, Element } = window;
 
-/**
- * @typedef {import("../transformer/index.js").Tag} Tag
- */
+/** @typedef {import("../transformer/index.js").Tag} Tag */
 
+/**
+ * @returns {MathMLElement}
+ */
 function createRoot() {
   return document.createElementNS(NS, "math");
 }

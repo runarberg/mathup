@@ -1,4 +1,5 @@
 import test from "ava";
+
 import parenClose from "./paren-close.js";
 
 test("rejects non-close-paren", (t) => {

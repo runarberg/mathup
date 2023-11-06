@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
-import minimist from "minimist";
-import path from "path";
 import fs from "fs";
+import path from "path";
 import { fileURLToPath } from "url";
+
+import minimist from "minimist";
 
 import mathup from "../src/index.js";
 
@@ -11,6 +12,9 @@ const argv = minimist(process.argv.slice(2));
 
 const DIRNAME = path.dirname(fileURLToPath(import.meta.url));
 
+/**
+ * @returns {void}
+ */
 function main() {
   let input;
 

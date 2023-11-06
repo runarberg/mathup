@@ -1,6 +1,4 @@
-/**
- * @typedef {(char: string) => boolean} LeximeTest
- */
+/** @typedef {(char: string) => boolean} LeximeTest */
 
 const LETTER_RE = /^\p{L}/u;
 

@@ -1,4 +1,5 @@
 import test from "ava";
+
 import number from "./number.js";
 
 const options = {

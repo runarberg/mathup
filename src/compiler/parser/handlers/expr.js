@@ -4,13 +4,11 @@ import prefix from "./prefix.js";
 import space from "./space.js";
 import term from "./term.js";
 
-/**
- * @typedef {import("../index.js").Node} Node
- */
+/** @typedef {import("../index.js").Node} Node */
 
 /**
  * @param {import("../parse.js").State} state
- * @returns {{ node: Node, end: number }}
+ * @returns {{ node: Node; end: number }}
  */
 export default function expr(state) {
   if (state.start >= state.tokens.length) {

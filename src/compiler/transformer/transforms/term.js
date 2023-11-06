@@ -13,9 +13,7 @@ function notNull(node) {
   return node !== null;
 }
 
-/**
- * @type {import("../index.js").TransformFn<Term>}
- */
+/** @type {import("../index.js").TransformFn<Term>} */
 export default function term(node, transform) {
   if (node.items.length === 1 && notNull(node.items[0])) {
     return transform(node.items[0]);

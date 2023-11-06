@@ -1,4 +1,5 @@
 import test from "ava";
+
 import quote from "./quote.js";
 
 test("rejects non-quote", (t) => {

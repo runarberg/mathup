@@ -1,4 +1,5 @@
 import test from "ava";
+
 import alpha from "./alpha.js";
 
 test("rejects non-alpha", (t) => {

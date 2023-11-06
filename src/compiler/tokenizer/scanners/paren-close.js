@@ -14,9 +14,7 @@ function parenClosePotential(partial) {
   return false;
 }
 
-/**
- * @type {import("./index.js").Scanner}
- */
+/** @type {import("./index.js").Scanner} */
 export default function parenCloseScanner(char, input, { grouping, start }) {
   if (!grouping) {
     return null;

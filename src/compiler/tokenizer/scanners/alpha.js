@@ -8,9 +8,7 @@ import {
   isMark,
 } from "../lexemes.js";
 
-/**
- * @type {import("./index.js").Scanner}
- */
+/** @type {import("./index.js").Scanner} */
 export default function alphaScanner(char, input, { start }) {
   if (!isAlphabetic(char)) {
     return null;
@@ -87,6 +85,7 @@ export default function alphaScanner(char, input, { start }) {
     if (prefix) {
       return {
         type: "prefix",
+        value: "",
         end: start + value.length,
         ...prefix,
       };

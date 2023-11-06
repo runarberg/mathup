@@ -1,4 +1,5 @@
 import test from "ava";
+
 import groupSep from "./group-sep.js";
 
 const options = {

@@ -1,4 +1,5 @@
 import test from "ava";
+
 import newline from "./newline.js";
 
 test("rejects non-newline", (t) => {

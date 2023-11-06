@@ -8,7 +8,7 @@ import expr from "./expr.js";
 
 /**
  * @param {import("../parse.js").State} State
- * @return {{ node: UnaryOperation | Term, end: number }}
+ * @returns {{ node: UnaryOperation | Term; end: number }}
  */
 export default function command({ start, tokens }) {
   const token = tokens[start];

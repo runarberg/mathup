@@ -26,7 +26,8 @@
     "server": "python3 -m http.server",
     "build": "rollup --config",
     "check": "tsc --noEmit",
-    "lint": "eslint --ext .js  src/ test/ *.config.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
     "prepare": "npm run build",
     "prettier": "prettier --ignore-path .ignore --write .",
     "prettier:ci": "prettier --ignore-path .ignore --check .",
@@ -66,67 +67,24 @@
       "!src/**/*test.js"
     ]
   },
-  "eslintConfig": {
-    "env": {
-      "node": true,
-      "browser": false
-    },
-    "parserOptions": {
-      "ecmaVersion": "2022",
-      "sourceType": "module"
-    },
-    "extends": [
-      "airbnb-base",
-      "plugin:ava/recommended",
-      "plugin:prettier/recommended"
-    ],
-    "rules": {
-      "import/no-unresolved": "off",
-      "import/extensions": [
-        "error",
-        "ignorePackages"
-      ],
-      "import/no-extraneous-dependencies": [
-        "error",
-        {
-          "devDependencies": [
-            "*.config.js",
-            "**/*.test.js",
-            "/test/**/*.js"
-          ]
-        }
-      ],
-      "no-restricted-syntax": [
-        "error",
-        "ForInStatement",
-        "LabeledStatement",
-        "WithStatement"
-      ],
-      "no-use-before-define": [
-        "error",
-        {
-          "functions": false
-        }
-      ]
-    }
-  },
   "devDependencies": {
     "@babel/cli": "^7.23.0",
     "@babel/core": "^7.23.2",
     "@babel/plugin-transform-runtime": "^7.23.2",
     "@babel/preset-env": "^7.23.2",
     "@babel/runtime": "^7.23.2",
+    "@eslint/js": "^8.53.0",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-terser": "^0.4.4",
     "ava": "^5.3.1",
     "c8": "^8.0.1",
-    "eslint": "^8.52.0",
-    "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-config-prettier": "^9.0.0",
+    "eslint": "^8.53.0",
     "eslint-plugin-ava": "^14.0.0",
     "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-jsdoc": "^46.8.2",
     "eslint-plugin-prettier": "^5.0.1",
     "expect.js": "^0.3.1",
+    "globals": "^13.23.0",
     "jsdom": "^22.1.0",
     "prettier": "3.0.3",
     "rollup": "^4.3.0",

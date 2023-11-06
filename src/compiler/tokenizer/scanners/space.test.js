@@ -1,4 +1,5 @@
 import test from "ava";
+
 import space from "./space.js";
 
 test("rejects non-space", (t) => {

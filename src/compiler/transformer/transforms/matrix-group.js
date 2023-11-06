@@ -12,9 +12,7 @@ function notNull(tag) {
   return tag !== null;
 }
 
-/**
- * @type {import("../index.js").TransformFn<MatrixGroup>}
- */
+/** @type {import("../index.js").TransformFn<MatrixGroup>} */
 export default function matrixGroup(node, transform) {
   const childNodes = [];
 

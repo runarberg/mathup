@@ -1,4 +1,5 @@
 import test from "ava";
+
 import parenOpen from "./paren-open.js";
 
 test("rejects non-open-paren", (t) => {

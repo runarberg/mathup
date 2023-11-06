@@ -1,5 +1,6 @@
-import handlers from "./index.js";
 import expr from "./expr.js";
+
+import handlers from "./index.js";
 
 /**
  * @typedef {import("../parse.js").State} State
@@ -9,9 +10,7 @@ import expr from "./expr.js";
  * @typedef {import("../index.js").TernaryOperation} TernaryOperation
  */
 
-/**
- * @return {Term}
- */
+/** @returns {Term} */
 function empty() {
   return { type: "Term", items: [] };
 }
@@ -189,7 +188,7 @@ function rightAssociate(op, [left, right]) {
 
 /**
  * @param {State} state
- * @returns {{ node: BinaryOperation | TernaryOperation, end: number }}
+ * @returns {{ node: BinaryOperation | TernaryOperation; end: number }}
  */
 export default function infix({ stack, start, tokens }) {
   const token = tokens[start];

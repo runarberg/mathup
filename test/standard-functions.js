@@ -1,4 +1,5 @@
 import test from "ava";
+
 import mathup from "../src/index.js";
 
 /**

@@ -1,6 +1,4 @@
-/**
- * @type {import("./index.js").Scanner}
- */
+/** @type {import("./index.js").Scanner} */
 export default function groupSepScanner(
   _char,
   input,

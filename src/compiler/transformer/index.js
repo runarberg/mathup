@@ -2,11 +2,12 @@ import transforms from "./transforms/index.js";
 
 /**
  * @typedef {import("../parser/index.js").Node} ASTNode
- *
  * @typedef {object} TransformerOptions
- * @property {"ltr" | "rtl" | null} [dir=null] - The reading direction of the output.
- * @property {"block" | "inline" | null} [display=null] - Whether the expression should be in display mode.
- *
+ * @property {"ltr" | "rtl" | null} [dir=null] - The reading direction of the
+ *   output. Default is `null`
+ * @property {"block" | "inline" | null} [display=null] - Whether the expression
+ *   should be in display mode. Default is `null` Default is `null` Default is
+ *   `null` Default is `null`
  * @typedef {object} Tag
  * @property {string} tag
  * @property {Record<string, string | number | boolean | undefined | null>} [attrs]
@@ -15,13 +16,17 @@ import transforms from "./transforms/index.js";
  */
 
 /**
- * @template {ASTNode} [Node=ASTNode]
- * @typedef {(node: Node, transform: (node: ASTNode) => (Tag | null), options: Required<TransformerOptions>) => (Tag | null)} TransformFn
+ * @template {ASTNode} [Node=ASTNode] Default is `ASTNode`
+ * @typedef {(
+ *   node: Node,
+ *   transform: (node: ASTNode) => Tag | null,
+ *   options: Required<TransformerOptions>,
+ * ) => Tag | null} TransformFn
  */
 
 /**
  * @param {Required<TransformerOptions>} options
- * @returns {(node: ASTNode) => (Tag | null)}
+ * @returns {(node: ASTNode) => Tag | null}
  */
 export default function transformer(options) {
   return function transform(node) {

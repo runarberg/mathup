@@ -1,4 +1,5 @@
 import test from "ava";
+
 import octothorpe from "./octothorpe.js";
 
 test("rejects non-octothorpe", (t) => {

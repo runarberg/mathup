@@ -1,6 +1,6 @@
 import command from "./command.js";
-import infix from "./infix.js";
 import group from "./group.js";
+import infix from "./infix.js";
 import prefix from "./prefix.js";
 import space from "./space.js";
 

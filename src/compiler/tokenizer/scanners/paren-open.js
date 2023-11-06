@@ -14,9 +14,7 @@ function parenOpenPotential(partial) {
   return false;
 }
 
-/**
- * @type {import("./index.js").Scanner}
- */
+/** @type {import("./index.js").Scanner} */
 export default function parenOpenScanner(char, input, { start }) {
   let value = char;
 

@@ -1,12 +1,15 @@
 import toDOM from "./to-dom.js";
 
-// eslint-disable-next-line no-empty-function
+/**
+ * @yields {never}
+ */
 function* nullIter() {}
 
 /**
  * @template {unknown[]} T - Tuple type with item type of each input iterator
- * @param {{ [K in keyof T]: Iterable<T[K]> }} iterables - The iterators to be zipped
- * @returns {Generator<T, void>}
+ * @param {{ [K in keyof T]: Iterable<T[K]> }} iterables - The iterators to be
+ *   zipped
+ * @yields {T}
  */
 function* zip(iterables) {
   const iterators = iterables.map((iterable) =>
@@ -68,7 +71,6 @@ export default function updateDOM(parent, node, options) {
 
   if (["mi", "mn", "mo", "mspace", "mtext"].includes(node.tag)) {
     if (parent.textContent !== node.textContent) {
-      // eslint-disable-next-line no-param-reassign
       parent.textContent = node.textContent ?? "";
     }
 

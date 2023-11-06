@@ -18,7 +18,7 @@ const KEEP_GOING_TYPES = [
 
 /**
  * @param {State} state
- * @returns {{ node: Term, end: number }}
+ * @returns {{ node: Term; end: number }}
  */
 export default function term({ start, tokens }) {
   let i = start;

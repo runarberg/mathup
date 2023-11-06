@@ -5,7 +5,9 @@
 
 /**
  * @param {string} tag
- * @return {import("../index.js").TransformFn<Exclude<Literal, SpaceLiteral>>}
+ * @returns {import("../index.js").TransformFn<
+ *   Exclude<Literal, SpaceLiteral>
+ * >}
  */
 export default function literal(tag) {
   return (node) => {

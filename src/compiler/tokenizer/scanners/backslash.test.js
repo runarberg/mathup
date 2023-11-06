@@ -1,4 +1,5 @@
 import test from "ava";
+
 import backslash from "./backslash.js";
 
 test("rejects non-backslash", (t) => {
