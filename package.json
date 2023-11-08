@@ -89,8 +89,5 @@
     "prettier": "3.0.3",
     "rollup": "^4.3.0",
     "typescript": "^5.2.2"
-  },
-  "dependencies": {
-    "minimist": "^1.2.8"
   }
 }
