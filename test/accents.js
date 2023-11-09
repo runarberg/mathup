@@ -18,7 +18,6 @@ test("All accents", (t) => {
   t.snapshot(render("dot x"));
   t.snapshot(render("ddot x"));
   t.snapshot(render("tilde x"));
-  t.snapshot(render("cancel x"));
 });
 
 test("Dotless variants", (t) => {

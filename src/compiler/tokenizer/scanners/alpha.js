@@ -17,11 +17,20 @@ export default function alphaScanner(char, input, { start }) {
   let nextChar = char;
   let value = "";
 
-  while (isAlphabetic(nextChar) || isMark(nextChar)) {
+  while (
+    isAlphabetic(nextChar) ||
+    isMark(nextChar) ||
+    (value.length > 0 && nextChar === ".")
+  ) {
     const i = start + value.length + nextChar.length;
 
     value += nextChar;
     [nextChar] = input.slice(i);
+  }
+
+  // alpha is allowed to contain a period, but not end with one.
+  if (value.endsWith(".")) {
+    value = value.slice(0, -1);
   }
 
   {
@@ -102,6 +111,11 @@ export default function alphaScanner(char, input, { start }) {
         ...command,
       };
     }
+  }
+
+  if (value.includes(".")) {
+    // Period not used, lets toss it.
+    value = value.slice(0, value.indexOf("."));
   }
 
   return {

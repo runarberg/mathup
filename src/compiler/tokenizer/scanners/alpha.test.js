@@ -113,3 +113,47 @@ test("known operator with symbol cannot be followed by an alphanum", (t) => {
   t.is(token?.end, 1);
   t.is(token?.split, true);
 });
+
+test("can’t contain a period", (t) => {
+  const token = alpha("a", "a.b", { start: 0, grouping: false });
+
+  t.is(token?.type, "ident");
+  t.is(token?.value, "a");
+  t.is(token?.end, 1);
+  t.is(token?.split, true);
+});
+
+test("can’t start with a period", (t) => {
+  const token = alpha(".", ".b", { start: 0, grouping: false });
+
+  t.is(token, null);
+});
+
+test("can’t end with a period", (t) => {
+  const token = alpha("a", "a.", { start: 0, grouping: false });
+
+  t.is(token?.type, "ident");
+  t.is(token?.value, "a");
+  t.is(token?.end, 1);
+  t.is(token?.split, true);
+});
+
+test("known command", (t) => {
+  const token = alpha("b", "blue", { start: 0, grouping: false });
+
+  t.is(token?.type, "command");
+  t.is(token?.name, "color");
+  t.is(token?.value, "blue");
+  t.is(token?.end, 4);
+  t.falsy(token?.split);
+});
+
+test("known command with period", (t) => {
+  const token = alpha("b", "bg.blue", { start: 0, grouping: false });
+
+  t.is(token?.type, "command");
+  t.is(token?.name, "background");
+  t.is(token?.value, "blue");
+  t.is(token?.end, 7);
+  t.falsy(token?.split);
+});

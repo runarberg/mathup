@@ -121,6 +121,7 @@
               <li><a href="#roots">Roots</a></li>
               <li><a href="#accents">Accents</a></li>
               <li><a href="#font-commands">Font commands</a></li>
+              <li><a href="#colors">Colors</a></li>
             </ul>
           </li>
 
@@ -1892,58 +1893,68 @@ n! = { 1,       if n=0 or n=1
               <dt><code>hat a</code></dt>
               <dd>
                 <math>
-                  <mover><mi>a</mi><mo accent="true">^</mo></mover>
+                  <mover accent="true"><mi>a</mi><mo>^</mo></mover>
                 </math>
               </dd>
 
               <dt><code>bar a</code></dt>
               <dd>
                 <math>
-                  <mover><mi>a</mi><mo accent="true">‾</mo></mover>
+                  <mover accent="true"><mi>a</mi><mo>‾</mo></mover>
                 </math>
               </dd>
 
               <dt><code>vec a</code></dt>
               <dd>
                 <math>
-                  <mover><mi>a</mi><mo accent="true">→</mo></mover>
+                  <mover accent="true"><mi>a</mi><mo>→</mo></mover>
                 </math>
               </dd>
 
               <dt><code>dot a</code></dt>
               <dd>
                 <math>
-                  <mover><mi>a</mi><mo accent="true">⋅</mo></mover>
+                  <mover accent="true"><mi>a</mi><mo>⋅</mo></mover>
                 </math>
               </dd>
 
               <dt><code>ddot a</code></dt>
               <dd>
                 <math>
-                  <mover><mi>a</mi><mo accent="true">⋅⋅</mo></mover>
+                  <mover accent="true"><mi>a</mi><mo>⋅⋅</mo></mover>
                 </math>
               </dd>
 
               <dt><code>tilde a</code></dt>
               <dd>
                 <math>
-                  <mover><mi>a</mi><mo accent="true">˜</mo></mover>
+                  <mover accent="true"><mi>a</mi><mo>˜</mo></mover>
                 </math>
               </dd>
 
               <dt><code>ul a</code></dt>
               <dd>
                 <math>
-                  <munder><mi>a</mi><mo>_</mo></munder>
+                  <munder accentunder="true"><mi>a</mi><mo>_</mo></munder>
                 </math>
               </dd>
 
               <td><code>cancel a+b</code></td>
               <dd>
                 <math>
-                  <menclose notation="updiagonalstrike">
+                  <mrow
+                    style="
+                      background: linear-gradient(
+                        to bottom right,
+                        transparent calc(50% - 0.1ex),
+                        currentColor calc(50% - 0.05ex),
+                        currentColor calc(50% + 0.05ex),
+                        transparent calc(50% + 0.1ex)
+                      );
+                    "
+                  >
                     <mi>a</mi><mo>+</mo><mi>b</mi>
-                  </menclose>
+                  </mrow>
                 </math>
               </dd>
             </dl>
@@ -1966,8 +1977,6 @@ n! = { 1,       if n=0 or n=1
               </li>
 
               <li><use-example>X -&gt; x + tilde x</use-example></li>
-              <li><use-example>hat(xyz)</use-example></li>
-              <li><use-example>cancel(a + b)</use-example></li>
             </ul>
           </aside>
         </section>
@@ -2122,6 +2131,204 @@ n! = { 1,       if n=0 or n=1
                 <!-- prettier-ignore -->
                 <use-example>
                   bb E[X] = int_(-oo)^oo x f(x)  bb it d x
+                </use-example>
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="colors">
+          <h3>Colors</h3>
+
+          <p>
+            You can change the color or background of a portion of your
+            experssion simply by typing that color. Backgrounds are prefixed by
+            <code>bg.&lt;colorname&gt;</code>. If you don’t like that color
+            variant, you can overwrite it using the
+            <code>--mathup-color-&lt;colorname&gt;</code> or
+            <code>--mathup-background-&lt;colorname&gt;</code>
+            <a
+              href="https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties"
+              >CSS custom properties</a
+            >. For example:
+          </p>
+
+          <pre><code><span class="hl-built-in">:root</span> {
+  <span class="hl-keyword">--mathup-color-red</span>: lch(50% 130 20);
+  <span class="hl-keyword">--mathup-background-green</span>: lch(50% 132 180);
+}</code></pre>
+
+          <p>See below for available colors</p>
+
+          <details>
+            <summary>Colors</summary>
+
+            <dl>
+              <dt><code>red</code></dt>
+              <dd>
+                <math><mtext style="color: red">Red</mtext></math>
+              </dd>
+
+              <dt><code>orange</code></dt>
+              <dd>
+                <math><mtext style="color: orange">Orange</mtext></math>
+              </dd>
+
+              <dt><code>yellow</code></dt>
+              <dd>
+                <math><mtext style="color: yellow">Yellow</mtext></math>
+              </dd>
+
+              <dt><code>green</code></dt>
+              <dd>
+                <math><mtext style="color: green">Green</mtext></math>
+              </dd>
+
+              <dt><code>cyan</code></dt>
+              <dd>
+                <math><mtext style="color: cyan">Cyan</mtext></math>
+              </dd>
+
+              <dt><code>blue</code></dt>
+              <dd>
+                <math><mtext style="color: blue">Blue</mtext></math>
+              </dd>
+
+              <dt><code>purple</code></dt>
+              <dd>
+                <math><mtext style="color: purple">Purple</mtext></math>
+              </dd>
+
+              <dt><code>black</code></dt>
+              <dd>
+                <math><mtext style="color: black">Black</mtext></math>
+              </dd>
+
+              <dt><code>gray</code></dt>
+              <dd>
+                <math><mtext style="color: gray">Gray</mtext></math>
+              </dd>
+
+              <dt><code>lightgray</code></dt>
+              <dd>
+                <math><mtext style="color: lightgray">Lightgray</mtext></math>
+              </dd>
+
+              <dt><code>white</code></dt>
+              <dd>
+                <math
+                  ><mtext style="background: darkgray; color: white"
+                    >White</mtext
+                  ></math
+                >
+              </dd>
+            </dl>
+          </details>
+
+          <details>
+            <summary>Backgrounds</summary>
+
+            <dl>
+              <dt><code>bg.red</code></dt>
+              <dd>
+                <math
+                  ><mtext style="background: red; color: white"
+                    >Red</mtext
+                  ></math
+                >
+              </dd>
+
+              <dt><code>bg.orange</code></dt>
+              <dd>
+                <math><mtext style="background: orange">Orange</mtext></math>
+              </dd>
+
+              <dt><code>bg.yellow</code></dt>
+              <dd>
+                <math><mtext style="background: yellow">Yellow</mtext></math>
+              </dd>
+
+              <dt><code>bg.green</code></dt>
+              <dd>
+                <math
+                  ><mtext style="background: green; color: white"
+                    >Green</mtext
+                  ></math
+                >
+              </dd>
+
+              <dt><code>bg.cyan</code></dt>
+              <dd>
+                <math><mtext style="background: cyan">Cyan</mtext></math>
+              </dd>
+
+              <dt><code>bg.blue</code></dt>
+              <dd>
+                <math
+                  ><mtext style="background: blue; color: white"
+                    >Blue</mtext
+                  ></math
+                >
+              </dd>
+
+              <dt><code>bg.purple</code></dt>
+              <dd>
+                <math
+                  ><mtext style="background: purple; color: white"
+                    >Purple</mtext
+                  ></math
+                >
+              </dd>
+
+              <dt><code>bg.black</code></dt>
+              <dd>
+                <math
+                  ><mtext style="background: black; color: white"
+                    >Black</mtext
+                  ></math
+                >
+              </dd>
+
+              <dt><code>bg.gray</code></dt>
+              <dd>
+                <math
+                  ><mtext style="background: gray; color: white"
+                    >Gray</mtext
+                  ></math
+                >
+              </dd>
+
+              <dt><code>bg.lightgray</code></dt>
+              <dd>
+                <math
+                  ><mtext style="background: lightgray">Lightgray</mtext></math
+                >
+              </dd>
+
+              <dt><code>bg.white</code></dt>
+              <dd>
+                <math><mtext style="background: white">White</mtext></math>
+              </dd>
+            </dl>
+          </details>
+
+          <aside class="examples">
+            <ul>
+              <li>
+                <use-example>cancel red 1+1</use-example>
+              </li>
+              <li>
+                <use-example
+                  >bg.red white bf A + bg.blue white bf B</use-example
+                >
+              </li>
+              <li>
+                <use-example>bg.black white norm bf a</use-example>
+              </li>
+              <li>
+                <!-- prettier-ignore -->
+                <use-example>
+                  "🫶" = bg.red ♥ bg.orange ♥ bg.yellow ♥ bg.green ♥ bg.blue ♥ bg.purple ♥
                 </use-example>
               </li>
             </ul>

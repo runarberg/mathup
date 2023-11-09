@@ -1,3 +1,4 @@
+import { applyStyles } from "./styles.js";
 import {
   literalValue,
   textLiteralAttrs,
@@ -103,7 +104,10 @@ function handleCommand(childNode, node) {
 /** @type {import("../index.js").TransformFn<UnaryOperation>} */
 export default function unaryOperation(node, transform) {
   if (node.name === "command") {
-    return transform(handleCommand(node.items[0], node));
+    return applyStyles(
+      node.styles,
+      transform(handleCommand(node.items[0], node)),
+    );
   }
 
   if (node.name === "fence") {

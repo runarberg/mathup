@@ -18,6 +18,7 @@
 /**
  * @typedef {object} Term
  * @property {"Term"} type
+ * @property {Map<string, string>} [styles]
  * @property {Node[]} items
  */
 
@@ -41,6 +42,7 @@
  * @property {string} name
  * @property {string} [accent]
  * @property {string[]} [transforms]
+ * @property {Map<string, string>} [styles]
  * @property {LiteralAttrs} [attrs]
  * @property {[Node]} items
  */

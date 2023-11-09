@@ -285,9 +285,6 @@ export const KNOWN_PREFIX = new Map([
   ["floor", { name: "fence", attrs: { open: "⌊", close: "⌋" } }],
   ["norm", { name: "fence", attrs: { open: "‖", close: "‖" } }],
 
-  // Notations
-  ["cancel", { name: "enclose", attrs: { notation: "updiagonalstrike" } }],
-
   // Roots
   ["root", { name: "root", arity: 2 }],
   ["sqrt", { name: "sqrt" }],
@@ -303,4 +300,33 @@ export const KNOWN_COMMANDS = new Map([
   ["tt", { name: "text-transform", value: "monospace" }],
   ["fr", { name: "text-transform", value: "fraktur" }],
   ["sf", { name: "text-transform", value: "sans-serif" }],
+
+  // Colors
+  ["black", { name: "color", value: "black" }],
+  ["blue", { name: "color", value: "blue" }],
+  ["cyan", { name: "color", value: "cyan" }],
+  ["gray", { name: "color", value: "gray" }],
+  ["green", { name: "color", value: "green" }],
+  ["lightgray", { name: "color", value: "lightgray" }],
+  ["orange", { name: "color", value: "orange" }],
+  ["purple", { name: "color", value: "purple" }],
+  ["red", { name: "color", value: "red" }],
+  ["white", { name: "color", value: "white" }],
+  ["yellow", { name: "color", value: "yellow" }],
+
+  // Background Colors
+  ["bg.black", { name: "background", value: "black" }],
+  ["bg.blue", { name: "background", value: "blue" }],
+  ["bg.cyan", { name: "background", value: "cyan" }],
+  ["bg.gray", { name: "background", value: "gray" }],
+  ["bg.green", { name: "background", value: "green" }],
+  ["bg.lightgray", { name: "background", value: "lightgray" }],
+  ["bg.orange", { name: "background", value: "orange" }],
+  ["bg.purple", { name: "background", value: "purple" }],
+  ["bg.red", { name: "background", value: "red" }],
+  ["bg.white", { name: "background", value: "white" }],
+  ["bg.yellow", { name: "background", value: "yellow" }],
+
+  // Enclose
+  ["cancel", { name: "enclose", value: "updiagonalstrike" }],
 ]);

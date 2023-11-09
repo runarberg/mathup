@@ -1,3 +1,5 @@
+import { applyStyles } from "./styles.js";
+
 /**
  * @typedef {import("../../parser/index.js").Node} Node
  * @typedef {import("../../parser/index.js").Term} Term
@@ -16,11 +18,11 @@ function notNull(node) {
 /** @type {import("../index.js").TransformFn<Term>} */
 export default function term(node, transform) {
   if (node.items.length === 1 && notNull(node.items[0])) {
-    return transform(node.items[0]);
+    return applyStyles(node.styles, transform(node.items[0]));
   }
 
-  return {
+  return applyStyles(node.styles, {
     tag: "mrow",
     childNodes: node.items.map(transform).filter(notNull),
-  };
+  });
 }
