@@ -1,7 +1,98 @@
 /**
+ * @typedef {import("../src/custom-element.js").default} MathUpElement
+ */
+
+const MATHJAX_SRC = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/mml-chtml.js";
+
+/**
+ * @returns {Promise<number>}
+ */
+function beforeAnimationFrame() {
+  return new Promise((resolve) => {
+    requestAnimationFrame(resolve);
+  });
+}
+
+/**
+ * @param {Element} outputEl
+ * @param {MathUpElement} mathupEl
+ * @returns {Promise<void>}
+ */
+async function setupPolyfill(outputEl, mathupEl) {
+  for (const example of document.querySelectorAll("use-example")) {
+    if (!example.parentNode?.querySelector("mjx-container, math")) {
+      /**
+       * @type {MathUpElement | null | undefined}
+       */
+      const mathUpNode = example.shadowRoot?.querySelector("math-up");
+      const mathNode = mathUpNode?.shadowRoot?.querySelector("math");
+
+      if (mathUpNode && mathNode && example.parentNode) {
+        mathUpNode.style.display = "none";
+        example.parentNode.appendChild(document.importNode(mathNode, true));
+      }
+    }
+  }
+
+  if (!outputEl.querySelector("mjx-contaier, math")) {
+    const mathNode = mathupEl?.shadowRoot?.querySelector("math");
+
+    if (mathNode) {
+      outputEl.appendChild(document.importNode(mathNode, true));
+    }
+  }
+
+  mathupEl.style.display = "none";
+
+  // @ts-ignore
+  if (!window.MathJax) {
+    if (document.querySelector(`script[src="${MATHJAX_SRC}"]`)) {
+      await beforeAnimationFrame();
+      await new Promise((resolve) => {
+        window.setTimeout(resolve, 20);
+      });
+
+      setupPolyfill(outputEl, mathupEl);
+      return;
+    }
+
+    const script = document.createElement("script");
+
+    script.src = MATHJAX_SRC;
+    script.async = true;
+    document.head.appendChild(script);
+    setupPolyfill(outputEl, mathupEl);
+
+    return;
+  }
+
+  // @ts-ignore
+  window.MathJax.typeset([outputEl]);
+}
+
+/**
+ * @param {Element} outputEl
+ * @param {MathUpElement} mathupEl
  * @returns {void}
  */
-function main() {
+function removePolyfill(outputEl, mathupEl) {
+  if (mathupEl) {
+    mathupEl.style.removeProperty("display");
+  }
+
+  for (const mjxContainer of outputEl.querySelectorAll("mjx-container")) {
+    mjxContainer.remove();
+  }
+
+  for (const mathNode of outputEl.querySelectorAll("math")) {
+    mathNode.remove();
+  }
+}
+
+/**
+ * @returns {void}
+ */
+function setupPlayground() {
   const tryInput = /** @type {HTMLTextAreaElement} */ (
     document.getElementById("try-input")
   );
@@ -47,7 +138,7 @@ function main() {
     return;
   }
 
-  const tryMathUp = /** @type {import("../src/custom-element.js").default} */ (
+  const tryMathUp = /** @type {MathUpElement} */ (
     tryOutput.querySelector("math-up")
   );
 
@@ -63,7 +154,7 @@ function main() {
   tryMathUp.textContent = tryInput.value;
 
   if (tryPolyfill.checked) {
-    setupPolyfill();
+    setupPolyfill(tryOutput, tryMathUp);
   }
 
   tryInput.addEventListener("input", async () => {
@@ -120,96 +211,170 @@ function main() {
     const { checked } = tryPolyfill;
 
     if (checked) {
-      setupPolyfill();
+      setupPolyfill(tryOutput, tryMathUp);
     } else {
-      removePolyfill();
+      removePolyfill(tryOutput, tryMathUp);
+    }
+  });
+}
+
+/**
+ * @returns {void}
+ */
+function setupMainNav() {
+  const mainNav = document.querySelector(".main-nav");
+
+  if (!mainNav) {
+    return;
+  }
+
+  const detailsEls = mainNav.querySelectorAll("details");
+
+  for (const el of detailsEls) {
+    /** @type {(event: Event) => void} */
+    const close = (event) => {
+      if (event instanceof KeyboardEvent && event.key === "Escape") {
+        el.open = false;
+        return;
+      }
+
+      if (!(event.target instanceof Element)) {
+        return;
+      }
+
+      if (
+        !el.contains(event.target) ||
+        !event.target.matches("summary, summary :scope")
+      ) {
+        el.open = false;
+      }
+    };
+
+    el.addEventListener("toggle", () => {
+      if (el.open) {
+        document.addEventListener("click", close);
+        document.addEventListener("keydown", close);
+      } else {
+        document.removeEventListener("click", close);
+        document.removeEventListener("keydown", close);
+      }
+    });
+  }
+}
+
+/**
+ * @returns {void}
+ */
+function setupExampleSlideShow() {
+  const referenceSection = document.getElementById("reference");
+
+  /** @type {Map<Element, () => void>} */
+  const activeSlideshows = new Map();
+
+  /**
+   * @param {Element} target
+   * @returns {void}
+   */
+  function startSlideshow(target) {
+    let i = 0;
+    const examples = target.querySelectorAll("li");
+    const interval = setInterval(() => {
+      i += 1;
+
+      if (i >= examples.length) {
+        i = 0;
+      }
+
+      target.scrollTo({ left: examples[i].offsetLeft, behavior: "smooth" });
+    }, 5_000);
+
+    activeSlideshows.set(target, () => clearInterval(interval));
+
+    /**
+     *
+     */
+    function unobserve() {
+      unobserveExamples(target);
+      target.removeEventListener("wheel", unobserve);
+      target.removeEventListener("pointerdown", unobserve);
+    }
+
+    target.addEventListener("wheel", unobserve);
+    target.addEventListener("pointerdown", unobserve);
+  }
+
+  const slideshowObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      const { target } = entry;
+
+      if (entry.isIntersecting) {
+        startSlideshow(target);
+      } else {
+        const stopSlideshow = activeSlideshows.get(target);
+
+        if (stopSlideshow) {
+          stopSlideshow();
+          activeSlideshows.delete(target);
+        }
+      }
     }
   });
 
   /**
-   * @returns {Promise<number>}
+   * @param {Element} examples
+   * @returns {void}
    */
-  function beforeAnimationFrame() {
-    return new Promise((resolve) => {
-      requestAnimationFrame(resolve);
-    });
+  function unobserveExamples(examples) {
+    slideshowObserver.unobserve(examples);
+
+    const stopSlideshow = activeSlideshows.get(examples);
+    if (stopSlideshow) {
+      stopSlideshow();
+    }
   }
 
-  const MATHJAX_SRC = "https://cdn.jsdelivr.net/npm/mathjax@3/es5/mml-chtml.js";
+  /**
+   * @param {Element} examples
+   * @returns {void}
+   */
+  function observeExamples(examples) {
+    slideshowObserver.observe(examples);
+  }
+
+  const media = window.matchMedia("screen and (max-width: 80ch)");
 
   /**
-   * @returns {Promise<void>}
+   *
    */
-  async function setupPolyfill() {
-    for (const example of document.querySelectorAll("use-example")) {
-      if (!example.parentNode?.querySelector("mjx-container, math")) {
-        /**
-         * @type {import("../src/custom-element.js").default
-         *   | null
-         *   | undefined}
-         */
-        const mathUpNode = example.shadowRoot?.querySelector("math-up");
-        const mathNode = mathUpNode?.shadowRoot?.querySelector("math");
-
-        if (mathUpNode && mathNode && example.parentNode) {
-          mathUpNode.style.display = "none";
-          example.parentNode.appendChild(document.importNode(mathNode, true));
-        }
-      }
-    }
-
-    if (!tryOutput.querySelector("mjx-contaier, math")) {
-      const mathNode = tryMathUp?.shadowRoot?.querySelector("math");
-
-      if (mathNode) {
-        tryOutput.appendChild(document.importNode(mathNode, true));
-      }
-    }
-
-    tryMathUp.style.display = "none";
-
-    // @ts-ignore
-    if (!window.MathJax) {
-      if (document.querySelector(`script[src="${MATHJAX_SRC}"]`)) {
-        await beforeAnimationFrame();
-        await new Promise((resolve) => {
-          window.setTimeout(resolve, 20);
-        });
-
-        setupPolyfill();
-        return;
-      }
-
-      const script = document.createElement("script");
-
-      script.src = MATHJAX_SRC;
-      script.async = true;
-      document.head.appendChild(script);
-      setupPolyfill();
-
+  function mediaChangeHandler() {
+    if (!referenceSection) {
       return;
     }
 
-    // @ts-ignore
-    window.MathJax.typeset([tryOutput]);
-  }
+    const allExamples = referenceSection.querySelectorAll(".examples > ul");
 
-  /**
-   * @returns {void}
-   */
-  function removePolyfill() {
-    if (tryMathUp) {
-      tryMathUp.style.removeProperty("display");
-    }
-
-    for (const mjxContainer of tryOutput.querySelectorAll("mjx-container")) {
-      mjxContainer.remove();
-    }
-
-    for (const mathNode of tryOutput.querySelectorAll("math")) {
-      mathNode.remove();
+    if (media.matches) {
+      for (const examples of allExamples) {
+        observeExamples(examples);
+      }
+    } else {
+      for (const examples of allExamples) {
+        unobserveExamples(examples);
+      }
     }
   }
+
+  mediaChangeHandler();
+  media.addEventListener("change", mediaChangeHandler);
+}
+
+/**
+ * @returns {void}
+ */
+function main() {
+  setupPlayground();
+  setupMainNav();
+  setupExampleSlideShow();
 }
 
 document.addEventListener("DOMContentLoaded", main);

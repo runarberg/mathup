@@ -17,17 +17,11 @@ template.content.appendChild(css`
     border-radius: 0.2em;
     color: #f0f0f0;
     display: inline-block;
-    max-width: 100%;
+    max-inline-size: 100%;
     overflow-x: auto;
     padding: 0.05em 0.5em;
-    text-align: left;
+    text-align: start;
     white-space: pre;
-  }
-
-  /* exportparts is not implemented in firefox */
-  math-up::part(math) {
-    font-family: "Libertinus Math", "Asana Math", math;
-    font-size: 1.2em;
   }
 `);
 

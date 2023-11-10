@@ -64,6 +64,10 @@ use-example::part(math) {
   font-family: "Libertinus Math", "Asana Math", math;
 }
 
+use-example::part(math) {
+  font-size: 1.2em;
+}
+
 code {
   background: #f0f0f0;
 }
@@ -118,6 +122,10 @@ h5 {
   font-size: 1.05em;
 }
 
+summary {
+  cursor: pointer;
+}
+
 body > header {
   text-align: center;
 }
@@ -133,36 +141,32 @@ body > header h1 {
 }
 
 .main-nav > ul {
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  border-block: 1px solid black;
   display: flex;
 }
 
 .main-nav > ul > li {
+  flex-basis: 100%;
   flex-grow: 1;
-  flex-basis: 15ch;
   position: relative;
 }
 
-.main-nav > ul > li > a {
+.main-nav summary {
+  cursor: pointer;
+  display: block;
   font-weight: bold;
   font-size: 1.2em;
   text-align: center;
 }
 
-.main-nav > ul > li > ul {
+.main-nav details ul {
   background: white;
   border-block-start: 1px solid white;
   border-block-end: 2px solid black;
-  display: none;
+  border-inline: 1px solid lightgray;
   position: absolute;
   left: 0;
   right: 0;
-}
-
-.main-nav > ul > li:focus-within > ul,
-.main-nav > ul > li:hover > ul {
-  display: block;
 }
 
 .main-nav a {
@@ -171,14 +175,14 @@ body > header h1 {
   text-decoration: none;
 }
 
-.main-nav > ul > li > ul a {
+.main-nav details ul a {
   padding-inline: 1em;
 }
 
+.main-nav summary:hover,
+.main-nav details[open] summary,
 .main-nav a:hover,
-.main-nav a:focus,
-.main-nav > ul > li:hover > a,
-.main-nav > ul > li:focus-within > a {
+.main-nav a:focus {
   background: black;
   color: white;
 }
@@ -214,7 +218,7 @@ body > header h1 {
 }
 
 .try > .input .options {
-  margin-left: 2em;
+  margin-inline-start: 2em;
 }
 
 .try > .input input + label::before {
@@ -233,9 +237,9 @@ body > header h1 {
 }
 
 .try > .output {
-  border-left: 1px solid black;
+  border-inline-start: 1px solid black;
   flex: 0 1 60%;
-  padding-left: 1em;
+  padding-inline-start: 1em;
 }
 
 .try > .output output {
@@ -261,7 +265,7 @@ article p {
 }
 
 article section + section {
-  margin-top: 2em;
+  margin-block-start: 2em;
 }
 
 #philosophy,
@@ -319,5 +323,65 @@ article section + section {
 }
 
 .examples li + li {
-  margin-top: 2em;
+  margin-block-start: 2em;
+}
+
+@media screen and (max-width: 80ch) {
+  .try {
+    flex-direction: column;
+  }
+
+  .try > .input {
+    order: 2;
+  }
+
+  .try > .output {
+    border-inline-start: none;
+    flex-basis: 100%;
+    padding-inline: 0;
+    order: 1;
+  }
+
+  .main-nav > ul {
+    flex-direction: column;
+  }
+
+  .main-nav > ul details > ul {
+    position: static;
+  }
+
+  .reference-section > section {
+    display: block;
+  }
+
+  .reference-section > section .examples {
+    margin-block: 1em;
+  }
+
+  .reference-section > section .examples > ul {
+    margin: 0;
+    align-items: start;
+    column-gap: 1em;
+    display: flex;
+    overflow-y: auto;
+    padding-block-end: 1em;
+    scroll-snap-type: x mandatory;
+  }
+  .reference-section > section .examples > ul > li {
+    margin-block: 0;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+
+  use-example {
+    display: flex;
+    flex-direction: column;
+    inline-size: calc(100vw - 2em);
+    justify-content: space-between;
+    row-gap: 1em;
+  }
+
+  use-example::part(code) {
+    max-inline-size: calc(100% - 2em);
+  }
 }
