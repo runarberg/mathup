@@ -105,3 +105,15 @@ test("Mathvariants for fenced groups", (t) => {
 test("Mathvariants for matrices", (t) => {
   t.snapshot(render("bf [a; b]"));
 });
+
+test("Mathvariants for subscripts", (t) => {
+  t.snapshot(render("bf a_i"));
+});
+
+test("Mathvariants for superscripts", (t) => {
+  t.snapshot(render("bf a^2"));
+});
+
+test("Mathvariants for sub-superscripts", (t) => {
+  t.snapshot(render("bf a_i^2"));
+});

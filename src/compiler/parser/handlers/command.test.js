@@ -7,8 +7,9 @@ test("no opperant", (t) => {
   const { end, node } = command({ start: 0, tokens });
 
   t.true(end >= tokens.length);
-  t.is(node.type, "Term");
-  t.deepEqual(node.items, []);
+  t.is(node.type, "UnaryOperation");
+  t.is(node.name, "command");
+  t.deepEqual(node.items, [{ type: "Term", items: [] }]);
 });
 
 test("unknown command", (t) => {
@@ -19,12 +20,11 @@ test("unknown command", (t) => {
   const { end, node } = command({ start: 0, tokens });
 
   t.is(end, tokens.length);
-  t.is(node.type, "Term");
+  t.is(node.type, "UnaryOperation");
+  t.is(node.name, "command");
   t.deepEqual(node.items, [
     {
-      type: "UnaryOperation",
-      name: "command",
-      transforms: [],
+      type: "Term",
       items: [
         {
           type: "IdentLiteral",
@@ -174,6 +174,45 @@ test("multiple text-transform with following term", (t) => {
       type: "IdentLiteral",
       value: "b",
       attrs: undefined,
+    },
+  ]);
+});
+
+test("text and style command with following term", (t) => {
+  const tokens = [
+    { type: "command", name: "color", value: "red" },
+    { type: "command", name: "text-transform", value: "bf" },
+    { type: "ident", value: "A" },
+    { type: "ident", value: "b" },
+  ];
+
+  const { end, node } = command({ start: 0, tokens });
+
+  t.is(end, tokens.length);
+  t.is(node.type, "UnaryOperation");
+  t.deepEqual(node.styles, new Map([["color", "red"]]));
+  t.deepEqual(node.items, [
+    {
+      type: "Term",
+      items: [
+        {
+          type: "UnaryOperation",
+          name: "command",
+          transforms: ["bf"],
+          items: [
+            {
+              type: "IdentLiteral",
+              value: "A",
+              attrs: undefined,
+            },
+          ],
+        },
+        {
+          type: "IdentLiteral",
+          value: "b",
+          attrs: undefined,
+        },
+      ],
     },
   ]);
 });

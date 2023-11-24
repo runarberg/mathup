@@ -4,12 +4,54 @@ import expr from "./expr.js";
  * @typedef {import("../../tokenizer/index.js").Token} Token
  * @typedef {import("../index.js").Node} Node
  * @typedef {import("../index.js").UnaryOperation} UnaryOperation
+ * @typedef {import("../index.js").BinaryOperation} BinaryOperation
+ * @typedef {import("../index.js").TernaryOperation} TernaryOperation
+ * @typedef {UnaryOperation | BinaryOperation | TernaryOperation} Operation
  * @typedef {import("../index.js").Term} Term
  */
 
 /**
+ * @param {Node} node
+ * @param {string[]} transforms
+ * @returns {Operation | Term}
+ */
+function insertTransformNode(node, transforms) {
+  if (node.type === "Term" && node.items.length > 0) {
+    // Only apply transform to first node.
+    const [first, ...rest] = node.items;
+    return {
+      ...node,
+      items: [insertTransformNode(first, transforms), ...rest],
+    };
+  }
+
+  if (node.type === "BinaryOperation") {
+    const [left, right] = node.items;
+    return {
+      ...node,
+      items: [insertTransformNode(left, transforms), right],
+    };
+  }
+
+  if (node.type === "TernaryOperation") {
+    const [a, b, c] = node.items;
+    return {
+      ...node,
+      items: [insertTransformNode(a, transforms), b, c],
+    };
+  }
+
+  return {
+    type: "UnaryOperation",
+    name: "command",
+    transforms,
+    items: [node],
+  };
+}
+
+/**
  * @param {import("../parse.js").State} State
- * @returns {{ node: UnaryOperation | Term; end: number }}
+ * @returns {{ node: Operation | Term; end: number }}
  */
 export default function command({ start, tokens }) {
   const token = tokens[start];
@@ -58,41 +100,35 @@ export default function command({ start, tokens }) {
 
   const next = expr({ stack: [], start: pos, tokens });
 
-  if (next.node.type === "Term") {
-    // Only apply command to the first item in the term
-    const [first, ...rest] = next.node.items;
-
-    /** @type {Node[]} */
-    const items = first
-      ? [
-          {
-            type: "UnaryOperation",
-            name: "command",
-            transforms: textTransforms,
-            items: [first],
-          },
-          ...rest,
-        ]
-      : [];
-
+  if (textTransforms.length === 0) {
+    // Only apply styles.
     return {
       node: {
-        type: "Term",
+        type: "UnaryOperation",
+        name: "command",
         styles,
-        items,
+        items: [next.node],
+      },
+      end: next.end,
+    };
+  }
+
+  const node = insertTransformNode(next.node, textTransforms);
+
+  if (styles.size > 0) {
+    return {
+      node: {
+        type: "UnaryOperation",
+        name: "command",
+        styles,
+        items: [node],
       },
       end: next.end,
     };
   }
 
   return {
-    node: {
-      type: "UnaryOperation",
-      name: "command",
-      transforms: textTransforms,
-      styles,
-      items: [next.node],
-    },
+    node,
     end: next.end,
   };
 }
