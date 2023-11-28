@@ -1416,22 +1416,18 @@
           <p>
             MathML has an element called <code>&lt;mspace&gt;</code>. Two or
             more spaces in a row will be translated into that element where it
-            makes sense. The width of the element will be
-            <math>
-              <mrow>
-                <mo fence="true">(</mo>
-                <mrow>
-                  <mi>n</mi>
-                  <mo>−</mo>
-                  <mn>1</mn>
-                </mrow>
-                <mo fence="true">)</mo>
-              </mrow>
-              <mi>ex</mi>
-            </math>
-            where <math><mi>n</mi></math> is the number of subsequent spaces and
-            <math><mi>ex</mi></math> is the height of the <i>‘x’</i>
-            character in your font.
+            makes sense. The width of the space will be:
+          </p>
+          <!-- prettier-ignore -->
+          <math-up display="block"><!--
+         -->"width" = { 0.35(n - 1)\,, if n = 2 or n = 3
+                        0.5(n - 1)\,,  if n = 4 or n = 5
+                        n - 3\,,       if n > 5
+          </math-up>
+          <p>
+            Where <math><mi>n</mi></math> is the number of subsequent spaces and
+            <i>width</i> is in units of <span class="unit">ex</span> which is
+            the height of the <i>‘x’</i> character in your font.
           </p>
 
           <aside class="examples">
@@ -1439,14 +1435,14 @@
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  bb P(x) = 1   \for 0 &leq; x &leq; 1
+                  bb P(x) = 1,     \for 0 &leq; x &leq; 1
                 </use-example>
               </li>
 
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  QQ = {p, q in ZZ :  p/q}
+                  QQ = {p, q in ZZ:   p/q}
                 </use-example>
               </li>
 
@@ -1571,7 +1567,7 @@
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  (X^T)_ ij = X_ ji ,  X._(n xx m) &lt;=&gt; (X^T)._(m xx n)
+                  (X^T)_(ij) = X_(ji),    X._(n xx m) &lt;=&gt; (X^T)._(m xx n)
                 </use-example>
               </li>
 
@@ -1585,7 +1581,7 @@
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  obrace(x + ... + x).^(k  "times")
+                  obrace(x + ... + x).^(k   "times")
                 </use-example>
               </li>
             </ul>

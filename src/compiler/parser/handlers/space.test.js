@@ -15,9 +15,26 @@ test("SpaceLiteral", (t) => {
 test("width", (t) => {
   const node2 = space({ start: 0, tokens: [{ type: "space", value: "  " }] });
   const node3 = space({ start: 0, tokens: [{ type: "space", value: "   " }] });
+  const node4 = space({ start: 0, tokens: [{ type: "space", value: "    " }] });
+  const node5 = space({
+    start: 0,
+    tokens: [{ type: "space", value: "     " }],
+  });
+  const node6 = space({
+    start: 0,
+    tokens: [{ type: "space", value: "      " }],
+  });
+  const node7 = space({
+    start: 0,
+    tokens: [{ type: "space", value: "       " }],
+  });
 
-  t.deepEqual(node2.node.attrs, { width: "1ex" });
-  t.deepEqual(node3.node.attrs, { width: "2ex" });
+  t.deepEqual(node2.node.attrs, { width: "0.35ex" });
+  t.deepEqual(node3.node.attrs, { width: "0.7ex" });
+  t.deepEqual(node4.node.attrs, { width: "1.5ex" });
+  t.deepEqual(node5.node.attrs, { width: "2ex" });
+  t.deepEqual(node6.node.attrs, { width: "3ex" });
+  t.deepEqual(node7.node.attrs, { width: "4ex" });
 });
 
 test("depth", (t) => {
