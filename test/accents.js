@@ -29,8 +29,16 @@ test("Dotless variants", (t) => {
   t.snapshot(render("ul j"));
 });
 
-test("Should put accents over all the following parenthesis", (t) => {
-  t.snapshot(render("3hat(xyz)"));
+test("Should put accents over all in the following parenthesis", (t) => {
+  t.snapshot(render("3oparen(a + bx)"));
+});
+
+test("Ties together", (t) => {
+  t.snapshot(
+    render(
+      "oparen a+b uparen c+d oshell e+f ushell g+h obracket i+j ubracket k+l",
+    ),
+  );
 });
 
 test("Physics vector notation", (t) => {

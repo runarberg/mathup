@@ -1,4 +1,4 @@
-import { KNOWN_PARENS_CLOSE, isPunctClose } from "../lexemes.js";
+import { KNOWN_OPS, KNOWN_PARENS_CLOSE, isPunctClose } from "../lexemes.js";
 
 /**
  * @param {string} partial
@@ -30,6 +30,15 @@ export default function parenCloseScanner(char, input, { grouping, start }) {
       value += nextChar;
       [nextChar] = input.slice(start + value.length);
       nextValue = value + nextChar;
+    }
+  }
+
+  {
+    const [nextChar] = input.slice(start + value.length);
+    const nextValue = value + nextChar;
+
+    if (KNOWN_OPS.has(nextValue)) {
+      return null;
     }
   }
 

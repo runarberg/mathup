@@ -1,4 +1,4 @@
-import { KNOWN_PARENS_OPEN, isPunctOpen } from "../lexemes.js";
+import { KNOWN_OPS, KNOWN_PARENS_OPEN, isPunctOpen } from "../lexemes.js";
 
 /**
  * @param {string} partial
@@ -26,6 +26,15 @@ export default function parenOpenScanner(char, input, { start }) {
       value += nextChar;
       [nextChar] = input.slice(start + value.length);
       nextValue = value + nextChar;
+    }
+  }
+
+  {
+    const [nextChar] = input.slice(start + value.length);
+    const nextValue = value + nextChar;
+
+    if (KNOWN_OPS.has(nextValue)) {
+      return null;
     }
   }
 

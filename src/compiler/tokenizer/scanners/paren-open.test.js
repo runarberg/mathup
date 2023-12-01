@@ -35,3 +35,11 @@ test("combined paren-open", (t) => {
     end: 2,
   });
 });
+
+test("paren open is also an operator", (t) => {
+  t.is(parenOpen("<", "<<<", { start: 0 }), null);
+});
+
+test("paren close is also an operator", (t) => {
+  t.is(parenOpen(">", ">>>", { start: 0 }), null);
+});

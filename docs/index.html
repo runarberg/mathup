@@ -546,6 +546,11 @@
                 <math><mo>±</mo></math>
               </dd>
 
+              <dt><code>-+</code></dt>
+              <dd>
+                <math><mo>∓</mo></math>
+              </dd>
+
               <dt><code>*</code></dt>
               <dd>
                 <math><mo>·</mo></math>
@@ -624,6 +629,11 @@
               <dt><code>!=</code></dt>
               <dd>
                 <math><mo>≠</mo></math>
+              </dd>
+
+              <dt><code>!==</code></dt>
+              <dd>
+                <math><mo>≢</mo></math>
               </dd>
 
               <dt><code>o+</code></dt>
@@ -722,7 +732,7 @@
                 <math><mo>∇</mo></math>
               </dd>
 
-              <dt><code>prop</code></dt>
+              <dt><code>oc</code>, <code>prop</code></dt>
               <dd>
                 <math><mo>∝</mo></math>
               </dd>
@@ -767,14 +777,24 @@
                 <math><mo>⊇</mo></math>
               </dd>
 
-              <dt><code>diamond</code></dt>
+              <dt><code>&lt;&gt;</code>, <code>diamond</code></dt>
               <dd>
                 <math><mo>⋄</mo></math>
               </dd>
 
-              <dt><code>square</code></dt>
+              <dt><code>[]</code>, <code>square</code></dt>
               <dd>
                 <math><mo>□</mo></math>
+              </dd>
+
+              <dt><code><|</code></dt>
+              <dd>
+                <math><mo>⊲</mo></math>
+              </dd>
+
+              <dt><code>|></code></dt>
+              <dd>
+                <math><mo>⊳</mo></math>
               </dd>
             </dl>
           </details>
@@ -829,6 +849,16 @@
               <dt><code>&gt;-=</code></dt>
               <dd>
                 <math><mo>⪰</mo></math>
+              </dd>
+
+              <dt><code>&lt;&lt;&lt;</code></dt>
+              <dd>
+                <math><mo>≪</mo></math>
+              </dd>
+
+              <dt><code>&gt;&gt;&gt;</code></dt>
+              <dd>
+                <math><mo>≫</mo></math>
               </dd>
             </dl>
           </details>
@@ -1001,6 +1031,10 @@
 
           <aside class="examples">
             <ul>
+              <li>
+                <use-example>\`lim sup`._(n -&gt; oo) x_n</use-example>
+              </li>
+
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
@@ -1977,6 +2011,86 @@ n! = { 1,       if n=0 or n=1
                 </math>
               </dd>
 
+              <dt><code>oparen a+b</code></dt>
+              <dd>
+                <math>
+                  <mover accent="true">
+                    <mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow>
+                    <mo>⏜</mo>
+                  </mover>
+                </math>
+              </dd>
+
+              <dt><code>uparen a+b</code></dt>
+              <dd>
+                <math>
+                  <munder accentunder="true">
+                    <mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow>
+                    <mo>⏝</mo>
+                  </munder>
+                </math>
+              </dd>
+
+              <dt><code>obrace a+b</code></dt>
+              <dd>
+                <math>
+                  <mover accent="true">
+                    <mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow>
+                    <mo>⏞</mo>
+                  </mover>
+                </math>
+              </dd>
+
+              <dt><code>ubrace a+b</code></dt>
+              <dd>
+                <math>
+                  <munder accentunder="true">
+                    <mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow>
+                    <mo>⏟</mo>
+                  </munder>
+                </math>
+              </dd>
+
+              <dt><code>obracket a+b</code></dt>
+              <dd>
+                <math>
+                  <mover accent="true">
+                    <mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow>
+                    <mo>⎴</mo>
+                  </mover>
+                </math>
+              </dd>
+
+              <dt><code>ubracket a+b</code></dt>
+              <dd>
+                <math>
+                  <munder accentunder="true">
+                    <mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow>
+                    <mo>⎵</mo>
+                  </munder>
+                </math>
+              </dd>
+
+              <dt><code>oshell a+b</code></dt>
+              <dd>
+                <math>
+                  <mover accent="true">
+                    <mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow>
+                    <mo>⏠</mo>
+                  </mover>
+                </math>
+              </dd>
+
+              <dt><code>ushell a+b</code></dt>
+              <dd>
+                <math>
+                  <munder accentunder="true">
+                    <mrow><mi>a</mi><mo>+</mo><mi>b</mi></mrow>
+                    <mo>⏡</mo>
+                  </munder>
+                </math>
+              </dd>
+
               <td><code>cancel a+b</code></td>
               <dd>
                 <math>
@@ -2015,6 +2129,13 @@ n! = { 1,       if n=0 or n=1
               </li>
 
               <li><use-example>X -&gt; x + tilde x</use-example></li>
+
+              <li>
+                <!-- prettier-ignore -->
+                <use-example>
+                  oparen a+b uparen c+d oshell e+f ushell g+h obracket i+j ubracket k+l
+                </use-example>
+              </li>
             </ul>
           </aside>
         </section>

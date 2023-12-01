@@ -25,6 +25,10 @@ test("Only force an operator when \\ precedes a character", (t) => {
   t.snapshot(render("\\"));
 });
 
+test("Operators that could be open and close parens", (t) => {
+  t.snapshot(render("<<< [] >>>"));
+});
+
 test("i hat", (t) => {
   t.snapshot(render("ı.^\\^"));
 });

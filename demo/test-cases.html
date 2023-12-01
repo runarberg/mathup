@@ -70,6 +70,11 @@
         <test-case>\`foo bar`</test-case>
         <test-case>ı.^\^</test-case>
         <test-case>x.^ \(n)</test-case>
+        <test-case>&lt;&lt;&lt; [] &gt;&gt;&gt;</test-case>
+
+        <test-case display="block">
+          \`lim sup`._(n -> oo)
+        </test-case>
 
         <test-case display="block">
           sum_(n=0)^k a_n = a_0 + a_1 + cdots + a_k
@@ -407,6 +412,10 @@ A = [ a_(1 1), a_(1 2), cdots, a_(1 n)
           <test-case>it sf`AaBbCc`</test-case>
           <test-case>tt`1234`</test-case>
           <test-case>i rm i</test-case>
+
+          <test-case display="block">
+            obrace(a\`↑↑`b = ubrace(a^a^⋰^a)._(b  "times")).^"" "up-arrow" notation ""
+          </test-case>
         </section>
       </section>
 
@@ -468,8 +477,15 @@ A = [ a_(1 1), a_(1 2), cdots, a_(1 n)
         <test-case>ddot x</test-case>
         <test-case>tilde x</test-case>
         <test-case>ddot i ,  bar i ,  hat j ,  ul j</test-case>
-        <test-case>3hat(xyz)</test-case>
         <test-case>vec x = a hat i + b hat j + c hat k</test-case>
+
+        <test-case display="block">
+          3oparen(a + bx)
+        </test-case>
+
+        <test-case display="block">
+          oparen a+b uparen c+d oshell e+f ushell g+h obracket i+j ubracket k+l
+        </test-case>
       </section>
     </main>
   </body>
