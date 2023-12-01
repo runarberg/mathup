@@ -76,7 +76,7 @@
         </test-case>
 
         <test-case display="block">
-          bf F @ bf G  :  U sube RR^3 -&gt; RR^2
+          bf F @ bf G   :   U sube RR^3 -&gt; RR^2
         </test-case>
 
         <test-case display="block">e = sum_(n=0)^oo 1 / n!</test-case>
@@ -85,10 +85,12 @@
           f&apos;(x), f&apos;&apos;(x), f&apos;&apos;&apos;(x), f&apos;&apos;&apos;&apos;(x)
         </test-case>
 
-        <test-case display="block">p(a  |  b) = p(b  |  a)p(a) / p(b)</test-case>
+        <test-case display="block">p(a | b) = p(b | a)p(a) / p(b)</test-case>
+
+        <test-case display="block">f(a) - f(b) = int_b^a f'(x) dx</test-case>
 
         <test-case display="block">
-          P_k(x) = f(a) + f&apos;(a)(x-a) + f&apos;&apos;(a) / 2! (x-a)^2 + cdots + f^(k)(a) / k! (x-a)^k
+          P_k(x) = f(a) + f'(a)(x-a) + f''(a) / 2! (x-a)^2 + cdots + f^(k)(a) / k! (x-a)^k
         </test-case>
 
         <test-case display="block">
@@ -97,6 +99,10 @@
 
         <test-case display="block">
           oint_(del S) bf F * d bf s = dint_S grad xx bf F * d bf s
+        </test-case>
+
+        <test-case display="block">
+          oint_C (L dx + M dy) = dint_D ((del M)/(del x) - (del L)/(del y)) dx dy
         </test-case>
       </section>
 
@@ -109,6 +115,8 @@
         <test-case>a   b</test-case>
         <test-case>a    b</test-case>
         <test-case>a     b</test-case>
+        <test-case>a      b</test-case>
+        <test-case>a       b</test-case>
       </section>
 
       <!-- prettier-ignore -->
@@ -182,6 +190,18 @@
         <test-case>b // </test-case>
 
         <test-case display="block">
+          df = df / dx dx
+        </test-case>
+
+        <test-case display="block">
+          f'(x) = df / dx (x)
+        </test-case>
+
+        <test-case display="block">
+          f''(x) = (d^2 f) / dx^2 (x)
+        </test-case>
+
+        <test-case display="block">
           phi = 1+1/ 1+1/ 1+1/ 1+1/ 1+ddots
         </test-case>
 
@@ -237,7 +257,7 @@
         <test-case>NN = {1, 2, 3, ...}</test-case>
 
         <test-case display="block">
-          (: V(t)^2 :) = lim_(T-&gt;oo) 1/T int_(-T/2)^(T/2) V(t)^2  dt
+          (: V(t)^2 :) = lim_(T-&gt;oo) 1/T int_(-T/2)^(T/2) V(t)^2 dt
         </test-case>
       </section>
 
@@ -254,7 +274,7 @@
         <test-case>(X^T)_ i.,j = X_ j.,i</test-case>
 
         <test-case display="block">
-          ln x = int_1^x 1/t  dt
+          ln x = int_1^x 1/t dt
         </test-case>
       </section>
 

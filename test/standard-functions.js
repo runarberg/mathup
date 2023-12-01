@@ -41,5 +41,5 @@ test("2×2 determinants", (t) => {
 });
 
 test("Fermats little theorem", (t) => {
-  t.snapshot(render("a^ p-1 -= 1   (mod p)"));
+  t.snapshot(render("a^ p-1 == 1   (mod p)"));
 });

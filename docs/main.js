@@ -90,19 +90,21 @@ function removePolyfill(outputEl, mathupEl) {
 }
 
 const DEMO_EQUATIONS = [
-  "E[X] = int_(-oo)^oo x f(x)  dx",
+  "E[X] = int_(-oo)^oo x f(x) dx",
   "sum_(n=0)^k a_n = a_0 + a_1 + cdots + a_k",
   "e = sum_(n=0)^oo 1 / n!",
   "vec x = a hat i + b hat j + c hat k",
+  "f(a) - f(b) = int_b^a f'(x) dx",
   "grad f(x,y) = ((del f)/(del x) (x, y), (del f)/(del y)(x,y))",
   "oint_(del S) bf F * d bf s = dint_S grad xx bf F * d bf s",
+  "oint_C (L dx + M dy) = dint_D ((del M)/(del x) - (del L)/(del y)) dx dy",
   "cc N(x | μ, σ^2) = 1 / (σ sqrt(2π)) e^(-1/2 (x-μ / σ)^2)",
   "`Gamma`(theta | alpha, beta) = beta^alpha / Gamma(alpha) theta^(alpha - 1) e^(-beta theta)",
   "P(A | B) = P(B | A)P(A) / P(B)",
   String.raw`phi =.^\def a/b = a+b / a`,
   "binom(n, k) = n! / k!(n-k)!",
-  "|(Psi(t):) = int Psi(x, t) |(x:)  dx",
-  "<<V(t)^2>> = lim_(T->oo) 1/T int_(-T/2)^(T/2) V(t)^2  dt",
+  "|(Psi(t):) = int Psi(x, t) |(x:) dx",
+  "<<V(t)^2>> = lim_(T->oo) 1/T int_(-T/2)^(T/2) V(t)^2 dt",
   `[λ_0, λ_1, ...;] [p_(0 0), p_(0 1), ...
                   p_(1 0), p_(1 1), ...
                   vdots,   vdots,   ddots]`,
@@ -110,7 +112,7 @@ const DEMO_EQUATIONS = [
   `n! = { 1,       if n=0 or n=1
        n(n-1)!, if n > 1`,
   "x = -b+-sqrt(b^2 - 4ac) / 2a",
-  "ln x = int_1^x 1/t  dt",
+  "ln x = int_1^x 1/t dt",
   "bf F @ bf G:  U sube RR^3 -> RR^2",
 ];
 

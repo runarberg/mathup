@@ -31,7 +31,7 @@
       <div class="input">
         <p><label for="try-input">You write…</label></p>
 
-        <textarea id="try-input">E[X] = int_(-oo)^oo x f(x)  dx</textarea>
+        <textarea id="try-input">E[X] = int_(-oo)^oo x f(x) dx</textarea>
 
         <div class="options">
           <label for="try-decimalmark">Decimal mark</label>
@@ -441,6 +441,9 @@
             write. If a character comes from one of the mathematical operator
             code blocks it will wrap it in an <code>&lt;mo&gt;</code> tag,
             otherwise it will be wrapped in an <code>&lt;mi&gt;</code> tag.
+            Additionally <code>d</code> will be wrapped in an
+            <code>&lt;mo&gt;</code> tag if it obviously a part of a
+            differential.
           </p>
 
           <aside class="examples">
@@ -1029,6 +1032,9 @@
                 </use-example>
               </li>
               <li>
+                <use-example> f(a) - f(b) = int_b^a f'(x) dx </use-example>
+              </li>
+              <li>
                 <!-- prettier-ignore -->
                 <use-example>
                   grad f(x,y) = ((del f)/(del x) (x, y), (del f)/(del y)(x,y))
@@ -1480,6 +1486,9 @@
             <ul>
               <li><use-example>1+2 / 3+4</use-example></li>
               <li><use-example>1+2/3+4</use-example></li>
+              <li><use-example>df = df / dx dx</use-example></li>
+              <li><use-example>f'(x) = dy / dx</use-example></li>
+              <li><use-example>f''(x) = (d^2 y) / dx^2</use-example></li>
               <li>
                 <!-- prettier-ignore -->
                 <use-example>phi = 1+1/ 1+1/ 1+1/ 1+1/ 1+ddots</use-example>
@@ -1562,7 +1571,7 @@
               <li><use-example>a^2 + b^2 = c^2</use-example></li>
 
               <!-- prettier-ignore -->
-              <li><use-example>ln x = int_1^x 1/t  dt</use-example></li>
+              <li><use-example>ln x = int_1^x 1/t dt</use-example></li>
 
               <li>
                 <!-- prettier-ignore -->
@@ -1794,7 +1803,7 @@
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  &lt;&lt;V(t)^2&gt;&gt; = lim_(T-&gt;oo) 1/T int_(-T/2)^(T/2) V(t)^2  dt
+                  &lt;&lt;V(t)^2&gt;&gt; = lim_(T-&gt;oo) 1/T int_(-T/2)^(T/2) V(t)^2 dt
                 </use-example>
               </li>
             </ul>
@@ -2159,7 +2168,7 @@ n! = { 1,       if n=0 or n=1
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  bb E[X] = int_(-oo)^oo x f(x)  bb it d x
+                  bb E[X] = int_(-oo)^oo x f(x) bb it \d x
                 </use-example>
               </li>
             </ul>

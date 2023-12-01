@@ -50,11 +50,11 @@ function insertTransformNode(node, transforms) {
 }
 
 /**
- * @param {import("../parse.js").State} State
+ * @param {import("../parse.js").State} state
  * @returns {{ node: Operation | Term; end: number }}
  */
-export default function command({ start, tokens }) {
-  const token = tokens[start];
+export default function command(state) {
+  const token = state.tokens[state.start];
 
   if (!token.name) {
     throw new Error("Got command token without a name");
@@ -84,8 +84,8 @@ export default function command({ start, tokens }) {
 
   handleCommandToken(token);
 
-  let pos = start + 1;
-  let nextToken = tokens[pos];
+  let pos = state.start + 1;
+  let nextToken = state.tokens[pos];
   while (
     nextToken &&
     (nextToken.type === "command" || nextToken.type === "space")
@@ -95,10 +95,16 @@ export default function command({ start, tokens }) {
     }
 
     pos += 1;
-    nextToken = tokens[pos];
+    nextToken = state.tokens[pos];
   }
 
-  const next = expr({ stack: [], start: pos, tokens });
+  const next = expr({
+    ...state,
+    stack: [],
+    start: pos,
+    nestLevel: state.nestLevel + 1,
+    textTransforms,
+  });
 
   if (textTransforms.length === 0) {
     // Only apply styles.

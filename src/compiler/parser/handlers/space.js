@@ -23,8 +23,8 @@ function spaceWidth(n) {
  * @param {State} state
  * @returns {{ node: SpaceLiteral, end: number }}
  */
-export default function space({ start, tokens }) {
-  const token = tokens[start];
+export default function space(state) {
+  const token = state.tokens[state.start];
   const blockSpace = token.value.startsWith("\n");
 
   const { length } = token.value;
@@ -37,6 +37,6 @@ export default function space({ start, tokens }) {
       type: "SpaceLiteral",
       attrs,
     },
-    end: start + 1,
+    end: state.start + 1,
   };
 }

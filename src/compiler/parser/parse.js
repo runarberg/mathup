@@ -9,6 +9,8 @@ import expr from "./handlers/expr.js";
  * @property {Token[]} tokens
  * @property {number} start
  * @property {Node[]} stack
+ * @property {number} nestLevel
+ * @property {string[]} [textTransforms]
  *
  * @param {Token[]} tokens
  * @returns {Sentence}
@@ -22,6 +24,7 @@ export default function parse(tokens) {
       tokens,
       start: pos,
       stack: body,
+      nestLevel: 1,
     };
 
     const next = expr(state);

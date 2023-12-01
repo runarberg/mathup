@@ -1,3 +1,5 @@
+import { addZeroLSpaceToOperator } from "../utils.js";
+
 import expr from "./expr.js";
 
 /**
@@ -7,12 +9,12 @@ import expr from "./expr.js";
  */
 
 /**
- * @param {import("../parse.js").State} State
+ * @param {import("../parse.js").State} state
  * @returns {{ node: FencedGroup | MatrixGroup, end: number }}
  */
-export default function group({ start, tokens }) {
-  let i = start;
-  let token = tokens[i];
+export default function group(state) {
+  let i = state.start;
+  let token = state.tokens[i];
 
   const open = token;
 
@@ -29,26 +31,35 @@ export default function group({ start, tokens }) {
   const rows = [];
 
   i += 1;
-  token = tokens[i];
+  token = state.tokens[i];
 
   if (token && token.type === "space") {
     // Ignore leading space.
     i += 1;
-    token = tokens[i];
+    token = state.tokens[i];
   }
 
   while (token && token.type !== "paren.close") {
+    if (token.type === "space" && token.value === " ") {
+      // No need to add tokens which don’t render elements to our
+      // cell.
+      i += 1;
+      token = state.tokens[i];
+
+      continue;
+    }
+
     if (token.type === "sep.col") {
       seps.push(token.value);
       cols.push(cell);
       cell = [];
       i += 1;
-      token = tokens[i];
+      token = state.tokens[i];
 
       // Ignore leading space.
       if (token && token.type === "space") {
         i += 1;
-        token = tokens[i];
+        token = state.tokens[i];
       }
 
       continue;
@@ -60,26 +71,33 @@ export default function group({ start, tokens }) {
       cell = [];
       cols = [];
       i += 1;
-      token = tokens[i];
+      token = state.tokens[i];
 
       // Ignore leading space.
       if (token && token.type === "space") {
         i += 1;
-        token = tokens[i];
+        token = state.tokens[i];
       }
 
       continue;
     }
 
+    if (cell.length === 1) {
+      // If first element is an operator it may throw alignment out
+      // with its implicit lspace.
+      addZeroLSpaceToOperator(cell[0]);
+    }
+
     const next = expr({
-      tokens,
+      ...state,
       start: i,
       stack: cell,
+      nestLevel: state.nestLevel + 1,
     });
 
     cell.push(next.node);
     i = next.end;
-    token = tokens[i];
+    token = state.tokens[i];
   }
 
   if (cell.length > 0) {

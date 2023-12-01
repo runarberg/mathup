@@ -8,6 +8,7 @@ import space from "./space.js";
  * @typedef {import("../../tokenizer/index.js").TokenType} TokenType
  * @typedef {import("../parse.js").State} State
  * @typedef {import("../index.js").Node} Node
+ * @typedef {import("../index.js").Literal} Literal
  * @typedef {(state: State) => { node: Node, end: number }} Handler
  * @typedef {"Ident" | "Number" | "Operator" | "Text"} LiteralType
  */

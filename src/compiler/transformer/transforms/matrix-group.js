@@ -36,34 +36,6 @@ export default function matrixGroup(node, transform) {
     });
   }
 
-  /**
-   * @param {Node} cell
-   * @param {number} i
-   * @returns {Tag | null}
-   */
-  function transformCell(cell, i) {
-    if (i > 0) {
-      return transform(cell);
-    }
-
-    // Leading operators sometimes have an annoying leading space.
-    if (cell.type === "Term" && cell.items[0]?.type === "OperatorLiteral") {
-      const [first, ...rest] = cell.items;
-
-      if (!first) {
-        return transform(cell);
-      }
-
-      const { attrs = {} } = first;
-      return transform({
-        ...cell,
-        items: [{ ...first, attrs: { ...attrs, lspace: "0" } }, ...rest],
-      });
-    }
-
-    return transform(cell);
-  }
-
   childNodes.push({
     tag: "mtable",
     childNodes: node.items.map((row) => ({
@@ -71,7 +43,7 @@ export default function matrixGroup(node, transform) {
       childNodes: row.map((col, i) => ({
         tag: "mtd",
         attrs: aligns[i] ? { style: `text-align: ${aligns[i]}` } : {},
-        childNodes: col.map(transformCell).filter(notNull),
+        childNodes: col.map(transform).filter(notNull),
       })),
     })),
   });

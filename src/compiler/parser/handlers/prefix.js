@@ -19,19 +19,31 @@ function toTermOrUnwrap(nodes) {
 }
 
 /**
- * @param {import("../parse.js").State} State
+ * @param {import("../parse.js").State} state
  * @returns {{ node: UnaryOperation | BinaryOperation; end: number }}
  */
-export default function prefix({ start, tokens }) {
+export default function prefix(state) {
+  const { tokens, start } = state;
   const token = tokens[start];
+  const nestLevel = state.nestLevel + 1;
 
   if (!token.name) {
     throw new Error("Got prefix token without a name");
   }
 
-  let next = expr({ stack: [], start: start + 1, tokens });
+  let next = expr({
+    ...state,
+    stack: [],
+    start: start + 1,
+    nestLevel,
+  });
   if (next && next.node && next.node.type === "SpaceLiteral") {
-    next = expr({ stack: [], start: next.end, tokens });
+    next = expr({
+      ...state,
+      stack: [],
+      start: next.end,
+      nestLevel,
+    });
   }
 
   // XXX: Arity > 2 not implemented.
@@ -61,10 +73,22 @@ export default function prefix({ start, tokens }) {
     }
 
     const first = next;
-    let second = next && expr({ stack: [], start: next.end, tokens });
+    let second =
+      next &&
+      expr({
+        ...state,
+        stack: [],
+        start: next.end,
+        nestLevel,
+      });
 
     if (second && second.node && second.node.type === "SpaceLiteral") {
-      second = expr({ stack: [], start: second.end, tokens });
+      second = expr({
+        ...state,
+        stack: [],
+        start: second.end,
+        nestLevel,
+      });
     }
 
     /** @type {[Node, Node]} */

@@ -6,11 +6,8 @@ export default function backslashScanner(char, input, { start }) {
     return null;
   }
 
-  const { end, value } = handlePrefixed("\\", start, input);
-
   return {
     type: "operator",
-    value,
-    end,
+    ...handlePrefixed("\\", start, input),
   };
 }

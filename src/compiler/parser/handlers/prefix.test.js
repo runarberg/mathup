@@ -228,7 +228,7 @@ test("a fenced unary", (t) => {
   t.is(node.name, "foo");
   t.is(node.items.length, 1);
   t.is(node.items[0].type, "Term");
-  t.is(node.items[0].items.length, 3);
+  t.is(node.items[0].items.length, 2);
 });
 
 test("a fenced binary", (t) => {

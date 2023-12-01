@@ -1,3 +1,5 @@
+import { addZeroLSpaceToOperator } from "../utils.js";
+
 import expr from "./expr.js";
 
 import handlers from "./index.js";
@@ -103,8 +105,25 @@ function maybeApplyUnderOver(node) {
  * @param {Operation} node
  * @returns {Operation}
  */
+function fixFracSpacing(node) {
+  if (node.name !== "frac") {
+    return node;
+  }
+
+  for (const item of node.items) {
+    addZeroLSpaceToOperator(item);
+  }
+
+  return node;
+}
+
+/**
+ * @template {BinaryOperation | TernaryOperation} Operation
+ * @param {Operation} node
+ * @returns {Operation}
+ */
 function post(node) {
-  return maybeRemoveFence(maybeApplyUnderOver(node));
+  return fixFracSpacing(maybeRemoveFence(maybeApplyUnderOver(node)));
 }
 
 /**
@@ -190,7 +209,9 @@ function rightAssociate(op, [left, right]) {
  * @param {State} state
  * @returns {{ node: BinaryOperation | TernaryOperation; end: number }}
  */
-export default function infix({ stack, start, tokens }) {
+export default function infix(state) {
+  const { tokens, start, stack } = state;
+  const nestLevel = state.nestLevel + 1;
   const token = tokens[start];
 
   let left = stack.pop();
@@ -213,13 +234,28 @@ export default function infix({ stack, start, tokens }) {
       throw new Error("Unknown handler");
     }
 
-    next = handleRight({ stack: [], start: start + 1, tokens });
+    next = handleRight({
+      ...state,
+      stack: [],
+      start: start + 1,
+      nestLevel,
+    });
   } else {
-    next = expr({ stack: [], start: start + 1, tokens });
+    next = expr({
+      ...state,
+      stack: [],
+      start: start + 1,
+      nestLevel,
+    });
   }
 
   if (next && next.node && next.node.type === "SpaceLiteral") {
-    next = expr({ stack: [], start: next.end, tokens });
+    next = expr({
+      ...state,
+      stack: [],
+      start: next.end,
+      nestLevel,
+    });
   }
 
   const { end, node: right } = next;

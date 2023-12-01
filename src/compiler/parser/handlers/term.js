@@ -2,7 +2,11 @@ import handlers from "./index.js";
 
 /**
  * @typedef {import("../parse.js").State} State
+ * @typedef {import("../index.js").Node} Node
  * @typedef {import("../index.js").Term} Term
+ * @typedef {import("../index.js").IdentLiteral} IdentLiteral
+ * @typedef {import("../index.js").OperatorLiteral} OperatorLiteral
+ * @typedef {import("../index.js").Literal} Literal
  */
 
 const KEEP_GOING_TYPES = [
@@ -17,12 +21,40 @@ const KEEP_GOING_TYPES = [
 ];
 
 /**
+ * @param {Node[]} items
+ * @returns {items is [IdentLiteral | OperatorLiteral, ...Node[]]}
+ */
+function isDifferential(items) {
+  if (items.length < 2) {
+    return false;
+  }
+
+  const [first, second] = items;
+
+  if (first.type !== "IdentLiteral" || first.value !== "d") {
+    return false;
+  }
+
+  let operant = second;
+  while (
+    operant.type === "UnaryOperation" ||
+    operant.type === "BinaryOperation" ||
+    operant.type === "TernaryOperation"
+  ) {
+    [operant] = operant.items;
+  }
+
+  return operant.type === "IdentLiteral";
+}
+
+/**
  * @param {State} state
  * @returns {{ node: Term; end: number }}
  */
-export default function term({ start, tokens }) {
-  let i = start;
-  let token = tokens[i];
+export default function term(state) {
+  let i = state.start;
+  let token = state.tokens[i];
+  /** @type {Node[]} */
   const items = [];
 
   while (token && KEEP_GOING_TYPES.includes(token.type)) {
@@ -32,12 +64,32 @@ export default function term({ start, tokens }) {
       throw new Error("Unknown Hander");
     }
 
-    const next = handler({ start: i, stack: items, tokens });
+    const next = handler({
+      ...state,
+      start: i,
+      stack: items,
+    });
 
     items.push(next.node);
 
     i = next.end;
-    token = tokens[i];
+    token = state.tokens[i];
+  }
+
+  if (isDifferential(items)) {
+    // Special case differential operator.
+    const value =
+      (state.textTransforms?.length ?? 0) > 0 ? items[0].value : "𝑑";
+
+    items[0] = {
+      ...items[0],
+      type: "OperatorLiteral",
+      value,
+      attrs: {
+        ...(items[0].attrs || {}),
+        rspace: "0",
+      },
+    };
   }
 
   return {
