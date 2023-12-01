@@ -1,12 +1,12 @@
 /**
- * @typedef {object} GroupAttrs
- * @property {string} open
- * @property {string} close
- * @property {string[]} seps
+ * @typedef {Record<string, string | boolean | number | null | undefined>} LiteralAttrs
  */
 
 /**
- * @typedef {Record<string, string | boolean | number | null | undefined>} LiteralAttrs
+ * @typedef {object} GroupAttrs
+ * @property {{ value: string, attrs?: LiteralAttrs }} open
+ * @property {{ value: string, attrs?: LiteralAttrs } | null} close
+ * @property {string[]} seps
  */
 
 /**

@@ -65,3 +65,22 @@ test("operators", (t) => {
     ],
   );
 });
+
+test("extra tokens after", (t) => {
+  const tokenize = tokenizer(options);
+  const tokens = tokenize("(mod");
+
+  t.deepEqual(tokens.next().value, {
+    type: "paren.open",
+    value: "(",
+    attrs: { lspace: "1.65ex" },
+  });
+
+  t.deepEqual(tokens.next().value, {
+    type: "operator",
+    value: "mod",
+    attrs: { lspace: 0 },
+  });
+
+  t.is(tokens.next().done, true);
+});

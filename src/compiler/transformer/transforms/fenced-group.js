@@ -44,17 +44,18 @@ export default function fencedGroup(node, transform) {
 
   const { open, close } = node.attrs;
 
-  if (cols && !open && !close) {
+  if (cols && !open.value && !close?.value) {
     return cols;
   }
 
   const childNodes = [];
 
-  if (open) {
+  if (open.value) {
     childNodes.push({
       tag: "mo",
-      textContent: open,
+      textContent: open.value,
       attrs: {
+        ...open.attrs,
         fence: "true",
       },
     });
@@ -66,11 +67,12 @@ export default function fencedGroup(node, transform) {
     childNodes.push(cols);
   }
 
-  if (node.attrs.close) {
+  if (close?.value) {
     childNodes.push({
       tag: "mo",
-      textContent: node.attrs.close,
+      textContent: close.value,
       attrs: {
+        ...close.attrs,
         fence: "true",
       },
     });

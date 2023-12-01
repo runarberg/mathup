@@ -23,6 +23,7 @@ import scanners, { unhandled } from "./scanners/index.js";
  * @property {string} [name]
  * @property {boolean} [split]
  * @property {Record<string, string | number | boolean | null | undefined>} [attrs]
+ * @property {Token[]} [extraTokensAfter]
  *
  * @typedef {object} State
  * @property {number} start
@@ -67,10 +68,13 @@ export default function createTokenizer(options) {
     let nestLevel = 0;
 
     while (pos < input.length) {
-      const { type, value, end, split, ...attrs } = nextToken(input, {
-        start: pos,
-        grouping: nestLevel > 0,
-      });
+      const { type, value, end, split, extraTokensAfter, ...attrs } = nextToken(
+        input,
+        {
+          start: pos,
+          grouping: nestLevel > 0,
+        },
+      );
 
       if (split) {
         let char = "";
@@ -102,6 +106,12 @@ export default function createTokenizer(options) {
           value,
           ...attrs,
         };
+      }
+
+      if (extraTokensAfter) {
+        for (const token of extraTokensAfter) {
+          yield token;
+        }
       }
 
       pos = end;

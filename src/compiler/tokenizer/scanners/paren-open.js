@@ -42,8 +42,8 @@ export default function parenOpenScanner(char, input, { start }) {
 
   if (known) {
     return {
+      ...known,
       type: "paren.open",
-      value: known.value,
       end: start + value.length,
     };
   }
@@ -51,7 +51,7 @@ export default function parenOpenScanner(char, input, { start }) {
   if (isPunctOpen(char)) {
     return {
       type: "paren.open",
-      value,
+      value: char,
       end: start + char.length,
     };
   }

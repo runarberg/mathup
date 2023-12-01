@@ -534,8 +534,8 @@ test("but keeps a singleton exponent in fences", (t) => {
   t.is(node.items.length, 2);
   t.is(node.items[0].value, "a");
   t.is(node.items[1].type, "FencedGroup");
-  t.is(node.items[1].attrs.open, "(");
-  t.is(node.items[1].attrs.close, ")");
+  t.is(node.items[1].attrs.open.value, "(");
+  t.is(node.items[1].attrs.close.value, ")");
 });
 
 test("but keeps multi-celled in fences", (t) => {
@@ -559,8 +559,8 @@ test("but keeps multi-celled in fences", (t) => {
   t.is(node.items.length, 2);
   t.is(node.items[0].value, "a");
   t.is(node.items[1].type, "FencedGroup");
-  t.is(node.items[1].attrs.open, "(");
-  t.is(node.items[1].attrs.close, ")");
+  t.is(node.items[1].attrs.open.value, "(");
+  t.is(node.items[1].attrs.close.value, ")");
 });
 
 test("chains sub sup into subsup ternary", (t) => {

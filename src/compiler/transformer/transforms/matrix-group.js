@@ -21,16 +21,19 @@ export default function matrixGroup(node, transform) {
     0,
   );
 
+  const { open, close } = node.attrs;
+
   // auto start-align tables with no close param.
-  const aligns = !node.attrs.close
+  const aligns = !close?.value
     ? Array.from({ length: colCount }).fill("start")
     : [];
 
-  if (node.attrs.open) {
+  if (open.value) {
     childNodes.push({
       tag: "mo",
-      textContent: node.attrs.open,
+      textContent: open.value,
       attrs: {
+        ...open.attrs,
         fence: "true",
       },
     });
@@ -48,11 +51,12 @@ export default function matrixGroup(node, transform) {
     })),
   });
 
-  if (node.attrs.close) {
+  if (close?.value) {
     childNodes.push({
       tag: "mo",
-      textContent: node.attrs.close,
+      textContent: close.value,
       attrs: {
+        ...close.attrs,
         fence: "true",
       },
     });

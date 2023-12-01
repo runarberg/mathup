@@ -1470,6 +1470,13 @@
             the height of the <i>‘x’</i> character in your font.
           </p>
 
+          <p>
+            In addition <code>(mod p)</code> will add 1.65 <span class="unit"
+              >ex</span
+            >
+            of space to the left of the open parenthesis.
+          </p>
+
           <aside class="examples">
             <ul>
               <li>
@@ -1477,6 +1484,11 @@
                 <use-example>
                   bb P(x) = 1,     \for 0 &leq; x &leq; 1
                 </use-example>
+              </li>
+
+              <li>
+                <!-- prettier-ignore -->
+                <use-example>a^(p-1) == 1  (mod p)</use-example>
               </li>
 
               <li>
@@ -1635,10 +1647,10 @@
           <h3>Fenced Groups</h3>
 
           <p>
-            We can use parentesis to group terms together. An any unicode open
+            We can use parenthesis to group terms together. An any unicode open
             parenthesis (unicode category <code>Ps</code>) starts a fence, and
             any closing parenthesis (category <code>Pe</code>) closes it. Note
-            that parentesis don’t have to match, but they do have to come in
+            that parenthesis don’t have to match, but they do have to come in
             open/close pairs.
           </p>
 

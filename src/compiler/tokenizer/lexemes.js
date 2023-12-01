@@ -1,4 +1,7 @@
-/** @typedef {(char: string) => boolean} LeximeTest */
+/**
+ * @typedef {import("./index.js").Token} Token
+ * @typedef {(char: string) => boolean} LeximeTest
+ */
 
 const LETTER_RE = /^\p{L}/u;
 
@@ -248,6 +251,7 @@ export const KNOWN_OPS = new Map([
   ["~~", { value: "≈" }],
 ]);
 
+/** @type {Map<string, Omit<Token, "type">>} */
 export const KNOWN_PARENS_OPEN = new Map([
   ["(:", { value: "⟨" }],
   ["<<", { value: "⟨" }],
@@ -256,6 +260,16 @@ export const KNOWN_PARENS_OPEN = new Map([
   ["|__", { value: "⌊" }],
   ["||(", { value: "‖" }],
   ["|~", { value: "⌈" }],
+  [
+    "(mod",
+    {
+      value: "(",
+      attrs: { lspace: "1.65ex" },
+      extraTokensAfter: [
+        { type: "operator", value: "mod", attrs: { lspace: 0 } },
+      ],
+    },
+  ],
 ]);
 
 export const KNOWN_PARENS_CLOSE = new Map([

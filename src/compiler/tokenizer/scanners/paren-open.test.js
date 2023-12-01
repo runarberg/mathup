@@ -43,3 +43,23 @@ test("paren open is also an operator", (t) => {
 test("paren close is also an operator", (t) => {
   t.is(parenOpen(">", ">>>", { start: 0 }), null);
 });
+
+test("modulus operator", (t) => {
+  t.deepEqual(parenOpen("(", "(mod", { start: 0 }), {
+    type: "paren.open",
+    value: "(",
+    attrs: { lspace: "1.65ex" },
+    extraTokensAfter: [
+      { type: "operator", value: "mod", attrs: { lspace: 0 } },
+    ],
+    end: 4,
+  });
+});
+
+test("almost modulus operator", (t) => {
+  t.deepEqual(parenOpen("(", "(mo d", { start: 0 }), {
+    type: "paren.open",
+    value: "(",
+    end: 1,
+  });
+});

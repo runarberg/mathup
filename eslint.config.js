@@ -106,6 +106,7 @@ export default [
       "no-throw-literal": "error",
       "no-unmodified-loop-condition": "error",
       "no-unused-expressions": "error",
+      "no-unused-vars": ["error", { varsIgnorePattern: "^_" }],
       "no-useless-backreference": "error",
       "no-useless-concat": "error",
       "no-useless-return": "error",

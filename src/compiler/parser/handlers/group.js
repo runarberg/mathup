@@ -3,10 +3,21 @@ import { addZeroLSpaceToOperator } from "../utils.js";
 import expr from "./expr.js";
 
 /**
+ * @typedef {import("../../tokenizer/index.js").Token} Token
  * @typedef {import("../index.js").Node} Node
  * @typedef {import("../index.js").FencedGroup} FencedGroup
  * @typedef {import("../index.js").MatrixGroup} MatrixGroup
  */
+
+/**
+ * @param {Token} token
+ * @returns {Omit<Token, "type">}
+ */
+function omitType(token) {
+  const { type: _type, ...rest } = token;
+
+  return rest;
+}
 
 /**
  * @param {import("../parse.js").State} state
@@ -108,8 +119,8 @@ export default function group(state) {
   const close = token && token.type === "paren.close" ? token : null;
 
   const attrs = {
-    open: open.value,
-    close: (close && token.value) || "",
+    open: omitType(open),
+    close: close ? omitType(close) : null,
     seps,
   };
 
