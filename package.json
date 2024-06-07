@@ -88,6 +88,7 @@
     "jsdom": "^22.1.0",
     "prettier": "3.0.3",
     "rollup": "^4.3.0",
+    "rollup-plugin-copy": "^3.5.0",
     "typescript": "^5.2.2"
   }
 }

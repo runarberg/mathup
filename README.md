@@ -26,6 +26,7 @@ and include the **module**:
 
 ```html
 <script type="module" src="mathup.js"></script>
+<link rel="stylesheet" href="mathup.css" />
 ```
 
 …the **custom element**:
@@ -38,6 +39,7 @@ and include the **module**:
 
 ```html
 <script src="mathup.iife.js"></script>
+<link rel="stylesheet" href="mathup.css" />
 ```
 
 #### Usage
