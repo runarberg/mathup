@@ -1,0 +1,78 @@
+/* Space beween function ident and parentless parameter: sin θ */
+:is(
+  mo.mathup-function-application, /* sin .$ θ */
+  /* Prevent sin/cos */
+  :not(mfrac, msub, msup, msubsup, munder, mover, munderover)
+    > :is(
+      .mathup-function-ident,
+      :is(msub, msup, msubsup, munder, mover, munderover):has(
+          /* log_b n, sin^2 θ */
+          > .mathup-function-ident:first-child
+        )
+  )
+)
+   + :is(
+    mi,
+    mn,
+    :is(mrow, msub, msup, msubsup, munder, mover, munderover):has(
+        /* sin x^2 */
+        > :is(mn, mi):first-child
+      )
+),
+
+/* Space between ident and function ident: a sin */
+:not(mfrac, msub, msup, msubsup, munder, mover, munderover)
+  > :is(
+    mi,
+    mo.mathup-function-application, /* cos .$ sin */
+    mo.mathup-invisible-times /* a .* sin */
+  )
+  + :is(
+    .mathup-function-ident,
+    :is(msub, msup, msubsup, munder, mover, munderover):has(
+        /* a sin^2 */
+        > .mathup-function-ident:first-child
+      )
+),
+
+/* Space before fractions: a b/c */
+:not(mfrac, msub, msup, msubsup, munder, mover, munderover)
+  > :is(
+    mi,
+    mn,
+    mo.mathup-invisible-add, /* a .+ b/c */
+    mo.mathup-invisible-times, /* a .* b/c */
+    :is(mrow, msub, msup, msubsup, munder, mover, munderover):has(
+        /* a^2 b/c */
+        > :is(mi, mn):first-child
+      )
+  )
+  + mfrac,
+
+/* Space after fractions: b/c d */
+:not(mfrac, msub, msup, msubsup, munder, mover, munderover)
+  > mfrac
+  + :is(
+    mi,
+    mn,
+    mfrac,
+    mroot,
+    msqrt,
+    mo.mathup-invisible-times, /* b/c .* d */
+    :is(mrow, msub, msup, msubsup, munder, mover, munderover):has(
+        /* b/c d^2 */
+        > :is(mi, mn):first-child
+      )
+  ) {
+  padding-inline-start: 0.35ex;
+}
+
+.mathup-enclose-cancel {
+  background: linear-gradient(
+    to bottom right,
+    transparent calc(50% - 0.1ex),
+    currentColor calc(50% - 0.05ex),
+    currentColor calc(50% + 0.05ex),
+    transparent calc(50% + 0.1ex)
+  );
+}

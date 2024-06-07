@@ -82,6 +82,8 @@ export function isPunctOpen(char) {
   return PUNCT_CLOSE_RE.test(char);
 }
 
+const FUNCTION_IDENT_ATTRS = { class: "mathup-function-ident" };
+
 export const KNOWN_IDENTS = new Map([
   ["CC", { value: "ℂ" }],
   ["Delta", { value: "Δ", attrs: { mathvariant: "normal" } }],
@@ -102,25 +104,25 @@ export const KNOWN_IDENTS = new Map([
   ["alpha", { value: "α" }],
   ["beta", { value: "β" }],
   ["chi", { value: "χ" }],
-  ["cos", { value: "cos" }],
-  ["cosh", { value: "cosh" }],
-  ["cot", { value: "cot" }],
-  ["csc", { value: "csc" }],
+  ["cos", { value: "cos", attrs: { ...FUNCTION_IDENT_ATTRS } }],
+  ["cosh", { value: "cosh", attrs: { ...FUNCTION_IDENT_ATTRS } }],
+  ["cot", { value: "cot", attrs: { ...FUNCTION_IDENT_ATTRS } }],
+  ["csc", { value: "csc", attrs: { ...FUNCTION_IDENT_ATTRS } }],
   ["delta", { value: "δ" }],
-  ["det", { value: "det" }],
-  ["dim", { value: "dim" }],
+  ["det", { value: "det", attrs: { ...FUNCTION_IDENT_ATTRS } }],
+  ["dim", { value: "dim", attrs: { ...FUNCTION_IDENT_ATTRS } }],
   ["epsilon", { value: "ɛ" }],
   ["eta", { value: "η" }],
   ["gamma", { value: "γ" }],
-  ["gcd", { value: "gcd" }],
+  ["gcd", { value: "gcd", attrs: { ...FUNCTION_IDENT_ATTRS } }],
   ["iota", { value: "ι" }],
   ["kappa", { value: "κ" }],
   ["lambda", { value: "λ" }],
-  ["lcm", { value: "lcm" }],
-  ["ln", { value: "ln" }],
-  ["log", { value: "log" }],
-  ["max", { value: "max" }],
-  ["min", { value: "min" }],
+  ["lcm", { value: "lcm", attrs: { ...FUNCTION_IDENT_ATTRS } }],
+  ["ln", { value: "ln", attrs: { ...FUNCTION_IDENT_ATTRS } }],
+  ["log", { value: "log", attrs: { ...FUNCTION_IDENT_ATTRS } }],
+  ["max", { value: "max", attrs: { ...FUNCTION_IDENT_ATTRS } }],
+  ["min", { value: "min", attrs: { ...FUNCTION_IDENT_ATTRS } }],
   ["mu", { value: "μ" }],
   ["nu", { value: "ν" }],
   ["omega", { value: "ω" }],
@@ -130,12 +132,12 @@ export const KNOWN_IDENTS = new Map([
   ["pi", { value: "π" }],
   ["psi", { value: "ψ" }],
   ["rho", { value: "ρ" }],
-  ["sec", { value: "sec" }],
+  ["sec", { value: "sec", attrs: { ...FUNCTION_IDENT_ATTRS } }],
   ["sigma", { value: "σ" }],
-  ["sin", { value: "sin" }],
-  ["sinh", { value: "sinh" }],
-  ["tan", { value: "tan" }],
-  ["tanh", { value: "tanh" }],
+  ["sin", { value: "sin", attrs: { ...FUNCTION_IDENT_ATTRS } }],
+  ["sinh", { value: "sinh", attrs: { ...FUNCTION_IDENT_ATTRS } }],
+  ["tan", { value: "tan", attrs: { ...FUNCTION_IDENT_ATTRS } }],
+  ["tanh", { value: "tanh", attrs: { ...FUNCTION_IDENT_ATTRS } }],
   ["tau", { value: "τ" }],
   ["theta", { value: "θ" }],
   ["upsilon", { value: "υ" }],
@@ -148,10 +150,10 @@ export const KNOWN_OPS = new Map([
   ["!=", { value: "≠" }],
   ["!==", { value: "≢" }],
   ["!in", { value: "∉" }],
-  [".$", { value: "\u2061" }],
-  [".*", { value: "\u2062" }],
-  [".+", { value: "\u2064" }],
-  [".,", { value: "\u2063" }],
+  [".$", { value: "\u2061", attrs: { class: "mathup-function-application" } }],
+  [".*", { value: "\u2062", attrs: { class: "mathup-invisible-times" } }],
+  [".+", { value: "\u2064", attrs: { class: "mathup-invisible-add" } }],
+  [".,", { value: "\u2063", attrs: { class: "mathup-invisible-separator" } }],
   ["'", { value: "′", attrs: { lspace: 0, rspace: 0 } }],
   ["''", { value: "″", attrs: { lspace: 0, rspace: 0 } }],
   ["'''", { value: "‴", attrs: { lspace: 0, rspace: 0 } }],
@@ -318,6 +320,9 @@ export const KNOWN_PREFIX = new Map([
   // Roots
   ["root", { name: "root", arity: 2 }],
   ["sqrt", { name: "sqrt" }],
+
+  // Enclose
+  ["cancel", { name: "row", attrs: { class: "mathup-enclose-cancel" } }],
 ]);
 
 export const KNOWN_COMMANDS = new Map([
@@ -356,7 +361,4 @@ export const KNOWN_COMMANDS = new Map([
   ["bg.red", { name: "background", value: "red" }],
   ["bg.white", { name: "background", value: "white" }],
   ["bg.yellow", { name: "background", value: "yellow" }],
-
-  // Enclose
-  ["cancel", { name: "enclose", value: "updiagonalstrike" }],
 ]);

@@ -54,24 +54,6 @@ test("applyStyles overrides backgrounds", (t) => {
   });
 });
 
-test("applyStyles stacks enclose over backgrounds", (t) => {
-  const styles = new Map([
-    ["enclose", "updiagonalstrike"],
-    ["background", "red"],
-  ]);
-  const tag = {
-    tag: "mrow",
-  };
-
-  t.deepEqual(applyStyles(styles, tag), {
-    tag: "mrow",
-    attrs: {
-      style:
-        "background:linear-gradient(to bottom right, transparent calc(50% - 0.1ex), currentColor calc(50% - 0.05ex), currentColor calc(50% + 0.05ex), transparent calc(50% + 0.1ex)),var(--mathup-background-red, red);",
-    },
-  });
-});
-
 test("applyStyles conserves existing attrs", (t) => {
   const styles = new Map([["color", "red"]]);
   const tag = {

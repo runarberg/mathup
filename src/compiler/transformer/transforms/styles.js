@@ -1,8 +1,5 @@
 /** @typedef {import("../index.js").Tag} Tag */
 
-const UP_DIAGONAL_STROKE_BACKGROUND =
-  "linear-gradient(to bottom right, transparent calc(50% - 0.1ex), currentColor calc(50% - 0.05ex), currentColor calc(50% + 0.05ex), transparent calc(50% + 0.1ex))";
-
 /**
  * @param {string} name
  * @param {string} value
@@ -26,15 +23,9 @@ export function applyStyles(styles, tag) {
   const combinedStyles = new Map();
 
   for (const [name, value] of styles) {
-    if (
-      name === "background" ||
-      (name === "enclose" && value === "updiagonalstrike")
-    ) {
+    if (name === "background") {
       const currentValue = combinedStyles.get("background");
-      const backgroundValue =
-        name === "background"
-          ? withCustomProperty(name, value)
-          : UP_DIAGONAL_STROKE_BACKGROUND;
+      const backgroundValue = withCustomProperty(name, value);
 
       if (currentValue) {
         combinedStyles.set("background", `${currentValue},${backgroundValue}`);

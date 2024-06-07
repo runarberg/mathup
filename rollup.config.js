@@ -1,5 +1,8 @@
+import path from "node:path";
+
 import babel from "@rollup/plugin-babel";
 import terser from "@rollup/plugin-terser";
+import copy from "rollup-plugin-copy";
 
 /**
  * @typedef {import("rollup").RollupOptions} RollupOptions
@@ -47,9 +50,20 @@ const defaultConfig = {
       plugins: [terser()],
     },
   ],
+
   plugins: [
     babel({
       babelHelpers: "runtime",
+    }),
+
+    copy({
+      targets: [
+        {
+          src: path.resolve("./src/stylesheets/core.css"),
+          dest: path.resolve("dist/"),
+          rename: "mathup.css",
+        },
+      ],
     }),
   ],
 };

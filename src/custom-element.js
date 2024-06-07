@@ -4,6 +4,77 @@ import mathup from "./index.js";
 
 const MATHML_NS = "http://www.w3.org/1998/Math/MathML";
 
+// Replace with (when available):
+// import stylesheet from "./stylesheets/core.css" with { type: "css" };
+const stylesheet = new CSSStyleSheet();
+stylesheet.replaceSync(`
+  :is(
+      mo.mathup-function-application,
+      :not(mfrac, msub, msup, msubsup, munder, mover, munderover)
+        > :is(
+          .mathup-function-ident,
+          :is(msub, msup, msubsup, munder, mover, munderover):has(
+              > .mathup-function-ident:first-child
+            )
+        )
+    )
+    + :is(
+      mi,
+      mn,
+      :is(mrow, msub, msup, msubsup, munder, mover, munderover):has(
+          > :is(mn, mi):first-child
+        )
+    ),
+  :not(mfrac, msub, msup, msubsup, munder, mover, munderover)
+    > :is(
+      mi,
+      mo.mathup-function-application,
+      mo.mathup-invisible-times
+    )
+    + :is(
+      .mathup-function-ident,
+      :is(msub, msup, msubsup, munder, mover, munderover):has(
+          > .mathup-function-ident:first-child
+        )
+    ),
+  :not(mfrac, msub, msup, msubsup, munder, mover, munderover)
+    > :is(
+      mi,
+      mn,
+      mo.mathup-invisible-add,
+      mo.mathup-invisible-times,
+      :is(mrow, msub, msup, msubsup, munder, mover, munderover):has(
+          > :is(mi, mn):first-child
+        )
+    )
+    + mfrac,
+  :not(mfrac, msub, msup, msubsup, munder, mover, munderover)
+    > mfrac
+    + :is(
+      mi,
+      mn,
+      mfrac,
+      mroot,
+      msqrt,
+      mo.mathup-invisible-times,
+      :is(mrow, msub, msup, msubsup, munder, mover, munderover):has(
+          > :is(mi, mn):first-child
+        )
+    ) {
+    padding-inline-start: 0.35ex;
+  }
+
+  .mathup-enclose-cancel {
+    background: linear-gradient(
+      to bottom right,
+      transparent calc(50% - 0.1ex),
+      currentColor calc(50% - 0.05ex),
+      currentColor calc(50% + 0.05ex),
+      transparent calc(50% + 0.1ex)
+    );
+  }
+`);
+
 const template = document.createElement("template");
 {
   const slot = document.createElement("slot");
@@ -21,6 +92,8 @@ export default class MathUpElement extends HTMLElement {
     super();
 
     const shadow = this.attachShadow({ mode: "open" });
+    shadow.adoptedStyleSheets = [stylesheet];
+
     const shadowRoot =
       /** @type {DocumentFragment} */
       (template.content.cloneNode(true));
