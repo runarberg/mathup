@@ -13,7 +13,16 @@
   "license": "MIT",
   "author": "Rúnar Berg Baugsson Sigríðarson <runarberg@zoho.com>",
   "type": "module",
-  "exports": "./src/index.js",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./src/index.js"
+    },
+    "./custom-element": {
+      "types": "./types/custom-element.d.ts",
+      "default": "./src/custom-element.js"
+    }
+  },
   "bin": {
     "mathup": "./bin/mathup.js"
   },
@@ -22,17 +31,18 @@
     "url": "https://github.com/runarberg/mathup.git"
   },
   "scripts": {
-    "clean": "rm -fr coverage/ dist/",
+    "clean": "rm -fr coverage/ dist/ types/",
     "server": "python3 -m http.server",
     "build": "rollup --config",
     "check": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "prepare": "npm run build",
+    "prepare": "npm run build && npm run types",
     "prettier": "prettier --ignore-path .ignore --write .",
     "prettier:ci": "prettier --ignore-path .ignore --check .",
     "test": "c8 ava",
-    "test:watch": "ava --watch"
+    "test:watch": "ava --watch",
+    "types": "tsc src/index.js src/custom-element.js --allowJS --declaration --declarationMap --emitDeclarationOnly --esModuleInterop --outDir types"
   },
   "ava": {
     "files": [
