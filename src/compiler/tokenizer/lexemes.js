@@ -173,6 +173,7 @@ export const KNOWN_OPS = new Map([
   ["...", { value: "…" }],
   ["//", { value: "⁄" }],
   ["/_", { value: "∠" }],
+  ["/_\\", { value: "△" }],
   [":.", { value: "∴" }],
   ["<-", { value: "←" }],
   ["<<<", { value: "≪" }],

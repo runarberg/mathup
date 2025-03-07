@@ -1,3 +1,12 @@
+import {
+  KNOWN_COMMANDS,
+  KNOWN_IDENTS,
+  KNOWN_OPS,
+  KNOWN_PARENS_CLOSE,
+  KNOWN_PARENS_OPEN,
+  KNOWN_PREFIX,
+} from "../lexemes.js";
+
 const INFIX_MAP = new Map([
   ["^", "sup"],
   ["/", "frac"],
@@ -6,6 +15,24 @@ const INFIX_MAP = new Map([
   ["._", "under"],
 ]);
 
+/** @type {Set<string>} */
+const COLLISIONS = new Set();
+
+for (const map of [
+  KNOWN_COMMANDS,
+  KNOWN_IDENTS,
+  KNOWN_OPS,
+  KNOWN_PARENS_CLOSE,
+  KNOWN_PARENS_OPEN,
+  KNOWN_PREFIX,
+]) {
+  for (const key of map.keys()) {
+    if ("^/_".includes(key[0])) {
+      COLLISIONS.add(key);
+    }
+  }
+}
+
 /** @type {import("./index.js").Scanner} */
 export default function infixScanner(char, input, { start }) {
   if (char === ".") {
@@ -13,17 +40,8 @@ export default function infixScanner(char, input, { start }) {
     const infix = INFIX_MAP.get(`.${next}`);
 
     if (infix) {
-      const nextnext = input[start + 2];
-
-      if (infix === ".^" && nextnext === "^") {
-        return null;
-      }
-
-      if (infix === "._") {
-        if (
-          (nextnext === "_" && input[start + 3] === "|") ||
-          (nextnext === "|" && input[start + 3] === "_")
-        ) {
+      for (const key of COLLISIONS) {
+        if (key === input.slice(start + 1, start + 1 + key.length)) {
           return null;
         }
       }
@@ -39,20 +57,12 @@ export default function infixScanner(char, input, { start }) {
   const infix = INFIX_MAP.get(char);
 
   if (infix) {
-    const next = input[start + 1];
-
-    if ((char === "/" && next === "/") || (char === "^" && next === "^")) {
-      return null;
-    }
-
-    if (char === "_") {
-      if (
-        (next === "_" && input[start + 2] === "|") ||
-        (next === "|" && input[start + 2] === "_")
-      ) {
+    for (const key of COLLISIONS) {
+      if (key === input.slice(start, start + key.length)) {
         return null;
       }
     }
+
     return {
       type: "infix",
       value: infix,

@@ -18,6 +18,14 @@ test("Does not parse `//` as fraction", (t) => {
   t.snapshot(render("a//b"));
 });
 
+test("Does not parse `/_` as fraction", (t) => {
+  t.snapshot(render("a/_b"));
+});
+
+test("Does not parse `/_\\` as fraction", (t) => {
+  t.snapshot(render("a/_\\b"));
+});
+
 test("Omits brackets around numerator or denominator", (t) => {
   t.snapshot(render("(a+b)/(c+d)"));
 });
