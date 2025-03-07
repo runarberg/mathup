@@ -108,6 +108,7 @@ export const KNOWN_IDENTS = new Map([
   ["cosh", { value: "cosh", attrs: { ...FUNCTION_IDENT_ATTRS } }],
   ["cot", { value: "cot", attrs: { ...FUNCTION_IDENT_ATTRS } }],
   ["csc", { value: "csc", attrs: { ...FUNCTION_IDENT_ATTRS } }],
+  ["cosec", { value: "cosec", attrs: { ...FUNCTION_IDENT_ATTRS } }],
   ["delta", { value: "δ" }],
   ["det", { value: "det", attrs: { ...FUNCTION_IDENT_ATTRS } }],
   ["dim", { value: "dim", attrs: { ...FUNCTION_IDENT_ATTRS } }],
