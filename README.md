@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/runarberg/mathup/badge.svg)](https://coveralls.io/github/runarberg/mathup)
 [![License](https://img.shields.io/npm/l/mathup)](LICENSE)
 [![npm](https://img.shields.io/npm/v/mathup.svg)](https://www.npmjs.com/package/mathup)
-[![Downloads](https://img.shields.io/npm/dm/mathup)](https://npm-stat.com/charts.html?package=mathup)  
+[![Downloads](https://img.shields.io/npm/dm/mathup)](https://npm-stat.com/charts.html?package=mathup)
 
 #### Installation
 
