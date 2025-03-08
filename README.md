@@ -1,11 +1,10 @@
 # mathup
 
-[![npm](https://img.shields.io/npm/v/mathup.svg)](https://www.npmjs.com/package/mathup)
-[![License](https://img.shields.io/npm/l/mathup)](LICENSE)
 [![Build Status](https://github.com/runarberg/mathup/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/runarberg/mathup/actions/workflows/ci.yml?query=branch%3Amain)
 [![Coverage Status](https://coveralls.io/repos/github/runarberg/mathup/badge.svg)](https://coveralls.io/github/runarberg/mathup)
+[![License](https://img.shields.io/npm/l/mathup)](LICENSE)
+[![npm](https://img.shields.io/npm/v/mathup.svg)](https://www.npmjs.com/package/mathup)
 [![Downloads](https://img.shields.io/npm/dm/mathup)](https://npm-stat.com/charts.html?package=mathup)  
-[![npms Score](https://badges.npms.io/mathup.svg)](https://api.npms.io/v2/package/mathup)
 
 #### Installation
 
