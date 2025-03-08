@@ -2344,6 +2344,14 @@ n! = { 1,       if n=0 or n=1
             >. For example:
           </p>
 
+          <p>
+            If you have an emoji keyboard you can use the colored circle emoji
+            (🔴🟠🟡🟢🔵🟣🟤) for color and the colored square emoji
+            (🟥🟧🟨🟩🟦🟪🟫) for the background. Black and white circles use the
+            medium variant (⚫⚪), and black and white square use the large
+            variant (⬛⬜).
+          </p>
+
           <pre><code><span class="hl-built-in">:root</span> {
   <span class="hl-keyword">--mathup-color-red</span>: lch(50% 130 20);
   <span class="hl-keyword">--mathup-background-green</span>: lch(50% 132 180);
@@ -2355,22 +2363,22 @@ n! = { 1,       if n=0 or n=1
             <summary>Colors</summary>
 
             <dl>
-              <dt><code>red</code></dt>
+              <dt><code>red</code>, <code>🔴</code></dt>
               <dd>
                 <math><mtext style="color: red">Red</mtext></math>
               </dd>
 
-              <dt><code>orange</code></dt>
+              <dt><code>orange</code>, <code>🟠</code></dt>
               <dd>
                 <math><mtext style="color: orange">Orange</mtext></math>
               </dd>
 
-              <dt><code>yellow</code></dt>
+              <dt><code>yellow</code>, <code>🟡</code></dt>
               <dd>
                 <math><mtext style="color: yellow">Yellow</mtext></math>
               </dd>
 
-              <dt><code>green</code></dt>
+              <dt><code>green</code>, <code>🟢</code></dt>
               <dd>
                 <math><mtext style="color: green">Green</mtext></math>
               </dd>
@@ -2380,17 +2388,22 @@ n! = { 1,       if n=0 or n=1
                 <math><mtext style="color: cyan">Cyan</mtext></math>
               </dd>
 
-              <dt><code>blue</code></dt>
+              <dt><code>blue</code>, <code>🔵</code></dt>
               <dd>
                 <math><mtext style="color: blue">Blue</mtext></math>
               </dd>
 
-              <dt><code>purple</code></dt>
+              <dt><code>purple</code>, <code>🟣</code></dt>
               <dd>
                 <math><mtext style="color: purple">Purple</mtext></math>
               </dd>
 
-              <dt><code>black</code></dt>
+              <dt><code>brown</code>, <code>🟤</code></dt>
+              <dd>
+                <math><mtext style="color: brown">Brown</mtext></math>
+              </dd>
+
+              <dt><code>black</code>, <code>⚫</code></dt>
               <dd>
                 <math><mtext style="color: black">Black</mtext></math>
               </dd>
@@ -2405,7 +2418,7 @@ n! = { 1,       if n=0 or n=1
                 <math><mtext style="color: lightgray">Lightgray</mtext></math>
               </dd>
 
-              <dt><code>white</code></dt>
+              <dt><code>white</code>, <code>⚪</code></dt>
               <dd>
                 <math
                   ><mtext style="background: darkgray; color: white"
@@ -2420,7 +2433,7 @@ n! = { 1,       if n=0 or n=1
             <summary>Backgrounds</summary>
 
             <dl>
-              <dt><code>bg.red</code></dt>
+              <dt><code>bg.red</code>, <code>🟥</code></dt>
               <dd>
                 <math
                   ><mtext style="background: red; color: white"
@@ -2429,17 +2442,17 @@ n! = { 1,       if n=0 or n=1
                 >
               </dd>
 
-              <dt><code>bg.orange</code></dt>
+              <dt><code>bg.orange</code>, <code>🟧</code></dt>
               <dd>
                 <math><mtext style="background: orange">Orange</mtext></math>
               </dd>
 
-              <dt><code>bg.yellow</code></dt>
+              <dt><code>bg.yellow</code>, <code>🟨</code></dt>
               <dd>
                 <math><mtext style="background: yellow">Yellow</mtext></math>
               </dd>
 
-              <dt><code>bg.green</code></dt>
+              <dt><code>bg.green</code>, <code>🟩</code></dt>
               <dd>
                 <math
                   ><mtext style="background: green; color: white"
@@ -2453,7 +2466,7 @@ n! = { 1,       if n=0 or n=1
                 <math><mtext style="background: cyan">Cyan</mtext></math>
               </dd>
 
-              <dt><code>bg.blue</code></dt>
+              <dt><code>bg.blue</code>, <code>🟦</code></dt>
               <dd>
                 <math
                   ><mtext style="background: blue; color: white"
@@ -2462,7 +2475,7 @@ n! = { 1,       if n=0 or n=1
                 >
               </dd>
 
-              <dt><code>bg.purple</code></dt>
+              <dt><code>bg.purple</code>, <code>🟪</code></dt>
               <dd>
                 <math
                   ><mtext style="background: purple; color: white"
@@ -2471,7 +2484,16 @@ n! = { 1,       if n=0 or n=1
                 >
               </dd>
 
-              <dt><code>bg.black</code></dt>
+              <dt><code>brown</code>, <code>🟫</code></dt>
+              <dd>
+                <math
+                  ><mtext style="background: brown; color: white"
+                    >Brown</mtext
+                  ></math
+                >
+              </dd>
+
+              <dt><code>bg.black</code>, <code>⬛</code></dt>
               <dd>
                 <math
                   ><mtext style="background: black; color: white"
@@ -2496,7 +2518,7 @@ n! = { 1,       if n=0 or n=1
                 >
               </dd>
 
-              <dt><code>bg.white</code></dt>
+              <dt><code>bg.white</code>, <code>⬜</code></dt>
               <dd>
                 <math><mtext style="background: white">White</mtext></math>
               </dd>
@@ -2509,17 +2531,20 @@ n! = { 1,       if n=0 or n=1
                 <use-example>cancel red 1+1</use-example>
               </li>
               <li>
-                <use-example
-                  >bg.red white bf A + bg.blue white bf B</use-example
-                >
+                <use-example>🟥⚪bf A + 🟦⚪bf B</use-example>
               </li>
               <li>
                 <use-example>bg.black white norm bf a</use-example>
               </li>
               <li>
                 <!-- prettier-ignore -->
+                <use-example>{ a - -b, bg.lightgray tt"a - -b"
+  a - it`−b`, bg.lightgray tt"a - it`−b`"</use-example>
+              </li>
+              <li>
+                <!-- prettier-ignore -->
                 <use-example>
-                  "🫶" = bg.red ♥ bg.orange ♥ bg.yellow ♥ bg.green ♥ bg.blue ♥ bg.purple ♥
+                  "🫶" = 🟥♥🟧♥🟨♥🟩⚪♥🟦⚪♥🟪⚪♥
                 </use-example>
               </li>
             </ul>

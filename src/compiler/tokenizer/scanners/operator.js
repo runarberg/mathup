@@ -1,4 +1,4 @@
-import { KNOWN_OPS, isOperational } from "../lexemes.js";
+import { KNOWN_COMMANDS, KNOWN_OPS, isOperational } from "../lexemes.js";
 
 /**
  * @param {string} partial
@@ -37,6 +37,15 @@ export default function operatorScanner(char, input, { start }) {
       value: known.value,
       attrs: known.attrs,
       end: start + value.length,
+    };
+  }
+
+  const command = KNOWN_COMMANDS.get(value);
+  if (command) {
+    return {
+      type: "command",
+      end: start + value.length,
+      ...command,
     };
   }
 

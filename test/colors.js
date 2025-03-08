@@ -12,6 +12,7 @@ function render(str) {
 
 test("Basic colors", (t) => {
   t.snapshot(render("gray a"));
+  t.snapshot(render("\u{1f7e0}A"));
   t.snapshot(render("red 1+1"));
   t.snapshot(render("yellow abc"));
 });
@@ -24,11 +25,14 @@ test("Color groups", (t) => {
 test("Colors with fonts", (t) => {
   t.snapshot(render("purple bf a"));
   t.snapshot(render("bf purple a"));
+  t.snapshot(render("\u{1f7e3}bf a"));
+  t.snapshot(render("bf\u{1f7e3}a"));
 });
 
 test("Backgrounds", (t) => {
   t.snapshot(render("bg.gray a"));
   t.snapshot(render("bg.red 1+1"));
+  t.snapshot(render("\u{1f7e5}1+1"));
   t.snapshot(render("bg.yellow abc"));
 });
 
@@ -50,6 +54,11 @@ test("Color and background", (t) => {
 test("Color and background and font", (t) => {
   t.snapshot(render("bg.black white bf a"));
   t.snapshot(render("bg.black bf white a"));
+});
+
+test("Color and background and font with emoji", (t) => {
+  t.snapshot(render("\u{2b1b}\u{26aa}bf a"));
+  t.snapshot(render("\u{2b1b}bf\u{26aa}a"));
 });
 
 test("Cancel and color", (t) => {
