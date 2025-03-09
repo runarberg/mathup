@@ -1676,13 +1676,45 @@
 
           <p>
             You denote an unfenced group with <code>{:</code> and
-            <code>:}</code>. You are free to surround the unfenced group with
-            arbitrary operators and the will become the new fence. For example
-            if you need an open parenthesis to close a group, you can represent
-            them as operators like so:
+            <code>:}</code>. You are free to surround the contents of the
+            unfenced group with arbitrary operators and the will become the new
+            fence. For example if you need an open parenthesis to close a group,
+            you can cast them to operators and manually fence the group like so:
           </p>
 
-          <pre><code>\]{: a, b :}\[</code></pre>
+          <p>
+            <code>{:\] a, b \[:}</code> ⇒
+            <math
+              ><mrow
+                ><mrow><mo lspace="0">]</mo><mi>a</mi></mrow
+                ><mo separator="true">,</mo
+                ><mrow><mi>b</mi><mo>[</mo></mrow></mrow
+              ></math
+            >.
+          </p>
+
+          <p>
+            Finally, inside groups—along with your normal seperators like
+            <code>,</code>—you can use the special <code>:|:</code> as group
+            separators. This is especially handy to write
+            <a href="https://en.wikipedia.org/wiki/Bra%E2%80%93ket_notation"
+              >bra-ket notation</a
+            >:
+          </p>
+
+          <p>
+            <code>(: Phi :|: Psi :)</code> ⇒
+            <math
+              ><mrow
+                ><mo fence="true">⟨</mo
+                ><mrow
+                  ><mi mathvariant="normal">Φ</mi
+                  ><mo stretchy="true" separator="true">|</mo
+                  ><mi mathvariant="normal">Ψ</mi></mrow
+                ><mo fence="true">⟩</mo></mrow
+              ></math
+            >.
+          </p>
 
           <details>
             <summary>Additional fences</summary>
@@ -1699,14 +1731,14 @@
                 </math>
               </dd>
 
-              <dt><code>(: a, b :)</code></dt>
+              <dt><code>(: a :|: b :)</code></dt>
               <dd>
                 <math>
                   <mrow>
                     <mo fence="true">⟨</mo>
                     <mrow>
                       <mi>a</mi>
-                      <mo separator="true">,</mo>
+                      <mo separator="true" stretchy="true">|</mo>
                       <mi>b</mi>
                     </mrow>
                     <mo fence="true">⟩</mo>
@@ -1729,7 +1761,7 @@
                 </math>
               </dd>
 
-              <dt><code>|(a, b)|</code></dt>
+              <dt><code>|(a, b)|</code>, <code>|:a, b:|</code></dt>
               <dd>
                 <math>
                   <mrow>
@@ -1744,7 +1776,7 @@
                 </math>
               </dd>
 
-              <dt><code>||(a, b)||</code></dt>
+              <dt><code>||(a, b)||</code>, <code>||:a, b:||</code></dt>
               <dd>
                 <math>
                   <mrow>
@@ -1853,17 +1885,25 @@
                 <use-example>binom(n, k) = n! / k!(n-k)!</use-example>
               </li>
 
+              <li><use-example>P(X :|: mu, sigma)</use-example></li>
+
               <li><use-example>a //{: b/c :}// d</use-example></li>
 
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  {x ∈ X :  a &lt; x &lt; b} = \]{: a, b :}\[
+                  {x ∈ X :  a &lt; x &lt; b} = {:\] a, b \[:}
                 </use-example>
               </li>
 
               <li>
-                <use-example> |(Psi(t):) = int Psi(x, t) |(x:) dx </use-example>
+                <use-example>
+                  F = {:(del f) / (del x):|_(hat x)_(k-1)
+                </use-example>
+              </li>
+
+              <li>
+                <use-example> |:Psi(t):) = int Psi(x, t) |:x:) dx </use-example>
               </li>
 
               <li>
@@ -1905,7 +1945,7 @@
           <aside class="examples">
             <ul>
               <li><use-example>{: a, b; c, d :}</use-example></li>
-              <li><use-example>\]{: a, b; c, d :}\[</use-example></li>
+              <li><use-example>{:\] a, b; c, d \[:}</use-example></li>
 
               <li>
                 <!-- prettier-ignore -->

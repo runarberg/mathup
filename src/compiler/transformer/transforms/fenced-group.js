@@ -1,4 +1,6 @@
-/** @typedef {import("../../parser/index.js").FencedGroup} FencedGroup */
+/**
+ * @typedef {import("../../parser/index.js").FencedGroup} FencedGroup
+ */
 
 /**
  * @param {import("../index.js").Tag | null} tag
@@ -27,10 +29,11 @@ export default function fencedGroup(node, transform) {
 
         const sep = node.attrs.seps[i];
         if (sep) {
+          const { value, attrs = {} } = sep;
           joined?.childNodes?.push({
             tag: "mo",
-            textContent: sep,
-            attrs: { separator: "true" },
+            textContent: value,
+            attrs: { ...attrs, separator: true },
           });
         }
 

@@ -1,3 +1,7 @@
+/**
+ * @typedef {import("./index.js").Token} Token
+ */
+
 import { KNOWN_COMMANDS, KNOWN_OPS, isOperational } from "../lexemes.js";
 
 /**
@@ -15,7 +19,7 @@ function opsPotential(partial) {
 }
 
 /** @type {import("./index.js").Scanner} */
-export default function operatorScanner(char, input, { start }) {
+export default function operatorScanner(char, input, { start, grouping }) {
   let value = char;
 
   if (opsPotential(value)) {
@@ -33,7 +37,7 @@ export default function operatorScanner(char, input, { start }) {
 
   if (known) {
     return {
-      type: "operator",
+      type: known.sep && grouping ? "sep.col" : "operator",
       value: known.value,
       attrs: known.attrs,
       end: start + value.length,
@@ -49,13 +53,23 @@ export default function operatorScanner(char, input, { start }) {
     };
   }
 
-  if (isOperational(char)) {
-    return {
-      type: "operator",
-      value: char,
-      end: start + char.length,
-    };
+  if (!isOperational(char)) {
+    return null;
   }
 
-  return null;
+  /** @type {Token & { end: number }} */
+  const token = {
+    type: "operator",
+    value: char,
+    end: start + char.length,
+  };
+
+  const isStretchy =
+    char === "|" && input.at(start - 1) === " " && input.at(start + 1) === " ";
+
+  if (isStretchy) {
+    token.attrs = { stretchy: true };
+  }
+
+  return token;
 }

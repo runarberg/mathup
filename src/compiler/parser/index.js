@@ -6,7 +6,7 @@
  * @typedef {object} GroupAttrs
  * @property {{ value: string, attrs?: LiteralAttrs }} open
  * @property {{ value: string, attrs?: LiteralAttrs } | null} close
- * @property {string[]} seps
+ * @property {{ value: string, attrs?: LiteralAttrs }[]} seps
  */
 
 /**

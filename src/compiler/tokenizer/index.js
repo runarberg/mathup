@@ -21,7 +21,8 @@ import scanners, { unhandled } from "./scanners/index.js";
  * @property {string} [accent]
  * @property {number} [arity]
  * @property {string} [name]
- * @property {boolean} [split]
+ * @property {boolean} [split] - Can be broken up into smaller units.
+ * @property {boolean} [sep] - Can function as a group seperator.
  * @property {Record<string, string | number | boolean | null | undefined>} [attrs]
  * @property {Token[]} [extraTokensAfter]
  *

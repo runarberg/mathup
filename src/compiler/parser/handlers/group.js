@@ -7,6 +7,7 @@ import expr from "./expr.js";
  * @typedef {import("../index.js").Node} Node
  * @typedef {import("../index.js").FencedGroup} FencedGroup
  * @typedef {import("../index.js").MatrixGroup} MatrixGroup
+ * @typedef {import("../index.js").LiteralAttrs} LiteralAttrs
  */
 
 /**
@@ -29,7 +30,7 @@ export default function group(state) {
 
   const open = token;
 
-  /** @type {string[]} */
+  /** @type {{ value: string, attrs?: LiteralAttrs }[]} */
   const seps = [];
 
   /** @type {Node[]} */
@@ -61,7 +62,13 @@ export default function group(state) {
     }
 
     if (token.type === "sep.col") {
-      seps.push(token.value);
+      /** @type {{ value: string, attrs?: LiteralAttrs }} */
+      const sepToken = { value: token.value };
+      if (token.attrs) {
+        sepToken.attrs = token.attrs;
+      }
+
+      seps.push(sepToken);
       cols.push(cell);
       cell = [];
       i += 1;
@@ -123,6 +130,14 @@ export default function group(state) {
     close: close ? omitType(close) : null,
     seps,
   };
+
+  if (attrs.close?.value === "|" && !open.value) {
+    // Add a small space before the "evaluate at" operator
+    if (!attrs.close.attrs) {
+      attrs.close.attrs = {};
+    }
+    attrs.close.attrs.lspace = "0.35ex";
+  }
 
   if (rows.length === 0) {
     return {

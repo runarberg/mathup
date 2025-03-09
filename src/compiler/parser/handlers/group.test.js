@@ -73,7 +73,7 @@ test("group with one sep", (t) => {
     type: "FencedGroup",
     items: [[]],
     attrs: {
-      seps: [","],
+      seps: [{ value: "," }],
       open: { value: "" },
       close: { value: "" },
     },
@@ -94,7 +94,7 @@ test("group with open attrs", (t) => {
     type: "FencedGroup",
     items: [[]],
     attrs: {
-      seps: [","],
+      seps: [{ value: "," }],
       open: { value: "(", attrs: { foo: "bar" } },
       close: { value: "" },
     },
@@ -115,7 +115,7 @@ test("group with close attrs", (t) => {
     type: "FencedGroup",
     items: [[]],
     attrs: {
-      seps: [","],
+      seps: [{ value: "," }],
       open: { value: "" },
       close: { value: ")", attrs: { foo: "bar" } },
     },
@@ -135,7 +135,7 @@ test("unclosed group with one sep", (t) => {
     type: "FencedGroup",
     items: [[]],
     attrs: {
-      seps: [","],
+      seps: [{ value: "," }],
       open: { value: "foo" },
       close: null,
     },
@@ -161,7 +161,7 @@ test("group with multiple seps", (t) => {
   t.true(node.items[2].length > 0);
   t.deepEqual(node.attrs.open, { value: "" });
   t.deepEqual(node.attrs.close, { value: "" });
-  t.deepEqual(node.attrs.seps, [",", ","]);
+  t.deepEqual(node.attrs.seps, [{ value: "," }, { value: "," }]);
 });
 
 test("unclosed group with multiple seps", (t) => {
@@ -182,7 +182,65 @@ test("unclosed group with multiple seps", (t) => {
   t.true(node.items[2].length > 0);
   t.deepEqual(node.attrs.open, { value: "" });
   t.is(node.attrs.close, null);
-  t.deepEqual(node.attrs.seps, [",", ","]);
+  t.deepEqual(node.attrs.seps, [{ value: "," }, { value: "," }]);
+});
+
+test("group with seps with attributes", (t) => {
+  const tokens = [
+    { type: "paren.open", value: "(" },
+    { type: "ident", value: "a" },
+    { type: "sep.col", value: "|", attrs: { stretchy: true } },
+    { type: "ident", value: "b" },
+    { type: "sep.col", value: "," },
+    { type: "ident", value: "c" },
+    { type: "paren.close", value: ")" },
+  ];
+
+  const { end, node } = group({ start: 0, tokens });
+
+  t.is(end, tokens.length);
+  t.is(node.items.length, 3);
+  t.is(node.items[0].length, 1);
+  t.is(node.items[1].length, 1);
+  t.is(node.items[2].length, 1);
+  t.deepEqual(node.attrs.open, { value: "(" });
+  t.deepEqual(node.attrs.close, { value: ")" });
+  t.deepEqual(node.attrs.seps, [
+    { value: "|", attrs: { stretchy: true } },
+    { value: "," },
+  ]);
+});
+
+test("eval operator group adds lspace", (t) => {
+  const tokens = [
+    { type: "paren.open", value: "" },
+    { type: "ident", value: "f" },
+    { type: "paren.close", value: "|" },
+  ];
+
+  const { end, node } = group({ start: 0, tokens });
+
+  t.is(end, tokens.length);
+  t.is(node.items.length, 1);
+  t.deepEqual(node.attrs.open, { value: "" });
+  t.deepEqual(node.attrs.close, { value: "|", attrs: { lspace: "0.35ex" } });
+  t.deepEqual(node.attrs.seps, []);
+});
+
+test("norm operator does not add any space", (t) => {
+  const tokens = [
+    { type: "paren.open", value: "|" },
+    { type: "ident", value: "a" },
+    { type: "paren.close", value: "|" },
+  ];
+
+  const { end, node } = group({ start: 0, tokens });
+
+  t.is(end, tokens.length);
+  t.is(node.items.length, 1);
+  t.deepEqual(node.attrs.open, { value: "|" });
+  t.deepEqual(node.attrs.close, { value: "|" });
+  t.deepEqual(node.attrs.seps, []);
 });
 
 test("ignores leading spaces", (t) => {
@@ -201,7 +259,7 @@ test("ignores leading spaces", (t) => {
     type: "FencedGroup",
     items: [[]],
     attrs: {
-      seps: [","],
+      seps: [{ value: "," }],
       open: { value: "" },
       close: { value: "" },
     },

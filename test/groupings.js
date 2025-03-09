@@ -71,11 +71,17 @@ test("The natural numbers", (t) => {
 });
 
 test("Average over time", (t) => {
-  t.snapshot(
-    render("(: V(t)^2 :) = lim_ T->oo 1/T int_(-T/2)^(T/2) V(t)^2 dt"),
-  );
+  t.snapshot(render("<<V(t)^2>> = lim_ T->oo 1/T int_(-T/2)^(T/2) V(t)^2 dt"));
+});
+
+test("Partial differential evaluation", (t) => {
+  t.snapshot(render("F = {:(del f) / (del x):|_(hat x)_(k-1)"));
 });
 
 test("The binomial coefficient", (t) => {
   t.snapshot(render("binom(n, k) = n! / (n-k)!k!"));
+});
+
+test("Quantom state vector", (t) => {
+  t.snapshot(render("|:Psi(t):) = int Psi(x, t) |:x:) dx"));
 });
