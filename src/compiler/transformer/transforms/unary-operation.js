@@ -129,11 +129,11 @@ export default function unaryOperation(node, transform) {
   }
 
   const tag = `m${node.name}`;
-  let [operant] = node.items;
+  let [operand] = node.items;
 
-  if (operant.type === "Term" && operant.items.length === 1) {
+  if (operand.type === "Term" && operand.items.length === 1) {
     // There is no need of a singleton term.
-    [operant] = operant.items;
+    [operand] = operand.items;
   }
 
   if (node.accent) {
@@ -142,11 +142,11 @@ export default function unaryOperation(node, transform) {
       attrs.accent = true;
 
       // Remove the dot from i and j to make way for the accent.
-      if (operant.type === "IdentLiteral") {
-        if (operant.value === "i") {
-          operant.value = "ı";
-        } else if (operant.value === "j") {
-          operant.value = "ȷ";
+      if (operand.type === "IdentLiteral") {
+        if (operand.value === "i") {
+          operand.value = "ı";
+        } else if (operand.value === "j") {
+          operand.value = "ȷ";
         }
       }
     } else if (node.name === "under") {
@@ -154,7 +154,7 @@ export default function unaryOperation(node, transform) {
     }
 
     const childNodes = [
-      transform(operant),
+      transform(operand),
       {
         tag: "mo",
         textContent: node.accent,
@@ -170,7 +170,7 @@ export default function unaryOperation(node, transform) {
 
   return {
     tag,
-    childNodes: [transform(operant)],
+    childNodes: [transform(operand)],
     attrs: node.attrs,
   };
 }

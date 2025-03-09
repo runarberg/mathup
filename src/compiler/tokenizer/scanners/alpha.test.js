@@ -138,8 +138,74 @@ test("can’t end with a period", (t) => {
   t.is(token?.split, true);
 });
 
+test("known prefix", (t) => {
+  const token = alpha("h", "hat a", { start: 0, grouping: false });
+
+  t.is(token?.type, "prefix");
+  t.is(token?.name, "over");
+  t.is(token?.accent, "^");
+  t.is(token?.end, 3);
+  t.falsy(token?.split);
+});
+
+test("known prefix without an operand is ident", (t) => {
+  const token = alpha("h", "hat", { start: 0, grouping: false });
+
+  t.is(token?.type, "ident");
+  t.is(token?.value, "hat");
+  t.is(token?.end, 3);
+  t.is(token?.split, true);
+});
+
+test("known prefix alone in a group is ident", (t) => {
+  const token = alpha("h", "( hat )", { start: 2, grouping: true });
+
+  t.is(token?.type, "ident");
+  t.is(token?.value, "hat");
+  t.is(token?.end, 5);
+  t.is(token?.split, true);
+});
+
+test("known prefix alone in a group with known close paren is ident", (t) => {
+  const token = alpha("h", "( hat :)", { start: 2, grouping: true });
+
+  t.is(token?.type, "ident");
+  t.is(token?.value, "hat");
+  t.is(token?.end, 5);
+  t.is(token?.split, true);
+});
+
+test("sqrt is allowed as standalone prefix", (t) => {
+  const token = alpha("s", "sqrt", { start: 0, grouping: false });
+
+  t.is(token?.type, "prefix");
+  t.is(token?.name, "sqrt");
+  t.is(token?.end, 4);
+  t.falsy(token?.split);
+});
+
+test("root is allowed as standalone prefix", (t) => {
+  const token = alpha("r", "root", { start: 0, grouping: false });
+
+  t.is(token?.type, "prefix");
+  t.is(token?.name, "root");
+  t.is(token.arity, 2);
+  t.is(token?.end, 4);
+  t.falsy(token?.split);
+});
+
+test("known prefix in a group with an operand", (t) => {
+  const token = alpha("h", "( hat : )", { start: 2, grouping: true });
+
+  t.is(token?.type, "prefix");
+  t.is(token?.name, "over");
+  t.is(token?.accent, "^");
+  t.is(token?.end, 5);
+  t.falsy(token?.split);
+});
+
 test("known command", (t) => {
-  const token = alpha("b", "blue", { start: 0, grouping: false });
+  const token = alpha("b", "blue a", { start: 0, grouping: false });
 
   t.is(token?.type, "command");
   t.is(token?.name, "color");
@@ -148,8 +214,17 @@ test("known command", (t) => {
   t.falsy(token?.split);
 });
 
+test("known command without an operand is an ident", (t) => {
+  const token = alpha("b", "blue", { start: 0, grouping: false });
+
+  t.is(token?.type, "ident");
+  t.is(token?.value, "blue");
+  t.is(token?.end, 4);
+  t.is(token?.split, true);
+});
+
 test("known command with period", (t) => {
-  const token = alpha("b", "bg.blue", { start: 0, grouping: false });
+  const token = alpha("b", "bg.blue a", { start: 0, grouping: false });
 
   t.is(token?.type, "command");
   t.is(token?.name, "background");

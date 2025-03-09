@@ -117,3 +117,9 @@ test("Mathvariants for superscripts", (t) => {
 test("Mathvariants for sub-superscripts", (t) => {
   t.snapshot(render("bf a_i^2"));
 });
+
+test("Ignore if no opperant", (t) => {
+  t.snapshot(render("X_ it"));
+  t.snapshot(render("X_(it)"));
+  t.snapshot(render("X_{:it:}"));
+});

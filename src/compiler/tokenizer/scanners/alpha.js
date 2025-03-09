@@ -8,8 +8,10 @@ import {
   isMark,
 } from "../lexemes.js";
 
+import { allowedStandalonePrefix, hasOperand } from "./utils.js";
+
 /** @type {import("./index.js").Scanner} */
-export default function alphaScanner(char, input, { start }) {
+export default function alphaScanner(char, input, { start, grouping }) {
   if (!isAlphabetic(char)) {
     return null;
   }
@@ -28,10 +30,12 @@ export default function alphaScanner(char, input, { start }) {
     [nextChar] = input.slice(i);
   }
 
-  // alpha is allowed to contain a period, but not end with one.
+  // alpha may contain a period, but not never end with one.
   if (value.endsWith(".")) {
     value = value.slice(0, -1);
   }
+
+  let end = start + value.length;
 
   {
     const operator = KNOWN_OPS.get(value);
@@ -90,12 +94,14 @@ export default function alphaScanner(char, input, { start }) {
 
   {
     const prefix = KNOWN_PREFIX.get(value);
-
-    if (prefix) {
+    if (
+      prefix &&
+      (allowedStandalonePrefix(prefix) || hasOperand(input, end, grouping))
+    ) {
       return {
         type: "prefix",
         value: "",
-        end: start + value.length,
+        end,
         ...prefix,
       };
     }
@@ -103,11 +109,10 @@ export default function alphaScanner(char, input, { start }) {
 
   {
     const command = KNOWN_COMMANDS.get(value);
-
-    if (command) {
+    if (command && hasOperand(input, end, grouping)) {
       return {
         type: "command",
-        end: start + value.length,
+        end,
         ...command,
       };
     }
@@ -116,12 +121,13 @@ export default function alphaScanner(char, input, { start }) {
   if (value.includes(".")) {
     // Period not used, lets toss it.
     value = value.slice(0, value.indexOf("."));
+    end = start + value.length;
   }
 
   return {
     type: "ident",
     value,
-    end: start + value.length,
+    end,
     split: true,
   };
 }

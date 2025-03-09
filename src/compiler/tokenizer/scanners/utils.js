@@ -1,4 +1,8 @@
-import { isAlphanumeric } from "../lexemes.js";
+import {
+  KNOWN_PARENS_CLOSE,
+  isAlphanumeric,
+  isPunctClose,
+} from "../lexemes.js";
 
 /**
  * @param {string} char
@@ -92,4 +96,51 @@ export function handlePrefixed(prefix, pos, input) {
   }
 
   return { value: char, end: start + char.length };
+}
+
+/**
+ * @param {string} input
+ * @param {number} start
+ * @returns {boolean}
+ */
+function isKnownParenCloseAt(input, start) {
+  for (const key of KNOWN_PARENS_CLOSE.keys()) {
+    if (input.startsWith(key, start)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * @param {string} input
+ * @param {number} start
+ * @param {boolean} isGrouping
+ * @returns {boolean}
+ */
+export function hasOperand(input, start, isGrouping) {
+  let pos = start;
+  let postPrefixChar = input.at(pos);
+  while (postPrefixChar === " " || postPrefixChar === "\n") {
+    pos += 1;
+    postPrefixChar = input.at(pos);
+  }
+
+  if (!postPrefixChar) {
+    return false;
+  }
+
+  return !(
+    isGrouping &&
+    (isPunctClose(postPrefixChar) || isKnownParenCloseAt(input, pos))
+  );
+}
+
+/**
+ * @param {Pick<import("./index.js").Token, "name">} prefix
+ * @returns {boolean}
+ */
+export function allowedStandalonePrefix(prefix) {
+  return prefix.name === "root" || prefix.name === "sqrt";
 }

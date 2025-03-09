@@ -114,7 +114,7 @@ export default function prefix(state) {
     next.node.type === "FencedGroup" &&
     next.node.items.length === 1
   ) {
-    // The operant is not a matrix.
+    // The operand is not a matrix.
     /** @type {[Node]} */
     const items = [toTermOrUnwrap(next.node.items[0])];
 

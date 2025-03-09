@@ -184,7 +184,7 @@ function maybeTernary(op, left, right) {
 
 /**
  * @param {string} op
- * @param {[Node, Node]} operants
+ * @param {[Node, Node]} operands
  * @returns {BinaryOperation}
  */
 function rightAssociate(op, [left, right]) {

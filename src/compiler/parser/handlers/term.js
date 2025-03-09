@@ -35,16 +35,16 @@ function isDifferential(items) {
     return false;
   }
 
-  let operant = second;
+  let operand = second;
   while (
-    operant.type === "UnaryOperation" ||
-    operant.type === "BinaryOperation" ||
-    operant.type === "TernaryOperation"
+    operand.type === "UnaryOperation" ||
+    operand.type === "BinaryOperation" ||
+    operand.type === "TernaryOperation"
   ) {
-    [operant] = operant.items;
+    [operand] = operand.items;
   }
 
-  return operant.type === "IdentLiteral";
+  return operand.type === "IdentLiteral";
 }
 
 /**
