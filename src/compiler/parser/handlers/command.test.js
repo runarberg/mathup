@@ -29,7 +29,6 @@ test("unknown command", (t) => {
         {
           type: "IdentLiteral",
           value: "A",
-          attrs: undefined,
         },
       ],
     },
@@ -54,7 +53,6 @@ test("single text-transform", (t) => {
         {
           type: "IdentLiteral",
           value: "A",
-          attrs: undefined,
         },
       ],
     },
@@ -80,7 +78,6 @@ test("double text-transform", (t) => {
         {
           type: "IdentLiteral",
           value: "A",
-          attrs: undefined,
         },
       ],
     },
@@ -108,7 +105,6 @@ test("double text-transform with spaces", (t) => {
         {
           type: "IdentLiteral",
           value: "A",
-          attrs: undefined,
         },
       ],
     },
@@ -134,14 +130,12 @@ test("text-transform with following term", (t) => {
         {
           type: "IdentLiteral",
           value: "A",
-          attrs: undefined,
         },
       ],
     },
     {
       type: "IdentLiteral",
       value: "b",
-      attrs: undefined,
     },
   ]);
 });
@@ -166,14 +160,12 @@ test("multiple text-transform with following term", (t) => {
         {
           type: "IdentLiteral",
           value: "A",
-          attrs: undefined,
         },
       ],
     },
     {
       type: "IdentLiteral",
       value: "b",
-      attrs: undefined,
     },
   ]);
 });
@@ -203,14 +195,12 @@ test("text and style command with following term", (t) => {
             {
               type: "IdentLiteral",
               value: "A",
-              attrs: undefined,
             },
           ],
         },
         {
           type: "IdentLiteral",
           value: "b",
-          attrs: undefined,
         },
       ],
     },

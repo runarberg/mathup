@@ -29,6 +29,14 @@ test("Dotless variants", (t) => {
   t.snapshot(render("ul j"));
 });
 
+test("Should surround the accent with pipes", (t) => {
+  t.snapshot(render("|vec a| + |vec b|"));
+});
+
+test("Should surround the accent with pipes when nested", (t) => {
+  t.snapshot(render("|vec bf a_i|"));
+});
+
 test("Should put accents over all in the following parenthesis", (t) => {
   t.snapshot(render("3oparen(a + bx)"));
 });

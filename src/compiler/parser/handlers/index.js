@@ -22,12 +22,18 @@ const literal =
   ({ start, tokens }) => {
     const { value, attrs } = tokens[start];
 
+    /** @type {Literal} */
+    const node = {
+      type: `${type}Literal`,
+      value,
+    };
+
+    if (attrs) {
+      node.attrs = attrs;
+    }
+
     return {
-      node: {
-        type: `${type}Literal`,
-        value,
-        attrs,
-      },
+      node,
       end: start + 1,
     };
   };
