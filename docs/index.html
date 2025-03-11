@@ -2024,44 +2024,44 @@ n! = { 1,       if n=0 or n=1
             <kbd>_</kbd> character. The following expression will be your first
             upper or lower index respectively. Every following <kbd>^</kbd> or
             <kbd>_</kbd> will start a new index <code>A(^b_c)</code> for
-            <math
-              ><mmultiscripts
-                ><mi>A</mi><mi>c</mi><mi>b</mi></mmultiscripts
-              ></math
+            <math>
+              <mmultiscripts>
+                <mi>A</mi> <mi>c</mi><mi>b</mi>
+              </mmultiscripts> </math
             >. If you want your index on a new column you can add a
             <kbd>,</kbd> before the <kbd>^</kbd> or <kbd>_</kbd>:
             <code>A(^b,_c)</code>
-            <math
-              ><mmultiscripts
-                ><mi>A</mi><mrow></mrow><mi>b</mi><mi>c</mi
-                ><mrow></mrow></mmultiscripts></math
+            <math>
+              <mmultiscripts>
+                <mi>A</mi> <mrow></mrow><mi>b</mi> <mi>c</mi><mrow></mrow>
+              </mmultiscripts> </math
             >. You can repeat the previous index position by omitting the
             <kbd>^</kbd> or <kbd>_</kbd> after a comma:
             <code>A(_b,c,d,^e,f,g)</code>
-            <math
-              ><mmultiscripts
-                ><mi>A</mi><mi>b</mi><mrow></mrow><mi>c</mi><mrow></mrow
-                ><mi>d</mi><mrow></mrow><mrow></mrow><mi>e</mi><mrow></mrow
-                ><mi>f</mi><mrow></mrow><mi>g</mi></mmultiscripts
-              ></math
+            <math>
+              <mmultiscripts>
+                <mi>A</mi> <mi>b</mi><mrow></mrow> <mi>c</mi><mrow></mrow>
+                <mi>d</mi><mrow></mrow> <mrow></mrow><mi>e</mi> <mrow></mrow
+                ><mi>f</mi> <mrow></mrow><mi>g</mi>
+              </mmultiscripts> </math
             >.
           </p>
 
           <p>
             You can also add prescripts by immediately following with an
             expression. <code>[^14_6]rm C</code>
-            <math
-              ><mmultiscripts
-                ><mi mathvariant="normal">C</mi><mprescripts /><mn>6</mn
-                ><mn>14</mn></mmultiscripts
-              ></math
-            >
+            <math>
+              <mmultiscripts>
+                <mi mathvariant="normal">C</mi> <mprescripts /> <mn>6</mn
+                ><mn>14</mn>
+              </mmultiscripts>
+            </math>
             or both <code>(^n)P(_k)</code>
-            <math
-              ><mmultiscripts
-                ><mi>P</mi><mi>k</mi><mrow></mrow><mprescripts /><mrow></mrow
-                ><mi>n</mi></mmultiscripts
-              ></math
+            <math>
+              <mmultiscripts>
+                <mi>P</mi> <mi>k</mi><mrow></mrow> <mprescripts /> <mrow></mrow
+                ><mi>n</mi>
+              </mmultiscripts> </math
             >. Prescripts take priority.
           </p>
 
@@ -2069,20 +2069,20 @@ n! = { 1,       if n=0 or n=1
             If you want to add sub- or superscripts to your indices, you can
             surround the entire index with parenthesis
             <code>A(^(a_i),...,(a_n))</code> ⇒
-            <math
-              ><mmultiscripts
-                ><mi>A</mi><mrow></mrow><msub><mi>a</mi><mi>i</mi></msub
-                ><mrow></mrow><mo>…</mo><mrow></mrow
-                ><msub><mi>a</mi><mi>n</mi></msub></mmultiscripts
-              ></math
+            <math>
+              <mmultiscripts>
+                <mi>A</mi> <mrow></mrow><msub><mi>a</mi><mi>i</mi></msub>
+                <mrow></mrow><mo>…</mo> <mrow></mrow>
+                <msub><mi>a</mi><mi>n</mi></msub>
+              </mmultiscripts> </math
             >. And if you want to use a comma or a parenthesis as an index, you
             can escape it with a backslash <kbd>\</kbd>
             <code>A(_beta, \,, \[, a)</code>
-            <math
-              ><mmultiscripts
-                ><mi>A</mi><mi>β</mi><mrow></mrow><mo>,</mo><mrow></mrow
-                ><mo>[</mo><mrow></mrow><mi>a</mi
-                ><mrow></mrow></mmultiscripts></math
+            <math>
+              <mmultiscripts>
+                <mi>A</mi> <mi>β</mi><mrow></mrow><mo>,</mo><mrow></mrow>
+                <mo>[</mo><mrow></mrow><mi>a</mi><mrow></mrow>
+              </mmultiscripts> </math
             >.
           </p>
 
