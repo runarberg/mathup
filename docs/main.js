@@ -103,12 +103,12 @@ const DEMO_EQUATIONS = [
   "P(A | B) = P(B | A)P(A) / P(B)",
   String.raw`phi =.^\def a/b = a+b / a`,
   "binom(n, k) = n! / k!(n-k)!",
-  "|(Psi(t):) = int Psi(x, t) |(x:) dx",
+  "|:Psi(t):) = int Psi(x, t) |:x:) dx",
   "<<V(t)^2>> = lim_(T->oo) 1/T int_(-T/2)^(T/2) V(t)^2 dt",
   `[λ_0, λ_1, ...;] [p_(0 0), p_(0 1), ...
                   p_(1 0), p_(1 1), ...
                   vdots,   vdots,   ddots]`,
-  "||(bf x)||^2 = [x_1 ; x_2 ; x_3]*[x_1 ; x_2 ; x_3]",
+  "||:bf x:||^2 = [x_1 ; x_2 ; x_3]*[x_1 ; x_2 ; x_3]",
   `n! = { 1,       if n=0 or n=1
        n(n-1)!, if n > 1`,
   "x = -b+-sqrt(b^2 - 4ac) / 2a",
@@ -321,7 +321,7 @@ function setupExampleSlideShow() {
     activeSlideshows.set(target, () => clearInterval(interval));
 
     /**
-     *
+     * @returns {void}
      */
     function unobserve() {
       unobserveExamples(target);
@@ -371,10 +371,10 @@ function setupExampleSlideShow() {
     slideshowObserver.observe(examples);
   }
 
-  const media = window.matchMedia("screen and (max-width: 80ch)");
+  const media = window.matchMedia("screen and (max-width: 120ch)");
 
   /**
-   *
+   * @returns {void}
    */
   function mediaChangeHandler() {
     if (!referenceSection) {

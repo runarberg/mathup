@@ -266,6 +266,34 @@ test("ignores leading spaces", (t) => {
   });
 });
 
+test("group that starts with a sup index is multiscripts", (t) => {
+  const tokens = [
+    { type: "paren.open", value: "(" },
+    { type: "infix", value: "sup" },
+    { type: "paren.close", value: ")" },
+  ];
+
+  const { end, node } = group({ start: 0, tokens, stack: [] });
+
+  t.is(end, 3);
+  t.is(node.type, "MultiScripts");
+  // Do more testing in multiscripts.test.js
+});
+
+test("group that starts with a sub index is multiscripts", (t) => {
+  const tokens = [
+    { type: "paren.open", value: "(" },
+    { type: "infix", value: "sub" },
+    { type: "paren.close", value: ")" },
+  ];
+
+  const { end, node } = group({ start: 0, tokens, stack: [] });
+
+  t.is(end, 3);
+  t.is(node.type, "MultiScripts");
+  // Do more testing in multiscripts.test.js
+});
+
 test("matrix groups", (t) => {
   const tokens = [
     { type: "paren.open", value: "(" },

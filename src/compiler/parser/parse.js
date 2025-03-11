@@ -10,6 +10,7 @@ import expr from "./handlers/expr.js";
  * @property {number} start
  * @property {Node[]} stack
  * @property {number} nestLevel
+ * @property {(token: Token) => boolean} [stopAt]
  * @property {string[]} [textTransforms]
  *
  * @param {Token[]} tokens

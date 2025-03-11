@@ -89,6 +89,10 @@ export default function updateDOM(parent, node, options) {
       node.childNodes,
     ]),
   )) {
+    if (!child && !desired) {
+      continue;
+    }
+
     if (!desired) {
       // parent.removeChild(child);
       removeChilds.push(child);

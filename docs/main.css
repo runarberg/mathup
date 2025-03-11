@@ -326,7 +326,7 @@ article section + section {
   margin-block-start: 2em;
 }
 
-@media screen and (max-width: 80ch) {
+@media screen and (max-width: 90ch) {
   .try {
     flex-direction: column;
   }
@@ -349,7 +349,9 @@ article section + section {
   .main-nav > ul details > ul {
     position: static;
   }
+}
 
+@media screen and (max-width: 120ch) {
   .reference-section > section {
     display: block;
   }

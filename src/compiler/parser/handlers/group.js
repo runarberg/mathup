@@ -1,12 +1,14 @@
 import { addZeroLSpaceToOperator } from "../utils.js";
 
 import expr from "./expr.js";
+import multiscripts from "./multiscripts.js";
 
 /**
  * @typedef {import("../../tokenizer/index.js").Token} Token
  * @typedef {import("../index.js").Node} Node
  * @typedef {import("../index.js").FencedGroup} FencedGroup
  * @typedef {import("../index.js").MatrixGroup} MatrixGroup
+ * @typedef {import("../index.js").MultiScripts} MultiScripts
  * @typedef {import("../index.js").LiteralAttrs} LiteralAttrs
  */
 
@@ -22,7 +24,7 @@ function omitType(token) {
 
 /**
  * @param {import("../parse.js").State} state
- * @returns {{ node: FencedGroup | MatrixGroup, end: number }}
+ * @returns {{ node: FencedGroup | MatrixGroup | MultiScripts, end: number }}
  */
 export default function group(state) {
   let i = state.start;
@@ -49,6 +51,14 @@ export default function group(state) {
     // Ignore leading space.
     i += 1;
     token = state.tokens[i];
+  }
+
+  if (
+    token &&
+    token.type === "infix" &&
+    (token.value === "sub" || token.value === "sup")
+  ) {
+    return multiscripts({ ...state, start: i - 1 });
   }
 
   while (token && token.type !== "paren.close") {

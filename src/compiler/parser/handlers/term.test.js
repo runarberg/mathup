@@ -48,6 +48,25 @@ test("parses until it finds a space", (t) => {
   ]);
 });
 
+test("parses until a parent handler asks it to stop", (t) => {
+  const tokens = [
+    { type: "ident", value: "a" },
+    { type: "infix", value: "sub" },
+    { type: "ident", value: "b" },
+  ];
+
+  const { end, node } = term({
+    start: 0,
+    tokens,
+    stopAt: ({ type }) => type === "infix",
+  });
+
+  t.is(end, 1);
+  t.deepEqual(node.items, [{ type: "IdentLiteral", value: "a" }]);
+
+  t.is(term({ start: 0, tokens }).end, 3);
+});
+
 test("parses a likely differential as an operator", (t) => {
   const tokens = [
     { type: "ident", value: "d" },

@@ -21,6 +21,27 @@
         <li><a href="../docs/index.html">Docs</a></li>
       </ul>
 
+      <ul>
+        <li><a href="#test-cases-basics">Basic</a></li>
+        <li><a href="#test-cases-numbers">Numbers</a></li>
+        <li><a href="#test-cases-operators">Operators</a></li>
+        <li><a href="#test-cases-whitespace">Whitespace</a></li>
+        <li><a href="#test-cases-identifiers">Identifiers</a></li>
+        <li><a href="#test-cases-standard-functions">Standard Functions</a></li>
+        <li><a href="#test-cases-fractions">Fractions</a></li>
+        <li><a href="#test-cases-roots">Roots</a></li>
+        <li><a href="#test-cases-super-subscripts">Super and Subscripts</a></li>
+        <li>
+          <a href="#test-cases-over-underscripts">Over and Underscripts</a>
+        </li>
+        <li><a href="#test-cases-groupings">Groupings</a></li>
+        <li><a href="#test-cases-matrices">Matrices</a></li>
+        <li><a href="#test-cases-tensors">Tensors</a></li>
+        <li><a href="#test-cases-fonts">Fonts</a></li>
+        <li><a href="#test-cases-colors">Colors</a></li>
+        <li><a href="#test-cases-accents">Accents</a></li>
+      </ul>
+
       <menu>
         <li>
           <label>
@@ -248,33 +269,6 @@
       </section>
 
       <!-- prettier-ignore -->
-      <section id="test-cases-groupings">
-        <h2>Groupings</h2>
-
-        <test-case>(a+b)</test-case>
-        <test-case>a,b,c</test-case>
-        <test-case>(a,b,c)</test-case>
-        <test-case>(a,b,c</test-case>
-        <test-case>(</test-case>
-        <test-case>(x+y)(x-y) = x^2 - y^2</test-case>
-        <test-case>e ^ -x</test-case>
-        <test-case>e^(i tau) = 1</test-case>
-        <test-case>NN = {1, 2, 3, ...}</test-case>
-
-        <test-case display="block">
-          F = {:(del f) / (del x):|_(hat x)_(k-1)
-        </test-case>
-
-        <test-case display="block">
-          |:Psi(t):) = int Psi(x, t) |:x:) dx
-        </test-case>
-
-        <test-case display="block">
-          &lt;&lt;V(t)^2&gt;&gt; = lim_(T-&gt;oo) 1/T int_(-T/2)^(T/2) V(t)^2 dt
-        </test-case>
-      </section>
-
-      <!-- prettier-ignore -->
       <section id="test-cases-super-subscripts">
         <h2>Super and Subscripts</h2>
 
@@ -307,6 +301,33 @@
 
         <test-case display="block">
           obrace(x + ... + x).^(k  "times")
+        </test-case>
+      </section>
+
+      <!-- prettier-ignore -->
+      <section id="test-cases-groupings">
+        <h2>Groupings</h2>
+
+        <test-case>(a+b)</test-case>
+        <test-case>a,b,c</test-case>
+        <test-case>(a,b,c)</test-case>
+        <test-case>(a,b,c</test-case>
+        <test-case>(</test-case>
+        <test-case>(x+y)(x-y) = x^2 - y^2</test-case>
+        <test-case>e ^ -x</test-case>
+        <test-case>e^(i tau) = 1</test-case>
+        <test-case>NN = {1, 2, 3, ...}</test-case>
+
+        <test-case display="block">
+          F = {:(del f) / (del x):|_(hat x)_(k-1)
+        </test-case>
+
+        <test-case display="block">
+          |:Psi(t):) = int Psi(x, t) |:x:) dx
+        </test-case>
+
+        <test-case display="block">
+          &lt;&lt;V(t)^2&gt;&gt; = lim_(T-&gt;oo) 1/T int_(-T/2)^(T/2) V(t)^2 dt
         </test-case>
       </section>
 
@@ -360,6 +381,24 @@ A = [ a_(1 1), a_(1 2), cdots, a_(1 n)
 
         <test-case display="block">
           n! = { 1,  if n=0 or n=1;  n(n-1)!,  if n &gt; 1
+        </test-case>
+      </section>
+
+      <section id="test-cases-tensors">
+        <h2>Tensors</h2>
+
+        <test-case>(^a_b^c_d)E(^f_g^h_i)</test-case>
+        <test-case>(_a,^b,_c,^d)E(^f,_g,^h,_i)</test-case>
+        <test-case>Gamma(^mu, _nu, _rho)</test-case>
+        <test-case>[^14_6]rm C</test-case>
+        <test-case>(^n)P(_k)</test-case>
+
+        <test-case display="block">
+          delta(^\[ ^(alpha_1)_(beta_1)) ... delta(^(alpha_p)_(beta_p) ^\])
+        </test-case>
+
+        <test-case display="block">
+          (bf it B')(^i,_j) = sum_k sum_l bf it B(^k,_l) delta(^i,l) delta(_k,j)
         </test-case>
       </section>
 

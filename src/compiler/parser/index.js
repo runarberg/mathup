@@ -30,6 +30,14 @@
  */
 
 /**
+ * @typedef {object} MultiScripts
+ * @property {"MultiScripts"} type
+ * @property {Node} base
+ * @property {[Node[], Node[]][]} post
+ * @property {[Node[], Node[]][]} [pre]
+ */
+
+/**
  * @typedef {object} MatrixGroup
  * @property {"MatrixGroup"} type
  * @property {Node[][][]} items
@@ -113,6 +121,7 @@
  *   | UnaryOperation
  *   | BinaryOperation
  *   | TernaryOperation
+ *   | MultiScripts
  *   | Literal} Node
  */
 

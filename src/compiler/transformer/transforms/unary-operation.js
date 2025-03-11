@@ -89,6 +89,13 @@ function handleCommand(childNode, node) {
     };
   }
 
+  if (childNode.type === "MultiScripts") {
+    return {
+      ...childNode,
+      base: handleCommand(childNode.base, node),
+    };
+  }
+
   if ("items" in childNode) {
     return {
       ...childNode,

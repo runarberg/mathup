@@ -1,6 +1,7 @@
 import fencedGroup from "./fenced-group.js";
 import literal from "./literal.js";
 import matrixGroup from "./matrix-group.js";
+import multiscripts from "./multiscripts.js";
 import operation from "./operation.js";
 import sentence from "./sentence.js";
 import spaceLiteral from "./space-literal.js";
@@ -13,6 +14,7 @@ export default new Map([
   ["FencedGroup", /** @type {TransformFn} */ (fencedGroup)],
   ["IdentLiteral", /** @type {TransformFn} */ (literal("mi"))],
   ["MatrixGroup", /** @type {TransformFn} */ (matrixGroup)],
+  ["MultiScripts", /** @type {TransformFn} */ (multiscripts)],
   ["NumberLiteral", /** @type {TransformFn} */ (literal("mn"))],
   ["OperatorLiteral", /** @type {TransformFn} */ (literal("mo"))],
   ["Sentence", /** @type {TransformFn} */ (sentence)],

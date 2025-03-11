@@ -129,6 +129,7 @@
                 </li>
                 <li><a href="#fenced-groups">Fenced groups</a></li>
                 <li><a href="#matrices">Matrices</a></li>
+                <li><a href="#tensors">Tensors</a></li>
                 <li><a href="#roots">Roots</a></li>
                 <li><a href="#accents">Accents</a></li>
                 <li><a href="#font-commands">Font commands</a></li>
@@ -1683,13 +1684,13 @@
           </p>
 
           <p>
-            <code>{:\] a, b \[:}</code> ⇒
-            <math
-              ><mrow
-                ><mrow><mo lspace="0">]</mo><mi>a</mi></mrow
-                ><mo separator="true">,</mo
-                ><mrow><mi>b</mi><mo>[</mo></mrow></mrow
-              ></math
+            <code>\]{: a, b :}\[</code> ⇒
+            <math>
+              <mrow>
+                <mo>]</mo>
+                <mrow><mi>a</mi><mo separator="true">,</mo><mi>b</mi></mrow>
+                <mo>[</mo>
+              </mrow> </math
             >.
           </p>
 
@@ -1720,7 +1721,7 @@
             <summary>Additional fences</summary>
 
             <dl>
-              <dt><code>{: a, b :}</code></dt>
+              <dt><code>{:a, b:}</code></dt>
               <dd>
                 <math>
                   <mrow>
@@ -1731,7 +1732,7 @@
                 </math>
               </dd>
 
-              <dt><code>(: a :|: b :)</code></dt>
+              <dt><code>(:a:|:b:)</code></dt>
               <dd>
                 <math>
                   <mrow>
@@ -1761,7 +1762,7 @@
                 </math>
               </dd>
 
-              <dt><code>|(a, b)|</code>, <code>|:a, b:|</code></dt>
+              <dt><code>|(a, b)|</code></dt>
               <dd>
                 <math>
                   <mrow>
@@ -1776,7 +1777,37 @@
                 </math>
               </dd>
 
-              <dt><code>||(a, b)||</code>, <code>||:a, b:||</code></dt>
+              <dt><code>|:a, b:|</code></dt>
+              <dd>
+                <math>
+                  <mrow>
+                    <mo fence="true">|</mo>
+                    <mrow>
+                      <mi>a</mi>
+                      <mo separator="true">,</mo>
+                      <mi>b</mi>
+                    </mrow>
+                    <mo fence="true">|</mo>
+                  </mrow>
+                </math>
+              </dd>
+
+              <dt><code>||(a, b)||</code></dt>
+              <dd>
+                <math>
+                  <mrow>
+                    <mo fence="true">∥</mo>
+                    <mrow>
+                      <mi>a</mi>
+                      <mo separator="true">,</mo>
+                      <mi>b</mi>
+                    </mrow>
+                    <mo fence="true">∥</mo>
+                  </mrow>
+                </math>
+              </dd>
+
+              <dt><code>||:a, b:||</code></dt>
               <dd>
                 <math>
                   <mrow>
@@ -1892,7 +1923,7 @@
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  {x ∈ X :  a &lt; x &lt; b} = {:\] a, b \[:}
+                  {x ∈ X :  a &lt; x &lt; b} = \]{: a, b :}\[
                 </use-example>
               </li>
 
@@ -1903,6 +1934,7 @@
               </li>
 
               <li>
+                <!-- prettier-ignore -->
                 <use-example> |:Psi(t):) = int Psi(x, t) |:x:) dx </use-example>
               </li>
 
@@ -1937,15 +1969,15 @@
 
           <p>
             All this does is put the outer brackets as a fence around the table
-            inside, so if you want case assignmet you can write:
+            inside, so if you want case assignment you can write:
           </p>
 
-          <code>|x| = { x, if x &gt;= 0 ; -x, otherwise :}</code>
+          <pre><code>|x| = { x, if x &gt;= 0 ; -x, otherwise :}</code></pre>
 
           <aside class="examples">
             <ul>
               <li><use-example>{: a, b; c, d :}</use-example></li>
-              <li><use-example>{:\] a, b; c, d \[:}</use-example></li>
+              <li><use-example>{: \] {:a, b; c, d:} \[ :}</use-example></li>
 
               <li>
                 <!-- prettier-ignore -->
@@ -1961,7 +1993,7 @@
               <li>
                 <!-- prettier-ignore -->
                 <use-example>
-                  ||(bf x)||^2 = [x_1 ; x_2 ; x_3]*[x_1 ; x_2 ; x_3]
+                  ||:bf x:||^2 = [x_1 ; x_2 ; x_3]*[x_1 ; x_2 ; x_3]
                 </use-example>
               </li>
 
@@ -1977,6 +2009,100 @@ n! = { 1,       if n=0 or n=1
                 <!-- prettier-ignore -->
                 <use-example>
                   det A = |(a, b; c, d)| = ad - bc
+                </use-example>
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <section id="tensors">
+          <h3>Tensors and Indices</h3>
+
+          <p>
+            To write tensors or any other complex indices you can start a group
+            with either a hat <kbd>^</kbd> or an underscore
+            <kbd>_</kbd> character. The following expression will be your first
+            upper or lower index respectively. Every following <kbd>^</kbd> or
+            <kbd>_</kbd> will start a new index <code>A(^b_c)</code> for
+            <math
+              ><mmultiscripts
+                ><mi>A</mi><mi>c</mi><mi>b</mi></mmultiscripts
+              ></math
+            >. If you want your index on a new column you can add a
+            <kbd>,</kbd> before the <kbd>^</kbd> or <kbd>_</kbd>:
+            <code>A(^b,_c)</code>
+            <math
+              ><mmultiscripts
+                ><mi>A</mi><mrow></mrow><mi>b</mi><mi>c</mi
+                ><mrow></mrow></mmultiscripts></math
+            >. You can repeat the previous index position by omitting the
+            <kbd>^</kbd> or <kbd>_</kbd> after a comma:
+            <code>A(_b,c,d,^e,f,g)</code>
+            <math
+              ><mmultiscripts
+                ><mi>A</mi><mi>b</mi><mrow></mrow><mi>c</mi><mrow></mrow
+                ><mi>d</mi><mrow></mrow><mrow></mrow><mi>e</mi><mrow></mrow
+                ><mi>f</mi><mrow></mrow><mi>g</mi></mmultiscripts
+              ></math
+            >.
+          </p>
+
+          <p>
+            You can also add prescripts by immediately following with an
+            expression. <code>[^14_6]rm C</code>
+            <math
+              ><mmultiscripts
+                ><mi mathvariant="normal">C</mi><mprescripts /><mn>6</mn
+                ><mn>14</mn></mmultiscripts
+              ></math
+            >
+            or both <code>(^n)P(_k)</code>
+            <math
+              ><mmultiscripts
+                ><mi>P</mi><mi>k</mi><mrow></mrow><mprescripts /><mrow></mrow
+                ><mi>n</mi></mmultiscripts
+              ></math
+            >. Prescripts take priority.
+          </p>
+
+          <p>
+            If you want to add sub- or superscripts to your indices, you can
+            surround the entire index with parenthesis
+            <code>A(^(a_i),...,(a_n))</code> ⇒
+            <math
+              ><mmultiscripts
+                ><mi>A</mi><mrow></mrow><msub><mi>a</mi><mi>i</mi></msub
+                ><mrow></mrow><mo>…</mo><mrow></mrow
+                ><msub><mi>a</mi><mi>n</mi></msub></mmultiscripts
+              ></math
+            >. And if you want to use a comma or a parenthesis as an index, you
+            can escape it with a backslash <kbd>\</kbd>
+            <code>A(_beta, \,, \[, a)</code>
+            <math
+              ><mmultiscripts
+                ><mi>A</mi><mi>β</mi><mrow></mrow><mo>,</mo><mrow></mrow
+                ><mo>[</mo><mrow></mrow><mi>a</mi
+                ><mrow></mrow></mmultiscripts></math
+            >.
+          </p>
+
+          <aside class="examples">
+            <ul>
+              <li><use-example>(^a_b^c_d)E(^f_g^h_i)</use-example></li>
+              <li><use-example>(_a,^b,_c,^d)E(^f,_g,^h,_i)</use-example></li>
+              <li><use-example>Gamma(^mu, _nu, _rho)</use-example></li>
+
+              <li>
+                <!-- prettier-ignore -->
+                <use-example>
+                  delta(^\[ ^(alpha_1)_(beta_1)) ... delta(^(alpha_p)_(beta_p) ^\])
+                </use-example>
+              </li>
+
+              <li>
+                <!-- prettier-ignore -->
+                <use-example>
+                  (bf it B')(^i,_j) = sum_k sum_l bf it B(^k,_l) delta(^i,l) delta(_k,j)
                 </use-example>
               </li>
             </ul>
