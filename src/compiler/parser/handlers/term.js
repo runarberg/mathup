@@ -149,13 +149,12 @@ export default function term(state) {
   /** @type {Node[]} */
   const items = [];
 
-  while (token && KEEP_GOING_TYPES.includes(token.type)) {
-    if (state.stopAt?.(token)) {
-      // The parent scope (maybe a multiscript) has asked us to
-      // stop. I guess they need this token mare than we do.
-      break;
-    }
-
+  while (
+    token &&
+    KEEP_GOING_TYPES.includes(token.type) &&
+    // Perhaps the parent handler wants to use this token.
+    !state.stopAt?.(token)
+  ) {
     const handler = handlers.get(token.type);
 
     if (!handler) {
