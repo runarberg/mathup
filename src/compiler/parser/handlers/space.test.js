@@ -37,10 +37,10 @@ test("width", (t) => {
   t.deepEqual(node7.node.attrs, { width: "4ex" });
 });
 
-test("depth", (t) => {
+test("newline", (t) => {
   const node1 = space({ start: 0, tokens: [{ type: "space", value: "\n" }] });
-  const node2 = space({ start: 0, tokens: [{ type: "space", value: "\n\n" }] });
+  const node2 = space({ start: 0, tokens: [{ type: "space", value: "\n  " }] });
 
-  t.deepEqual(node1.node.attrs, { depth: "1em" });
-  t.deepEqual(node2.node.attrs, { depth: "2em" });
+  t.deepEqual(node1.node.attrs, { width: "0ex" });
+  t.deepEqual(node2.node.attrs, { width: "0ex" });
 });

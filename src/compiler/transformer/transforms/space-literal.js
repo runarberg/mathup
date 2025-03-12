@@ -3,7 +3,8 @@
  * @type {import("../index.js").TransformFn<SpaceLiteral>}
  */
 export default function spaceLiteral(node) {
-  if ("width" in node.attrs && node.attrs.width === "0ex") {
+  if (node.attrs.width === "0ex") {
+    // No 0 width whitespace.
     return null;
   }
 

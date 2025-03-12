@@ -95,7 +95,7 @@
 /**
  * @typedef {object} SpaceLiteral
  * @property {"SpaceLiteral"} type
- * @property {{ depth: string } | { width: string }} attrs
+ * @property {{ width: string }} attrs
  */
 
 /**
