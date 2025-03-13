@@ -10,18 +10,10 @@
     <link rel="icon" href="icon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="main.css" />
 
-    <script type="module">
-      if (
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1"
-      ) {
-        import("/dist/module/math-up-element.min.js");
-      } else {
-        import(
-          "https://runarberg.github.io/mathup/dist/module/math-up-element.min.js"
-        );
-      }
-    </script>
+    <script
+      src="https://runarberg.github.io/mathup/dist/module/math-up-element.min.js"
+      type="module"
+    ></script>
     <script src="./use-example-element.js" type="module"></script>
     <script src="./main.js" type="module" defer></script>
   </head>
