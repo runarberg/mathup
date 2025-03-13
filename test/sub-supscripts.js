@@ -68,3 +68,7 @@ test("Square of a norm", (t) => {
 test("Index of a magnitute", (t) => {
   t.snapshot(render("|bf b|_i"));
 });
+
+test("Norm of the dot product square", (t) => {
+  t.snapshot(render("||a*b||^2"));
+});

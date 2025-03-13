@@ -210,15 +210,16 @@ function rightAssociate(op, [left, right]) {
  * @returns {boolean}
  */
 function isPipeDelimited(nodes) {
-  if (nodes.length !== 3) {
+  if (nodes.length < 3) {
     return false;
   }
 
-  const [open, , close] = nodes;
+  const open = nodes.at(0);
+  const close = nodes.at(-1);
 
   return (
-    open.type === "OperatorLiteral" &&
-    close.type === "OperatorLiteral" &&
+    open?.type === "OperatorLiteral" &&
+    close?.type === "OperatorLiteral" &&
     (open.value === "|" || open.value === "∥" || open.value === "‖") &&
     open.value === close.value
   );
