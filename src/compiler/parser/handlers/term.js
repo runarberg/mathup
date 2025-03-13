@@ -1,3 +1,5 @@
+import { maybeFixDoublePipe } from "../utils.js";
+
 import handlers from "./index.js";
 
 /**
@@ -70,76 +72,6 @@ function maybeFixDifferential(items, textTransforms) {
 }
 
 /**
- * @param {Node[]} items
- * @returns {void}
- */
-function maybeFixPipesInUnaryOperation(items) {
-  // Fix a flaw in the grammar where a unary opperation surrounded
-  // with pipes places the closing pipe as the last child of the unary
-  // opperation.
-  if (items.length !== 2) {
-    return;
-  }
-
-  const [first, second] = items;
-
-  if (
-    first.type !== "OperatorLiteral" ||
-    first.value !== "|" ||
-    second.type !== "UnaryOperation"
-  ) {
-    return;
-  }
-
-  /** @type { UnaryOperation | Term } */
-  let unaryTerm = second;
-
-  // Walk down the tree until we hit something that isn‘t a unary
-  // operation.’
-  while (true) {
-    const [item] = /** @type {Node[]} */ (unaryTerm.items);
-
-    if (
-      !item ||
-      (item.type !== "UnaryOperation" && item.type !== "Term") ||
-      item.items.length !== 1
-    ) {
-      break;
-    }
-
-    unaryTerm = item;
-  }
-
-  if (unaryTerm.items.length !== 1) {
-    return;
-  }
-
-  const [finalTerm] = unaryTerm.items;
-  if (finalTerm.type !== "Term" || finalTerm.items.length < 2) {
-    return;
-  }
-
-  const last = finalTerm.items.at(-1);
-
-  if (
-    !last ||
-    last.type !== "OperatorLiteral" ||
-    last.value !== "|" ||
-    // No exceptions if there are more pipes in the final operant
-    finalTerm.items
-      .slice(0, -1)
-      .some((other) => other.type === "OperatorLiteral" && other.value === "|")
-  ) {
-    return;
-  }
-
-  // The author probably meant to surround the unary operation with
-  // these pipes.
-  finalTerm.items.pop();
-  items.push(last);
-}
-
-/**
  * @param {State} state
  * @returns {{ node: Term; end: number }}
  */
@@ -174,7 +106,7 @@ export default function term(state) {
   }
 
   maybeFixDifferential(items, state.textTransforms);
-  maybeFixPipesInUnaryOperation(items);
+  maybeFixDoublePipe(items);
 
   return {
     node: {

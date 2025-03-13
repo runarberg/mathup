@@ -4,3 +4,5 @@ demo/
 docs/
 src/**/*.test.js
 test/
+**/__test__/
+*.config.json

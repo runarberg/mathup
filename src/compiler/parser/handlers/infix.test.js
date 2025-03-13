@@ -1,33 +1,30 @@
 import test from "ava";
 
+import {
+  SPACE,
+  STATE,
+  binary,
+  ident,
+  op,
+  space,
+  term,
+} from "./__test__/utils.js";
 import infix from "./infix.js";
 
 test("empty binary infix", (t) => {
   const tokens = [{ type: "infix", value: "frac" }];
-  const { end, node } = infix({ start: 0, stack: [], tokens });
+  const { end, node } = infix({ ...STATE, tokens });
 
-  t.true(end >= tokens.length);
-  t.is(node.type, "BinaryOperation");
-  t.is(node.name, "frac");
-  t.is(node.items.length, 2);
-  t.is(node.items[0].type, "Term");
-  t.is(node.items[0].items.length, 0);
-  t.is(node.items[1].type, "Term");
-  t.is(node.items[1].items.length, 0);
+  t.is(end, tokens.length);
+  t.deepEqual(node, binary("frac", [term(), term()]));
 });
 
 test("empty sup", (t) => {
   const tokens = [{ type: "infix", value: "sup" }];
-  const { end, node } = infix({ start: 0, stack: [], tokens });
+  const { end, node } = infix({ ...STATE, tokens });
 
-  t.true(end >= tokens.length);
-  t.is(node.type, "BinaryOperation");
-  t.is(node.name, "sup");
-  t.is(node.items.length, 2);
-  t.is(node.items[0].type, "Term");
-  t.is(node.items[0].items.length, 0);
-  t.is(node.items[1].type, "Term");
-  t.is(node.items[1].items.length, 0);
+  t.is(end, tokens.length);
+  t.deepEqual(node, binary("sup", [term(), term()]));
 });
 
 test("leading frac", (t) => {
@@ -35,16 +32,10 @@ test("leading frac", (t) => {
     { type: "infix", value: "frac" },
     { type: "ident", value: "a" },
   ];
-  const { end, node } = infix({ start: 0, stack: [], tokens });
+  const { end, node } = infix({ ...STATE, tokens });
 
-  t.is(end, 2);
-  t.is(node.type, "BinaryOperation");
-  t.is(node.name, "frac");
-  t.is(node.items.length, 2);
-  t.is(node.items[0].type, "Term");
-  t.is(node.items[0].items.length, 0);
-  t.is(node.items[1].type, "IdentLiteral");
-  t.is(node.items[1].value, "a");
+  t.is(end, tokens.length);
+  t.deepEqual(node, binary("frac", [term(), ident("a")]));
 });
 
 test("leading sub", (t) => {
@@ -52,16 +43,10 @@ test("leading sub", (t) => {
     { type: "infix", value: "sub" },
     { type: "ident", value: "a" },
   ];
-  const { end, node } = infix({ start: 0, stack: [], tokens });
+  const { end, node } = infix({ ...STATE, tokens });
 
-  t.is(end, 2);
-  t.is(node.type, "BinaryOperation");
-  t.is(node.name, "sub");
-  t.is(node.items.length, 2);
-  t.is(node.items[0].type, "Term");
-  t.is(node.items[0].items.length, 0);
-  t.is(node.items[1].type, "IdentLiteral");
-  t.is(node.items[1].value, "a");
+  t.is(end, tokens.length);
+  t.deepEqual(node, binary("sub", [term(), ident("a")]));
 });
 
 test("trailing frac", (t) => {
@@ -69,20 +54,16 @@ test("trailing frac", (t) => {
     { type: "ident", value: "a" },
     { type: "infix", value: "frac" },
   ];
+
   const { end, node } = infix({
+    ...STATE,
     start: 1,
-    stack: [{ type: "IdentLiteral", value: "a" }],
+    stack: [ident("a")],
     tokens,
   });
 
-  t.true(end >= tokens.length);
-  t.is(node.type, "BinaryOperation");
-  t.is(node.name, "frac");
-  t.is(node.items.length, 2);
-  t.is(node.items[0].type, "IdentLiteral");
-  t.is(node.items[0].value, "a");
-  t.is(node.items[1].type, "Term");
-  t.is(node.items[1].items.length, 0);
+  t.is(end, tokens.length);
+  t.deepEqual(node, binary("frac", [ident("a"), term()]));
 });
 
 test("trailing over", (t) => {
@@ -90,20 +71,16 @@ test("trailing over", (t) => {
     { type: "ident", value: "a" },
     { type: "infix", value: "over" },
   ];
+
   const { end, node } = infix({
+    ...STATE,
     start: 1,
-    stack: [{ type: "IdentLiteral", value: "a" }],
+    stack: [ident("a")],
     tokens,
   });
 
-  t.true(end >= tokens.length);
-  t.is(node.type, "BinaryOperation");
-  t.is(node.name, "over");
-  t.is(node.items.length, 2);
-  t.is(node.items[0].type, "IdentLiteral");
-  t.is(node.items[0].value, "a");
-  t.is(node.items[1].type, "Term");
-  t.is(node.items[1].items.length, 0);
+  t.is(end, tokens.length);
+  t.deepEqual(node, binary("over", [ident("a"), term()]));
 });
 
 test("simple frac", (t) => {
@@ -112,42 +89,34 @@ test("simple frac", (t) => {
     { type: "infix", value: "frac" },
     { type: "ident", value: "b" },
   ];
+
   const { end, node } = infix({
+    ...STATE,
     start: 1,
-    stack: [{ type: "IdentLiteral", value: "a" }],
+    stack: [ident("a")],
     tokens,
   });
 
   t.is(end, 3);
-  t.is(node.type, "BinaryOperation");
-  t.is(node.name, "frac");
-  t.is(node.items.length, 2);
-  t.is(node.items[0].type, "IdentLiteral");
-  t.is(node.items[0].value, "a");
-  t.is(node.items[1].type, "IdentLiteral");
-  t.is(node.items[1].value, "b");
+  t.deepEqual(node, binary("frac", [ident("a"), ident("b")]));
 });
 
-test("trailing under", (t) => {
+test("simple over", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "over" },
     { type: "ident", value: "b" },
   ];
+
   const { end, node } = infix({
+    ...STATE,
     start: 1,
-    stack: [{ type: "IdentLiteral", value: "a" }],
+    stack: [ident("a")],
     tokens,
   });
 
   t.is(end, 3);
-  t.is(node.type, "BinaryOperation");
-  t.is(node.name, "over");
-  t.is(node.items.length, 2);
-  t.is(node.items[0].type, "IdentLiteral");
-  t.is(node.items[0].value, "a");
-  t.is(node.items[1].type, "IdentLiteral");
-  t.is(node.items[1].value, "b");
+  t.deepEqual(node, binary("over", [ident("a"), ident("b")]));
 });
 
 test("single term subsup", (t) => {
@@ -160,33 +129,19 @@ test("single term subsup", (t) => {
     { type: "what.ever", value: "don’t matter" },
   ];
 
-  const stack = [
-    {
-      type: "BinaryOperation",
-      name: "sub",
-      items: [
-        { type: "IdentLiteral", value: "a" },
-        { type: "IdentLiteral", value: "b" },
-      ],
-    },
-  ];
-
   const { end, node } = infix({
+    ...STATE,
     start: 3,
-    stack,
+    stack: [binary("sub", [ident("a"), ident("b")])],
     tokens,
   });
 
   t.is(end, 5);
-  t.is(node.type, "TernaryOperation");
-  t.is(node.name, "subsup");
-  t.is(node.items.length, 3);
-  t.is(node.items[0].type, "IdentLiteral");
-  t.is(node.items[0].value, "a");
-  t.is(node.items[1].type, "IdentLiteral");
-  t.is(node.items[1].value, "b");
-  t.is(node.items[2].type, "IdentLiteral");
-  t.is(node.items[2].value, "c");
+  t.deepEqual(node, {
+    type: "TernaryOperation",
+    name: "subsup",
+    items: [ident("a"), ident("b"), ident("c")],
+  });
 });
 
 test("single term supsub", (t) => {
@@ -199,33 +154,19 @@ test("single term supsub", (t) => {
     { type: "what.ever", value: "don’t matter" },
   ];
 
-  const stack = [
-    {
-      type: "BinaryOperation",
-      name: "sup",
-      items: [
-        { type: "IdentLiteral", value: "a" },
-        { type: "IdentLiteral", value: "b" },
-      ],
-    },
-  ];
-
   const { end, node } = infix({
+    ...STATE,
     start: 3,
-    stack,
+    stack: [binary("sup", [ident("a"), ident("b")])],
     tokens,
   });
 
   t.is(end, 5);
-  t.is(node.type, "TernaryOperation");
-  t.is(node.name, "subsup");
-  t.is(node.items.length, 3);
-  t.is(node.items[0].type, "IdentLiteral");
-  t.is(node.items[0].value, "a");
-  t.is(node.items[1].type, "IdentLiteral");
-  t.is(node.items[1].value, "c");
-  t.is(node.items[2].type, "IdentLiteral");
-  t.is(node.items[2].value, "b");
+  t.deepEqual(node, {
+    type: "TernaryOperation",
+    name: "subsup",
+    items: [ident("a"), ident("c"), ident("b")],
+  });
 });
 
 test("single term underover", (t) => {
@@ -238,33 +179,19 @@ test("single term underover", (t) => {
     { type: "what.ever", value: "don’t matter" },
   ];
 
-  const stack = [
-    {
-      type: "BinaryOperation",
-      name: "under",
-      items: [
-        { type: "IdentLiteral", value: "a" },
-        { type: "IdentLiteral", value: "b" },
-      ],
-    },
-  ];
-
   const { end, node } = infix({
+    ...STATE,
     start: 3,
-    stack,
+    stack: [binary("under", [ident("a"), ident("b")])],
     tokens,
   });
 
   t.is(end, 5);
-  t.is(node.type, "TernaryOperation");
-  t.is(node.name, "underover");
-  t.is(node.items.length, 3);
-  t.is(node.items[0].type, "IdentLiteral");
-  t.is(node.items[0].value, "a");
-  t.is(node.items[1].type, "IdentLiteral");
-  t.is(node.items[1].value, "b");
-  t.is(node.items[2].type, "IdentLiteral");
-  t.is(node.items[2].value, "c");
+  t.deepEqual(node, {
+    type: "TernaryOperation",
+    name: "underover",
+    items: [ident("a"), ident("b"), ident("c")],
+  });
 });
 
 test("single term overunder", (t) => {
@@ -277,151 +204,110 @@ test("single term overunder", (t) => {
     { type: "what.ever", value: "don’t matter" },
   ];
 
-  const stack = [
-    {
-      type: "BinaryOperation",
-      name: "over",
-      items: [
-        { type: "IdentLiteral", value: "a" },
-        { type: "IdentLiteral", value: "b" },
-      ],
-    },
-  ];
-
   const { end, node } = infix({
+    ...STATE,
     start: 3,
-    stack,
+    stack: [binary("over", [ident("a"), ident("b")])],
     tokens,
   });
 
   t.is(end, 5);
-  t.is(node.type, "TernaryOperation");
-  t.is(node.name, "underover");
-  t.is(node.items.length, 3);
-  t.is(node.items[0].type, "IdentLiteral");
-  t.is(node.items[0].value, "a");
-  t.is(node.items[1].type, "IdentLiteral");
-  t.is(node.items[1].value, "c");
-  t.is(node.items[2].type, "IdentLiteral");
-  t.is(node.items[2].value, "b");
+  t.deepEqual(node, {
+    type: "TernaryOperation",
+    name: "underover",
+    items: [ident("a"), ident("c"), ident("b")],
+  });
 });
 
 test("frac with space after", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "frac" },
-    { type: "space", value: " " },
+    SPACE,
     { type: "ident", value: "b" },
     { type: "ident", value: "c" },
-    { type: "space", value: " " },
+    SPACE,
     { type: "what.ever", value: "don’t matter" },
   ];
 
-  const stack = [{ type: "IdentLiteral", value: "a" }];
-
-  const { end, node } = infix({ start: 1, stack, tokens });
+  const { end, node } = infix({
+    ...STATE,
+    start: 1,
+    stack: [ident("a")],
+    tokens,
+  });
 
   t.is(end, 5);
-  t.is(node.type, "BinaryOperation");
-  t.is(node.name, "frac");
-  t.is(node.items.length, 2);
-  t.is(node.items[0].type, "IdentLiteral");
-  t.is(node.items[0].value, "a");
-  t.is(node.items[1].type, "Term");
-  t.is(node.items[1].items.length, 2);
+  t.deepEqual(node, binary("frac", [ident("a"), term(ident("b"), ident("c"))]));
 });
 
 test("sup with space after", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "infix", value: "sup" },
-    { type: "space", value: " " },
+    SPACE,
     { type: "ident", value: "b" },
     { type: "ident", value: "c" },
-    { type: "space", value: " " },
+    SPACE,
     { type: "what.ever", value: "don’t matter" },
   ];
 
-  const stack = [{ type: "IdentLiteral", value: "a" }];
-
-  const { end, node } = infix({ start: 1, stack, tokens });
+  const { end, node } = infix({
+    ...STATE,
+    start: 1,
+    stack: [ident("a")],
+    tokens,
+  });
 
   t.is(end, 5);
-  t.is(node.type, "BinaryOperation");
-  t.is(node.name, "sup");
-  t.is(node.items.length, 2);
-  t.is(node.items[0].type, "IdentLiteral");
-  t.is(node.items[0].value, "a");
-  t.is(node.items[1].type, "Term");
-  t.is(node.items[1].items.length, 2);
+  t.deepEqual(node, binary("sup", [ident("a"), term(ident("b"), ident("c"))]));
 });
 
 test("frac with space before", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "ident", value: "b" },
-    { type: "space", value: " " },
+    SPACE,
     { type: "infix", value: "frac" },
     { type: "ident", value: "c" },
-    { type: "space", value: " " },
+    SPACE,
     { type: "what.ever", value: "don’t matter" },
   ];
 
-  const stack = [
-    {
-      type: "Term",
-      items: [
-        { type: "IdentLiteral", value: "a" },
-        { type: "IdentLiteral", value: "b" },
-      ],
-    },
-    { type: "SpaceLiteral", attrs: { width: "0" } },
-  ];
-
-  const { end, node } = infix({ start: 3, stack, tokens });
+  const { end, node } = infix({
+    ...STATE,
+    start: 3,
+    stack: [term(ident("a"), ident("b")), space()],
+    tokens,
+  });
 
   t.is(end, 5);
-  t.is(node.type, "BinaryOperation");
-  t.is(node.name, "frac");
-  t.is(node.items.length, 2);
-  t.is(node.items[0].type, "Term");
-  t.is(node.items[0].items.length, 2);
-  t.is(node.items[1].type, "IdentLiteral");
-  t.is(node.items[1].value, "c");
+  t.deepEqual(node, binary("frac", [term(ident("a"), ident("b")), ident("c")]));
 });
 
 test("under with space before", (t) => {
   const tokens = [
     { type: "ident", value: "a" },
     { type: "ident", value: "b" },
-    { type: "space", value: " " },
+    SPACE,
     { type: "infix", value: "under" },
     { type: "ident", value: "c" },
-    { type: "space", value: " " },
+    SPACE,
     { type: "what.ever", value: "don’t matter" },
   ];
 
-  const stack = [
-    {
-      type: "Term",
-      items: [
-        { type: "IdentLiteral", value: "a" },
-        { type: "IdentLiteral", value: "b" },
-      ],
-    },
-    { type: "SpaceLiteral", attrs: { width: "0" } },
-  ];
-
-  const { end, node } = infix({ start: 3, stack, tokens });
+  const { end, node } = infix({
+    ...STATE,
+    start: 3,
+    stack: [term(ident("a"), ident("b")), space()],
+    tokens,
+  });
 
   t.is(end, 5);
-  t.is(node.type, "BinaryOperation");
-  t.is(node.name, "under");
-  t.is(node.items.length, 2);
-  t.is(node.items[0].type, "Term");
-  t.is(node.items[0].items.length, 2);
-  t.is(node.items[1].type, "IdentLiteral");
-  t.is(node.items[1].value, "c");
+  t.deepEqual(
+    node,
+    binary("under", [term(ident("a"), ident("b")), ident("c")]),
+  );
 });
 
 test("removes fences around fracs", (t) => {
@@ -561,6 +447,29 @@ test("but keeps multi-celled in fences", (t) => {
   t.is(node.items[1].type, "FencedGroup");
   t.is(node.items[1].attrs.open.value, "(");
   t.is(node.items[1].attrs.close.value, ")");
+});
+
+test("puts pipe delimited as base", (t) => {
+  const tokens = [
+    { type: "operator", value: "|" },
+    { type: "ident", value: "a" },
+    { type: "operator", value: "|" },
+    { type: "infix", value: "sup" },
+    { type: "ident", value: "x" },
+  ];
+
+  const { end, node } = infix({
+    ...STATE,
+    start: 3,
+    stack: [op("|"), ident("a"), op("|")],
+    tokens,
+  });
+
+  t.is(end, 5);
+  t.deepEqual(
+    node,
+    binary("sup", [term(op("|"), ident("a"), op("|")), ident("x")]),
+  );
 });
 
 test("chains sub sup into subsup ternary", (t) => {

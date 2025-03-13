@@ -60,3 +60,11 @@ test("The natural logarithm", (t) => {
 test("Powers of powers of two", (t) => {
   t.snapshot(render("2^2^2^2"));
 });
+
+test("Square of a norm", (t) => {
+  t.snapshot(render("||bf a||^2"));
+});
+
+test("Index of a magnitute", (t) => {
+  t.snapshot(render("|bf b|_i"));
+});

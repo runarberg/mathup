@@ -1,3 +1,5 @@
+import { isDoublePipeOperator, isPipeOperator } from "../utils.js";
+
 import expr from "./expr.js";
 
 /**
@@ -8,6 +10,7 @@ import expr from "./expr.js";
  * @typedef {import("../index.js").TernaryOperation} TernaryOperation
  * @typedef {UnaryOperation | BinaryOperation | TernaryOperation} Operation
  * @typedef {import("../index.js").Term} Term
+ * @typedef {import("../parse.js").State} State
  */
 
 /**
@@ -50,7 +53,36 @@ function insertTransformNode(node, transforms) {
 }
 
 /**
- * @param {import("../parse.js").State} state
+ * @param {State} state
+ * @returns {((token: Token) => boolean) | undefined}
+ */
+function maybeStopAtPipe({ start, tokens, stack, stopAt }) {
+  if (stopAt) {
+    return stopAt;
+  }
+
+  if (stack.length !== 1) {
+    return undefined;
+  }
+
+  const lastToken = start > 0 ? tokens[start - 1] : undefined;
+  if (!lastToken || lastToken.type !== "operator") {
+    return undefined;
+  }
+
+  if (lastToken.value === "|") {
+    return isPipeOperator;
+  }
+
+  if (lastToken.value === "∥") {
+    return isDoublePipeOperator;
+  }
+
+  return undefined;
+}
+
+/**
+ * @param {State} state
  * @returns {{ node: Operation | Term; end: number }}
  */
 export default function command(state) {
@@ -82,6 +114,7 @@ export default function command(state) {
     }
   }
 
+  const stopAt = maybeStopAtPipe(state);
   handleCommandToken(token);
 
   let pos = state.start + 1;
@@ -104,6 +137,7 @@ export default function command(state) {
     start: pos,
     nestLevel: state.nestLevel + 1,
     textTransforms,
+    stopAt,
   });
 
   if (textTransforms.length === 0) {

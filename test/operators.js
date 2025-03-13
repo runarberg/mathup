@@ -33,6 +33,10 @@ test("i hat", (t) => {
   t.snapshot(render("ı.^\\^"));
 });
 
+test("Norm of two parallel lines", (t) => {
+  t.snapshot(render("||a || b||"));
+});
+
 test("The operator (n) as an overscript", (t) => {
   t.snapshot(render("x.^ \\`(n)`"));
 });

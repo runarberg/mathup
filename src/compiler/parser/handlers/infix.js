@@ -1,4 +1,4 @@
-import { addZeroLSpaceToOperator } from "../utils.js";
+import { addZeroLSpaceToOperator, maybeFixDoublePipe } from "../utils.js";
 
 import expr from "./expr.js";
 
@@ -206,6 +206,25 @@ function rightAssociate(op, [left, right]) {
 }
 
 /**
+ * @param {Node[]} nodes
+ * @returns {boolean}
+ */
+function isPipeDelimited(nodes) {
+  if (nodes.length !== 3) {
+    return false;
+  }
+
+  const [open, , close] = nodes;
+
+  return (
+    open.type === "OperatorLiteral" &&
+    close.type === "OperatorLiteral" &&
+    (open.value === "|" || open.value === "∥" || open.value === "‖") &&
+    open.value === close.value
+  );
+}
+
+/**
  * @param {State} state
  * @returns {{ node: BinaryOperation | TernaryOperation; end: number }}
  */
@@ -214,10 +233,21 @@ export default function infix(state) {
   const nestLevel = state.nestLevel + 1;
   const token = tokens[start];
 
-  let left = stack.pop();
-
-  if (left && left.type === "SpaceLiteral") {
+  /** @type {Node | undefined} */
+  let left;
+  if (isPipeDelimited(stack)) {
+    maybeFixDoublePipe(stack);
+    left = {
+      type: "Term",
+      items: [...stack],
+    };
+    stack.splice(0, stack.length);
+  } else {
     left = stack.pop();
+
+    if (left?.type === "SpaceLiteral") {
+      left = stack.pop();
+    }
   }
 
   if (!left) {

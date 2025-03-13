@@ -70,3 +70,11 @@ test("Cancel and background", (t) => {
   t.snapshot(render("cancel bg.red a"));
   t.snapshot(render("bf bg.red cancel a"));
 });
+
+test("Backgrounded expression inside pipe delimiters", (t) => {
+  t.snapshot(render("|bg.green a+b|"));
+});
+
+test("Backgrounded expression outside pipe delimiters", (t) => {
+  t.snapshot(render("-bg.red|a|"));
+});

@@ -1,58 +1,19 @@
 import test from "ava";
 
+import {
+  COL_SEP,
+  PAREN_CLOSE,
+  PAREN_OPEN,
+  ROW_SEP,
+  SPACE,
+  SUB,
+  SUP,
+  ident,
+  op,
+  space,
+  term,
+} from "./__test__/utils.js";
 import multiscripts from "./multiscripts.js";
-
-const PAREN_OPEN = { type: "paren.open", value: "(" };
-const PAREN_CLOSE = { type: "paren.close", value: ")" };
-const SUB = { type: "infix", value: "sub" };
-const SUP = { type: "infix", value: "sup" };
-const COL_SEP = { type: "sep.col", value: "," };
-const ROW_SEP = { type: "sep.row", value: ";" };
-const SPACE = { type: "space", value: " " };
-
-/**
- * @param {import("./index.js").Node[]} [items]
- * @returns {import("../index.js").Term}
- */
-function term(...items) {
-  return {
-    type: "Term",
-    items,
-  };
-}
-
-/**
- * @param {string} value
- * @returns {import("../index.js").IdentLiteral}
- */
-function ident(value) {
-  return {
-    type: "IdentLiteral",
-    value,
-  };
-}
-
-/**
- * @param {string} value
- * @returns {import("../index.js").OperatorLiteral}
- */
-function op(value) {
-  return {
-    type: "OperatorLiteral",
-    value,
-  };
-}
-
-/**
- * @param {number} [width]
- * @returns {import("../index.js").SpaceLiteral}
- */
-function space(width = 0) {
-  return {
-    type: "SpaceLiteral",
-    attrs: { width: `${width}ex` },
-  };
-}
 
 test("empty multiscripts sub first", (t) => {
   const tokens = [PAREN_OPEN, SUB, PAREN_CLOSE];

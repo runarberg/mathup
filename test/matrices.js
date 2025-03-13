@@ -66,6 +66,26 @@ test("Single row matrix", (t) => {
   t.snapshot(render("(a, b;)"));
 });
 
+test("Eigenvector", (t) => {
+  t.snapshot(
+    render(
+      `
+[λ_0, λ_1, ...;] [p_(0 0), p_(0 1), ...
+                  p_(1 0), p_(1 1), ...
+                  vdots,   vdots,   ddots]
+      `.trim(),
+    ),
+  );
+});
+
+test("Inverse of a 2×2 matrix", (t) => {
+  t.snapshot(render("1 / ad-bc [d, -b; -c, a]"));
+});
+
+test("Vector norm", (t) => {
+  t.snapshot(render("||bf x||^2 = [x_1; x_2; x_3] * [x_1; x_2; x_3]"));
+});
+
 test("The absolute value", (t) => {
   t.snapshot(render("|x| = { x\\,, if x >= 0;  -x\\,, if x < 0"));
 });

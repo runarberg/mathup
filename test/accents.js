@@ -33,8 +33,16 @@ test("Should surround the accent with pipes", (t) => {
   t.snapshot(render("|vec a| + |vec b|"));
 });
 
-test("Should surround the accent with pipes when nested", (t) => {
-  t.snapshot(render("|vec bf a_i|"));
+test("Should surround the accent with double pipes", (t) => {
+  t.snapshot(render("||vec a||"));
+});
+
+test("Should surround nested accents with pipes", (t) => {
+  t.snapshot(render("|vec dot a|"));
+});
+
+test("Accents can also go over the entire piped expression", (t) => {
+  t.snapshot(render("-obrace|a|"));
 });
 
 test("Should put accents over all in the following parenthesis", (t) => {

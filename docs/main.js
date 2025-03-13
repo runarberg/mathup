@@ -98,7 +98,7 @@ const DEMO_EQUATIONS = [
   "grad f(x,y) = ((del f)/(del x) (x, y), (del f)/(del y)(x,y))",
   "oint_(del S) bf F * d bf s = dint_S grad xx bf F * d bf s",
   "oint_C (L dx + M dy) = dint_D ((del M)/(del x) - (del L)/(del y)) dx dy",
-  "cc N(x | μ, σ^2) = 1 / (σ sqrt(2π)) e^(-1/2 (x-μ / σ)^2)",
+  "cc N(x :|: μ, σ^2) = 1 / (σ sqrt(2π)) e^(-1/2 (x-μ / σ)^2)",
   "`Gamma`(theta | alpha, beta) = beta^alpha / Gamma(alpha) theta^(alpha - 1) e^(-beta theta)",
   "P(A | B) = P(B | A)P(A) / P(B)",
   String.raw`phi =.^\def a/b = a+b / a`,
@@ -108,7 +108,7 @@ const DEMO_EQUATIONS = [
   `[λ_0, λ_1, ...;] [p_(0 0), p_(0 1), ...
                   p_(1 0), p_(1 1), ...
                   vdots,   vdots,   ddots]`,
-  "||:bf x:||^2 = [x_1 ; x_2 ; x_3]*[x_1 ; x_2 ; x_3]",
+  "||bf x||^2 = [x_1; x_2; x_3] * [x_1; x_2; x_3]",
   `n! = { 1,       if n=0 or n=1
        n(n-1)!, if n > 1`,
   "x = -b+-sqrt(b^2 - 4ac) / 2a",

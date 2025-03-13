@@ -1,9 +1,13 @@
+import { isDoublePipeOperator, isPipeOperator } from "../utils.js";
+
 import expr from "./expr.js";
 
 /**
+ * @typedef {import("../../tokenizer/index.js").Token} Token
  * @typedef {import("../index.js").Node} Node
  * @typedef {import("../index.js").UnaryOperation} UnaryOperation
  * @typedef {import("../index.js").BinaryOperation} BinaryOperation
+ * @typedef {import("../parse.js").State} State
  */
 
 /**
@@ -19,6 +23,40 @@ function toTermOrUnwrap(nodes) {
 }
 
 /**
+ * @param {State} state
+ * @returns {((token: Token) => boolean) | undefined}
+ */
+function maybeStopAtPipe({ start, tokens, stack, stopAt }) {
+  if (stopAt) {
+    return stopAt;
+  }
+
+  if (stack.length !== 1) {
+    return undefined;
+  }
+
+  const token = tokens[start];
+  if (!token || (token.arity && token.arity !== 1)) {
+    return undefined;
+  }
+
+  const lastToken = start > 0 ? tokens[start - 1] : undefined;
+  if (!lastToken || lastToken.type !== "operator") {
+    return undefined;
+  }
+
+  if (lastToken.value === "|") {
+    return isPipeOperator;
+  }
+
+  if (lastToken.value === "∥") {
+    return isDoublePipeOperator;
+  }
+
+  return undefined;
+}
+
+/**
  * @param {import("../parse.js").State} state
  * @returns {{ node: UnaryOperation | BinaryOperation; end: number }}
  */
@@ -31,11 +69,14 @@ export default function prefix(state) {
     throw new Error("Got prefix token without a name");
   }
 
+  const stopAt = maybeStopAtPipe(state);
+
   let next = expr({
     ...state,
     stack: [],
     start: start + 1,
     nestLevel,
+    stopAt,
   });
   if (next && next.node && next.node.type === "SpaceLiteral") {
     next = expr({
@@ -43,6 +84,7 @@ export default function prefix(state) {
       stack: [],
       start: next.end,
       nestLevel,
+      stopAt,
     });
   }
 
@@ -91,21 +133,40 @@ export default function prefix(state) {
       });
     }
 
-    /** @type {[Node, Node]} */
-    const items =
-      token.name === "root"
-        ? [second.node, first.node]
-        : [first.node, second.node];
+    /** @type {BinaryOperation} */
+    const node = {
+      type: "BinaryOperation",
+      name: token.name,
+      items: [first.node, second.node],
+    };
+
+    if (token.name === "root") {
+      node.items = [second.node, first.node];
+    }
+
+    if (token.attrs) {
+      node.attrs = token.attrs;
+    }
 
     return {
-      node: {
-        type: "BinaryOperation",
-        name: token.name,
-        attrs: token.attrs,
-        items,
-      },
+      node,
       end: second.end,
     };
+  }
+
+  /** @type {UnaryOperation} */
+  const node = {
+    type: "UnaryOperation",
+    name: token.name,
+    items: [next.node],
+  };
+
+  if (token.accent) {
+    node.accent = token.accent;
+  }
+
+  if (token.attrs) {
+    node.attrs = token.attrs;
   }
 
   if (
@@ -115,29 +176,12 @@ export default function prefix(state) {
     next.node.items.length === 1
   ) {
     // The operand is not a matrix.
-    /** @type {[Node]} */
-    const items = [toTermOrUnwrap(next.node.items[0])];
 
-    return {
-      node: {
-        type: "UnaryOperation",
-        name: token.name,
-        accent: token.accent,
-        attrs: token.attrs,
-        items,
-      },
-      end: next.end,
-    };
+    node.items = [toTermOrUnwrap(next.node.items[0])];
   }
 
   return {
-    node: {
-      type: "UnaryOperation",
-      name: token.name,
-      accent: token.accent,
-      attrs: token.attrs,
-      items: [next.node],
-    },
+    node,
     end: next.end,
   };
 }

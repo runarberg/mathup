@@ -111,6 +111,8 @@
           f&apos;(x), f&apos;&apos;(x), f&apos;&apos;&apos;(x), f&apos;&apos;&apos;&apos;(x)
         </test-case>
 
+        <test-case display="block">||a || b||</test-case>
+
         <test-case display="block">p(a | b) = p(b | a)p(a) / p(b)</test-case>
 
         <test-case display="block">f(a) - f(b) = int_b^a f'(x) dx</test-case>
@@ -232,7 +234,7 @@
         </test-case>
 
         <test-case display="block">
-          cc N (x | mu, sigma^2) = 1 / (sigma sqrt(2pi)) e ^ -1/2(x-mu / sigma)^2
+          cc N(x :|: μ, σ^2) = 1 / (σ sqrt(2π)) e^(-1/2 (x-μ / σ)^2)
         </test-case>
       </section>
 
@@ -276,9 +278,11 @@
         <test-case>a^2</test-case>
         <test-case>a_i^2</test-case>
         <test-case>a^2_i</test-case>
-        <test-case>2^2^2^2</test-case>
+        <test-case display="block">2^2^2^2</test-case>
         <test-case>a^2 + b^2 = c^2</test-case>
-        <test-case>(X^T)_ i.,j = X_ j.,i</test-case>
+        <test-case display="block">(X^T)_ i.,j = X_ j.,i</test-case>
+        <test-case display="block">||bf a||^2</test-case>
+        <test-case display="block">|bf b|_i</test-case>
 
         <test-case display="block">
           ln x = int_1^x 1/t dt
@@ -354,11 +358,6 @@
         </test-case>
 
         <test-case display="block">
-n! = { 1,         if n in {0, 1}
-       n(n - 1)!, otherwise
-        </test-case>
-
-        <test-case display="block">
           |(a,b,c; d,e,f; h,i,j)|
         </test-case>
 
@@ -377,6 +376,25 @@ A = [ a_(1 1), a_(1 2), cdots, a_(1 n)
 
         <test-case display="block">
           |x| = { x\,,  if x &gt;= 0;  -x\,,  if x &lt; 0
+        </test-case>
+
+        <test-case display="block">
+[λ_0, λ_1, ...;] [p_(0 0), p_(0 1), ...
+                  p_(1 0), p_(1 1), ...
+                  vdots,   vdots,   ddots]
+        </test-case>
+
+        <test-case display="block">
+          1 / ad-bc [d, -b; -c, a]
+        </test-case>
+
+        <test-case display="block">
+          ||bf x||^2 = [x_1; x_2; x_3] * [x_1; x_2; x_3]
+        </test-case>
+
+        <test-case display="block">
+n! = { 1,         if n in {0, 1}
+       n(n - 1)!, otherwise
         </test-case>
 
         <test-case display="block">

@@ -123,3 +123,8 @@ test("Ignore if no opperant", (t) => {
   t.snapshot(render("X_(it)"));
   t.snapshot(render("X_{:it:}"));
 });
+
+test("Font inside a magnitude of a vector", (t) => {
+  t.snapshot(render("|vec bf a|"));
+  t.snapshot(render("|bf vec a|"));
+});
