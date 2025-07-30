@@ -8,7 +8,7 @@ const NS = "http://www.w3.org/1998/Math/MathML";
  * @param {Options} options
  * @returns {Element | DocumentFragment}
  */
-export default function toDOM(node, { bare }) {
+export default function toDOM(node, { bare, display }) {
   /** @type {Element | DocumentFragment} */
   let element;
 
@@ -16,6 +16,10 @@ export default function toDOM(node, { bare }) {
     element = document.createDocumentFragment();
   } else {
     element = document.createElementNS(NS, node.tag);
+  }
+
+  if (element instanceof Element && node.tag === "math" && display) {
+    element.setAttribute("display", display);
   }
 
   if (element instanceof Element && node.attrs) {

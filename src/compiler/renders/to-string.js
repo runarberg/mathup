@@ -25,8 +25,14 @@ function escapeAttrValue(str) {
  * @param {Required<import("./index.js").RenderOptions>} options
  * @returns {string}
  */
-export default function toString(node, { bare }) {
-  const attrString = Object.entries(node.attrs || {})
+export default function toString(node, { bare, display }) {
+  const attrs = { ...node.attrs };
+
+  if (node.tag === "math" && display) {
+    attrs.display = display;
+  }
+
+  const attrString = Object.entries(attrs)
     .map(([name, value]) => `${name}="${escapeAttrValue(`${value}`)}"`)
     .join(" ");
 

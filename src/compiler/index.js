@@ -27,8 +27,8 @@ export default function compiler({
   rowSep = colSep === ";" ? ";;" : ";",
 }) {
   const tokenizerOptions = { decimalMark, colSep, rowSep };
-  const transformerOptions = { dir, display };
-  const renderOptions = { bare };
+  const transformerOptions = { dir };
+  const renderOptions = { bare, display };
 
   /**
    * @param {string} input - Mathup expression
