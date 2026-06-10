@@ -1,5 +1,3 @@
-/* eslint-env browser */
-
 import mathup from "./index.js";
 
 const MATHML_NS = "http://www.w3.org/1998/Math/MathML";

@@ -3,12 +3,10 @@
     "target": "esnext",
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "allowSyntheticDefaultImports": true,
     "strict": true,
     "allowJs": true,
     "checkJs": true,
     "noEmit": true,
-    "baseUrl": ".",
     "lib": ["esnext", "DOM", "DOM.iterable"]
   },
   "include": ["**/*.js"],

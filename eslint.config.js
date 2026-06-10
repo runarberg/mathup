@@ -1,37 +1,13 @@
 import js from "@eslint/js";
 import ava from "eslint-plugin-ava";
-import importPlugin from "eslint-plugin-import";
 import jsdoc from "eslint-plugin-jsdoc";
 import prettier from "eslint-plugin-prettier";
 import globals from "globals";
 
-/** @type {import("eslint").Linter.FlatConfig[]} */
+/** @type {import("eslint").Linter.Config[]} */
 export default [
   js.configs.recommended,
   jsdoc.configs["flat/recommended"],
-  // importPlugin:recommended
-  {
-    languageOptions: {
-      parserOptions: {
-        // Eslint doesn't supply ecmaVersion in `parser.js` `context.parserOptions`
-        // This is required to avoid ecmaVersion < 2015 error or 'import' / 'export' error
-        ecmaVersion: "latest",
-        sourceType: "module",
-      },
-    },
-    plugins: { import: importPlugin },
-    settings: {
-      "import/parsers": {
-        espree: [".js", ".cjs", ".mjs"],
-      },
-      "import/resolver": {
-        node: true,
-      },
-    },
-    rules: {
-      ...importPlugin.configs["recommended"].rules,
-    },
-  },
 
   {
     plugins: {
@@ -119,37 +95,9 @@ export default [
       "prefer-destructuring": "error",
       "prefer-promise-reject-errors": "error",
       "prefer-template": "error",
-      radix: ["error", "as-needed"],
+      radix: "error",
       "require-atomic-updates": "error",
       "sort-imports": ["error", { ignoreDeclarationSort: true }],
-
-      "import/extensions": ["error", "ignorePackages"],
-      "import/first": "error",
-      "import/no-commonjs": "error",
-      "import/no-duplicates": "error",
-      "import/no-extraneous-dependencies": "error",
-      // Typescript catces this better
-      "import/no-named-as-default": "off",
-      // Typescript handles this better
-      "import/no-unresolved": "off",
-      "import/order": [
-        "error",
-        {
-          "newlines-between": "always",
-          alphabetize: {
-            order: "asc",
-            caseInsensitive: true,
-          },
-          groups: [
-            "builtin",
-            "external",
-            "internal",
-            "parent",
-            "sibling",
-            "index",
-          ],
-        },
-      ],
 
       // Handled better by typescript
       "jsdoc/no-undefined-types": "off",
