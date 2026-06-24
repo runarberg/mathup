@@ -33,6 +33,12 @@ test("i hat", (t) => {
   t.snapshot(render("ı.^\\^"));
 });
 
+test("circumpunct", (t) => {
+  t.is(render("o."), "<math><mo>⊙</mo></math>");
+  t.snapshot(render("a o. b"));
+  t.snapshot(render("a o.b"));
+});
+
 test("Norm of two parallel lines", (t) => {
   t.snapshot(render("||a || b||"));
 });

@@ -30,6 +30,14 @@ test("known operator", (t) => {
   t.is(token?.end, 3);
 });
 
+test("known operator that ends with a period", (t) => {
+  const token = operator("o.", " o. b", { start: 1, grouping: false });
+
+  t.is(token?.type, "operator");
+  t.is(token?.value, "⊙");
+  t.is(token?.end, 3);
+});
+
 test("emits the longest possible known operator", (t) => {
   const token = operator("^", "^^^ 1", { start: 0, grouping: false });
 

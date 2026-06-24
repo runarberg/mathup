@@ -30,8 +30,8 @@ export default function alphaScanner(char, input, { start, grouping }) {
     [nextChar] = input.slice(i);
   }
 
-  // alpha may contain a period, but not never end with one.
-  if (value.endsWith(".")) {
+  // alpha may contain a period, but only known ops can end with one.
+  if (value.endsWith(".") && !KNOWN_OPS.has(value)) {
     value = value.slice(0, -1);
   }
 

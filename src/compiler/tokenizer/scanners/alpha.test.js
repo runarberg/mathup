@@ -138,6 +138,24 @@ test("can’t end with a period", (t) => {
   t.is(token?.split, true);
 });
 
+test("unless it is a known operator", (t) => {
+  const token = alpha("o", "o.", { start: 0, grouping: false });
+
+  t.is(token?.type, "operator");
+  t.is(token?.value, "⊙");
+  t.is(token?.end, 2);
+  t.falsy(token?.split);
+});
+
+test("known operator ends in period cannot be followed by an alphanum", (t) => {
+  const token = alpha("o", "o.o", { start: 0, grouping: false });
+
+  t.is(token?.type, "ident");
+  t.is(token?.value, "o");
+  t.is(token?.end, 1);
+  t.is(token?.split, true);
+});
+
 test("known prefix", (t) => {
   const token = alpha("h", "hat a", { start: 0, grouping: false });
 
