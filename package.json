@@ -79,29 +79,31 @@
     ]
   },
   "devDependencies": {
-    "@babel/cli": "^7.29.7",
-    "@babel/core": "^7.29.7",
-    "@babel/plugin-transform-runtime": "^7.29.7",
-    "@babel/preset-env": "^7.29.7",
-    "@babel/runtime": "^7.29.7",
+    "@babel/cli": "^8.0.4",
+    "@babel/core": "^8.0.1",
+    "@babel/plugin-transform-runtime": "^8.0.1",
+    "@babel/preset-env": "^8.0.2",
+    "@babel/runtime": "^8.0.0",
     "@eslint/js": "^10.0.1",
     "@rollup/plugin-babel": "^7.1.0",
     "@rollup/plugin-terser": "^1.0.0",
     "ava": "^8.0.1",
-    "c8": "^11.0.0",
-    "eslint": "^10.5.0",
+    "c8": "^12.0.0",
+    "eslint": "^10.8.1",
     "eslint-plugin-ava": "^17.0.1",
-    "eslint-plugin-jsdoc": "^63.0.7",
+    "eslint-plugin-jsdoc": "^64.0.2",
     "eslint-plugin-prettier": "^5.5.6",
     "expect.js": "^0.3.1",
-    "globals": "^17.7.0",
-    "jsdom": "^29.1.1",
-    "prettier": "3.8.4",
-    "rollup": "^4.62.2",
+    "globals": "^17.9.0",
+    "jsdom": "^30.0.1",
+    "prettier": "3.9.6",
+    "rollup": "^4.62.4",
     "rollup-plugin-copy": "^3.5.0",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "overrides": {
-    "yargs": "^18.0.0"
+    "@rollup/plugin-babel": {
+      "@babel/core": "^8.0.0"
+    }
   }
 }
